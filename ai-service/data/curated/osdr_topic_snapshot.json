@@ -1,0 +1,49 @@
+{
+ "generated_at": "2026-11-14T16:54:42.458349+00:00",
+ "source": "NASA OSDR Developer API (study metadata)",
+ "source_index": "data/knowledge/osdr_topic_index.json",
+ "retrieved_at": "2026-11-14T16:54:42.458349+00:00",
+ "transformation": "Retained snapshot metadata and n_studies per keyword topic; omitted study examples.",
+ "verified_by_human": false,
+ "caveat": "Counts are keyword-heuristic label counts over study metadata, not findings or effect sizes.",
+ "label_method": "keyword_v1",
+ "n_studies_total": 424,
+ "topics": {
+  "bone": {
+   "n_studies": 53
+  },
+  "brain_neuro": {
+   "n_studies": 30
+  },
+  "cardiovascular": {
+   "n_studies": 37
+  },
+  "gravity_effects": {
+   "n_studies": 179
+  },
+  "immune": {
+   "n_studies": 98
+  },
+  "metabolism_organs": {
+   "n_studies": 99
+  },
+  "microbes": {
+   "n_studies": 77
+  },
+  "muscle": {
+   "n_studies": 53
+  },
+  "plants_food": {
+   "n_studies": 73
+  },
+  "radiation": {
+   "n_studies": 113
+  },
+  "sleep_circadian": {
+   "n_studies": 1
+  },
+  "vision_eye": {
+   "n_studies": 26
+  }
+ }
+}

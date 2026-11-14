@@ -39,7 +39,10 @@ def test_health_endpoint_returns_model():
 def test_space_weather_endpoint_returns_model():
     response = client.get("/v1/space-weather")
     assert response.status_code == 200
-    SpaceWeather.model_validate(response.json())
+    weather = SpaceWeather.model_validate(response.json())
+    assert weather.data_source == "curated"
+    assert weather.science_status == "rich"
+    assert weather.evidence
 
 
 def test_event_profile_endpoint_returns_normalized_weights():
@@ -47,6 +50,10 @@ def test_event_profile_endpoint_returns_normalized_weights():
     assert response.status_code == 200
     profile = response.json()
     assert sum(item["weight"] for item in profile["weights"]) == 1
+    assert profile["data_source"] == "curated"
+    assert all(
+        item["basis"].startswith("Curated OSDR metadata snapshot:") for item in profile["weights"]
+    )
 
 
 def test_questions_endpoint_returns_model():

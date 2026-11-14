@@ -51,15 +51,18 @@ def survivability_index(snapshot: GameSnapshot) -> IndexResult:
     }
     event_pressure, required, unknown_event = event_risk(snapshot)
     balance_penalty = (
-        BALANCE_PENALTY
-        if max(resources.values()) - min(resources.values()) > BALANCE_SPREAD
-        else 0
+        BALANCE_PENALTY if max(resources.values()) - min(resources.values()) > BALANCE_SPREAD else 0
     )
-    index = 100 - 100 * (
-        0.5 * (sum(risks.values()) / len(risks))
-        + 0.3 * max(risks.values())
-        + 0.2 * event_pressure
-    ) - balance_penalty
+    index = (
+        100
+        - 100
+        * (
+            0.5 * (sum(risks.values()) / len(risks))
+            + 0.3 * max(risks.values())
+            + 0.2 * event_pressure
+        )
+        - balance_penalty
+    )
     return IndexResult(
         index=clamp(index, 0.0, 100.0),
         mean_risk=sum(risks.values()) / len(risks),
@@ -67,9 +70,7 @@ def survivability_index(snapshot: GameSnapshot) -> IndexResult:
         event_risk=event_pressure,
         required_event_level=required,
         unknown_event_type=unknown_event,
-        under_safe_resources=tuple(
-            name for name, value in resources.items() if value < SAFE_LEVEL
-        ),
+        under_safe_resources=tuple(name for name, value in resources.items() if value < SAFE_LEVEL),
         critical_resources=tuple(
             name for name, value in resources.items() if value < CRITICAL_LEVEL
         ),

@@ -58,9 +58,7 @@ def test_delayed_debt_is_explained(snapshot_factory, decision_factory):
 
 
 def test_unknown_event_rule_is_explained(snapshot_factory, decision_factory):
-    snapshot = snapshot_factory(
-        event=ActiveEvent(type="unknown-event", severity=1)
-    )
+    snapshot = snapshot_factory(event=ActiveEvent(type="unknown-event", severity=1))
     result = evaluate_decision(snapshot, snapshot, decision_factory())
     assert "R-UNKNOWN-EVENT" in {rule.rule_id for rule in result.explanation.rules_fired}
 

@@ -74,8 +74,9 @@ class HealthResponse(BaseModel):
 
 
 class SpaceWeather(BaseModel):
-    risk_level: RiskLevel
+    science_status: Literal["limited", "moderate", "rich"]
     headline: str
+    evidence: list[dict[str, int | str]]
     data_source: DataSource
     source_name: str
     as_of: str

@@ -46,9 +46,7 @@ def test_no_event_has_no_pressure(snapshot_factory):
     assert result.unknown_event_type is None
 
 
-def test_delayed_negative_effect_below_safe_level_creates_debt(
-    snapshot_factory, decision_factory
-):
+def test_delayed_negative_effect_below_safe_level_creates_debt(snapshot_factory, decision_factory):
     decision = decision_factory(
         delayed_effects=[DelayedEffect(sol_offset=1, resource="power", delta=-10)]
     )

@@ -10,9 +10,8 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0
 ```
 
 The API is available at `http://localhost:8000/v1`. Open `/docs` to inspect the
-contract endpoints. The service currently returns contract-valid v2 mock responses:
-health, space weather, event profile, assistant questions, assistant answers,
-decision evaluation, and mission evaluation. The endpoint paths are:
+contract endpoints. The service reads the curated OSDR topic index without importing
+the offline pipeline or pandas. The endpoint paths are:
 
 - `GET /v1/health`
 - `GET /v1/space-weather`
@@ -21,6 +20,22 @@ decision evaluation, and mission evaluation. The endpoint paths are:
 - `POST /v1/assistant/answer`
 - `POST /v1/evaluate/decision`
 - `POST /v1/evaluate/mission`
+
+`GET /v1/space-weather` reports neutral OSDR science evidence coverage, not live
+space-weather risk. `GET /v1/events/profile` normalizes OSDR topic counts from the
+committed metadata snapshot. Both responses are marked `data_source: "curated"`.
+
+## OSDR science snapshot
+
+The offline OSDR pipeline writes source tables under `data/osdr/tables/` and an
+explainable topic index at `data/knowledge/osdr_topic_index.json`. The API reads
+that JSON index and falls back to `data/curated/osdr_topic_snapshot.json`.
+Topic counts describe keyword mentions in study metadata, not scientific findings
+or hazard levels. Rebuild the offline snapshot with:
+
+```powershell
+uv run python -m osdr_pipeline all
+```
 
 ## Deterministic evaluator
 

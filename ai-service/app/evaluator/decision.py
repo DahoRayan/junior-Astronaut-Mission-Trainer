@@ -52,16 +52,10 @@ def evaluate_decision(
         -SURVIVAL_DELTA_LIMIT,
         min(SURVIVAL_DELTA_LIMIT, round(after_score - before_index.index)),
     )
-    if (
-        after_index.critical_resources
-        or after_index.event_risk > 0.5
-        or survival_delta <= -5
-    ):
+    if after_index.critical_resources or after_index.event_risk > 0.5 or survival_delta <= -5:
         rating = "risky"
     elif (
-        survival_delta >= 3
-        and not after_index.under_safe_resources
-        and after_index.event_risk == 0
+        survival_delta >= 3 and not after_index.under_safe_resources and after_index.event_risk == 0
     ):
         rating = "great"
     else:

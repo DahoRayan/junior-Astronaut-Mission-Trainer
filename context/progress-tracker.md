@@ -6,7 +6,7 @@ Update after every meaningful change (only your own unit/row).
 - Plan v2 adopted (story-driven, expert system, statistics). Unit 01 awaiting verification.
 
 ## Current Goal
-- Unit 04 NASA data layer (see `specs/04-nasa-data-layer.md`)
+- Unit 04 OSDR science data layer (see `specs/04-nasa-data-layer.md`)
 
 ## Completed
 - Unit 01 implemented (v1 contract mocks); verification pending
@@ -40,7 +40,7 @@ Update after every meaningful change (only your own unit/row).
 | 02 contract v2 migration | Ibrahim | feat/ai-02-contract-v2 | completed |
 | 03 deterministic evaluator | Ibrahim | feat/ai-03-deterministic-evaluator | completed |
 | 04b OSDR metadata pipeline | Ibrahim | feat/ai-04b-osdr-pipeline | partial corpus; review pending |
-| 04 NASA data layer | TBD | | not started |
+| 04 NASA data layer | Ibrahim | feat/ai-04-nasa-data-layer | completed |
 | 05 expert system | TBD | | not started |
 | 06 story validator | TBD | | not started |
 | 07 statistics | TBD | | not started |

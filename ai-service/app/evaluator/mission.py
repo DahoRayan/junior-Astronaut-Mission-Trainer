@@ -30,23 +30,19 @@ def evaluate_mission(request: EvaluateMissionRequest) -> EvaluateMissionResponse
 
     indices = [survivability_index(item.snapshot) for item in request.history]
     avg_index = sum(item.index for item in indices) / len(indices)
-    rating_points = sum(
-        RATING_POINTS.get(item.rating, 0) for item in request.history
-    ) / len(request.history)
+    rating_points = sum(RATING_POINTS.get(item.rating, 0) for item in request.history) / len(
+        request.history
+    )
     survival_bonus = SURVIVED_BONUS if request.outcome == "survived" else 0
     score = round(
-        MISSION_INDEX_WEIGHT * avg_index
-        + MISSION_RATING_WEIGHT * rating_points
-        + survival_bonus
+        MISSION_INDEX_WEIGHT * avg_index + MISSION_RATING_WEIGHT * rating_points + survival_bonus
     )
     score = max(0, min(100, score))
     if request.outcome == "failed":
         score = min(FAILED_SCORE_CAP, score)
 
     low_resources = Counter(
-        resource
-        for index in indices
-        for resource in index.under_safe_resources
+        resource for index in indices for resource in index.under_safe_resources
     )
     strengths = []
     if all(not index.under_safe_resources for index in indices):

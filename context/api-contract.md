@@ -19,11 +19,13 @@ DataSource = "live" | "curated" | "simulated"
 -> { status:"ok", nasa_live:bool, knowledge_base_version:string }
 
 ## GET /v1/space-weather
--> { risk_level:"low"|"medium"|"high", headline:string, data_source:DataSource, source_name:string, as_of:ISO8601 }
+-> { science_status:"limited"|"moderate"|"rich", headline:string,
+     evidence:[{topic:string, study_count:int}], data_source:DataSource,
+     source_name:string, as_of:ISO8601 }
 
 ## GET /v1/events/profile?site=moon
 -> { weights:[{event_type:string, weight:float, basis:string}], data_source:DataSource, as_of:ISO8601 }
-(weights sum to 1; derived from real frequencies; Unity uses them to pick randomized events)
+(weights sum to 1; event_type values are OSDR topic labels from the curated metadata snapshot)
 
 ## POST /v1/assistant/questions
 Request: { snapshot:GameSnapshot }
