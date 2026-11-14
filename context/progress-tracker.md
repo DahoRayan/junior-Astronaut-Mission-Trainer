@@ -6,11 +6,12 @@ Update after every meaningful change (only your own unit/row).
 - Plan v2 adopted (story-driven, expert system, statistics). Unit 01 awaiting verification.
 
 ## Current Goal
-- Unit 03 deterministic evaluator (see `specs/03-deterministic-evaluator.md`)
+- Unit 04 NASA data layer (see `specs/04-nasa-data-layer.md`)
 
 ## Completed
 - Unit 01 implemented (v1 contract mocks); verification pending
 - Unit 02 contract v2 migration (mocks)
+- Unit 03 deterministic evaluator
 
 ## In Progress
 - None
@@ -35,7 +36,7 @@ Update after every meaningful change (only your own unit/row).
 |---|---|---|---|
 | 01 skeleton + mocks (v1) | Ibrahim | feat/ai-01-skeleton | in verification |
 | 02 contract v2 migration | Ibrahim | feat/ai-02-contract-v2 | completed |
-| 03 deterministic evaluator | TBD | | not started |
+| 03 deterministic evaluator | Ibrahim | feat/ai-03-deterministic-evaluator | completed |
 | 04 NASA data layer | TBD | | not started |
 | 05 expert system | TBD | | not started |
 | 06 story validator | TBD | | not started |

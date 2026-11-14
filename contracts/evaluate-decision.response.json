@@ -1,15 +1,21 @@
 {
   "rating": "ok",
-  "survival_delta": -2,
-  "tradeoff": {"gained": "time to work", "cost": "some resources"},
-  "feedback": "You gained time to act, but it cost some resources. Keep watching your supplies.",
+  "survival_delta": 0,
+  "tradeoff": {"gained": "more oxygen", "cost": "less power"},
+  "feedback": "You gained more oxygen, but paid less power. Keep balancing all three resources.",
   "fact": null,
   "explanation": {
     "rules_fired": [
-      {"rule_id": "R-EVENT-SHIELD", "text": "The evaluator compares resource costs with the current mission state."}
+      {"rule_id": "R-RESOURCE-CHECK", "text": "The evaluator checked all three resources."}
     ],
-    "inputs": {"decision_id": "save-power", "deltas": {"power": -10, "oxygen": 2, "shielding": 0}},
-    "sources": [{"name": "Mission rules", "kind": "simulated"}]
+    "inputs": {
+      "before_resources": {"power": 80, "oxygen": 90, "shielding": 70},
+      "after_resources": {"power": 70, "oxygen": 92, "shielding": 70},
+      "event": null,
+      "survival_delta": 0,
+      "thresholds": {"safe_level": 40, "critical_level": 20}
+    },
+    "sources": [{"name": "Game rules", "kind": "simulated"}]
   },
   "data_source": "simulated"
 }
