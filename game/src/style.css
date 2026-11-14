@@ -405,21 +405,84 @@ body {
   background: #be123c;
 }
 
+/* Crew Operations Grid */
+.crew-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.crew-action-btn {
+  padding: 7px 4px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+  background: #1c2230;
+  color: #cbd5e1;
+  transition: all 0.15s ease;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crew-action-btn:hover {
+  background: #2a344a;
+  color: #f8fafc;
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.crew-action-btn:active {
+  transform: translateY(1px);
+}
+
+.crew-action-btn.highlight {
+  border-color: #f59e0b;
+  color: #fef08a;
+  background: #272115;
+}
+
+.crew-action-btn.highlight:hover {
+  background: #3b2f15;
+  color: #fff;
+}
+
 /* ==================== CENTRAL VIEWPORT ==================== */
 #viewport-container {
   flex: 1;
   position: relative;
-  background-color: var(--bg-space);
+  background-color: #0b0d12;
   overflow: hidden;
 }
 
+#ground-3d-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+
 #game-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: block;
   cursor: crosshair;
+  z-index: 2;
+  background: transparent;
 }
 
 #viewport-overlay-controls {

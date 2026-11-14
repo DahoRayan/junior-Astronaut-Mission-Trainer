@@ -3,7 +3,7 @@ import { BuildingType, PlacedBuilding } from '../core/types';
 import { Grid } from '../simulation/Grid';
 import { BuildingRenderer } from './BuildingRenderer';
 import { Camera } from './Camera';
-import { LunarTerrain } from './LunarTerrain';
+import { Ground3DRenderer } from './Ground3DRenderer';
 
 interface ConfettiParticle {
   x: number;
@@ -20,7 +20,7 @@ interface ConfettiParticle {
 export class ViewportRenderer {
   private ctx: CanvasRenderingContext2D;
   private camera: Camera;
-  private lunarTerrain: LunarTerrain;
+  private ground3D: Ground3DRenderer | null = null;
   private animFrameId: number = 0;
   private pulseOffset: number = 0;
   private tickTime: number = 0;
@@ -31,33 +31,26 @@ export class ViewportRenderer {
 
   private confettiParticles: ConfettiParticle[] = [];
 
-  // Background stars
-  private stars: { x: number; y: number; size: number; speed: number }[] = [];
-
-  constructor(private canvas: HTMLCanvasElement, private grid: Grid) {
+  constructor(
+    private canvas: HTMLCanvasElement,
+    private grid: Grid,
+    groundCanvas?: HTMLCanvasElement | null
+  ) {
     this.ctx = canvas.getContext('2d')!;
     this.camera = new Camera(canvas);
-    this.lunarTerrain = new LunarTerrain(grid);
-    this.setupHoverListener();
-    this.initStars();
-  }
-
-  private initStars(): void {
-    this.stars = [];
-    for (let i = 0; i < 60; i++) {
-      this.stars.push({
-        x: Math.random() * (GRID_WIDTH * TILE_SIZE * 2),
-        y: Math.random() * (GRID_HEIGHT * TILE_SIZE * 2),
-        size: Math.random() < 0.3 ? 2 : 1,
-        speed: 0.5 + Math.random() * 1.5,
-      });
+    if (groundCanvas) {
+      this.ground3D = new Ground3DRenderer(groundCanvas, this.camera);
     }
+    this.setupHoverListener();
   }
 
   public start(): void {
     const renderLoop = (time: number) => {
       this.tickTime = time;
       this.pulseOffset = (time / 80) % 16;
+      if (this.ground3D) {
+        this.ground3D.render();
+      }
       this.render();
       this.animFrameId = requestAnimationFrame(renderLoop);
     };
@@ -67,6 +60,9 @@ export class ViewportRenderer {
   public stop(): void {
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
+    }
+    if (this.ground3D) {
+      this.ground3D.destroy();
     }
   }
 
@@ -102,58 +98,59 @@ export class ViewportRenderer {
 
   private render(): void {
     const { width, height } = this.canvas;
+    // Clear 2D overlay canvas to transparent so the 3D lunar terrain underneath is visible
     this.ctx.clearRect(0, 0, width, height);
-
-    // Deep cosmic space background (sleek neutral obsidian)
-    const bgGrad = this.ctx.createRadialGradient(
-      width / 2, height / 2, 50,
-      width / 2, height / 2, Math.max(width, height)
-    );
-    bgGrad.addColorStop(0, '#12141a'); // Dark titanium center
-    bgGrad.addColorStop(0.5, '#08090c'); // Deep obsidian
-    bgGrad.addColorStop(1, '#020304'); // Cosmic black
-    this.ctx.fillStyle = bgGrad;
-    this.ctx.fillRect(0, 0, width, height);
 
     this.ctx.save();
     // Camera Transform
     this.ctx.translate(-this.camera.x, -this.camera.y);
     this.ctx.scale(this.camera.zoom, this.camera.zoom);
 
-    // 1. Draw Twinkling Cosmic Stars
-    this.drawStars();
+    // 1. Draw Subtle Tactical Grid Bounds & Alignment Crosses
+    this.drawTacticalGrid();
 
-    // 2. Draw Colorful Lunar Landscape
-    this.drawTerrain();
-
-    // 3. Draw Animated Power Cables
+    // 2. Draw Animated Power Cables
     this.drawCables();
 
-    // 4. Draw Chunky Fun Buildings
+    // 3. Draw Chunky Detailed Buildings
     this.drawBuildings();
 
-    // 5. Draw Placement Hover & Ghost Preview
+    // 4. Draw Placement Hover & Ghost Preview
     this.drawHover();
 
-    // 6. Draw Confetti Celebrations
+    // 5. Draw Confetti Celebrations
     this.drawConfetti();
 
     this.ctx.restore();
   }
 
-  private drawStars(): void {
-    for (const star of this.stars) {
-      const twinkle = Math.sin(this.tickTime * 0.003 * star.speed) * 0.5 + 0.5;
-      this.ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + twinkle * 0.7})`;
-      this.ctx.beginPath();
-      this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-      this.ctx.fill();
-    }
-  }
+  private drawTacticalGrid(): void {
+    const worldW = GRID_WIDTH * TILE_SIZE;
+    const worldH = GRID_HEIGHT * TILE_SIZE;
 
-  private drawTerrain(): void {
-    // Pure clean actual photographic moon texture background
-    this.ctx.drawImage(this.lunarTerrain.canvas, 0, 0);
+    this.ctx.save();
+    // Subtle tactical perimeter border for the colony base zone
+    this.ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)'; // Warm Artemis gold
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeRect(0, 0, worldW, worldH);
+
+    // Subtle corner markers and grid alignment crosses
+    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    this.ctx.lineWidth = 1;
+
+    for (let x = 0; x <= GRID_WIDTH; x += 4) {
+      for (let y = 0; y <= GRID_HEIGHT; y += 4) {
+        const px = x * TILE_SIZE;
+        const py = y * TILE_SIZE;
+        this.ctx.beginPath();
+        this.ctx.moveTo(px - 4, py);
+        this.ctx.lineTo(px + 4, py);
+        this.ctx.moveTo(px, py - 4);
+        this.ctx.lineTo(px, py + 4);
+        this.ctx.stroke();
+      }
+    }
+    this.ctx.restore();
   }
 
   private drawCables(): void {

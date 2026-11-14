@@ -16,12 +16,13 @@ export class CatalogPanel {
 
     container.innerHTML = '';
 
-    // Group buildings by category
+    // Group buildings by category matching Equipment Specification
     const categories: Record<string, BuildingType[]> = {
       'Energy': ['solar_array', 'battery_bank', 'kilopower_reactor'],
-      'Life Support': ['oxygen_electrolyzer', 'co2_scrubber', 'crew_habitat'],
-      'Defense': ['regolith_shield', 'subterranean_vault'],
-      'Food & Water': ['hydroponics_tray', 'water_extractor'],
+      'Life Support': ['emergency_o2_generator', 'oxygen_electrolyzer', 'co2_scrubber', 'water_recycler', 'crew_habitat'],
+      'Thermal & Defense': ['heating_system', 'regolith_shield', 'subterranean_vault'],
+      'Food & Resources': ['hydroponics_tray', 'water_extractor'],
+      'Communications': ['earth_channel'],
       'Network': ['power_cable'],
     };
 
@@ -48,8 +49,10 @@ export class CatalogPanel {
         if (def.powerConsumptionKw > 0) badges.push(`<span class="spec-tag badge-cons">-${def.powerConsumptionKw} kW ⚡</span>`);
         if (def.oxygenProductionKgH > 0) badges.push(`<span class="spec-tag badge-prod">+${def.oxygenProductionKgH} kg/h 🫁</span>`);
         if (def.waterConsumptionL > 0) badges.push(`<span class="spec-tag badge-cons">-${def.waterConsumptionL} L 💧</span>`);
+        if (def.waterProductionL > 0) badges.push(`<span class="spec-tag badge-prod">+${def.waterProductionL} L 💧</span>`);
         if (def.shieldingBonusPct > 0) badges.push(`<span class="spec-tag badge-spec">+${def.shieldingBonusPct}% 🛡️</span>`);
         if (def.batteryCapacityKwh > 0) badges.push(`<span class="spec-tag badge-spec">${def.batteryCapacityKwh} kWh 🔋</span>`);
+        if (def.priority) badges.push(`<span class="spec-tag badge-spec">P${def.priority}</span>`);
 
         itemBtn.innerHTML = `
           <div class="item-header">

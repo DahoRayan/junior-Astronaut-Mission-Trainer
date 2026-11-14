@@ -121,10 +121,26 @@
         <div class="catalog-tools">
           <button id="btn-demolish" class="tool-btn demolish" title="Toggle Demolish Mode [Key: Esc to cancel]">⚠️ Demolish Module</button>
         </div>
+
+        <div class="panel-header" style="margin-top: 12px; margin-bottom: 6px;">
+          <h3>CREW OPERATIONS</h3>
+        </div>
+        <div class="crew-actions-grid">
+          <button id="btn-crew-eat" class="crew-action-btn" title="Eat Meal (-4 Food, +10 Saturation, +1 Morale)">🍽️ Eat</button>
+          <button id="btn-crew-drink" class="crew-action-btn" title="Drink Water (-3 Water, +5 Quenching, +1 Morale)">💧 Drink</button>
+          <button id="btn-crew-clean" class="crew-action-btn" title="Clean Solar Dust (-1 kW, -25 Dust)">🧹 Clean</button>
+          <button id="btn-crew-reshield" class="crew-action-btn" title="Reshield Habitat (-2 kW, +15 Shield, +10 Prot)">🛡️ Reshield</button>
+          <button id="btn-crew-farm" class="crew-action-btn" title="Tend Crops (-2 Water, -1 kW, +5 Growth)">🌱 Farm</button>
+          <button id="btn-crew-harvest" class="crew-action-btn" title="Harvest Crops (-10 Growth, +Food)">🥗 Harvest</button>
+          <button id="btn-crew-shelter" class="crew-action-btn highlight" title="Toggle Shelter in Storm Vault (+95% Shielding)">🏰 Shelter</button>
+          <button id="btn-crew-resupply-o2" class="crew-action-btn" title="Emergency Earth O2 Resupply (+60 Stored O2)">🚀 Earth O₂</button>
+          <button id="btn-crew-resupply-water" class="crew-action-btn" title="Emergency Earth Water Resupply (+50 Water)">🛸 Earth H₂O</button>
+        </div>
       </aside>
 
-      <!-- CENTRAL VIEWPORT: 2D Pixel-art Lunar Grid -->
+      <!-- CENTRAL VIEWPORT: 3D Lunar Terrain + Interactive Simulation Overlay -->
       <section id="viewport-container">
+        <canvas id="ground-3d-canvas"></canvas>
         <canvas id="game-canvas"></canvas>
 
         <div id="viewport-overlay-controls">

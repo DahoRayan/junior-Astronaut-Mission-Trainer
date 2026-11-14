@@ -29,241 +29,829 @@ export interface StoryScene {
 }
 
 export const STORY_SCENES: Record<string, StoryScene> = {
-  // PROLOGUE: Touchdown on the Moon
-  prologue: {
-    id: 'prologue',
-    chapter: 0,
-    title: 'PROLOGUE: THE SELECTION',
-    location: 'Shackleton Crater Rim — Sector Alpha',
-    lines: [
+  "S-PRO-1": {
+    "id": "S-PRO-1",
+    "chapter": 0,
+    "title": "PROLOGUE: TOUCHDOWN",
+    "location": "Shackleton Crater Rim — Landing Site",
+    "lines": [
       {
-        speakerId: 'elena',
-        speakerName: 'Capt. Elena Ruiz',
-        role: 'Mission Commander',
-        mood: 'confident',
-        text: 'Touchdown confirmed on Shackleton Crater Rim! Artemis base site is secure. Crew, check your spacesuit pressure and prep for First Light.',
-        sfx: 'radio',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Black screen. Deep space ambient frequencies. Earth appears as a blue marble, then the camera descends rapidly toward the Moon's South Pole.]"
       },
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'calm',
-        text: 'Telemetry streaming at 100% fidelity. Greetings, Junior Mission Commander! I am M.I.L.O., your co-pilot. My predictive circuits are at your service.',
+        "speakerId": "narrator",
+        "speakerName": "Narrator",
+        "role": "Mission Log",
+        "mood": "calm",
+        "text": "Three hundred and eighty-four thousand kilometers from Earth, there is a place where no trees grow, no wind blows, and no human can take a single breath without life-support."
       },
       {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad',
-        role: 'Systems Engineer',
-        mood: 'tinkering',
-        text: 'Look at that solar horizon! The ridge is receiving direct sunlight, but the crater basin below is in pitch-black shadow. We need to deploy our arrays immediately!',
+        "speakerId": "narrator",
+        "speakerName": "Narrator",
+        "role": "Mission Log",
+        "mood": "curious",
+        "text": "This is Shackleton Crater. And the lives of four astronauts are in your hands."
       },
       {
-        speakerId: 'nia',
-        speakerName: 'Dr. Nia Okafor',
-        role: 'Science Officer',
-        mood: 'curious',
-        text: 'And inside those shadowed craters are billions of tons of ancient water ice at -230°C. If we can mine that ice, we can create infinite rocket fuel and breathable oxygen!',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [The Artemis Lunar Lander touches down on grey lunar regolith. Dust settles.]"
       },
       {
-        speakerId: 'daniel',
-        speakerName: 'Dr. Daniel Park',
-        role: 'Medical Officer',
-        mood: 'alert',
-        text: 'Remember, everyone: our EVA life support backpacks only hold 2 hours of reserve air. Commander, let\'s prioritize the primary base grid first.',
-        choices: [
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "confident",
+        "text": "Touchdown confirmed! Surface telemetry online.",
+        "sfx": "fanfare"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Houston, Shackleton Rim Base here. The First Light has touched down safely.",
+        "sfx": "fanfare"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Leo turns toward the camera, speaking over the direct comm link.]"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Commander, good to have you on the console. I'm Captain Leo Ruiz. These three people beside me are my family now—Amir, Nia, and Daniel."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "worried",
+        "text": "Down here, there is no room for mistakes. If our power dies, our heaters die. If our air tanks run dry, we die. We're counting on your spatial planning and quick thinking to keep us alive."
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Don't scare the Commander already, Captain! We've got the best tech in the solar system."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "tinkering",
+        "text": "Technology only works if our Commander connects it right, Amir. Let's get to work.",
+        "choices": [
           {
-            text: '"Understood, Daniel. Amir, let\'s deploy the Solar Array on the sunlit ridge!"',
-            consequence: 'Prioritizing immediate power generation on the high ground.',
+            "text": "Acknowledge mission plan & deploy inflatable habitat",
+            "consequence": "Unpacking habitat module on grid tile (20, 15)..."
           },
           {
-            text: '"M.I.L.O., check our telemetry and calculate our starting power budget first."',
-            consequence: 'Running a full systems check before breaking ground.',
+            "text": "Ask M.I.L.O. to run landing sensor calibration first",
+            "consequence": "All telemetry arrays calibrated at 100% nominal!"
+          }
+        ]
+      }
+    ]
+  },
+  "S-C1-1": {
+    "id": "S-C1-1",
+    "chapter": 1,
+    "title": "CHAPTER 1: HABITAT DEPLOYMENT",
+    "location": "Sector Alpha — Outpost Perimeter",
+    "lines": [
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Unpacking inflatable Crew Habitat. Structural seals engaged."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "tinkering",
+        "text": "Commander, anchor that habitat securely. Then we need power to run the air pumps."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player places Solar Array and connects the power cable.]"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Power lines connected! Solar wattage is pouring into the main breaker."
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Opening the Compressed Oxygen Reserve"
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Opening the habitat's compressed oxygen valve. Remember: our air isn't infinite. It comes from high-pressure liquid oxygen tanks delivered with the lander."
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "tinkering",
+        "text": "We exhale toxic carbon dioxide with every breath. If the CDRA scrubbers aren't powered, CO₂ will poison our blood within hours."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player powers the CDRA Scrubber and Habitat ventilation.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Cabin atmosphere balanced at 21% O₂, 101.3 kPa."
+      }
+    ]
+  },
+  "S-C1-2": {
+    "id": "S-C1-2",
+    "chapter": 1,
+    "title": "CHAPTER 1: LIFE SUPPORT ACTIVATION",
+    "location": "Hab Module — CDRA Atmosphere Bay",
+    "lines": [
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [A shrill alarm echoes through the habitat.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "alert",
+        "text": "CRITICAL ALERT: Primary compressed oxygen tank pressure dropping to zero! Valve fracture detected!",
+        "sfx": "alarm",
+        "shake": true
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Our reserve oxygen is blowing into the vacuum! We have less than 48 hours of breathable air in the habitat!"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Stay calm, team! Panic consumes more oxygen. Commander, open the deep-space transmitter! We need to demand an emergency high-speed cargo resupply from Earth right now!"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player opens the Earth Logistics Menu and clicks Demand Emergency Oxygen Resupply.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Emergency transmission received by NASA Kennedy Space Center. Rapid-response Falcon Heavy cargo rocket launched with replacement O₂ pods."
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Estimated transit time: 2 Sols. Cabin oxygen reserves are draining.",
+        "choices": [
+          {
+            "text": "Connect power cable from solar array to oxygen electrolyzer",
+            "consequence": "Power circuit closed: 10 kW flowing to life support!"
           },
-        ],
-      },
-      {
-        speakerId: 'elena',
-        speakerName: 'Capt. Elena Ruiz',
-        role: 'Mission Commander',
-        mood: 'confident',
-        text: 'Great call, Commander. Let\'s begin Chapter 1: First Light. Lay down our power cables and bring our life support modules online!',
-        sfx: 'fanfare',
-      },
-    ],
+          {
+            "text": "Verify battery bank charge capacity before engaging",
+            "consequence": "Batteries primed for upcoming solar cycle."
+          }
+        ]
+      }
+    ]
   },
-
-  // CHAPTER 1: First Light
-  ch1_intro: {
-    id: 'ch1_intro',
-    chapter: 1,
-    title: 'CHAPTER 1: FIRST LIGHT',
-    location: 'Shackleton High Ridge — Power Zone',
-    lines: [
+  "S-C1-3": {
+    "id": "S-C1-3",
+    "chapter": 1,
+    "title": "CHAPTER 1: PRIMARY VALVE FRACTURE",
+    "location": "Cryo-Tank Station — Main Oxygen Line",
+    "lines": [
       {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad',
-        role: 'Systems Engineer',
-        mood: 'tinkering',
-        text: 'Commander, I have unstrapped the Solar Array panels. When placed on the high ridge, each array converts sunlight into +20 kW of clean electricity.',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player must shed non-vital power, seal interior airlocks, and keep the crew rested to preserve oxygen until the cargo lander thumps down outside.]"
       },
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'calm',
-        text: 'Electricity does not travel wirelessly across lunar vacuum. You must lay heavy superconducting Power Cables to connect the solar array to our Oxygen Electrolyzer.',
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Cargo lander has touched down! I'm suiting up to haul the new oxygen tanks into the airlock!"
       },
       {
-        speakerId: 'nia',
-        speakerName: 'Dr. Nia Okafor',
-        role: 'Science Officer',
-        mood: 'curious',
-        text: 'The electrolyzer uses electricity to split water into hydrogen fuel and breathable O₂ gas. Once it is powered, we breathe easy!',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Amir replaces the tank. The oxygen gauge surges back to 100%.]"
       },
-    ],
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Air pressure restored. That was too close, Commander. If that rocket had been delayed by half a day, we wouldn't have survived.",
+        "choices": [
+          {
+            "text": "Demand emergency Earth resupply lander via Deep Space Network",
+            "consequence": "Earth Connection Channel transmitting telemetry. Resupply lander launched!"
+          }
+        ]
+      }
+    ]
   },
-
-  // CHAPTER 2: The Long Night
-  ch2_intro: {
-    id: 'ch2_intro',
-    chapter: 2,
-    title: 'CHAPTER 2: THE LONG NIGHT',
-    location: 'Shackleton Base — Nightfall Approach',
-    lines: [
+  "S-C2-1": {
+    "id": "S-C2-1",
+    "chapter": 2,
+    "title": "CHAPTER 2: THE LONG NIGHT",
+    "location": "Solar Rim Ridge — Shadow Threshold",
+    "lines": [
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'alert',
-        text: 'Notice: Orbital shadow analysis indicates the Sun is dropping below the crater crest. Lunar night will begin in 18 hours.',
-        shake: true,
-        sfx: 'alarm',
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "alert",
+        "text": "Warning: Orbital sun angle declining. A massive mountain ridge will cast a total shadow over the base for 48 consecutive hours.",
+        "sfx": "alarm",
+        "shake": true
       },
       {
-        speakerId: 'elena',
-        speakerName: 'Capt. Elena Ruiz',
-        role: 'Mission Commander',
-        mood: 'worried',
-        text: 'Temperatures on the surface will plunge to -130°C. If our heaters and scrubbers lose power, the base will freeze.',
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Without direct sunlight, our solar panels won't produce a single watt. Outside temperature will plummet to −180 °C."
       },
       {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad',
-        role: 'Systems Engineer',
-        mood: 'confident',
-        text: 'Do not panic! That is why we brought Battery Banks. We must bank at least 100 kWh of energy before the last ray of sunlight fades.',
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "If our electric heaters shut down, the habitat interior will drop below freezing in two hours. Human blood cannot circulate in extreme cold. The crew will freeze to death."
       },
       {
-        speakerId: 'daniel',
-        speakerName: 'Dr. Daniel Park',
-        role: 'Medical Officer',
-        mood: 'alert',
-        text: 'Commander, monitor the power balance closely. If battery charge drops too fast, shed non-essential loads immediately.',
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "tinkering",
+        "text": "Commander, build high-capacity battery banks immediately. We must store every joule of excess solar power before the shadow arrives."
       },
-    ],
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player builds Battery Banks and toggles off research labs and floodlights.]",
+        "choices": [
+          {
+            "text": "Engage load-shedding protocol: shut down non-essential systems",
+            "consequence": "Farm grow-lights offline. Power conserved for life support heaters!"
+          },
+          {
+            "text": "Reroute battery heating loop through secondary bus",
+            "consequence": "Thermal bus active. Core temperature stabilized at 21°C."
+          }
+        ]
+      }
+    ]
   },
-
-  // CHAPTER 3: The Invisible Threat (Space Weather)
-  ch3_intro: {
-    id: 'ch3_intro',
-    chapter: 3,
-    title: 'CHAPTER 3: THE INVISIBLE THREAT',
-    location: 'Deep Space Telemetry Terminal — NASA DONKI',
-    lines: [
+  "S-C2-2": {
+    "id": "S-C2-2",
+    "chapter": 2,
+    "title": "CHAPTER 2: SUNRISE OVER SHACKLETON",
+    "location": "Shackleton Rim — Solar Farm",
+    "lines": [
       {
-        speakerId: 'nia',
-        speakerName: 'Dr. Nia Okafor',
-        role: 'Science Officer',
-        mood: 'alert',
-        text: 'Commander! Look at the DONKI Space Weather feed! Active Sunspot 3842 has erupted with an X-class solar flare!',
-        shake: true,
-        sfx: 'alarm',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Total darkness falls across the base. The base switches to battery power.]"
       },
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'alert',
-        text: 'Coronal Mass Ejection detected. A billion-ton cloud of magnetized solar protons is racing toward the Moon at 2,000 km/s. Arrival time: 2 hours.',
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Solar generation: 0.0 kW. Battery discharge active."
       },
       {
-        speakerId: 'daniel',
-        speakerName: 'Dr. Daniel Park',
-        role: 'Medical Officer',
-        mood: 'worried',
-        text: 'Thin aluminum habitat walls cannot stop high-energy cosmic protons. We will receive lethal radiation unless we shield the base!',
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Captain! The exterior cooling lines on Battery Bank 2 are freezing solid! The battery can't release power when frozen!"
       },
       {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad',
-        role: 'Systems Engineer',
-        mood: 'tinkering',
-        text: 'We have millions of tons of natural armor right beneath our boots: Lunar Regolith! We can pile a regolith shield roof over the modules, or construct the Subterranean Vault!',
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Cabin temperature is falling fast: 18 °C... 12 °C... 6 °C! We're shivering uncontrollably!"
       },
-    ],
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Commander! Reroute the emergency heating loops to the battery core! Do it before our fingers go numb!"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player reroutes the circuit on the thermal panel. Heaters ignite. Temperature stabilizes at 21 °C.]"
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Core body temperatures recovering. The heaters saved us."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "worried",
+        "text": "Good work, Commander. You kept our fire burning in the coldest place in the world."
+      }
+    ]
   },
-
-  // CHAPTER 4: Growing Beyond Earth
-  ch4_intro: {
-    id: 'ch4_intro',
-    chapter: 4,
-    title: 'CHAPTER 4: GROWING BEYOND EARTH',
-    location: 'Bio-Regenerative Life Support Lab',
-    lines: [
+  "S-C3-1": {
+    "id": "S-C3-1",
+    "chapter": 3,
+    "title": "CHAPTER 3: CME SOLAR STORM WARNING",
+    "location": "Outpost Communications Mast",
+    "lines": [
       {
-        speakerId: 'nia',
-        speakerName: 'Dr. Nia Okafor',
-        role: 'Science Officer',
-        mood: 'curious',
-        text: 'Look at these seedlings! Our Canadian Space Agency (CSA) hydroponics trays are sprouting dwarf Outredgeous red romaine lettuce!',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Nia's science terminal sounds a frantic pulsating siren.]"
       },
       {
-        speakerId: 'daniel',
-        speakerName: 'Dr. Daniel Park',
-        role: 'Medical Officer',
-        mood: 'confident',
-        text: 'Fresh greens provide critical potassium and vitamins C & K that pre-packaged freeze-dried rations lack. Plus, the psychological boost to crew morale is huge.',
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "alert",
+        "text": "Captain! Look at the NASA DONKI space weather alert! Sunspot 4109 just suffered an X-class solar flare!",
+        "sfx": "alarm",
+        "shake": true
       },
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'calm',
-        text: 'Hydroponic trays require water and 12 kW of steady power. Ensure our Ice Core Extractor in the crater shadow continues pumping recycled water.',
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "A Coronal Mass Ejection is heading directly along the Earth-Moon line. Lethal proton radiation shockwave arrives in 90 minutes."
       },
-    ],
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Standard habitat walls are just thin aluminum and Kevlar. If we stay out here, that radiation will destroy our immune systems and kill us in days."
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "We need two layers of protection: pile lunar regolith over the roof using the automated rover, and prepare the underground storm bunker surrounded by our water tanks!"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player builds Regolith Shielding and moves crew to the Underground Storm Vault.]",
+        "choices": [
+          {
+            "text": "Sound general base evacuation to subterranean storm vault",
+            "consequence": "All 4 astronauts safe in vault behind regolith shield."
+          }
+        ]
+      }
+    ]
   },
-
-  // CHAPTER 5: A Home Among the Stars
-  ch5_intro: {
-    id: 'ch5_intro',
-    chapter: 5,
-    title: 'CHAPTER 5: A HOME AMONG THE STARS',
-    location: 'Shackleton Artemis Outpost — Command Cupola',
-    lines: [
+  "S-C3-2": {
+    "id": "S-C3-2",
+    "chapter": 3,
+    "title": "CHAPTER 3: RADIATION IMPACT",
+    "location": "Subterranean Storm Vault",
+    "lines": [
       {
-        speakerId: 'elena',
-        speakerName: 'Capt. Elena Ruiz',
-        role: 'Mission Commander',
-        mood: 'confident',
-        text: 'Look at what we built, Commander. What started as an unpowered lander is now a fully self-sufficient human habitat standing proud on the Moon.',
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Screen shakes violently with static. Radiation monitor outside spikes to 140 mSv/h.]"
       },
       {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad',
-        role: 'Systems Engineer',
-        mood: 'confident',
-        text: 'Closed electrical grid, continuous Kilopower backup, full regolith radiation shielding, and running water from the ice cold-traps.',
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Exterior radiation at lethal levels. Anyone outside would suffer fatal organ failure in 15 minutes."
       },
       {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O.',
-        role: 'AI Logistics Operator',
-        mood: 'calm',
-        text: 'All life support and sustainability metrics exceed NASA Artemis flight criteria. Junior Commander, your graduation review is officially complete!',
-        sfx: 'fanfare',
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "confident",
+        "text": "Inside the bunker, the water tanks and regolith are absorbing the cosmic rays. Dosimeter reads safe.",
+        "sfx": "fanfare"
       },
-    ],
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Deep breaths, everyone. We wait out the storm together."
+      }
+    ]
   },
+  "S-C4-1": {
+    "id": "S-C4-1",
+    "chapter": 4,
+    "title": "CHAPTER 4: HYDROPONIC EXPEDITION",
+    "location": "Permanent Shadow Crater Basin",
+    "lines": [
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Captain, our packaged rations from Earth are down to their last week. If we don't produce food and water here, starvation will finish us."
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "Deep inside Shackleton's shadow, there is ancient water ice. If we place an autonomous thermal drill, we can extract pure water."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player builds Water Extractor and runs power down into the crater.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Water extraction active: +10 L/h of purified liquid water flowing into habitat tanks.",
+        "choices": [
+          {
+            "text": "Plant Outredgeous lettuce and radishes in growth trays",
+            "consequence": "Hydroponic nutrient mist activated! Fresh greens sprouting."
+          }
+        ]
+      }
+    ]
+  },
+  "S-C4-2": {
+    "id": "S-C4-2",
+    "chapter": 4,
+    "title": "CHAPTER 4: THE FIRST HARVEST",
+    "location": "Greenhouse Dome — Tray Alpha",
+    "lines": [
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "The Hydroponics Bay"
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "Now we plant the hydroponic lettuce and radishes. They drink our recycled wastewater, absorb the CO₂ we breathe out, and give us fresh calories and pure oxygen."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player builds Greenhouse Trays. Green sprouts grow.]"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Look at that! Real green leaves growing in lunar dust! We can actually live here!"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Every meal grown here proves that humanity can survive on another world."
+      }
+    ]
+  },
+  "S-C5-1": {
+    "id": "S-C5-1",
+    "chapter": 5,
+    "title": "CHAPTER 5: COMPOUND MOONQUAKE EMERGENCY",
+    "location": "Base Central Power Hub",
+    "lines": [
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [The ground quakes violently. Multiple alarm systems scream simultaneously.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "CRITICAL CATASTROPHIC FAILURE!"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "tinkering",
+        "text": "1. Moonquake has severed the main power conduit to Life Support!"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "2. Massive electrostatic dust cloud blankets all solar arrays!"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "3. Cabin oxygen leaking! Pressure dropping below 70 kPa!"
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "The oxygen pumps stopped! Leo... Leo went out to manually seal the exterior emergency valve, but his suit radio is breaking up!"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "tinkering",
+        "text": "(Over crackling static) Commander... the valve is jammed... dust got into the gears... I can't breathe... oxygen running out... you have to... reconnect the power... from your console..."
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "The Captain is dying out there on the surface! We have 60 seconds before he suffocates, and then our own habitat air runs out!",
+        "choices": [
+          {
+            "text": "Reroute emergency power & open jammed airlock valve for Leo",
+            "consequence": "Airlock pressure equalized! Captain Ruiz safely pulled inside."
+          }
+        ]
+      }
+    ]
+  },
+  "S-C5-2": {
+    "id": "S-C5-2",
+    "chapter": 5,
+    "title": "CHAPTER 5: THE RESCUE OF CAPT. RUIZ",
+    "location": "Hab Main Airlock",
+    "lines": [
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Player executes under intense tension: (1) Toggles emergency batteries directly to the airlock power bus. (2) Cleans the solar panels using automated electrostatic pulse. (3) Reroutes the backup power cable to the primary life-support loop. (4) Presses the emergency repressurization override.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "tinkering",
+        "text": "Power circuit restored! Oxygen pressure climbing! Airlock repressurized!"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Airlock hisses open. Amir and Daniel drag Captain Leo Ruiz inside, pulling off his helmet. He gasps for air.]"
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "He's breathing! Pulse is returning! Leo, look at me!"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "(Coughing, then smiling faintly) Good job... Commander. You saved my life... you saved all of us."
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "We did it! The base held! Everything is green!"
+      }
+    ]
+  },
+  "S-EPI-1": {
+    "id": "S-EPI-1",
+    "chapter": 6,
+    "title": "EPILOGUE: FIRST LIGHT DIPLOMA",
+    "location": "NASA Mission Control Teleconference",
+    "lines": [
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [The camera pans through a magnificent, glowing lunar base with greenhouses, batteries, and observation domes. Earth shines brightly overhead.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Simulation debrief complete. Survival Rate: 100%. Life-Support Uptime: 98.4%."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "curious",
+        "text": "Commander, when we landed, Shackleton Crater was an empty, frozen desert ready to swallow us whole."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "tinkering",
+        "text": "You managed our power, you never let our oxygen run out, you called for help when we needed it, and you kept us alive when disaster struck."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "You aren't just a student anymore. You are a true Mission Commander."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [A golden NASA achievement certificate appears on screen (see certificate in story-bible.json).]"
+      }
+    ]
+  },
+  "S-EPI-2": {
+    "id": "S-EPI-2",
+    "chapter": 6,
+    "title": "EPILOGUE: THE MARS HORIZON",
+    "location": "Shackleton Overlook — Observation Deck",
+    "lines": [
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [M.I.L.O.'s terminal beeps with an encrypted transmission from NASA Deep Space Logistics.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Commander, high-priority transmission incoming from Earth."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "What does it say, MILO?"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "It concerns a new expedition. Target destination: Mars. Distance: 225 million kilometers."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [The screen shifts from the silver Moon to a rotating red globe: MARS.]"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Mars? That's going to take a lot of oxygen tanks!"
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "Real soil, ancient riverbeds, towering volcanoes... think of the science!"
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Enjoy this victory, Commander. You earned it. But keep your spacesuit ready... Mars is waiting for us."
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Screen fades to stars.]",
+        "choices": [
+          {
+            "text": "Accept commendation & unlock Creative Sandbox Mode",
+            "consequence": "All modules unlocked! Full lunar training certification awarded."
+          }
+        ]
+      }
+    ]
+  }
 };

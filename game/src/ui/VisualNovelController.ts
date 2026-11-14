@@ -230,10 +230,13 @@ export class VisualNovelController {
   private applySpeakerStyle(speakerId: CharacterId): void {
     const charProfiles: Record<CharacterId, { emoji: string; color: string; badgeColor: string }> = {
       elena: { emoji: '👩‍🚀', color: '#f59e0b', badgeColor: '#1d4ed8' },
+      leo: { emoji: '👨‍🚀', color: '#f59e0b', badgeColor: '#1d4ed8' },
       amir: { emoji: '🔧', color: '#f97316', badgeColor: '#334155' },
       nia: { emoji: '🌱', color: '#10b981', badgeColor: '#0f766e' },
       daniel: { emoji: '🩺', color: '#ec4899', badgeColor: '#0284c7' },
       milo: { emoji: '🤖', color: '#38bdf8', badgeColor: '#0369a1' },
+      narrator: { emoji: '🌌', color: '#a855f7', badgeColor: '#581c87' },
+      director: { emoji: '📡', color: '#06b6d4', badgeColor: '#0e7490' },
     };
 
     const profile = charProfiles[speakerId] || charProfiles.milo;

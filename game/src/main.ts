@@ -19,6 +19,7 @@ import { VisualNovelController } from './ui/VisualNovelController';
 
 window.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+  const groundCanvas = document.getElementById('ground-3d-canvas') as HTMLCanvasElement;
   if (!canvas) {
     console.error('Failed to locate #game-canvas!');
     return;
@@ -33,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
     canvas.height = canvas.parentElement?.clientHeight || 600;
     renderer.recenter();
   };
-  const renderer = new ViewportRenderer(canvas, simulation.grid);
+  const renderer = new ViewportRenderer(canvas, simulation.grid, groundCanvas);
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
   renderer.start();
@@ -137,7 +138,45 @@ window.addEventListener('DOMContentLoaded', () => {
     narrative.playScene(sceneId);
   });
 
-  // 9. Time / Speed Controls
+  // 9. Crew Operations (Lunar Outpost Equipment Specification §5.2)
+  document.getElementById('btn-crew-eat')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.eat();
+  });
+  document.getElementById('btn-crew-drink')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.drink();
+  });
+  document.getElementById('btn-crew-clean')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.cleanSolarPanels();
+  });
+  document.getElementById('btn-crew-reshield')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.reshield();
+  });
+  document.getElementById('btn-crew-farm')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.farm();
+  });
+  document.getElementById('btn-crew-harvest')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.harvast();
+  });
+  document.getElementById('btn-crew-shelter')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.toggleShelter();
+  });
+  document.getElementById('btn-crew-resupply-o2')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.demandEarthOxygenResupply();
+  });
+  document.getElementById('btn-crew-resupply-water')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.demandEarthWaterResupply();
+  });
+
+  // 10. Time / Speed Controls
   const speedButtons: Record<number, HTMLElement | null> = {
     0: document.getElementById('btn-speed-0'),
     1: document.getElementById('btn-speed-1'),

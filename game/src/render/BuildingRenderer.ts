@@ -66,6 +66,22 @@ export class BuildingRenderer {
         this.drawWaterExtractor(ctx, px, py, b.isPowered, time);
         break;
 
+      case 'emergency_o2_generator':
+        this.drawEmergencyO2(ctx, px, py, b.isPowered, time);
+        break;
+
+      case 'water_recycler':
+        this.drawWaterRecycler(ctx, px, py, b.isPowered, time);
+        break;
+
+      case 'heating_system':
+        this.drawHeatingSystem(ctx, px, py, b.isPowered, time);
+        break;
+
+      case 'earth_channel':
+        this.drawEarthChannel(ctx, px, py, b.isPowered, time);
+        break;
+
       default:
         this.drawGenericModule(ctx, px, py);
         break;
@@ -627,6 +643,134 @@ export class BuildingRenderer {
         ctx.lineTo(drillX + 3, y + drillOffset + 2);
         ctx.stroke();
       }
+    }
+  }
+
+  // --- 11. Emergency Oxygen Generator ---
+  private static drawEmergencyO2(ctx: CanvasRenderingContext2D, px: number, py: number, isPowered: boolean, time: number): void {
+    const ox = px + 8;
+    const oy = py + 6;
+    const ow = TILE_SIZE - 16;
+    const oh = TILE_SIZE - 12;
+
+    // High-pressure titanium canister body
+    ctx.fillStyle = '#dc2626'; // High-alert red canister
+    ctx.beginPath();
+    ctx.roundRect(ox, oy, ow, oh, 6);
+    ctx.fill();
+
+    // Hazard safety stripes
+    ctx.fillStyle = '#fef08a';
+    ctx.fillRect(ox + 4, oy + 4, ow - 8, 3);
+    ctx.fillRect(ox + 4, oy + oh - 7, ow - 8, 3);
+
+    // Pressure gauge dial
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(ox + ow / 2, oy + oh / 2, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Needle
+    const needleAngle = isPowered ? Math.sin(time * 0.01) * 0.8 : 0;
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(ox + ow / 2, oy + oh / 2);
+    ctx.lineTo(ox + ow / 2 + Math.cos(needleAngle) * 5, oy + oh / 2 + Math.sin(needleAngle) * 5);
+    ctx.stroke();
+  }
+
+  // --- 12. Water Recycling System ---
+  private static drawWaterRecycler(ctx: CanvasRenderingContext2D, px: number, py: number, isPowered: boolean, time: number): void {
+    const rx = px + 6;
+    const ry = py + 6;
+    const rw = TILE_SIZE - 12;
+    const rh = TILE_SIZE - 12;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.roundRect(rx, ry, rw, rh, 6);
+    ctx.fill();
+
+    // Water filtration chamber
+    ctx.fillStyle = '#0284c7';
+    ctx.beginPath();
+    ctx.roundRect(rx + 4, ry + 4, rw - 8, rh - 8, 4);
+    ctx.fill();
+
+    // Bubbles
+    if (isPowered) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      const bubbleY = ry + rh - 6 - ((time * 0.02) % (rh - 10));
+      ctx.beginPath();
+      ctx.arc(rx + rw / 2 - 4, bubbleY, 2, 0, Math.PI * 2);
+      ctx.arc(rx + rw / 2 + 4, (bubbleY + 6) % (rh - 8) + ry + 4, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // --- 13. Habitat Heating System ---
+  private static drawHeatingSystem(ctx: CanvasRenderingContext2D, px: number, py: number, isPowered: boolean, time: number): void {
+    const hx = px + 6;
+    const hy = py + 6;
+    const hw = TILE_SIZE - 12;
+    const hh = TILE_SIZE - 12;
+
+    ctx.fillStyle = '#334155';
+    ctx.beginPath();
+    ctx.roundRect(hx, hy, hw, hh, 5);
+    ctx.fill();
+
+    // Glowing heating element coils
+    const glow = isPowered ? Math.sin(time * 0.006) * 0.3 + 0.7 : 0.2;
+    ctx.strokeStyle = `rgba(249, 115, 22, ${glow})`;
+    ctx.lineWidth = 2;
+
+    for (let y = hy + 6; y < hy + hh - 4; y += 5) {
+      ctx.beginPath();
+      ctx.moveTo(hx + 5, y);
+      ctx.lineTo(hx + hw - 5, y);
+      ctx.stroke();
+    }
+  }
+
+  // --- 14. Earth Connection Channel ---
+  private static drawEarthChannel(ctx: CanvasRenderingContext2D, px: number, py: number, isPowered: boolean, time: number): void {
+    const cx = px + TILE_SIZE / 2;
+    const cy = py + TILE_SIZE / 2;
+
+    // Base pedestal
+    ctx.fillStyle = '#475569';
+    ctx.beginPath();
+    ctx.roundRect(px + 10, py + TILE_SIZE - 12, TILE_SIZE - 20, 8, 2);
+    ctx.fill();
+
+    // Parabolic antenna dish directed up towards Earth
+    ctx.fillStyle = '#f8fafc';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 2, 12, Math.PI * 0.8, Math.PI * 2.2);
+    ctx.fill();
+
+    // Dish rim
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Feed horn & sub-reflector
+    ctx.strokeStyle = '#0284c7';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 2);
+    ctx.lineTo(cx + 6, cy - 10);
+    ctx.stroke();
+
+    // Transmit signal waves when powered
+    if (isPowered) {
+      const ping = (time * 0.005) % 1;
+      ctx.strokeStyle = `rgba(56, 189, 248, ${1 - ping})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx + 6, cy - 10, ping * 12, -Math.PI * 0.5, 0);
+      ctx.stroke();
     }
   }
 

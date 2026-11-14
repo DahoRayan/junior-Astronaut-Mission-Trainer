@@ -19,14 +19,22 @@ export class NarrativeManager {
 
     // Prologue trigger
     eventBus.on('prologue_start', () => {
-      this.playScene('prologue', () => {
+      this.playScene('S-PRO-1', () => {
         eventBus.emit('prologue_complete', null);
       });
     });
 
     // Chapter load triggers
     eventBus.on<number>('chapter_loaded', (ch) => {
-      const sceneId = `ch${ch}_intro`;
+      const aliasMap: Record<number, string> = {
+        1: 'S-C1-1',
+        2: 'S-C2-1',
+        3: 'S-C3-1',
+        4: 'S-C4-1',
+        5: 'S-C5-1',
+        6: 'S-EPI-1',
+      };
+      const sceneId = aliasMap[ch] || `S-C${ch}-1`;
       if (this.hasScene(sceneId)) {
         this.playScene(sceneId);
       }
@@ -62,7 +70,18 @@ export class NarrativeManager {
   }
 
   public getScene(sceneId: string): StoryScene | null {
-    return this.customScenes.get(sceneId) || STORY_SCENES[sceneId] || null;
+    const aliasMap: Record<string, string> = {
+      prologue: 'S-PRO-1',
+      ch1_intro: 'S-C1-1',
+      ch1_fault: 'S-C1-3',
+      ch2_intro: 'S-C2-1',
+      ch3_intro: 'S-C3-1',
+      ch4_intro: 'S-C4-1',
+      ch5_intro: 'S-C5-1',
+      epilogue: 'S-EPI-1',
+    };
+    const resolvedId = aliasMap[sceneId] || sceneId;
+    return this.customScenes.get(resolvedId) || STORY_SCENES[resolvedId] || null;
   }
 
   public getAvailableScenes(): StoryScene[] {

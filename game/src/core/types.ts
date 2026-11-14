@@ -7,28 +7,34 @@ export type BuildingType =
   | 'solar_array'
   | 'battery_bank'
   | 'kilopower_reactor'
+  | 'emergency_o2_generator'
   | 'oxygen_electrolyzer'
   | 'co2_scrubber'
+  | 'water_recycler'
+  | 'heating_system'
   | 'crew_habitat'
   | 'regolith_shield'
   | 'subterranean_vault'
   | 'hydroponics_tray'
   | 'water_extractor'
+  | 'earth_channel'
   | 'power_cable';
 
 export type BuildingCategory =
   | 'energy'
   | 'life_support'
+  | 'thermal'
   | 'defense'
   | 'farming'
   | 'water_isru'
+  | 'communication'
   | 'network';
 
 export interface BuildingDefinition {
   type: BuildingType;
   name: string;
   category: BuildingCategory;
-  buildCost: number; // in Materials
+  buildCost: number; // in Materials (NO points)
   powerGenerationKw: number; // in direct sunlight
   powerConsumptionKw: number;
   batteryCapacityKwh: number;
@@ -36,6 +42,7 @@ export interface BuildingDefinition {
   waterConsumptionL: number;
   waterProductionL: number;
   shieldingBonusPct: number;
+  priority?: 1 | 2 | 3;
   description: string;
   educationalFact: string;
 }
@@ -62,7 +69,7 @@ export interface Tile {
 
 export interface ResourceState {
   sol: number;
-  timeOfDayHours: number; // 0 to 24
+  timeOfDayHours: number; // 0 to 24 (12h day, 12h night)
   materials: number;
   powerKwGenerated: number;
   powerKwConsumed: number;
@@ -70,12 +77,25 @@ export interface ResourceState {
   batteryChargeKwh: number;
   batteryCapacityKwh: number;
   oxygenKgRemaining: number;
+  stored_o2?: number; // Stored breathable O2 units
   oxygenBalanceKgH: number;
+  co2: number; // Cabin CO2 (0-100)
   waterLiters: number;
   waterRecycledLiters: number;
+  temperature: number; // Cabin temperature gauge (0-100, nominal 50)
+  food: number; // Food stock units
+  foodGrowth: number; // Crop growth progress (0-100)
+  dust: number; // Dust on solar panels (0-100)
+  shield: number; // Regolith shield condition (0-100)
+  radiationProtection: number; // Total protection (0-100)
+  radiation: number; // Radiation exposure (0-100)
+  lightCycle: number; // Circadian lighting (0-100)
+  saturation: number; // Hunger gauge (0-100)
+  quenching: number; // Thirst gauge (0-100)
   radiationDoseMitigatedPct: number;
   crewHealthAvg: number; // 0-100
-  crewMoraleAvg: number; // 0-100
+  crewMoraleAvg: number; // 0-100 (enthusiasm)
+  isSheltering: boolean; // Crew sheltering in storm vault
   activeAlert: string | null;
 }
 
@@ -162,7 +182,7 @@ export interface ChatResponse {
   fallback_used: boolean;
 }
 
-export type CharacterId = 'elena' | 'amir' | 'nia' | 'daniel' | 'milo';
+export type CharacterId = 'elena' | 'leo' | 'amir' | 'nia' | 'daniel' | 'milo' | 'narrator' | 'director';
 
 export interface DialogueEntry {
   speakerId: CharacterId;
