@@ -9,7 +9,7 @@ Update after every meaningful change.
 - Unit 01: AI service skeleton with mock endpoints (see specs/01-ai-service-skeleton.md)
 
 ## Completed
-- None yet.
+- Unity Perimeter Resource HUD (`Assets/Scripts/UI/ResourceBarUI.cs`, `Assets/Scripts/UI/ResourceHUDController.cs`, `Assets/Scripts/Editor/ResourceHUDSetupEditor.cs`): screen-surrounding telemetry UI displaying filling bars and numeric percentage values for Power, Hunger, Health, Food, Food Growth, and Radiation.
 
 ## In Progress
 - Unit 01: AI service skeleton with mock endpoints (see `specs/01-ai-service-skeleton.md`)
