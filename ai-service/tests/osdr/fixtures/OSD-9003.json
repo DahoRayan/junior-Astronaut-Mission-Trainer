@@ -1,0 +1,21 @@
+{
+  "study": {
+    "OSD-9003": {
+      "version": 1,
+      "studies": [
+        {
+          "title": "Plantaris control metadata",
+          "description": "A control study without botanical experiments.",
+          "publicReleaseDate": "20-MAR-2024",
+          "comments": [],
+          "factors": [],
+          "publications": []
+        }
+      ],
+      "additionalInformation": {
+        "organisms": {"links": {"Mus musculus": "Mus musculus"}},
+        "assays": {}
+      }
+    }
+  }
+}

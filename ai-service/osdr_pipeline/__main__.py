@@ -2,6 +2,7 @@ import argparse
 
 from . import fetch, index, label, parse, report
 
+
 def main() -> None:
     ap = argparse.ArgumentParser(prog="osdr_pipeline", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)

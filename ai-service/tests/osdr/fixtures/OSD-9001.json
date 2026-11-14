@@ -1,0 +1,25 @@
+{
+  "study": {
+    "OSD-9001": {
+      "version": 2,
+      "studies": [
+        {
+          "title": "Muscle and bone responses to microgravity",
+          "description": "A spaceflight study of muscle, bone, and altered gravity.",
+          "publicReleaseDate": "01-JAN-2024",
+          "comments": [
+            {"name": "Project Type", "value": "Spaceflight"},
+            {"name": "Mission Start", "value": "01/01/2024"},
+            {"name": "Mission End", "value": "02/03/2024"}
+          ],
+          "factors": [{"factorName": "microgravity"}],
+          "publications": [{"title": "Spaceflight muscle study", "doi": "10.0000/example"}]
+        }
+      ],
+      "additionalInformation": {
+        "organisms": {"links": {"Mus musculus": "<a>Mus musculus</a>"}},
+        "assays": {"x_y_transcription-profiling_rna-sequencing-(rna-seq)": {}}
+      }
+    }
+  }
+}

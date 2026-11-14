@@ -11,6 +11,7 @@ import pandas as pd
 from .config import raw_dir
 from .tables import save_table
 
+
 def _clean(v):
     if v is None:
         return pd.NA
@@ -36,10 +37,32 @@ def _org_text(v, fallback: str) -> str:
     return s or fallback
 
 def organisms_of(block: dict) -> list[str]:
+    organisms = set()
     links = (((block.get("additionalInformation") or {}).get("organisms") or {}).get("links")) or {}
-    return sorted({_org_text(v, k) for k, v in links.items()})
+    organisms.update(_org_text(v, k) for k, v in links.items())
+    study = (block.get("studies") or [{}])[0] or {}
+    samples = ((study.get("materials") or {}).get("samples")) or []
+    for sample in samples:
+        for characteristic in sample.get("characteristics") or []:
+            value = characteristic.get("value") if isinstance(characteristic, dict) else None
+            if not isinstance(value, dict):
+                continue
+            accession = str(value.get("termAccession") or "")
+            if value.get("termSource") == "NCBITAXON" or "NCBITAXON" in accession.upper():
+                name = _clean(value.get("annotationValue"))
+                if pd.notna(name):
+                    organisms.add(str(name))
+    return sorted(organisms)
 
-def assay_parts(key: str) -> tuple[str, str]:
+def assay_parts(key: str | dict) -> tuple[str, str]:
+    if isinstance(key, dict):
+        measurement = key.get("measurementType") or {}
+        technology = key.get("technologyType") or {}
+        if isinstance(measurement, dict):
+            measurement = measurement.get("annotationValue") or measurement.get("@id") or ""
+        if isinstance(technology, dict):
+            technology = technology.get("annotationValue") or technology.get("@id") or ""
+        return str(measurement).strip(), str(technology or key.get("technologyPlatform") or "").strip()
     parts = key.split("_")
     measurement = parts[2] if len(parts) > 2 else ""
     tech = parts[3] if len(parts) > 3 else ""
@@ -69,7 +92,14 @@ def parse_one(d: dict):
     s0 = (block.get("studies") or [{}])[0] or {}
     c = _comments(s0.get("comments"))
     orgs = organisms_of(block)
-    assays = [assay_parts(k) for k in (((block.get("additionalInformation") or {}).get("assays")) or {})]
+    assay_data = s0.get("assays")
+    if isinstance(assay_data, list):
+        assays = [assay_parts(item) for item in assay_data if isinstance(item, dict)]
+    else:
+        assays = [
+            assay_parts(k)
+            for k in (((block.get("additionalInformation") or {}).get("assays")) or {})
+        ]
     facs = factor_names(s0, block)
     pubs = s0.get("publications") or []
     row = {

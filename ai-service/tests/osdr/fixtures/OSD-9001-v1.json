@@ -1,0 +1,21 @@
+{
+  "study": {
+    "OSD-9001": {
+      "version": 1,
+      "studies": [
+        {
+          "title": "Older version",
+          "description": "Older metadata version.",
+          "publicReleaseDate": "01-JAN-2023",
+          "comments": [],
+          "factors": [],
+          "publications": []
+        }
+      ],
+      "additionalInformation": {
+        "organisms": {"links": {}},
+        "assays": {}
+      }
+    }
+  }
+}

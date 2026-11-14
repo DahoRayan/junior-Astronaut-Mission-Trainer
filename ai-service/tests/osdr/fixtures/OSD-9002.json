@@ -1,0 +1,25 @@
+{
+  "study": {
+    "OSD-9002": {
+      "version": 1,
+      "studies": [
+        {
+          "title": "Radiation and liver metabolism",
+          "description": "Ground radiation exposure and shielding study.",
+          "publicReleaseDate": "15-FEB-2024",
+          "comments": [
+            {"name": "Project Type", "value": "Ground radiation"},
+            {"name": "Mission Start", "value": "01/10/2024"},
+            {"name": "Mission End", "value": "01/01/2024"}
+          ],
+          "factors": [{"factorName": "shielding"}],
+          "publications": []
+        }
+      ],
+      "additionalInformation": {
+        "organisms": {"links": {"Rattus norvegicus": "<span>Rattus norvegicus</span>"}},
+        "assays": {}
+      }
+    }
+  }
+}

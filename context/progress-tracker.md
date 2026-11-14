@@ -12,9 +12,11 @@ Update after every meaningful change (only your own unit/row).
 - Unit 01 implemented (v1 contract mocks); verification pending
 - Unit 02 contract v2 migration (mocks)
 - Unit 03 deterministic evaluator
+- Unit 04b OSDR metadata pipeline implemented; 424-study partial corpus generated
 
 ## In Progress
-- None
+- Unit 04b OSDR corpus is partial because the rate-limited full fetch was stopped;
+  taxonomy review is pending human approval.
 
 ## Open Questions
 - Names of the 3 perspectives and number of scenes each (game devs)
@@ -37,6 +39,7 @@ Update after every meaningful change (only your own unit/row).
 | 01 skeleton + mocks (v1) | Ibrahim | feat/ai-01-skeleton | in verification |
 | 02 contract v2 migration | Ibrahim | feat/ai-02-contract-v2 | completed |
 | 03 deterministic evaluator | Ibrahim | feat/ai-03-deterministic-evaluator | completed |
+| 04b OSDR metadata pipeline | Ibrahim | feat/ai-04b-osdr-pipeline | partial corpus; review pending |
 | 04 NASA data layer | TBD | | not started |
 | 05 expert system | TBD | | not started |
 | 06 story validator | TBD | | not started |

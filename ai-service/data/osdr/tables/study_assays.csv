@@ -1,0 +1,549 @@
+osd_id,measurement_type,technology
+OSD-1,transcription profiling,DNA microarray
+OSD-100,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-100,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-101,RNA methylation profiling,Whole Transcriptome Bisulfite Sequencing
+OSD-101,protein expression profiling,mass spectrometry
+OSD-101,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-101,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-102,protein expression profiling,mass spectrometry
+OSD-102,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-102,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-102,RNA methylation profiling,Whole Transcriptome Bisulfite Sequencing
+OSD-103,protein expression profiling,mass spectrometry
+OSD-103,RNA methylation profiling,Whole Transcriptome Bisulfite Sequencing
+OSD-103,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-103,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-104,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-104,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-105,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-105,protein expression profiling,mass spectrometry
+OSD-105,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-105,RNA methylation profiling,Whole Transcriptome Bisulfite Sequencing
+OSD-106,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-107,transcription profiling,DNA microarray
+OSD-108,metabolite profiling,mass spectrometry
+OSD-109,transcription profiling,DNA microarray
+OSD-11,transcription profiling,DNA microarray
+OSD-110,protein expression profiling,gel electrophoresis
+OSD-110,protein identification,mass spectrometry
+OSD-111,transcription profiling,DNA microarray
+OSD-112,transcription profiling,DNA microarray
+OSD-113,transcription profiling,DNA microarray
+OSD-114,transcription profiling,DNA microarray
+OSD-115,transcription profiling,DNA microarray
+OSD-116,metabolite profiling,mass spectrometry
+OSD-116,transcription profiling,real time PCR
+OSD-117,transcription profiling,DNA microarray
+OSD-118,transcription profiling,DNA microarray
+OSD-118,transcription profiling,DNA microarray
+OSD-119,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-12,Transcription Profiling,DNA Microarray
+OSD-120,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-120,Image Analysis,Photography
+OSD-121,transcription profiling,DNA microarray
+OSD-121,Morphometric analysis,Image analysis
+OSD-121,Glycomic Profile,ELISA
+OSD-122,protein expression profiling,mass spectrometry
+OSD-123,transcription profiling,DNA microarray
+OSD-124,transcription profiling,DNA microarray
+OSD-125,transcription profiling,DNA microarray
+OSD-126,Amplicon Sequencing,16S
+OSD-127,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-128,transcription profiling,miRNA Microarray
+OSD-129,transcription profiling,DNA microarray
+OSD-13,transcription profiling,DNA microarray
+OSD-130,transcription profiling,DNA microarray
+OSD-131,transcription profiling,DNA microarray
+OSD-132,genome sequencing,nucleotide sequencing
+OSD-133,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-134,transcription profiling,DNA microarray
+OSD-135,transcription profiling,DNA microarray
+OSD-136,transcription profiling,DNA microarray
+OSD-137,protein expression profiling,mass spectrometry
+OSD-137,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-137,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-137,Molecular Cellular Imaging,Microscopy
+OSD-138,protein expression profiling,mass spectrometry
+OSD-138,metabolite profiling,mass spectrometry
+OSD-138,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-138,metabolite profiling,mass spectrometry
+OSD-139,protein expression profiling,mass spectrometry
+OSD-14,transcription profiling,DNA microarray
+OSD-140,DNA methylation profiling,DNA microarray
+OSD-141,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-144,transcription profiling,DNA microarray
+OSD-145,protein expression profiling,mass spectrometry
+OSD-145,metabolite profiling,mass spectrometry
+OSD-145,metabolite profiling,mass spectrometry
+OSD-145,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-146,Amplicon Sequencing,16S
+OSD-147,transcription profiling,DNA microarray
+OSD-148,transcription profiling,DNA microarray
+OSD-149,transcription profiling,DNA microarray
+OSD-15,transcription profiling,DNA microarray
+OSD-151,transcription profiling,DNA microarray
+OSD-152,transcription profiling,DNA microarray
+OSD-153,transcription profiling,DNA microarray
+OSD-154,transcription profiling,DNA microarray
+OSD-155,transcription profiling,DNA microarray
+OSD-156,transcription profiling,DNA microarray
+OSD-157,transcription profiling,DNA microarray
+OSD-158,transcription profiling,DNA microarray
+OSD-159,transcription profiling,DNA microarray
+OSD-16,protein expression profiling,mass spectrometry
+OSD-160,transcription profiling,DNA microarray
+OSD-161,protein expression profiling,mass spectrometry
+OSD-161,DNA methylation profiling,nucleotide sequencing
+OSD-161,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-162,protein expression profiling,mass spectrometry
+OSD-162,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-163,protein expression profiling,mass spectrometry
+OSD-163,DNA methylation profiling,nucleotide sequencing
+OSD-163,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-164,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-168,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-17,transcription profiling,DNA microarray
+OSD-170,Amplicon Sequencing,16S
+OSD-172,transcription profiling,DNA microarray
+OSD-173,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-174,transcription profiling,DNA microarray
+OSD-175,transcription profiling,DNA microarray
+OSD-176,transcription profiling,DNA microarray
+OSD-177,genome sequencing,nucleotide sequencing
+OSD-178,transcription profiling,DNA microarray
+OSD-18,transcription profiling,DNA microarray
+OSD-182,transcription profiling,DNA microarray
+OSD-183,transcription profiling,DNA microarray
+OSD-185,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-188,transcription profiling,DNA microarray
+OSD-189,transcription profiling,DNA microarray
+OSD-19,transcription profiling,DNA microarray
+OSD-190,transcription profiling,DNA microarray
+OSD-191,Amplicon Sequencing,16S
+OSD-192,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-193,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-194,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-195,transcription profiling,DNA microarray
+OSD-198,transcription profiling,miRNA Microarray
+OSD-199,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-2,transcription profiling,DNA microarray
+OSD-20,transcription profiling,DNA microarray
+OSD-200,Amplicon Sequencing,16S and ITS
+OSD-201,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-202,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-202,transcription profiling,DNA microarray
+OSD-202,DNA methylation profiling,Reduced-Representation Bisulfite Sequencing
+OSD-203,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-203,DNA methylation profiling,Reduced-Representation Bisulfite Sequencing
+OSD-205,transcription profiling,DNA microarray
+OSD-207,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-207,protein expression profiling,mass spectrometry
+OSD-208,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-208,transcription profiling,DNA microarray
+OSD-209,protein expression profiling,mass spectrometry
+OSD-21,transcription profiling,DNA microarray
+OSD-210,genome sequencing,nucleotide sequencing
+OSD-211,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-212,Amplicon Sequencing,16S
+OSD-214,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-215,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-216,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-217,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-217,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-218,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-219,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-22,transcription profiling,DNA microarray
+OSD-222,transcription profiling,DNA microarray
+OSD-223,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-224,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-225,transcription profiling,DNA microarray
+OSD-227,transcription profiling,DNA microarray
+OSD-228,transcription profiling,DNA microarray
+OSD-232,transcription profiling,microarray
+OSD-233,genome sequencing,nucleotide sequencing
+OSD-235,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-25,transcription profiling,DNA microarray
+OSD-258,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-259,protein expression profiling,mass spectrometry
+OSD-26,Amplicon Sequencing,16S
+OSD-26,Amplicon Sequencing,ITS
+OSD-260,protein expression profiling,mass spectrometry
+OSD-261,protein expression profiling,mass spectrometry
+OSD-262,genome sequencing,nucleotide sequencing
+OSD-263,genome sequencing,nucleotide sequencing
+OSD-264,genome sequencing,nucleotide sequencing
+OSD-265,genome sequencing,nucleotide sequencing
+OSD-266,transcription profiling,DNA microarray
+OSD-267,Amplicon Sequencing,ITS
+OSD-267,Amplicon Sequencing,16S
+OSD-268,Amplicon Sequencing,ITS
+OSD-268,Amplicon Sequencing,16S
+OSD-269,Amplicon Sequencing,16S
+OSD-27,transcription profiling,DNA microarray
+OSD-270,transcription profiling,spatial transcriptomics
+OSD-270,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-271,transcription profiling,DNA microarray
+OSD-272,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-273,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-274,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-275,DNA methylation profiling,DNA microarray
+OSD-276,Amplicon Sequencing,16S
+OSD-277,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-278,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-279,Amplicon Sequencing,16S
+OSD-28,transcription profiling,DNA microarray
+OSD-280,Amplicon Sequencing,16S
+OSD-281,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-282,transcription profiling,DNA microarray
+OSD-283,transcription profiling,DNA microarray
+OSD-285,transcription profiling,DNA microarray
+OSD-286,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-287,Targeted Transcriptome Sequencing,RNA Sequencing (RNA-Seq)
+OSD-288,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-289,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-29,transcription profiling,DNA microarray
+OSD-290,genome sequencing,nucleotide sequencing
+OSD-291,genome sequencing,nucleotide sequencing
+OSD-293,genome sequencing,nucleotide sequencing
+OSD-294,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-295,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-296,transcription profiling,DNA microarray
+OSD-297,transcription profiling,DNA microarray
+OSD-298,genome sequencing,nucleotide sequencing
+OSD-299,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-3,transcription profiling,DNA microarray
+OSD-30,transcription profiling,DNA microarray
+OSD-300,genome sequencing,nucleotide sequencing
+OSD-301,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-302,genome sequencing,nucleotide sequencing
+OSD-303,genome sequencing,nucleotide sequencing
+OSD-304,transcription profiling,DNA microarray
+OSD-305,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-306,genome sequencing,nucleotide sequencing
+OSD-307,metatranscriptome sequencing assay,RNA Sequencing (RNA-Seq)
+OSD-309,genome sequencing,nucleotide sequencing
+OSD-31,transcription profiling,DNA microarray
+OSD-310,Histological Assay,Histomorphometry
+OSD-311,genome sequencing,nucleotide sequencing
+OSD-313,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-314,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-315,protein expression profiling,mass spectrometry
+OSD-316,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-317,DNA methylation profiling,microarray
+OSD-318,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-319,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-32,transcription profiling,DNA microarray
+OSD-320,transcription profiling,DNA microarray
+OSD-321,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-322,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-323,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-324,transcription profiling,DNA microarray
+OSD-326,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-329,transcription profiling,DNA microarray
+OSD-33,transcription profiling,DNA microarray
+OSD-331,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-334,transcription profiling,miRNA Sequencing
+OSD-335,transcription profiling,miRNA Sequencing
+OSD-336,transcription profiling,miRNA Sequencing
+OSD-337,transcription profiling,miRNA Sequencing
+OSD-34,transcription profiling,DNA microarray
+OSD-340,genome sequencing,nucleotide sequencing
+OSD-342,protein expression profiling,protein microarray
+OSD-343,metabolite profiling,mass spectrometry
+OSD-344,transcription profiling,real time PCR
+OSD-344,transcription profiling,real time PCR
+OSD-345,protein expression profiling,mass spectrometry
+OSD-346,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-347,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-35,transcription profiling,DNA microarray
+OSD-350,genome sequencing,nucleotide sequencing
+OSD-351,Bone Microstructure,Micro-Computed Tomography
+OSD-352,transcription profiling,spatial transcriptomics
+OSD-352,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-352,transcription profiling,single-cell RNA sequencing
+OSD-352,Chromatin Accessibility,single-cell ATAC-seq
+OSD-353,protein expression profiling,mass spectrometry
+OSD-354,transcription profiling,microarray
+OSD-356,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-358,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-359,protein expression profiling,mass spectrometry
+OSD-36,transcription profiling,DNA microarray
+OSD-360,metabolite profiling,mass spectrometry
+OSD-361,genome sequencing,nucleotide sequencing
+OSD-362,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-363,transcription profiling,real time PCR
+OSD-363,transcription profiling,real time PCR
+OSD-364,transcription profiling,real time PCR
+OSD-364,transcription profiling,real time PCR
+OSD-366,Genome-Wide Association Study,Genome-Wide Association Study
+OSD-366,Molecular Cellular Imaging,Immunostaining
+OSD-367,transcription profiling,DNA microarray
+OSD-368,transcription profiling,DNA microarray
+OSD-369,transcription profiling,DNA microarray
+OSD-37,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-370,transcription profiling,DNA microarray
+OSD-372,genome sequencing,nucleotide sequencing
+OSD-374,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-374,DNA methylation profiling,DIP-seq
+OSD-375,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-379,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-38,protein expression profiling,mass spectrometry
+OSD-38,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-383,genome sequencing,nucleotide sequencing
+OSD-385,Amplicon Sequencing,16S
+OSD-386,Amplicon Sequencing,16S
+OSD-39,transcription profiling,DNA microarray
+OSD-391,genome sequencing,nucleotide sequencing
+OSD-396,transcription profiling,DNA microarray
+OSD-397,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-397,DNA methylation profiling,Reduced-Representation Bisulfite Sequencing
+OSD-4,transcription profiling,DNA microarray
+OSD-40,transcription profiling,DNA microarray
+OSD-400,genome sequencing,nucleotide sequencing
+OSD-401,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-402,transcription profiling,single-cell RNA Sequencing
+OSD-403,transcription profiling,single-cell RNA Sequencing
+OSD-404,transcription profiling,single-cell RNA Sequencing
+OSD-405,transcription profiling,single-cell RNA Sequencing
+OSD-406,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-41,transcription profiling,DNA microarray
+OSD-410,transcription profiling,DNA microarray
+OSD-411,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-412,Amplicon Sequencing,16S
+OSD-413,amplicon sequencing,16S
+OSD-414,Amplicon Sequencing,16S
+OSD-416,DNA methylation profiling,Bisulfite sequencing
+OSD-417,Amplicon Sequencing,16S
+OSD-417,Amplicon Sequencing,16S
+OSD-417,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-417,metabolite profiling,mass spectrometry
+OSD-418,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-419,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-42,transcription profiling,DNA microarray
+OSD-420,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-421,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-422,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-423,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-425,transcription profiling,DNA microarray
+OSD-426,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-426,transcription profiling,miRNA Sequencing
+OSD-427,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-428,transcription profiling,DNA microarray
+OSD-43,transcription profiling,DNA microarray
+OSD-430,transcription profiling,DNA microarray
+OSD-431,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-432,transcription profiling,DNA microarray
+OSD-434,transcription profiling,DNA microarray
+OSD-435,Echocardiogram,Ultrasonography
+OSD-435,Echocardiogram,Ultrasonography
+OSD-436,transcription profiling,DNA microarray
+OSD-437,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-44,transcription profiling,DNA microarray
+OSD-45,transcription profiling,DNA microarray
+OSD-450,transcription profiling,DNA microarray
+OSD-452,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-455,transcription profiling,DNA microarray
+OSD-457,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-46,transcription profiling,DNA microarray
+OSD-462,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-462,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-462,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-462,protein expression profiling,mass spectrometry
+OSD-462,phosphoprotein profiling,mass spectrometry
+OSD-463,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-464,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-465,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-466,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-467,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-47,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-47,protein expression profiling,mass spectrometry
+OSD-47,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-47,Molecular Cellular Imaging,Microscopy
+OSD-470,genome sequencing,nucleotide sequencing
+OSD-471,Bone Microstructure,Micro-Computed Tomography
+OSD-476,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-476,Morphometric analysis,Image analysis
+OSD-477,Bone biomechanical measurement,Bone biomechanical measurement
+OSD-477,Bone Microstructure,Micro-Computed Tomography
+OSD-477,Histological Assay,Histomorphometry
+OSD-478,Behavior,Gait
+OSD-479,Behavior,Elevated Plus Maze
+OSD-479,Behavior,Novel Object Recognition
+OSD-479,Behavior,Open Field
+OSD-479,Behavior,RAWM
+OSD-479,Behavior,Three Chamber Social Isolation
+OSD-48,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-48,protein expression profiling,mass spectrometry
+OSD-48,Molecular Cellular Imaging,Microscopy
+OSD-48,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-48,RNA methylation profiling,Whole Transcriptome Bisulfite Sequencing
+OSD-480,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-481,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-483,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-484,transcription profiling,DNA microarray
+OSD-485,transcription profiling,DNA microarray
+OSD-486,Bone Microstructure,Micro-Computed Tomography
+OSD-487,Amplicon Sequencing,16S
+OSD-488,Calcium Uptake,Spectrofluorimetric Assay
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-488,protein quantification,Western Blot
+OSD-489,Bone Microstructure,Micro-Computed Tomography
+OSD-49,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-49,protein expression profiling,mass spectrometry
+OSD-49,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-490,Behavior,Elevated Plus Maze
+OSD-492,Behavior,Novel Object Recognition
+OSD-496,protein-DNA binding site identification,ChIP-seq
+OSD-497,genome sequencing,nucleotide sequencing
+OSD-498,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-5,transcription profiling,DNA microarray
+OSD-50,transcription profiling,DNA microarray
+OSD-500,protein expression profiling,mass spectrometry
+OSD-502,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-505,protein expression profiling,mass spectrometry
+OSD-506,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-508,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-509,Targeted Genome Sequencing,long read DNA Sequencing
+OSD-510,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-511,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-512,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-513,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-514,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-514,protein expression profiling,mass spectrometry
+OSD-515,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-516,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-518,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-519,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-52,transcription profiling,DNA microarray
+OSD-520,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-522,protein expression profiling,mass spectrometry
+OSD-522,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-524,DNA methylation profiling,Bisulfite sequencing
+OSD-525,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-528,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-53,transcription profiling,DNA microarray
+OSD-530,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-530,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-531,transcription profiling,DNA microarray
+OSD-532,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-536,transcription profiling,DNA microarray
+OSD-539,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-54,transcription profiling,DNA microarray
+OSD-540,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-541,transcription profiling,real time PCR
+OSD-542,transcription profiling,DNA microarray
+OSD-546,transcription profiling,DNA microarray
+OSD-548,transcription profiling,DNA microarray
+OSD-55,transcription profiling,miRNA Microarray
+OSD-554,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-557,Bone Microstructure,Micro-Computed Tomography
+OSD-557,Histological Assay,Light Microscopy
+OSD-557,Molecular Cellular Imaging,Immunostaining
+OSD-557,Molecular Cellular Imaging,Immunostaining
+OSD-56,transcription profiling,DNA microarray
+OSD-561,transcription profiling,spatial transcriptomics
+OSD-561,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-562,transcription profiling,spatial transcriptomics
+OSD-562,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-563,transcription profiling,spatial transcriptomics
+OSD-563,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-564,transcription profiling,spatial transcriptomics
+OSD-564,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-565,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-566,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-568,Molecular Cellular Imaging,Microscopy
+OSD-568,Molecular Cellular Imaging,Microscopy
+OSD-568,Molecular Cellular Imaging,Microscopy
+OSD-569,Complete Blood Count,Hematology Analyzer
+OSD-569,transcription profiling,long read RNA Sequencing
+OSD-569,genome sequencing,nucleotide sequencing
+OSD-569,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-569,Targeted Genome Sequencing,nucleotide sequencing
+OSD-57,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-570,transcription profiling,single-cell RNA sequencing
+OSD-570,Chromatin Accessibility,single-cell ATAC-seq
+OSD-570,transcription profiling,single-cell RNA sequencing
+OSD-570,transcription profiling,single-cell RNA sequencing
+OSD-571,protein expression profiling,mass spectrometry
+OSD-571,protein expression profiling,mass spectrometry
+OSD-571,metabolite profiling,mass spectrometry
+OSD-571,genome sequencing,nucleotide sequencing
+OSD-571,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-572,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-572,metatranscriptome sequencing assay,RNA Sequencing (RNA-Seq)
+OSD-573,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-573,metatranscriptome sequencing assay,RNA Sequencing (RNA-Seq)
+OSD-574,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-574,transcription profiling,spatial transcriptomics
+OSD-574,metatranscriptome sequencing assay,RNA Sequencing (RNA-Seq)
+OSD-575,Immunoassay,Multiplex
+OSD-575,Immunoassay,Multiplex
+OSD-575,Immunoassay,Multiplex
+OSD-575,Analytical Chemistry,Comprehensive Metabolic Panel
+OSD-576,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-577,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-58,Deletion Pool Profiling,Nucleotide Sequencing
+OSD-580,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-581,protein expression profiling,mass spectrometry
+OSD-582,genome sequencing,nucleotide sequencing
+OSD-583,Intraocular Pressure,Tonometry
+OSD-588,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-59,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-6,transcription profiling,DNA microarray
+OSD-60,transcription profiling,DNA microarray
+OSD-61,transcription profiling,DNA microarray
+OSD-62,transcription profiling,DNA microarray
+OSD-63,transcription profiling,DNA microarray
+OSD-64,genome sequencing,nucleotide sequencing
+OSD-65,Amplicon Sequencing,ITS
+OSD-65,Amplicon Sequencing,16S
+OSD-66,Amplicon Sequencing,OTHERS
+OSD-67,genome sequencing,nucleotide sequencing
+OSD-68,genome sequencing,nucleotide sequencing
+OSD-69,Metagenomic sequencing,Whole-Genome Shotgun Sequencing
+OSD-7,transcription profiling,DNA microarray
+OSD-70,transcription profiling,DNA microarray
+OSD-71,transcription profiling,DNA microarray
+OSD-72,Amplicon Sequencing,16S
+OSD-73,transcription profiling,DNA microarray
+OSD-74,transcription profiling,DNA microarray
+OSD-75,transcription profiling,miRNA Microarray
+OSD-76,transcription profiling,DNA microarray
+OSD-78,transcription profiling,DNA microarray
+OSD-79,transcription profiling,DNA microarray
+OSD-8,transcription profiling,DNA microarray
+OSD-80,transcription profiling,DNA microarray
+OSD-81,transcription profiling,DNA microarray
+OSD-82,Amplicon Sequencing,16S
+OSD-83,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-84,genome sequencing,nucleotide sequencing
+OSD-84,genome sequencing,nucleotide sequencing
+OSD-84,genome sequencing,nucleotide sequencing
+OSD-85,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-86,DNA methylation profiling,DIP-Seq
+OSD-87,transcription profiling,DNA microarray
+OSD-88,transcription profiling,DNA microarray
+OSD-89,transcription profiling,DNA microarray
+OSD-9,transcription profiling,DNA microarray
+OSD-90,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-91,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-92,transcription profiling,DNA microarray
+OSD-93,transcription profiling,DNA microarray
+OSD-94,copy number variation profiling,DNA microarray
+OSD-95,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-96,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-97,transcription profiling,DNA microarray
+OSD-98,protein expression profiling,mass spectrometry
+OSD-98,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-98,transcription profiling,RNA Sequencing (RNA-Seq)
+OSD-99,DNA methylation profiling,Whole Genome Bisulfite Sequencing
+OSD-99,transcription profiling,RNA Sequencing (RNA-Seq)

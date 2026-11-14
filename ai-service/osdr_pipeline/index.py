@@ -4,8 +4,9 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from .config import ROOT, data_dir
+from .config import ROOT
 from .tables import load_table
+
 
 def build_topic_index(out_path=None, examples: int = 5) -> dict:
     df = load_table("studies_labeled")

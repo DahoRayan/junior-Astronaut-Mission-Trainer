@@ -1,9 +1,9 @@
 """Data-quality + simple statistics report (data-scientist checklist), written to data/osdr/reports/."""
-import numpy as np
 import pandas as pd
 
 from .config import ensure, reports_dir
 from .tables import load_table
+
 
 def _iqr_bounds(s: pd.Series):
     q1, q3 = s.quantile(0.25), s.quantile(0.75)
