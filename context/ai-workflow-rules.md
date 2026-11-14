@@ -5,8 +5,8 @@ Spec-driven and incremental. Context files define what and how; implement agains
 Do not invent behavior. Hackathon time is short: smallest working version first, then improve.
 
 ## Repo and Git
-- One monorepo. Branches: `feat/ai-NN-name` (AI service), `feat/game-NN-name` (Unity).
-- Never commit `.env`. Unity: use Git LFS for large assets and the standard Unity `.gitignore`.
+- One monorepo. Branches: `feat/ai-NN-name` (AI service), `feat/game-NN-name` (Web Game).
+- Never commit `.env`. Web Game: ignore `node_modules/`, `dist/`, and local build caches.
 - Merge `api-contract.md` changes before code that depends on them.
 
 ## Scoping Rules
@@ -14,7 +14,7 @@ Do not invent behavior. Hackathon time is short: smallest working version first,
 - Do not combine: contract changes + implementation; evaluator logic + LLM prompts; NASA client + routers.
 
 ## Mocks First
-Unit 01 ships the full contract with mock responses so Unity can integrate immediately.
+Unit 01 ships the full contract with mock responses so the web game client can integrate immediately.
 Real logic replaces mocks behind the same schemas.
 
 ## Handling Missing Requirements

@@ -1,1 +1,22 @@
+# Local plans
 local_plan/
+
+# Python / AI Service
+__pycache__/
+*.py[cod]
+*$py.class
+ai-service/.venv/
+ai-service/.pytest_cache/
+ai-service/.env
+
+# Web Game Client
+game/node_modules/
+game/dist/
+game/.vite/
+*.local
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

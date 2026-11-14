@@ -3,7 +3,7 @@
 ## Stack
 | Layer | Technology | Role |
 |---|---|---|
-| Game Client | 2D Engine (Unity 2D / WebGL) | Authoritative simulation, 2D pixel-art viewport, UI frames, sound |
+| Game Client | Web Application (TypeScript 5+, Vite, HTML5 Canvas 2D + DOM/CSS HUD) | Authoritative simulation, 2D pixel-art viewport, UI frames, sound |
 | AI Service | Python 3.11+, FastAPI, Pydantic v2 | HTTP API for M.I.L.O. advisor, DONKI weather, and deterministic evaluators |
 | LLM Provider | OpenAI / Gemini / Groq (optional) | M.I.L.O. dialogue narration; offline fallback bundled locally |
 | NASA & CSA Data | Curated fixtures & httpx client | DONKI space weather, RadLab dosimetry, OSDR biology, CSA hydroponics |
@@ -47,7 +47,7 @@ The game client architecture is explicitly organized into three independent engi
    - Communicates with the Python `ai-service/` via HTTP REST with strict $\le 3\text{ s}$ timeouts and automatic offline fallbacks.
 
 ## System Boundaries
-- `game/` — Game client project. Owns simulation, viewport rendering, audio, and all UI.
+- `game/` — Web game client project (TypeScript + Vite). Owns simulation, viewport rendering, audio, and all UI.
 - `ai-service/` — FastAPI service (owned by Ibrahim).
   - `app/routers/` HTTP endpoint handlers.
   - `app/schemas/` Pydantic v2 contract models.

@@ -26,13 +26,14 @@ A decoupled Python FastAPI service (`ai-service/`) provides an intelligent Missi
 7. **Epilogue & Sandbox Mode**: Graduation ceremony, post-credits Mars mission teaser, unlockable creative sandbox mode.
 
 ## Features & Ownership
-### Game Client (`game/` — Game Team)
-- 2D top-down pixel-art viewport with free camera pan/zoom and recenter controls.
+### Game Client (`game/` — Game Team, Web Application: TypeScript + Vite + HTML5 Canvas & DOM HUD)
+- 2D top-down pixel-art viewport with free camera pan/zoom and recenter controls on HTML5 Canvas.
 - Three decoupled client engines:
   - **Narrative Manager**: Dialogue UI, character portraits (Elena, Amir, Nia, Daniel, M.I.L.O.), chapter scripts, ambient banter.
   - **Simulation Engine**: Grid tilemap, building placement, cable/pipe networks, continuous rate calculations (kW, kg/h, L).
   - **Mission Manager**: Objectives, failure diagnostics, chapter progression, offline fallback engine.
 - Responsive HUD layout: Top bar (resources/time), Left panel (structure catalog), Right panel (M.I.L.O. chat & radar), Bottom bar (speed/controls).
+- 100% playable directly in modern web browsers (Chrome, Edge, Firefox, Safari) with zero installation.
 
 ### AI Service (`ai-service/` — Ibrahim)
 - `/v1/health`: Service health and provider status.

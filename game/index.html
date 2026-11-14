@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond Earth: First Light — Junior Astronaut Mission Trainer</title>
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app-container">
+    <!-- TOP BAR: NASA Mission Header & Telemetry Bars -->
+    <header id="top-bar">
+      <div class="logo-group">
+        <span class="nasa-insignia">NASA ARTEMIS</span>
+        <h1 class="mission-title">BEYOND EARTH: FIRST LIGHT</h1>
+      </div>
+
+      <!-- Perimeter Telemetry Resource Bars -->
+      <div id="perimeter-hud">
+        <div class="telemetry-chip" title="Base Electric Power Grid">
+          <span class="chip-icon">⚡</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">POWER</span>
+              <span class="chip-val" id="hud-val-power">0 kW / 0 kW</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-power" class="hud-bar-fill normal" style="width: 50%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-chip" title="Atmospheric Oxygen Supply">
+          <span class="chip-icon">🫁</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">OXYGEN</span>
+              <span class="chip-val" id="hud-val-oxygen">100 kg</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-oxygen" class="hud-bar-fill normal" style="width: 66%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-chip" title="Water Reserves & Recycling">
+          <span class="chip-icon">💧</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">WATER</span>
+              <span class="chip-val" id="hud-val-water">100 L</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-water" class="hud-bar-fill normal" style="width: 66%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-chip" title="Cosmic Ray & Solar Proton Shielding">
+          <span class="chip-icon">🛡️</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">SHIELD</span>
+              <span class="chip-val" id="hud-val-shield">20%</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-shield" class="hud-bar-fill warning" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-chip" title="Astronaut Health Vitals">
+          <span class="chip-icon">🧑‍🚀</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">CREW HP</span>
+              <span class="chip-val" id="hud-val-health">100%</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-health" class="hud-bar-fill normal" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-chip" title="Crew Morale & Cohesion">
+          <span class="chip-icon">😊</span>
+          <div class="chip-content">
+            <div class="chip-meta">
+              <span class="chip-title">MORALE</span>
+              <span class="chip-val" id="hud-val-morale">95%</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-bar-morale" class="hud-bar-fill normal" style="width: 95%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mission-clock">
+        <span class="sol-badge" id="hud-sol-val">Sol 1</span>
+        <span class="time-badge" id="hud-time-val">06:00</span>
+        <span class="mat-badge">🧱 <span id="hud-materials-val">250</span> Mat</span>
+      </div>
+    </header>
+
+    <!-- MAIN INTERACTION AREA -->
+    <main id="main-content">
+      <!-- LEFT PANEL: Structure Catalog & Tools -->
+      <aside id="left-panel">
+        <div class="panel-header">
+          <h3>MODULE CATALOG</h3>
+        </div>
+        <div id="catalog-content">
+          <!-- Dynamically populated by CatalogPanel.ts -->
+        </div>
+        <div class="catalog-tools">
+          <button id="btn-demolish" class="tool-btn demolish">⚠️ Demolish Module</button>
+        </div>
+      </aside>
+
+      <!-- CENTRAL VIEWPORT: 2D Pixel-art Lunar Grid -->
+      <section id="viewport-container">
+        <canvas id="game-canvas"></canvas>
+
+        <div id="viewport-overlay-controls">
+          <button id="btn-recenter" class="overlay-btn" title="Recenter Camera (Key: R)">🎯 Recenter</button>
+          <div class="overlay-hints">WASD / Drag to Pan | Scroll to Zoom</div>
+        </div>
+
+        <div id="notification-toast" class="notification-toast hidden"></div>
+      </section>
+
+      <!-- RIGHT PANEL: M.I.L.O. Terminal & Radar HUD -->
+      <aside id="right-panel">
+        <!-- Space Weather Radar HUD -->
+        <div class="sub-panel radar-hud">
+          <div class="panel-header space-between">
+            <h3>DONKI WEATHER RADAR</h3>
+            <span id="radar-data-badge" class="data-badge live">● LIVE NASA DONKI</span>
+          </div>
+          <div class="radar-body">
+            <div id="radar-risk-level" class="radar-risk low">RISK: LOW</div>
+            <p id="radar-headline" class="radar-text">The Sun is calm today with low solar flare activity.</p>
+          </div>
+        </div>
+
+        <!-- Mission Objectives -->
+        <div class="sub-panel objectives-hud">
+          <div class="panel-header">
+            <h3>ACTIVE OBJECTIVES</h3>
+          </div>
+          <ul id="mission-objectives-list" class="objectives-list">
+            <!-- Populated by MissionManager.ts -->
+          </ul>
+        </div>
+
+        <!-- M.I.L.O. Interactive Terminal -->
+        <div class="sub-panel milo-hud">
+          <div class="panel-header">
+            <h3>M.I.L.O. AI ADVISOR</h3>
+          </div>
+          <div id="milo-chat-history" class="milo-chat-history">
+            <div class="chat-bubble milo">
+              M.I.L.O. online! Commander, welcome to Shackleton Crater Rim. Check our power cable connection to generate oxygen!
+            </div>
+          </div>
+          <div class="milo-quick-prompts">
+            <button class="milo-quick-btn">Why is oxygen low?</button>
+            <button class="milo-quick-btn">How to prepare for night?</button>
+            <button class="milo-quick-btn">Explain DONKI CME</button>
+          </div>
+          <div class="milo-input-group">
+            <input id="milo-chat-input" type="text" placeholder="Ask M.I.L.O. anything..." maxlength="300" />
+            <button id="milo-chat-submit">Send</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- BOTTOM BAR: Time controls & Mission Log -->
+    <footer id="bottom-bar">
+      <div class="time-controls">
+        <button id="btn-speed-0" class="speed-btn">⏸ Pause</button>
+        <button id="btn-speed-1" class="speed-btn active">▶ 1x</button>
+        <button id="btn-speed-2" class="speed-btn">⏩ 2x</button>
+      </div>
+
+      <div class="status-ticker">
+        <span class="ticker-label">MISSION LOG:</span>
+        <span id="ticker-message">Outpost touchdown complete. Telemetry streaming at 60 FPS.</span>
+      </div>
+
+      <div class="bottom-credits">
+        <span>NASA Space Apps 2026</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- NARRATIVE DIALOGUE MODAL -->
+  <div id="dialogue-modal" class="modal-overlay hidden">
+    <div class="dialogue-card">
+      <div class="dialogue-character">
+        <div id="dialogue-portrait" class="character-portrait">👨‍🚀</div>
+        <div id="dialogue-speaker-name" class="character-name">Capt. Elena Ruiz</div>
+      </div>
+      <div class="dialogue-content">
+        <div id="dialogue-text" class="dialogue-bubble">
+          Touchdown confirmed on Shackleton Crater Rim! Artemis base site secure.
+        </div>
+        <div id="dialogue-options" class="dialogue-options">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-PUNITIVE MISSION DEBRIEF CERTIFICATE MODAL -->
+  <div id="debrief-modal" class="modal-overlay hidden">
+    <div class="debrief-card">
+      <div class="debrief-header">
+        <div class="debrief-title">NASA ARTEMIS MISSION DEBRIEF</div>
+        <div id="debrief-badge" class="debrief-badge">🏅 Artemis Junior Power Specialist</div>
+      </div>
+
+      <div class="debrief-score-container">
+        <div class="score-label">SURVIVABILITY SCORE</div>
+        <div id="debrief-score" class="score-value">95/100</div>
+      </div>
+
+      <p id="debrief-summary" class="debrief-summary">
+        Outstanding work, Commander! You established First Light Outpost and guaranteed life support for the entire crew.
+      </p>
+
+      <div class="debrief-sections">
+        <div class="debrief-col">
+          <h4>MISSION STRENGTHS</h4>
+          <ul id="debrief-strengths" class="debrief-list"></ul>
+        </div>
+        <div class="debrief-col">
+          <h4>SCIENCE LESSONS</h4>
+          <ul id="debrief-lessons" class="debrief-list"></ul>
+        </div>
+      </div>
+
+      <div class="debrief-actions">
+        <button id="debrief-close-btn" class="debrief-btn">Proceed to Next Sol ➜</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

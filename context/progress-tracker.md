@@ -3,10 +3,10 @@
 Update after every meaningful change.
 
 ## Current Phase
-- Foundation Phase: Reconciled documentation, contracts, and integrating Unity Client (`Game/`) for Milestone 1.
+- Web Client Foundation Phase: Reconciled documentation, contracts, and establishing the Web Game Client (`game/`) for Milestone 1.
 
 ## Current Goal
-- Integrate Younes's Unity Perimeter HUD and establish the 2D Grid & Power Foundation.
+- Initialize the TypeScript + Vite Web Game architecture in `game/` with decoupled 3-Manager model, Canvas 2D simulation viewport, Perimeter Resource HUD, and offline-first AI client.
 
 ## Completed
 - Audited entire project codebase against `local_plan/Beyond_Earth_First_Light_Complete_Project_Brief.md` and compiled master blueprint `beyond_earth_milestone_plan.md`.
@@ -17,14 +17,14 @@ Update after every meaningful change.
 - Created `context/story-bible.md` containing full script, character bibles, and dialogue UI guidelines.
 - Built 7 curated NASA/CSA reference fixtures in `resources/` with schemas and extraction audit.
 - Updated `context/api-contract.md` and `contracts/*.json` for grid building evaluation and M.I.L.O. assistant chat.
-- **Unity Perimeter Resource HUD (Ali Younes)**: Screen-surrounding telemetry UI displaying filling bars and numeric percentage values for Power, Hunger, Health, Food, Food Growth, and Radiation (`Game/Assets/Scripts/UI/ResourceBarUI.cs`, `Game/Assets/Scripts/UI/ResourceHUDController.cs`, `Game/Assets/Scripts/Editor/ResourceHUDSetupEditor.cs`).
+- **Client Pivot to Web Game**: Transitioned client architecture from Unity to modern Web Game (TypeScript 5+ / Vite / HTML5 Canvas 2D viewport + DOM HUD overlay) in `game/`.
 
 ## In Progress
-- Merging Younes's `GameDev-Astronaut` branch into `OUAZENE-2026/initial-setup`.
-- Aligning Unity telemetry meters with the 6 physical resources in Beyond Earth: First Light.
+- Bootstrapping the Web Game project foundation in `game/` with Vite, TypeScript, Canvas 2D engine, and Perimeter Resource HUD.
+- Porting perimeter telemetry HUD concepts (Power, Oxygen, Water, Radiation Shield, Crew Health, Morale) into crisp responsive CSS/DOM.
 
 ## Next Up
-- **Milestone 1**: 2D Grid, Free Camera Pan/Zoom, and Cable Power Foundation in Unity (`Game/`).
+- **Milestone 1**: 2D Grid Tilemap, Free Camera Pan/Zoom, Cable Power Network, and Structure Placement on Canvas (`game/`).
 
 ## Master 8-Phase Milestone Roadmap
 - [ ] **Milestone 1**: 2D Grid, Free Camera Pan/Zoom, Structure Placement, and Cable Power Network.
@@ -37,5 +37,5 @@ Update after every meaningful change.
 - [ ] **Milestone 8**: Audio, Accessibility, Offline Verification, and Hackathon Presentation Polish.
 
 ## Architecture & Design Decisions
-1. **Client Engine**: Confirmed **Unity (C#)** in `Game/`.
-2. **AI Boundary**: `ai-service/` is strictly isolated; communication is exclusively via HTTP contracts in `contracts/`.
+1. **Client Engine**: Confirmed **Web Game (TypeScript 5+ / Vite / HTML5 Canvas 2D + DOM HUD)** in `game/`. Hybrid architecture: fast integer-pixel simulation canvas + zero-blur accessible HTML/CSS telemetry & dialogue.
+2. **AI Boundary**: `ai-service/` is strictly isolated; communication is exclusively via HTTP contracts in `contracts/` with <= 3.0s timeout and bundled offline fallbacks.

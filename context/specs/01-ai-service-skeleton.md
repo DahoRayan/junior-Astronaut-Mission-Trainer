@@ -2,7 +2,7 @@
 
 ## Goal
 A runnable FastAPI service in `ai-service/` that exposes every endpoint in
-`context/api-contract.md` returning valid, hardcoded mock data, so Unity devs can
+`context/api-contract.md` returning valid, hardcoded mock data, so game devs can
 integrate immediately. No real logic, no LLM, no NASA calls yet.
 
 ## Design
@@ -29,11 +29,11 @@ mock response sets `fallback_used=true` and `data_source="curated"`.
   `POST /v1/evaluate/decision`, `POST /v1/evaluate/mission`.
 - Each returns a fixed mock that validates against its response model.
 - Mock evaluator varies `rating` by a trivial rule on the decision's deltas (e.g.
-  any delta <= -30 -> "risky") so Unity sees all three states.
+  any delta <= -30 -> "risky") so the client sees all three states.
 - Consistent error shape `{error: string}` via exception handlers; max body 20 KB.
 
 ### CORS
-- Allow all origins in dev (needed for Unity WebGL builds); tighten in Unit 06.
+- Allow all origins in dev (needed for browser web game client); tighten in Unit 06.
 
 ### Contract examples (`contracts/`)
 - One request and one response JSON file per endpoint, generated from the models,

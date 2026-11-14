@@ -15,9 +15,14 @@
 - Every external-dependent path has a fallback returning a valid response with `fallback_used=true`.
 - Log request ids and fallback reasons; never log full player text at info level.
 
-## Unity (C#) — owner: game devs
-- Defined by game devs in `context/unity-standards.md` (to be added). Minimum agreed rules:
-  all AI calls via one `AIClient` class, async with 3 s timeout, local fallback text for every failure.
+## Web Game Client (TypeScript 5+ / Vite) — owner: Game Devs
+- Directory: `game/`. Modern ESM, strict TypeScript (`strict: true`, no `any`).
+- Engine architecture: Decoupled 3-Manager system (Narrative, Simulation, Mission) coordinated via `EventBus`.
+- Simulation & rendering: HTML5 Canvas 2D (`image-rendering: pixelated`) for 60fps tilemap grid, free camera pan/zoom, and animated power cable pulses.
+- UI layer: Semantic HTML5 / CSS DOM overlay for responsive Perimeter HUD, character expression portraits, and M.I.L.O. terminal.
+- AI communication: All AI service calls channeled through `AIClient.ts` using `fetch()` with an `AbortController` (timeout <= 3.0s) and bundled local fallback responses for 100% offline reliability.
+- Asset handling: Pixel-art textures, sprites, audio, and narrative chapter JSON loaded via Vite asset pipelines.
+- Zero secrets in client code, bundler configs, or browser storage.
 
 ## API
 - Contract changes follow `api-contract.md` process. Consistent error shape. Max body 20 KB.
