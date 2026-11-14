@@ -17,11 +17,15 @@ Update after every meaningful change (only your own unit/row).
 - **Unit 07**: Statistics and Debrief Analysis (`app/stats/`).
 
 ### Web Game Client (`game/`)
-- **Web Game Architecture**: TypeScript 5+ / Vite / Three.js / HTML5 Canvas + Semantic CSS DOM HUD.
-- **Visual Novel Story Engine**: Built `VisualNovelController.ts` supporting character portraits, mood badges, typewriter text with teletype sound chirps, screen shake, and Apollo quindar beeps.
-- **Telemetry & Interaction Overhaul**: Top telemetry chips with instant net rates, chunky 3D controls, ghost building placement preview, celebration confetti, and catalog specification pills.
-- **Sound System**: 8-bit Web Audio synthesizer (`SoundManager.ts`) with mute persistence and global hotkeys.
-- **Authentic Lunar Textures**: Integrated 4K lunar textures (`moon_01_diff_4k.jpg`, `moon_normal_4ppd.png`).
+- **Git Sync & Main Merge**: Merged `origin/main` into `OUAZENE-2026/initial-setup`, resolved all contract v2 and shared documentation conflicts, and pushed to remote (`1541656`).
+- **3D Lunar Ground Texture (Zero-Horizon Invariant)**: Integrated Three.js `Ground3DRenderer.ts` rendering authentic 4K textures (`moon_01_diff_4k.jpg`, `moon_01_disp_4k.png`) with grazing lunar polar sun lighting. Mathematically constrained camera and dynamic centering ensure NO horizon line, dark outer void, or ground plane boundaries are ever visible.
+- **Full Story Integration (`story/samples/`)**: Integrated all 14 campaign scenes (`S-PRO-1` through `S-EPI-2`) into `StoryData.ts` with characters (Captain Leo Ruiz, Amir, Nia, Daniel, MILO, Narrator), moods, SFX, and interactive branching choices.
+- **Equipment & Machine Specification (`Lunar_Outpost_Equipment_Specification.md`)**:
+  - Implemented complete 12-machine catalogue with exact materials costs, priorities (P1, P2, P3), and production/consumption rates.
+  - Implemented 1-hour simulation tick cycle (24h sol: 12h daylight, 12h night), baseline habitat draw (14 kW / 10 kW / 2 kW), and priority load shedding.
+  - Implemented all 9 crew operations: `eat`, `drink`, `clean`, `reshield`, `farm`, `harvast`, `toggleShelter`, `demandEarthOxygenResupply`, `demandEarthWaterResupply`.
+  - Added dedicated high-detail building rendering for Emergency O₂ Generator, Water Recycling System, Heating System, and Earth Connection Channel.
+  - Added interactive Crew Operations panel in `CatalogPanel.ts` and `main.ts`.
 
 ## In Progress
 - Merging `origin/main` into `OUAZENE-2026/initial-setup`.
