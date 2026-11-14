@@ -408,6 +408,16 @@ export class GuiControls {
     nowBtn.addEventListener('mouseenter', () => { nowBtn.style.background = '#444'; });
     nowBtn.addEventListener('mouseleave', () => { nowBtn.style.background = '#333'; });
 
+    const fullMoonBtn = document.createElement('button');
+    fullMoonBtn.textContent = '🌕';
+    fullMoonBtn.title = 'Full Moon (Illuminate Earth-facing Near Side)';
+    fullMoonBtn.style.cssText =
+      'flex:0 0 auto;width:24px;height:20px;padding:0;background:#333;color:#ddd;' +
+      'border:1px solid #555;border-radius:3px;font:12px sans-serif;cursor:pointer;' +
+      'line-height:20px;text-align:center;';
+    fullMoonBtn.addEventListener('mouseenter', () => { fullMoonBtn.style.background = '#444'; });
+    fullMoonBtn.addEventListener('mouseleave', () => { fullMoonBtn.style.background = '#333'; });
+
     // 'input' fires immediately on every change (calendar click, hour spin, etc.)
     dtInput.addEventListener('input', () => {
       const date = new Date(dtInput.value);
@@ -422,8 +432,15 @@ export class GuiControls {
       multiTile.onNowPressed(now);
     });
 
+    fullMoonBtn.addEventListener('click', () => {
+      const fullMoonDate = new Date('2026-11-24T15:00:00Z');
+      dtInput.value = this.toLocalDateTimeString(fullMoonDate);
+      multiTile.onDateTimeChange(fullMoonDate);
+    });
+
     inputWrap.appendChild(dtInput);
     inputWrap.appendChild(nowBtn);
+    inputWrap.appendChild(fullMoonBtn);
     wrapper.appendChild(label);
     wrapper.appendChild(inputWrap);
 

@@ -4,21 +4,82 @@ import { Grid } from '../simulation/Grid';
 export class LunarTerrain {
   public canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
+  public isPhotoLoaded = false;
 
   constructor(private grid: Grid) {
     this.canvas = document.createElement('canvas');
     this.canvas.width = GRID_WIDTH * TILE_SIZE;
     this.canvas.height = GRID_HEIGHT * TILE_SIZE;
     this.ctx = this.canvas.getContext('2d')!;
-    this.generateTerrain();
+
+    // Initial procedural render as immediate fallback
+    this.generateProceduralTerrain();
+
+    // Load actual photographic lunar scan texture
+    this.loadActualMoonTexture();
   }
 
-  private generateTerrain(): void {
+  private loadActualMoonTexture(): void {
+    const img = new Image();
+    img.src = '/textures/lunar_terrain_real.jpg';
+    img.onload = () => {
+      this.isPhotoLoaded = true;
+      this.renderPhotographicTerrain(img);
+    };
+  }
+
+  private renderPhotographicTerrain(img: HTMLImageElement): void {
     const w = this.canvas.width;
     const h = this.canvas.height;
 
-    // 1. High-Detail Multi-Octave Regolith Surface
-    // Simulates authentic lunar soil texture with fine regolith grain, anorthosite feldspar, and basalt
+    // 1. Draw actual 4K NASA photogrammetry regolith & surface relief
+    this.ctx.clearRect(0, 0, w, h);
+    this.ctx.drawImage(img, 0, 0, w, h);
+
+    // 2. Shackleton Crater Rim Low-Angle Sunlight & Shadow Gradient
+    const sunSlopeGrad = this.ctx.createLinearGradient(0, 0, w, h);
+    sunSlopeGrad.addColorStop(0, 'rgba(255, 255, 255, 0.12)'); // Sunlit rim crest
+    sunSlopeGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
+    sunSlopeGrad.addColorStop(0.72, 'rgba(12, 17, 32, 0.65)'); // Rim shadow line
+    sunSlopeGrad.addColorStop(1, 'rgba(6, 9, 20, 0.92)');      // Permanently shadowed floor
+    this.ctx.fillStyle = sunSlopeGrad;
+    this.ctx.fillRect(0, 0, w, h);
+
+    // 3. Elevation tinting
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+      for (let x = 0; x < GRID_WIDTH; x++) {
+        const tile = this.grid.getTile(x, y);
+        if (!tile) continue;
+        const px = x * TILE_SIZE;
+        const py = y * TILE_SIZE;
+        if (tile.elevation === 2) {
+          this.ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+          this.ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+        } else if (tile.elevation === 0) {
+          this.ctx.fillStyle = 'rgba(8, 12, 22, 0.35)';
+          this.ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+        }
+      }
+    }
+
+    // 4. Realistic 3D Lunar Impact Craters
+    this.drawAllCraters();
+
+    // 5. Artemis Descent Engine Landing Scorch Ring
+    this.drawLandingSite(8 * TILE_SIZE + 24, 7 * TILE_SIZE + 24);
+
+    // 6. Curved Lunar Rover Tracks & Exploration Trails
+    this.drawRoverTrails();
+
+    // 7. Scattered Lunar Boulders with Low-Angle Shadows
+    this.drawBoulders();
+  }
+
+  private generateProceduralTerrain(): void {
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+
+    // 1. Multi-Octave Regolith Surface
     const imgData = this.ctx.createImageData(w, h);
     const data = imgData.data;
 
@@ -28,26 +89,20 @@ export class LunarTerrain {
         const tileY = Math.floor(y / TILE_SIZE);
         const tile = this.grid.getTile(tileX, tileY);
 
-        // Base elevation tone:
-        // Shackleton Rim Peak: 165 (silver-grey anorthosite in low-angle sunlight)
-        // Mid Slope: 125
-        // Permanently Shadowed Basin: 45 (deep dark basalt cold trap)
         let baseTone = 125;
         if (tile) {
           if (tile.elevation === 2) baseTone = 165;
           else if (tile.elevation === 0) baseTone = 45;
         }
 
-        // Multi-frequency harmonic terrain noise
         const n1 = Math.sin(x * 0.04) * Math.cos(y * 0.04) * 22;
         const n2 = Math.sin(x * 0.12 + y * 0.08) * 12;
         const n3 = (Math.sin(x * 0.35) * Math.cos(y * 0.35) * 6);
-        const n4 = ((Math.sin((x * 7919 + y * 6571) % 1000) - 0.5) * 8); // High-frequency dust grain
+        const n4 = ((Math.sin((x * 7919 + y * 6571) % 1000) - 0.5) * 8);
 
         const val = Math.min(235, Math.max(20, Math.floor(baseTone + n1 + n2 + n3 + n4)));
         const idx = (y * w + x) * 4;
 
-        // Authentic lunar hue: subtle cool slate-blue tint
         data[idx] = Math.max(0, val - 3);     // R
         data[idx + 1] = val;                  // G
         data[idx + 2] = Math.min(255, val + 5); // B
@@ -58,14 +113,27 @@ export class LunarTerrain {
 
     // 2. Shackleton Crater Rim Low-Angle Sunlight & Shadow Gradient
     const sunSlopeGrad = this.ctx.createLinearGradient(0, 0, w, h);
-    sunSlopeGrad.addColorStop(0, 'rgba(255, 255, 255, 0.15)'); // Sunlit rim crest
+    sunSlopeGrad.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
     sunSlopeGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-    sunSlopeGrad.addColorStop(0.72, 'rgba(12, 17, 32, 0.75)'); // Rim shadow line
-    sunSlopeGrad.addColorStop(1, 'rgba(6, 9, 20, 0.96)');      // Permanently shadowed floor
+    sunSlopeGrad.addColorStop(0.72, 'rgba(12, 17, 32, 0.75)');
+    sunSlopeGrad.addColorStop(1, 'rgba(6, 9, 20, 0.96)');
     this.ctx.fillStyle = sunSlopeGrad;
     this.ctx.fillRect(0, 0, w, h);
 
     // 3. Realistic 3D Lunar Impact Craters
+    this.drawAllCraters();
+
+    // 4. Artemis Descent Engine Landing Scorch Ring
+    this.drawLandingSite(8 * TILE_SIZE + 24, 7 * TILE_SIZE + 24);
+
+    // 5. Curved Lunar Rover Tracks & Exploration Trails
+    this.drawRoverTrails();
+
+    // 6. Scattered Lunar Boulders with Low-Angle Shadows
+    this.drawBoulders();
+  }
+
+  private drawAllCraters(): void {
     const craters = [
       // Major Geological Craters
       { x: 190, y: 220, r: 65 },
@@ -91,17 +159,7 @@ export class LunarTerrain {
       { x: 160, y: 520, r: 15 },
       { x: 920, y: 110, r: 18 },
     ];
-
     craters.forEach((c) => this.drawCrater(c.x, c.y, c.r));
-
-    // 4. Artemis Descent Engine Landing Scorch Ring
-    this.drawLandingSite(8 * TILE_SIZE + 24, 7 * TILE_SIZE + 24);
-
-    // 5. Curved Lunar Rover Tracks & Exploration Trails
-    this.drawRoverTrails();
-
-    // 6. Scattered Lunar Boulders with Low-Angle Shadows
-    this.drawBoulders();
   }
 
   private drawCrater(cx: number, cy: number, r: number): void {
