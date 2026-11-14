@@ -133,15 +133,26 @@ export class Ground3DRenderer {
     this.renderer.render(this.scene, this.camera);
   }
 
-  public setSunAngle(hourFraction: number): void {
-    // Sun position shifts slightly over lunar day/night cycle
-    const angle = hourFraction * Math.PI * 2;
-    const sunDist = 1500;
+  public setSunAngle(azimuthAngle: number, isDaylight: boolean): void {
+    const sunDist = 1800;
+    // Authentic Lunar South Pole grazing elevation angle (~1.5° to 10° above horizon)
+    const elevationZ = 350 + Math.sin(azimuthAngle * 2) * 40;
     this.dirLight.position.set(
-      Math.cos(angle) * sunDist,
-      Math.sin(angle) * sunDist,
-      500 + Math.sin(angle * 0.5) * 200
+      Math.cos(azimuthAngle) * sunDist,
+      Math.sin(azimuthAngle) * sunDist,
+      elevationZ
     );
+
+    if (isDaylight) {
+      this.dirLight.intensity = 2.8;
+      this.hemiLight.intensity = 0.65;
+      this.scene.background = new THREE.Color(0x101318);
+    } else {
+      // Authentic cryogenic lunar shadow: deep dark regolith with cold celestial ambient
+      this.dirLight.intensity = 0.04;
+      this.hemiLight.intensity = 0.12;
+      this.scene.background = new THREE.Color(0x040508);
+    }
   }
 
   public destroy(): void {

@@ -138,6 +138,12 @@ window.addEventListener('DOMContentLoaded', () => {
     narrative.playScene(sceneId);
   });
 
+  // Accurate Day Cycle Mode Toggle
+  document.getElementById('hud-cycle-badge')?.addEventListener('click', () => {
+    soundManager.playPop();
+    simulation.toggleDayCycleMode();
+  });
+
   // 9. Crew Operations (Lunar Outpost Equipment Specification §5.2)
   document.getElementById('btn-crew-eat')?.addEventListener('click', () => {
     soundManager.playPop();

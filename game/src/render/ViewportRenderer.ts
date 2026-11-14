@@ -1,4 +1,5 @@
 import { GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
+import { eventBus } from '../core/EventBus';
 import { BuildingType, PlacedBuilding } from '../core/types';
 import { Grid } from '../simulation/Grid';
 import { BuildingRenderer } from './BuildingRenderer';
@@ -42,6 +43,13 @@ export class ViewportRenderer {
       this.ground3D = new Ground3DRenderer(groundCanvas, this.camera);
     }
     this.setupHoverListener();
+
+    // Listen for realistic sun azimuth & illumination changes
+    eventBus.on<{ azimuth: number; isDaylight: boolean }>('sun_updated', ({ azimuth, isDaylight }) => {
+      if (this.ground3D) {
+        this.ground3D.setSunAngle(azimuth, isDaylight);
+      }
+    });
   }
 
   public start(): void {

@@ -217,6 +217,20 @@ body {
   border-color: rgba(251, 113, 133, 0.4);
 }
 
+.hud-action-btn.cycle-btn {
+  background: #1e2430;
+  border-color: #f59e0b;
+  color: #fef08a;
+  font-size: 0.75rem;
+}
+
+.hud-action-btn.cycle-btn.night-mode {
+  background: #0f172a;
+  border-color: #64748b;
+  color: #94a3b8;
+  box-shadow: 0 0 10px rgba(100, 116, 139, 0.3);
+}
+
 .sol-badge, .time-badge, .mat-badge {
   background: var(--bg-card);
   padding: 5px 10px;

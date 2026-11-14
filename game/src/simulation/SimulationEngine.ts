@@ -4,6 +4,8 @@ import { GameSnapshot, PlacedBuilding, ResourceState } from '../core/types';
 import { Grid } from './Grid';
 import { PowerNetwork } from './PowerNetwork';
 
+export type DayCycleMode = 'shackleton_polar' | 'lunar_synodic' | 'compressed_24h';
+
 export class SimulationEngine {
   public grid: Grid;
   private powerNetwork: PowerNetwork;
@@ -14,6 +16,7 @@ export class SimulationEngine {
 
   private tickIntervalId: number | null = null;
   public isDaylight: boolean = true;
+  public dayCycleMode: DayCycleMode = 'shackleton_polar';
 
   // Earth Resupply Cooldowns (in ticks/hours)
   private o2ResupplyCooldown: number = 0;
@@ -54,6 +57,8 @@ export class SimulationEngine {
       isSheltering: false,
       activeAlert: null,
     };
+
+    this.updateDaylightStatus();
   }
 
   public start(): void {
@@ -296,6 +301,67 @@ export class SimulationEngine {
     return true;
   }
 
+  // --- Accurate Lunar Day & Solar Azimuth Tracking ---
+  public getSunAzimuth(): number {
+    // 708 hours = 29.5 Earth days = 1 full 360° circuit of the low sun around Shackleton Crater Rim
+    const totalHours = (this.state.sol - 1) * 24 + this.state.timeOfDayHours;
+    return (totalHours / 708) * (2 * Math.PI);
+  }
+
+  public updateDaylightStatus(): void {
+    if (this.dayCycleMode === 'shackleton_polar') {
+      // Shackleton Crater Rim (89.9°S) receives near-constant polar grazing sunlight (~86% annual illumination).
+      // Sols 7 & 8: The 48-hour mountain ridge shadow eclipse from Chapter 2 ("The Long Night")
+      if (this.state.sol === 7 || this.state.sol === 8) {
+        this.isDaylight = false;
+      } else {
+        this.isDaylight = true;
+      }
+    } else if (this.dayCycleMode === 'lunar_synodic') {
+      // Astronomical 29.5-day synodic lunar month (354h sunlight, 354h night)
+      const totalHours = (this.state.sol - 1) * 24 + this.state.timeOfDayHours;
+      const cycleHour = totalHours % 708;
+      this.isDaylight = cycleHour < 354;
+    } else {
+      // Compressed educational cycle (12h day, 12h night)
+      this.isDaylight = this.state.timeOfDayHours >= 0 && this.state.timeOfDayHours < 12;
+    }
+
+    eventBus.emit('sun_updated', {
+      azimuth: this.getSunAzimuth(),
+      isDaylight: this.isDaylight,
+      mode: this.dayCycleMode,
+      sol: this.state.sol,
+      hour: this.state.timeOfDayHours,
+    });
+  }
+
+  public toggleDayCycleMode(): DayCycleMode {
+    if (this.dayCycleMode === 'shackleton_polar') {
+      this.dayCycleMode = 'lunar_synodic';
+      eventBus.emit('notification', {
+        type: 'info',
+        message: 'Day Cycle: Full Synodic Month (29.5 Earth Days: 354h Day / 354h Night).',
+      });
+    } else if (this.dayCycleMode === 'lunar_synodic') {
+      this.dayCycleMode = 'compressed_24h';
+      eventBus.emit('notification', {
+        type: 'info',
+        message: 'Day Cycle: Compressed 24h Educational Cycle (12h Day / 12h Night).',
+      });
+    } else {
+      this.dayCycleMode = 'shackleton_polar';
+      eventBus.emit('notification', {
+        type: 'info',
+        message: 'Day Cycle: Shackleton Polar Rim (Continuous 86% Sun + 48h Shadow Eclipse on Sol 7-8).',
+      });
+    }
+    this.updateDaylightStatus();
+    this.recalculate();
+    eventBus.emit('resources_updated', this.state);
+    return this.dayCycleMode;
+  }
+
   // --- Hourly Simulation Tick (§6.1) ---
   public tick(multiplier: number = 1): void {
     // 1 tick = 1 hour
@@ -308,8 +374,8 @@ export class SimulationEngine {
       eventBus.emit('sol_changed', this.state.sol);
     }
 
-    // Daylight cycle: 12h daylight (0-12), 12h night (12-24)
-    this.isDaylight = this.state.timeOfDayHours >= 0 && this.state.timeOfDayHours < 12;
+    // Accurate Lunar Day & Solar Azimuth tracking
+    this.updateDaylightStatus();
 
     // Resupply cooldowns
     if (this.o2ResupplyCooldown > 0) this.o2ResupplyCooldown = Math.max(0, this.o2ResupplyCooldown - deltaHours);

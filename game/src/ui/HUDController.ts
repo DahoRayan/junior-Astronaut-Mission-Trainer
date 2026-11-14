@@ -10,6 +10,22 @@ export class HUDController {
     eventBus.on<ResourceState>('resources_updated', (state) => {
       this.update(state);
     });
+
+    eventBus.on<{ azimuth: number; isDaylight: boolean; mode: string; sol: number; hour: number }>('sun_updated', (data) => {
+      const cycleEl = document.getElementById('hud-cycle-badge');
+      if (cycleEl) {
+        const azDeg = Math.round((data.azimuth * 180) / Math.PI) % 360;
+        if (data.isDaylight) {
+          cycleEl.textContent = `☀️ Polar Sun (${azDeg}°)`;
+          cycleEl.classList.remove('night-mode');
+          cycleEl.title = `Mode: ${data.mode}. Continuous polar grazing sunlight at Shackleton Rim (Azimuth ${azDeg}°). Click to toggle mode.`;
+        } else {
+          cycleEl.textContent = `🌑 Mountain Shadow`;
+          cycleEl.classList.add('night-mode');
+          cycleEl.title = `Mode: ${data.mode}. 48-Hour mountain ridge shadow eclipse (-180°C). Click to toggle mode.`;
+        }
+      }
+    });
   }
 
   public update(state: ResourceState): void {
