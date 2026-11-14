@@ -13,8 +13,6 @@ export class VisualNovelController {
   private textEl: HTMLElement;
   private continueIndicatorEl: HTMLElement;
   private choicesContainerEl: HTMLElement;
-  private logDrawerEl: HTMLElement;
-  private logBodyEl: HTMLElement;
 
   private currentScene: StoryScene | null = null;
   private currentLineIndex: number = 0;
@@ -29,7 +27,6 @@ export class VisualNovelController {
   // Controls state
   private isAutoPlay: boolean = false;
   private autoPlayTimer: number | null = null;
-  private historyLog: { speaker: string; text: string; role: string }[] = [];
 
   constructor() {
     this.containerEl = document.getElementById('vn-theater')!;
@@ -42,8 +39,6 @@ export class VisualNovelController {
     this.textEl = document.getElementById('vn-dialogue-text')!;
     this.continueIndicatorEl = document.getElementById('vn-continue-indicator')!;
     this.choicesContainerEl = document.getElementById('vn-choice-container')!;
-    this.logDrawerEl = document.getElementById('vn-log-drawer')!;
-    this.logBodyEl = document.getElementById('vn-log-body')!;
 
     this.bindControls();
   }
@@ -66,16 +61,12 @@ export class VisualNovelController {
       if (e.code === 'Space' || e.key === 'Enter') {
         e.preventDefault();
         this.handleAdvance();
-      } else if (e.key === 'Escape') {
-        this.closeLog();
       }
     });
 
     // Control buttons
     document.getElementById('vn-btn-auto')?.addEventListener('click', () => this.toggleAutoPlay());
     document.getElementById('vn-btn-skip')?.addEventListener('click', () => this.skipToEnd());
-    document.getElementById('vn-btn-log')?.addEventListener('click', () => this.toggleLog());
-    document.getElementById('vn-log-close')?.addEventListener('click', () => this.closeLog());
   }
 
   public playScene(scene: StoryScene, onComplete?: () => void): void {
@@ -160,13 +151,6 @@ export class VisualNovelController {
 
     // Start typewriter effect
     this.startTypewriter(line.text);
-
-    // Record in history log
-    this.historyLog.push({
-      speaker: line.speakerName,
-      role: line.role,
-      text: line.text,
-    });
   }
 
   private startTypewriter(text: string): void {
@@ -301,35 +285,6 @@ export class VisualNovelController {
       this.onCompleteCallback = null;
       cb();
     }
-  }
-
-  private toggleLog(): void {
-    soundManager.playPop();
-    const isHidden = this.logDrawerEl.classList.contains('hidden');
-    if (isHidden) {
-      this.renderLog();
-      this.logDrawerEl.classList.remove('hidden');
-    } else {
-      this.closeLog();
-    }
-  }
-
-  private closeLog(): void {
-    this.logDrawerEl.classList.add('hidden');
-  }
-
-  private renderLog(): void {
-    this.logBodyEl.innerHTML = '';
-    this.historyLog.forEach((item) => {
-      const entry = document.createElement('div');
-      entry.className = 'vn-log-entry';
-      entry.innerHTML = `
-        <div class="vn-log-speaker">${item.speaker} <span class="vn-log-role">${item.role}</span></div>
-        <div class="vn-log-text">${item.text}</div>
-      `;
-      this.logBodyEl.appendChild(entry);
-    });
-    this.logBodyEl.scrollTop = this.logBodyEl.scrollHeight;
   }
 
   private clearTimers(): void {
