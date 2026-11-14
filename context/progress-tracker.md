@@ -1,42 +1,45 @@
 # Progress Tracker
 
-Update after every meaningful change.
+Update after every meaningful change (only your own unit/row).
 
 ## Current Phase
-- Setup (context files, repo structure)
+- Plan v2 adopted (story-driven, expert system, statistics). Unit 01 awaiting verification.
 
 ## Current Goal
-- Unit 01: AI service skeleton with mock endpoints (see specs/01-ai-service-skeleton.md)
+- Verify Unit 01, then Unit 02 (contract v2 migration, see specs/02-contract-v2-migration.md)
 
 ## Completed
-- None yet.
+- Unit 01 implemented (v1 contract mocks); verification pending
 
 ## In Progress
-- None yet.
-
-## Next Up
-- Unit 01 (see `specs/01-ai-service-skeleton.md`)
+- None
 
 ## Open Questions
-- LLM provider and model (cost/quota, latency)?
-- Final core resources: power, oxygen, shielding — add food or not?
-- Moon only, or Mars too?
-- How is the game built/shipped (WebGL vs desktop) and where is the service hosted for judging?
-- Mission length (sols) and event pool — owned by game devs, agree with AI side.
-- Confirm Unity-side standards file owner.
+- Names of the 3 perspectives and number of scenes each (game devs)
+- Who writes the story content, and the final story-bible schema sign-off
+- Exact event type list and which resource counters each (game devs + AI side)
+- Mission length (sols) and the convergence event
+- Which curated facts to include (OSDR/RadLab picks) and who selects them
+- WebGL or desktop build; where the service is hosted for judging
+- Stretch: Mars, food resource, `stats` perspective comparison depth
 
 ## Architecture Decisions
 - Single monorepo with folder ownership; shared context at root.
-- Evaluator scoring is deterministic; LLM narrates only (keeps feedback accurate and testable).
-- Mocks first so the two sides unblock each other.
-
-## Session Notes
-- Resume with: "Read AGENTS.md and resume."
+- No LLM at runtime: expert system + deterministic evaluator; explainability on every result (mentor feedback, agreed by team).
+- Kaleidoscope storytelling via a shared story bible validated by script.
+- Mocks first, then real logic behind the same schemas.
 
 ## Unit Ownership
 | Unit | Owner | Branch | Status |
 |---|---|---|---|
-| 01 skeleton + mocks | Ibrahim | feat/ai-01-skeleton | in verification |
-| 02 deterministic evaluator | TBD | | not started |
-| 03 NASA data layer | TBD | | not started |
-| 04 LLM client + assistant | TBD | | not started |
+| 01 skeleton + mocks (v1) | Ibrahim | feat/ai-01-skeleton | in verification |
+| 02 contract v2 migration | TBD | | not started |
+| 03 deterministic evaluator | TBD | | not started |
+| 04 NASA data layer | TBD | | not started |
+| 05 expert system | TBD | | not started |
+| 06 story validator | TBD | | not started |
+| 07 statistics | TBD | | not started |
+| 08 hardening + deploy | TBD | | not started |
+
+## Session Notes
+- Resume with: "Read AGENTS.md and resume."

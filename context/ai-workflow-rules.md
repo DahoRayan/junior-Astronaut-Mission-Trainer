@@ -21,7 +21,7 @@ Real logic replaces mocks behind the same schemas.
 - Do not invent product behavior. Ambiguous -> fix the context file. Missing -> add to Open Questions in `progress-tracker.md`.
 
 ## Protected Files
-Do not modify without explicit instruction: anything in `game/`, `context/api-contract.md` (unless the task is a contract change), `data/curated/*` content (facts must be sourced).
+Do not modify without explicit instruction: anything in `game/`, `context/api-contract.md` (unless the task is a contract change), `story/story-bible.json` content (owned by game devs), `data/curated/*` and `data/knowledge/facts.json` content (every fact must be sourced and dated, never written from memory).
 
 ## Keeping Docs in Sync
 Update context files when architecture, contract, standards, or scope change.

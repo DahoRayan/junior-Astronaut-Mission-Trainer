@@ -8,7 +8,7 @@ Read in order before implementing or making any architectural decision:
 1. `context/project-overview.md` — product, goals, scope
 2. `context/architecture.md` — stack, boundaries, invariants
 3. `context/api-contract.md` — the Unity <-> AI service contract (shared, sacred)
-4. `context/game-design.md` — resources, trade-offs, kid tone (replaces ui-context)
+4. `context/game-design.md` — resources, Kaleidoscope story structure, expert system, kid tone (replaces ui-context)
 5. `context/code-standards.md` — rules per boundary (AI service / Unity)
 6. `context/ai-workflow-rules.md` — scoping and delivery rules
 7. `context/progress-tracker.md` — current state and next steps
