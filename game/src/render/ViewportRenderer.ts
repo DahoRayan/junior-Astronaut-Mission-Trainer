@@ -2,6 +2,7 @@ import { GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
 import { BuildingType, PlacedBuilding } from '../core/types';
 import { Grid } from '../simulation/Grid';
 import { Camera } from './Camera';
+import { LunarTerrain } from './LunarTerrain';
 
 interface FloatingText {
   text: string;
@@ -15,6 +16,7 @@ interface FloatingText {
 export class ViewportRenderer {
   private ctx: CanvasRenderingContext2D;
   private camera: Camera;
+  private lunarTerrain: LunarTerrain;
   private animFrameId: number = 0;
   private pulseOffset: number = 0;
   private tickTime: number = 0;
@@ -41,6 +43,7 @@ export class ViewportRenderer {
   constructor(private canvas: HTMLCanvasElement, private grid: Grid) {
     this.ctx = canvas.getContext('2d')!;
     this.camera = new Camera(canvas);
+    this.lunarTerrain = new LunarTerrain(grid);
     this.setupHoverListener();
     this.initStars();
   }
@@ -192,53 +195,52 @@ export class ViewportRenderer {
   }
 
   private drawTerrain(): void {
+    // 1. Draw rich procedural authentic lunar regolith with impact craters, rim highlights, and lander blast halo
+    this.ctx.drawImage(this.lunarTerrain.canvas, 0, 0);
+
+    // 2. Dynamic sparkling ice deposits & tactical NASA exploration grid markers
     for (let y = 0; y < GRID_HEIGHT; y++) {
       for (let x = 0; x < GRID_WIDTH; x++) {
         const tile = this.grid.tiles[y][x];
         const px = x * TILE_SIZE;
         const py = y * TILE_SIZE;
 
-        // Warm, friendly lunar soil colors
-        if (tile.elevation === 2) {
-          // Sunny Gold-Silver Ridge
-          this.ctx.fillStyle = '#9cb3c9';
-        } else if (tile.elevation === 1) {
-          // Mid Regolith
-          this.ctx.fillStyle = '#6b7f99';
-        } else {
-          // Shadowed Crater
-          this.ctx.fillStyle = '#2c354d';
-        }
-
-        // Rounded chunky terrain tile
-        this.ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
-
-        // Gentle surface dots/craters
-        if ((x + y * 3) % 7 === 0) {
-          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
-          this.ctx.beginPath();
-          this.ctx.arc(px + 10, py + 12, 4, 0, Math.PI * 2);
-          this.ctx.fill();
-        }
-
         // Sparkling Blue Ice Crystals in shadowed crater floor
         if (tile.hasIceDeposit) {
           const sparkle = Math.sin(this.tickTime * 0.005 + x + y) * 0.4 + 0.6;
-          this.ctx.fillStyle = `rgba(56, 189, 248, ${0.35 * sparkle})`;
+          this.ctx.fillStyle = `rgba(56, 189, 248, ${0.28 * sparkle})`;
           this.ctx.fillRect(px + 4, py + 4, TILE_SIZE - 8, TILE_SIZE - 8);
 
-          // Shiny diamond glint
-          this.ctx.fillStyle = '#7dd3fc';
+          // Shiny diamond glints
+          this.ctx.fillStyle = '#bae6fd';
           this.ctx.beginPath();
-          this.ctx.arc(px + 12, py + 12, 2.5, 0, Math.PI * 2);
-          this.ctx.arc(px + 22, py + 20, 1.8, 0, Math.PI * 2);
+          this.ctx.arc(px + 10, py + 10, 2, 0, Math.PI * 2);
+          this.ctx.arc(px + 22, py + 20, 1.5, 0, Math.PI * 2);
           this.ctx.fill();
         }
 
-        // Grid border (soft, kid-friendly)
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+        // 3. Subtle NASA tactical corner ticks '+' instead of boxy square borders
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
         this.ctx.lineWidth = 1;
-        this.ctx.strokeRect(px, py, TILE_SIZE, TILE_SIZE);
+        const tick = 3;
+        // Top-left
+        this.ctx.beginPath();
+        this.ctx.moveTo(px, py + tick);
+        this.ctx.lineTo(px, py);
+        this.ctx.lineTo(px + tick, py);
+        // Top-right
+        this.ctx.moveTo(px + TILE_SIZE - tick, py);
+        this.ctx.lineTo(px + TILE_SIZE, py);
+        this.ctx.lineTo(px + TILE_SIZE, py + tick);
+        // Bottom-left
+        this.ctx.moveTo(px, py + TILE_SIZE - tick);
+        this.ctx.lineTo(px, py + TILE_SIZE);
+        this.ctx.lineTo(px + tick, py + TILE_SIZE);
+        // Bottom-right
+        this.ctx.moveTo(px + TILE_SIZE - tick, py + TILE_SIZE);
+        this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE);
+        this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE - tick);
+        this.ctx.stroke();
       }
     }
   }
