@@ -1,25 +1,11 @@
 {
-  "before": {
-    "sol": 1,
-    "mission_length": 10,
-    "site": "moon",
-    "resources": {"power": 80, "oxygen": 90, "shielding": 70},
-    "crew": 2,
-    "active_event": null
-  },
-  "after": {
-    "sol": 1,
-    "mission_length": 10,
-    "site": "moon",
-    "resources": {"power": 70, "oxygen": 92, "shielding": 70},
-    "crew": 2,
-    "active_event": null
-  },
-  "decision": {
-    "id": "save-power",
-    "label": "Save power",
-    "deltas": {"power": -10, "oxygen": 2, "shielding": 0},
-    "delayed_effects": []
-  },
-  "space_weather": null
+  "chapter": 1,
+  "sol": 1,
+  "action_type": "build",
+  "building_type": "solar_array",
+  "power_balance_kw": 15.0,
+  "battery_charge_kwh": 80.0,
+  "oxygen_balance_kg_h": 5.0,
+  "crew_sheltered": true,
+  "active_alert": null
 }

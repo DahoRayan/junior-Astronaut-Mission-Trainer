@@ -1,41 +1,68 @@
-# Architecture Context
+# Architecture Context — Beyond Earth: First Light
 
 ## Stack
 | Layer | Technology | Role |
 |---|---|---|
-| Game | Unity (C#) | 3D game, authoritative simulation, all UI |
-| AI service | Python 3.11+, FastAPI, Pydantic v2 | HTTP API for assistant + evaluator |
-| LLM | [TBD provider — see progress-tracker] | Narration/explanation only |
-| NASA data | httpx -> DONKI / OSDR APIs | Real space weather + science facts |
-| Cache | in-memory TTL cache | Avoid rate limits, survive outages |
-| Tests | pytest, ruff | AI service quality |
-| Hosting | local for dev; [TBD] for demo | Reachable by Unity build |
+| Game Client | 2D Engine (Unity 2D / WebGL) | Authoritative simulation, 2D pixel-art viewport, UI frames, sound |
+| AI Service | Python 3.11+, FastAPI, Pydantic v2 | HTTP API for M.I.L.O. advisor, DONKI weather, and deterministic evaluators |
+| LLM Provider | OpenAI / Gemini / Groq (optional) | M.I.L.O. dialogue narration; offline fallback bundled locally |
+| NASA & CSA Data | Curated fixtures & httpx client | DONKI space weather, RadLab dosimetry, OSDR biology, CSA hydroponics |
+| Cache | In-memory TTL cache | Avoid API rate limits, ensure sub-second response times |
+| Tests | pytest, ruff | AI service verification and contract validation |
+
+## Client Software Architecture: Decoupled 3-Manager System
+The game client architecture is explicitly organized into three independent engines communicating through a centralized **Event Bus**:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│               Player Interface (HUD, Grid Viewport, Panels)             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Events / Commands
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Event Bus & Game State Dispatcher               │
+└───────────────┬───────────────────┬───────────────────┬────────────────┘
+                │                   │                   │
+                ▼                   ▼                   ▼
+┌───────────────────────┐ ┌───────────────────┐ ┌────────────────────────┐
+│   Narrative Manager   │ │ Simulation Engine │ │    Mission Manager     │
+│ • Dialogue Trees      │ │ • Tilemap Grid    │ │ • Chapter Objectives   │
+│ • Expression Portraits│ │ • Power Cable Net │ │ • Failure Diagnostics │
+│ • Chapter Scripts     │ │ • Physical Rates  │ │ • Debrief Scoring      │
+│ • Ambient Crew Banter │ │ • Load Shedding   │ │ • Offline Fallbacks    │
+└───────────────────────┘ └───────────────────┘ └────────────────────────┘
+```
+
+### System Responsibilities
+1. **Narrative Manager**:
+   - Manages character dialogue, emotion states (neutral, happy, concerned, surprised, serious, excited), cutscenes, and ambient story banter.
+   - Reads narrative data from externalized JSON files (`data/narrative/chapter_NN.json`).
+   - Never modifies simulation variables directly; reacts to simulation and mission events.
+2. **Simulation Engine**:
+   - Authoritative manager of physical systems: 2D tile grid, structure placement, power cable graph, physical rates (kW, kg/h, L), battery state of charge, and load-shedding.
+   - Emits events (`on_structure_placed`, `on_power_shortage`, `on_cable_fault`) when physical states change.
+3. **Mission Manager**:
+   - Tracks chapter goals, objective completion, and scripted narrative anomalies.
+   - Manages non-punitive mission debriefs when systems fail.
+   - Communicates with the Python `ai-service/` via HTTP REST with strict $\le 3\text{ s}$ timeouts and automatic offline fallbacks.
 
 ## System Boundaries
-- `game/` — Unity project. Owns simulation, UI, scenes. Owned by game devs.
-- `ai-service/` — FastAPI app. Owns evaluator, assistant, NASA data. Owned by Ibrahim.
-  - `app/routers/` HTTP only · `app/evaluator/` deterministic rules · `app/llm/` provider client + prompts
-  - `app/nasa/` DONKI/OSDR clients + `data/curated/` fallback JSON · `app/schemas/` Pydantic = contract
-- `context/` — shared specs and agent instructions (everyone)
-- `contracts/` — JSON examples mirroring `api-contract.md` (used by both sides for mocks)
+- `game/` — Game client project. Owns simulation, viewport rendering, audio, and all UI.
+- `ai-service/` — FastAPI service (owned by Ibrahim).
+  - `app/routers/` HTTP endpoint handlers.
+  - `app/schemas/` Pydantic v2 contract models.
+  - `app/evaluator/` Deterministic mathematical scoring rules for placement and debriefs.
+  - `app/llm/` M.I.L.O. prompt templates and model wrappers.
+  - `app/nasa/` NASA DONKI client and cached feeds.
+- `context/` — Shared architecture, contracts, standards, and progress tracking.
+- `contracts/` — Shared JSON request/response contract examples.
+- `resources/` — 7 verified NASA/CSA open data catalogs and reference fixtures.
 
-## Storage Model
-- No database. Game state lives in Unity memory and is sent as a snapshot per request.
-- Service is stateless per request; only cache is in-memory TTL.
-- Curated NASA data: versioned JSON in `ai-service/data/curated/` with source + retrieval date.
-- Secrets in `.env` (never committed): LLM key, NASA API key.
-
-## Auth and Access Model
-- No user accounts. Service accepts requests from the game only.
-- NASA and LLM keys exist only server-side; never in the Unity build.
-- Basic per-IP rate limit + max request size on the service (public demo exposure).
-
-## Invariants
-1. Unity is the single source of truth for game state. The AI service never mutates or dictates it.
-2. Survivability/trade-off scores come from deterministic Python rules, never from the LLM. The LLM only phrases feedback.
-3. Every AI endpoint has a timeout and returns a valid fallback response; the game never blocks on AI.
-4. All API responses match `api-contract.md` exactly, including `fallback_used` and `data_source`.
-5. Data labeled `live` must be fetched live; curated or simulated data is never presented as live.
-6. All player-facing text is plain language for ages 7–12; unavoidable terms are explained inline.
-7. No API keys, in-code or in the Unity build.
-8. Player free text is untrusted input: length-capped, never able to change system instructions.
+## Architectural Invariants
+1. **The Game Client is Authoritative**: The AI service never mutates or dictates game simulation state. It only advises, evaluates, and debriefs.
+2. **100% Offline-First Zero-Failure**: The game must remain completely playable without network connectivity or external API keys. Every AI endpoint has a bundled local fallback.
+3. **Deterministic Math for Evaluation**: Survivability scores and placement evaluations are computed via pure deterministic Python rules, never by generative LLMs. The LLM only formats player-facing dialogue.
+4. **Decoupled Event-Driven Communication**: Client subsystems communicate via events. The narrative manager never directly reads or writes simulation memory.
+5. **Age-Appropriate Language (Ages 7–12)**: All text generated by M.I.L.O. or the evaluator must be concise, encouraging, and explain any scientific terms inline.
+6. **Data Provenance**: Every real data element must be badged as LIVE or CURATED. Simulated values must never be presented as live NASA telemetry.
+7. **Zero Secrets in Client**: API keys exist only on the server in `.env`. The client build never contains secrets.

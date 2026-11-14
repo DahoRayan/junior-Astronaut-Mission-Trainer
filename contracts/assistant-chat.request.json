@@ -1,12 +1,16 @@
 {
   "snapshot": {
+    "chapter": 1,
     "sol": 1,
-    "mission_length": 10,
-    "site": "moon",
-    "resources": {"power": 80, "oxygen": 90, "shielding": 70},
-    "crew": 2,
-    "active_event": null
+    "power_kw_generated": 40.0,
+    "power_kw_consumed": 25.0,
+    "battery_charge_kwh": 80.0,
+    "battery_capacity_kwh": 100.0,
+    "oxygen_kg_remaining": 95.0,
+    "crew_health_avg": 100,
+    "crew_morale_avg": 90,
+    "active_alert": "cable_disconnected"
   },
-  "message": "What should I do?",
+  "message": "Why is the oxygen generator not running?",
   "history": []
 }
