@@ -28,16 +28,6 @@ export class ViewportRenderer {
 
   private floatingTexts: FloatingText[] = [];
 
-  // Cute astronaut buddy wandering around the base
-  private astronaut = {
-    x: 8 * TILE_SIZE,
-    y: 7 * TILE_SIZE,
-    targetX: 8 * TILE_SIZE,
-    targetY: 7 * TILE_SIZE,
-    bobble: 0,
-    facingRight: true,
-  };
-
   // Background stars
   private stars: { x: number; y: number; size: number; speed: number }[] = [];
 
@@ -76,7 +66,6 @@ export class ViewportRenderer {
     const renderLoop = (time: number) => {
       this.tickTime = time;
       this.pulseOffset = (time / 80) % 16;
-      this.updateAstronaut(time);
       this.render();
       this.animFrameId = requestAnimationFrame(renderLoop);
     };
@@ -119,28 +108,6 @@ export class ViewportRenderer {
     });
   }
 
-  private updateAstronaut(time: number): void {
-    this.astronaut.bobble = Math.sin(time / 200) * 3;
-
-    // Occasionally pick a nearby random tile to wander
-    if (Math.random() < 0.01) {
-      const randX = Math.floor(Math.random() * 6) + 6;
-      const randY = Math.floor(Math.random() * 4) + 5;
-      this.astronaut.targetX = randX * TILE_SIZE;
-      this.astronaut.targetY = randY * TILE_SIZE;
-    }
-
-    const dx = this.astronaut.targetX - this.astronaut.x;
-    const dy = this.astronaut.targetY - this.astronaut.y;
-    if (Math.abs(dx) > 1) {
-      this.astronaut.x += Math.sign(dx) * 0.8;
-      this.astronaut.facingRight = dx > 0;
-    }
-    if (Math.abs(dy) > 1) {
-      this.astronaut.y += Math.sign(dy) * 0.8;
-    }
-  }
-
   private render(): void {
     const { width, height } = this.canvas;
     this.ctx.clearRect(0, 0, width, height);
@@ -173,13 +140,10 @@ export class ViewportRenderer {
     // 4. Draw Chunky Fun Buildings
     this.drawBuildings();
 
-    // 5. Draw Little Astronaut Buddy
-    this.drawAstronaut();
-
-    // 6. Draw Placement Hover Preview
+    // 5. Draw Placement Hover Preview
     this.drawHover();
 
-    // 7. Draw Floating Text Particles
+    // 6. Draw Floating Text Particles
     this.drawFloatingTexts();
 
     this.ctx.restore();
@@ -196,52 +160,27 @@ export class ViewportRenderer {
   }
 
   private drawTerrain(): void {
-    // 1. Draw rich procedural authentic lunar regolith with impact craters, rim highlights, and lander blast halo
+    // 1. Draw clean actual photographic moon texture background
     this.ctx.drawImage(this.lunarTerrain.canvas, 0, 0);
 
-    // 2. Dynamic sparkling ice deposits & tactical NASA exploration grid markers
+    // 2. Sparkling Blue Ice Crystals only on tiles that contain ice deposits
     for (let y = 0; y < GRID_HEIGHT; y++) {
       for (let x = 0; x < GRID_WIDTH; x++) {
         const tile = this.grid.tiles[y][x];
+        if (!tile.hasIceDeposit) continue;
+
         const px = x * TILE_SIZE;
         const py = y * TILE_SIZE;
+        const sparkle = Math.sin(this.tickTime * 0.005 + x + y) * 0.4 + 0.6;
+        this.ctx.fillStyle = `rgba(56, 189, 248, ${0.28 * sparkle})`;
+        this.ctx.fillRect(px + 4, py + 4, TILE_SIZE - 8, TILE_SIZE - 8);
 
-        // Sparkling Blue Ice Crystals in shadowed crater floor
-        if (tile.hasIceDeposit) {
-          const sparkle = Math.sin(this.tickTime * 0.005 + x + y) * 0.4 + 0.6;
-          this.ctx.fillStyle = `rgba(56, 189, 248, ${0.28 * sparkle})`;
-          this.ctx.fillRect(px + 4, py + 4, TILE_SIZE - 8, TILE_SIZE - 8);
-
-          // Shiny diamond glints
-          this.ctx.fillStyle = '#bae6fd';
-          this.ctx.beginPath();
-          this.ctx.arc(px + 10, py + 10, 2, 0, Math.PI * 2);
-          this.ctx.arc(px + 22, py + 20, 1.5, 0, Math.PI * 2);
-          this.ctx.fill();
-        }
-
-        // 3. Subtle NASA tactical corner ticks '+' instead of boxy square borders
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        this.ctx.lineWidth = 1;
-        const tick = 3;
-        // Top-left
+        // Shiny diamond glints
+        this.ctx.fillStyle = '#bae6fd';
         this.ctx.beginPath();
-        this.ctx.moveTo(px, py + tick);
-        this.ctx.lineTo(px, py);
-        this.ctx.lineTo(px + tick, py);
-        // Top-right
-        this.ctx.moveTo(px + TILE_SIZE - tick, py);
-        this.ctx.lineTo(px + TILE_SIZE, py);
-        this.ctx.lineTo(px + TILE_SIZE, py + tick);
-        // Bottom-left
-        this.ctx.moveTo(px, py + TILE_SIZE - tick);
-        this.ctx.lineTo(px, py + TILE_SIZE);
-        this.ctx.lineTo(px + tick, py + TILE_SIZE);
-        // Bottom-right
-        this.ctx.moveTo(px + TILE_SIZE - tick, py + TILE_SIZE);
-        this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE);
-        this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE - tick);
-        this.ctx.stroke();
+        this.ctx.arc(px + 10, py + 10, 2, 0, Math.PI * 2);
+        this.ctx.arc(px + 22, py + 20, 1.5, 0, Math.PI * 2);
+        this.ctx.fill();
       }
     }
   }
@@ -308,59 +247,6 @@ export class ViewportRenderer {
       const py = b.y * TILE_SIZE;
       BuildingRenderer.drawBuilding(this.ctx, b, px, py, this.tickTime);
     }
-  }
-
-  private drawAstronaut(): void {
-    const { x, y, bobble, facingRight } = this.astronaut;
-    this.ctx.save();
-    this.ctx.translate(x + TILE_SIZE / 2, y + TILE_SIZE / 2 + bobble);
-
-    // Direction flip
-    if (!facingRight) {
-      this.ctx.scale(-1, 1);
-    }
-
-    // Shadow
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    this.ctx.beginPath();
-    this.ctx.ellipse(0, 14, 6, 2, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    // White Spacesuit Body
-    this.ctx.fillStyle = '#ffffff';
-    this.roundRect(-5, 0, 10, 12, 3);
-    this.ctx.fill();
-
-    // Blue mission patch on chest
-    this.ctx.fillStyle = '#0284c7';
-    this.ctx.fillRect(-2, 3, 4, 3);
-
-    // White Helmet
-    this.ctx.fillStyle = '#f8fafc';
-    this.ctx.beginPath();
-    this.ctx.arc(0, -5, 7, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    // Shiny Gold Visor (cute reflection!)
-    this.ctx.fillStyle = '#fbbf24';
-    this.ctx.beginPath();
-    this.ctx.arc(2, -5, 4.5, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    // Visor white glint
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.beginPath();
-    this.ctx.arc(3.5, -6.5, 1.2, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    // Little waving hand
-    const wave = Math.sin(this.tickTime * 0.008) * 3;
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.beginPath();
-    this.ctx.arc(6, -2 + wave, 2.5, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    this.ctx.restore();
   }
 
   private drawHover(): void {
