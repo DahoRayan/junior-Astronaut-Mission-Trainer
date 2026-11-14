@@ -1,0 +1,88 @@
+{
+  "_readme": "SEED facts gathered 2026-11-14 from web search results. Every fact is paraphrased and carries its source URL. verified_by_human is false for ALL of them: open each URL, confirm the numbers, then set it to true. Do not ship unverified facts. Replace weak/secondary sources with the primary page where noted.",
+  "retrieved": "2026-11-14",
+  "facts": [
+    {
+      "fact_id": "F-ISS-DOSE-RATE",
+      "topic": ["radiation", "iss"],
+      "relates_to": "shielding",
+      "text_precise": "On the ISS, astronauts' effective radiation dose builds up at roughly 0.2 to 0.5 millisieverts per day, about 40 to 90 millisieverts over a typical six-month mission.",
+      "text_kids": "Astronauts on the space station get a small dose of invisible space radiation every day. Over a six-month stay it adds up to a lot more than people get on Earth.",
+      "source_name": "NASA Technical Reports Server (NTRS 20250006168, Simonsen et al., draft)",
+      "source_url": "https://ntrs.nasa.gov/citations/20250006168",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Source is a draft PDF; confirm the final published numbers."
+    },
+    {
+      "fact_id": "F-EARTH-VS-WORKER",
+      "topic": ["radiation", "comparison"],
+      "relates_to": "shielding",
+      "text_precise": "The U.S. DOE occupational limit for radiation workers is 50 millisieverts per year, and the general population receives about 3 millisieverts per year from natural background sources.",
+      "text_kids": "People on Earth get only a tiny amount of natural radiation each year. Astronauts get much more, so mission planners watch their dose carefully.",
+      "source_name": "NASA Technical Reports Server (NTRS 20250006168)",
+      "source_url": "https://ntrs.nasa.gov/citations/20250006168",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Same source as F-ISS-DOSE-RATE."
+    },
+    {
+      "fact_id": "F-ISS-NEUTRONS",
+      "topic": ["radiation", "iss", "shielding"],
+      "relates_to": "shielding",
+      "text_precise": "Neutron radiation makes up about 30% of the radiation astronauts receive on the ISS; early Radi-N2 results show about 150 microsieverts of neutron dose per day, with lower doses in the crew's sleeping quarters.",
+      "text_kids": "Some space radiation comes from tiny particles called neutrons. Where you sit or sleep inside the station changes how much you get.",
+      "source_name": "Canadian Space Agency, Radi-N2 experiment page",
+      "source_url": "https://www.asc-csa.gc.ca/eng/sciences/radi-n2.asp",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Partner agency (listed in the challenge resources), not NASA. The comparison sentence about sleeping quarters was truncated in the search snippet: read the full page and word it exactly."
+    },
+    {
+      "fact_id": "F-MOON-DOSE-CHANGE4",
+      "topic": ["radiation", "moon"],
+      "relates_to": "shielding",
+      "text_precise": "A lander on the far side of the Moon (Chang'E-4) measured an average daily radiation dose of about 1,369 microsieverts, roughly 2.6 times the ISS crew's daily dose.",
+      "text_kids": "On the Moon there is no air and no magnetic bubble to help, so the radiation dose per day is more than twice what astronauts get on the space station.",
+      "source_name": "Reported by Cosmos Magazine and WMUR about a Science Advances study (Chang'E-4 lander measurements)",
+      "source_url": "https://cosmosmagazine.com/space/its-safer-inside-the-iss-than-out",
+      "kind": "curated", "verified_by_human": false,
+      "note": "NOT NASA data and secondary reporting. Find the original Science Advances paper, replace source_url with it, and confirm the number."
+    },
+    {
+      "fact_id": "F-OSDR-MICE-MUSCLE-BONE",
+      "topic": ["health", "bone", "muscle", "osdr"],
+      "relates_to": "health",
+      "text_precise": "In an OSDR-archived study, mice flown to the ISS lost significant muscle and bone mass during 33 days in microgravity; blocking myostatin/activin A signaling protected both muscle and bone.",
+      "text_kids": "When mice lived on the space station for a month, their muscles and bones got weaker. Scientists are testing ways to protect them, which could help astronauts too.",
+      "source_name": "NASA Open Science Data Repository dataset 10.26030/v2ak-0y21 (via data.gov catalog)",
+      "source_url": "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Find the matching OSD study page on osdr.nasa.gov and use that URL if available."
+    },
+    {
+      "fact_id": "F-OSDR-RAT-SPINE-BONE",
+      "topic": ["health", "bone", "osdr"],
+      "relates_to": "health",
+      "text_precise": "In OSD-310 (STS-62, 14-day flight, ovariectomized rats), flown rats had 32% lower cancellous bone area in lumbar vertebrae than ground controls, with more bone resorption.",
+      "text_kids": "Even in a two-week space flight, rats lost some of the spongy bone in their spine compared with rats that stayed on Earth.",
+      "source_name": "NASA Open Science Data Repository, OSD-310",
+      "source_url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-310",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Animal model with a specific condition (ovariectomized): do not present as a direct human result."
+    },
+    {
+      "fact_id": "F-OSDR-FRAILTY",
+      "topic": ["health", "aging", "osdr"],
+      "relates_to": "health",
+      "text_precise": "A study using OSDR data found spaceflight changes gene activity linked to inflammation and muscle wasting in mice and humans, similar to features seen in aging and frailty.",
+      "text_kids": "Living in space can make the body show some signs that look like getting older, such as weaker muscles. Scientists use this to plan how to keep astronauts healthy.",
+      "source_name": "NASA, Aging and Fragility Biomarkers are Altered by Spaceflight (part of the SOMA package in Nature)",
+      "source_url": "https://www.nasa.gov/general/aging-and-fragility-biomarkers-are-altered-by-spaceflight",
+      "kind": "curated", "verified_by_human": false,
+      "note": "Good primary NASA page."
+    }
+  ],
+  "gaps": [
+    "No NASA source yet for shielding materials (e.g. hydrogen-rich materials, water). Search NASA pages; do not use opinion articles.",
+    "No RadLab numeric value yet: run scripts/fetch_radlab_samples.py and pick 1-2 real dose-rate values with instrument_id and timestamp.",
+    "No DONKI-derived numbers yet: run scripts/fetch_donki_samples.py for a controlled 12-month window."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "_metadata": {
+    "retrieved_at": "2026-11-14",
+    "verified_from_pages": true,
+    "note": "Paraphrased facts and direct RadLab observations. Review wording before player release."
+  },
+  "facts": [
+    {
+      "fact_id": "F-OSDR-MICE-MUSCLE-BONE",
+      "topic": ["health", "bone", "muscle"],
+      "text": "An OSDR study reports that wild-type mice lost significant muscle and bone mass during 33 days in microgravity.",
+      "text_kids": "In one spaceflight study, mice lost muscle and bone during 33 days in microgravity.",
+      "source_name": "NASA Open Science Data Repository dataset record",
+      "source_url": "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef",
+      "retrieved_at": "2026-11-14",
+      "kind": "curated"
+    },
+    {
+      "fact_id": "F-OSDR-MSTN-MAINTAINED",
+      "topic": ["health", "muscle"],
+      "text": "The same OSDR study reports that muscle weights of Mstn -/- mice were largely maintained during spaceflight.",
+      "text_kids": "In the same study, mice with a special gene change kept more of their muscle during spaceflight.",
+      "source_name": "NASA Open Science Data Repository dataset record",
+      "source_url": "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef",
+      "retrieved_at": "2026-11-14",
+      "kind": "curated"
+    },
+    {
+      "fact_id": "F-OSDR-ACVR2B",
+      "topic": ["health", "bone", "muscle"],
+      "text": "The OSDR study reports that blocking MSTN/activin A signaling increased muscle and bone mass in both ground and flight mice.",
+      "text_kids": "Scientists tested a treatment that helped increase muscle and bone in both Earth and space groups of mice.",
+      "source_name": "NASA Open Science Data Repository dataset record",
+      "source_url": "https://catalog.data.gov/dataset/targeting-myostatin-activin-a-protects-against-skeletal-muscle-and-bone-loss-during-spacef",
+      "retrieved_at": "2026-11-14",
+      "kind": "curated"
+    },
+    {
+      "fact_id": "F-OSDR-FRAILTY-GENES",
+      "topic": ["health", "muscle", "aging"],
+      "text": "A NASA page describing OSDR-based research reports spaceflight-related gene-expression changes linked to frailty and muscle loss.",
+      "text_kids": "Spaceflight can change body signals linked to weaker muscles, so scientists study ways to protect astronauts.",
+      "source_name": "NASA, Aging and Fragility Biomarkers are Altered by Spaceflight",
+      "source_url": "https://www.nasa.gov/general/aging-and-fragility-biomarkers-are-altered-by-spaceflight",
+      "retrieved_at": "2026-11-14",
+      "kind": "curated"
+    },
+    {
+      "fact_id": "F-RADLAB-DOSTEL1",
+      "topic": ["radiation", "iss"],
+      "text": "The saved RadLab ISS sample records DosTel1 at 9.815504 micrograys per hour absorbed dose rate on 2022-04-01 at 23:00:00.",
+      "text_kids": "A RadLab detector on the space station recorded a radiation dose-rate reading during the sample time.",
+      "source_name": "NASA OSDR RadLab Data API",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/api/",
+      "retrieved_at": "2026-11-14",
+      "sample_file": "data/samples/radlab_iss_dostel.json.txt",
+      "sample_timestamp": "2022-04-01T23:00:00",
+      "instrument_id": "DosTel1",
+      "absorbed_dose_rate_unit": "microgray/hour",
+      "kind": "curated"
+    },
+    {
+      "fact_id": "F-RADLAB-DOSTEL2",
+      "topic": ["radiation", "iss"],
+      "text": "The saved RadLab ISS sample records DosTel2 at 10.2160856666667 micrograys per hour absorbed dose rate on 2022-04-01 at 23:00:00.",
+      "text_kids": "A second RadLab detector recorded a nearby radiation dose-rate reading at the same sample time.",
+      "source_name": "NASA OSDR RadLab Data API",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/api/",
+      "retrieved_at": "2026-11-14",
+      "sample_file": "data/samples/radlab_iss_dostel.json.txt",
+      "sample_timestamp": "2022-04-01T23:00:00",
+      "instrument_id": "DosTel2",
+      "absorbed_dose_rate_unit": "microgray/hour",
+      "kind": "curated"
+    }
+  ]
+}

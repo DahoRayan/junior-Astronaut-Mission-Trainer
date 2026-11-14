@@ -1,0 +1,24 @@
+{
+ "retrieved_at": "2026-11-14T14:32:46.664732+00:00",
+ "files": [
+  {
+   "file": "radlab_iss_dostel.json.txt",
+   "query": "spacecraft=ISS&instrument=DosTel&timestamp>=2022-04-01T23:00&timestamp<2022-04-02T01:05&absorbed_dose_rate&dose_equivalent_rate&flux&format=json",
+   "bytes_saved": 15061,
+   "content_length_header": null,
+   "truncated": false
+  },
+  {
+   "file": "radlab_moon.json.txt",
+   "query": "celestial_body=Moon&spacecraft&instrument&timestamp&absorbed_dose_rate&dose_equivalent_rate&format=json",
+   "bytes_saved": 137,
+   "content_length_header": null,
+   "truncated": false
+  },
+  {
+   "file": null,
+   "query": "trajectory=BLEO&celestial_body&spacecraft&instrument&timestamp&absorbed_dose_rate&dose_equivalent_rate&format=json",
+   "error": "TimeoutError"
+  }
+ ]
+}

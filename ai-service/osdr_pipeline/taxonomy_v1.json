@@ -1,0 +1,35 @@
+{
+  "version": "keyword_v1",
+  "note": "Heuristic keyword labels (deterministic, explainable). Terms are word-prefix matches; a trailing $ means whole word (plural s allowed). Review and extend with a human before relying on counts.",
+  "topics": {
+    "radiation": ["radiation", "irradiat", "cosmic ray", "heavy ion", "proton beam", "solar particle", "dosimet", "gamma", "hze"],
+    "bone": ["bone", "osteo", "trabecular", "cancellous", "vertebra", "femur", "tibia"],
+    "muscle": ["muscle", "sarcopenia", "myofib", "myoblast", "myotube", "soleus", "tibialis", "atrophy"],
+    "immune": ["immun", "t cell", "lymph", "thymus", "spleen", "cytokine", "inflammat"],
+    "cardiovascular": ["cardio", "heart$", "vascular", "artery", "endotheli", "blood pressure", "cardiac"],
+    "brain_neuro": ["brain$", "neuro", "cognit", "hippocamp", "cerebr", "behavior"],
+    "vision_eye": ["eye$", "retina", "ocular", "optic nerve", "cornea"],
+    "metabolism_organs": ["liver", "hepat", "metabol", "lipid", "insulin", "kidney", "renal"],
+    "microbes": ["microbio", "microbe", "bacteri", "fung", "metagenom", "biofilm", "yeast"],
+    "plants_food": ["plant$", "arabidopsis", "seed$", "crop$", "lettuce", "hydropon", "root growth"],
+    "gravity_effects": ["microgravity", "hindlimb unloading", "clinostat", "bed rest", "centrifug", "artificial gravity", "hypergravity", "altered gravity"],
+    "sleep_circadian": ["circadian", "sleep"]
+  },
+  "game_domain": {
+    "radiation": "shielding",
+    "plants_food": "food_and_oxygen",
+    "microbes": "life_support",
+    "bone": "crew_health", "muscle": "crew_health", "immune": "crew_health", "cardiovascular": "crew_health",
+    "brain_neuro": "crew_health", "vision_eye": "crew_health", "metabolism_organs": "crew_health",
+    "gravity_effects": "crew_health", "sleep_circadian": "crew_health"
+  },
+  "organism_groups": {
+    "human": ["homo sapiens"],
+    "mouse": ["mus musculus"],
+    "rat": ["rattus"],
+    "plant": ["arabidopsis", "oryza", "zea mays", "solanum", "brassica", "lactuca", "triticum", "glycine", "physcomitrella"],
+    "invertebrate_or_fish": ["drosophila", "caenorhabditis", "danio", "aplysia"],
+    "microbe": ["escherichia", "bacillus", "saccharomyces", "pseudomonas", "staphylococcus", "candida", "salmonella"]
+  },
+  "ground_analog_terms": ["hindlimb unloading", "bed rest", "clinostat", "random positioning", "rotating wall", "ground-based", "analog"]
+}
