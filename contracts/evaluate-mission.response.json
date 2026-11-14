@@ -1,0 +1,7 @@
+{
+  "survivability_score": 80,
+  "strengths": ["You kept making careful choices."],
+  "lessons": ["Check all three resources before your next decision."],
+  "summary": "You completed a mission lesson by balancing important resources.",
+  "fallback_used": true
+}
