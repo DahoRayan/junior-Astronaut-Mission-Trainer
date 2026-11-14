@@ -3,10 +3,13 @@
   "survival_delta": -2,
   "tradeoff": {"gained": "time to work", "cost": "some resources"},
   "feedback": "You gained time to act, but it cost some resources. Keep watching your supplies.",
-  "fact": {
-    "text": "Shielding helps protect astronauts from radiation dose, or space energy.",
-    "source": "NASA RadLab"
+  "fact": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-EVENT-SHIELD", "text": "The evaluator compares resource costs with the current mission state."}
+    ],
+    "inputs": {"decision_id": "save-power", "deltas": {"power": -10, "oxygen": 2, "shielding": 0}},
+    "sources": [{"name": "Mission rules", "kind": "simulated"}]
   },
-  "data_source": "curated",
-  "fallback_used": true
+  "data_source": "simulated"
 }

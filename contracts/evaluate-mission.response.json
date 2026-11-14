@@ -3,5 +3,22 @@
   "strengths": ["You kept making careful choices."],
   "lessons": ["Check all three resources before your next decision."],
   "summary": "You completed a mission lesson by balancing important resources.",
-  "fallback_used": true
+  "stats": {
+    "resource_stats": {
+      "power": {"mean": 75.0, "min": 60, "trend": "flat"},
+      "oxygen": {"mean": 82.0, "min": 70, "trend": "up"},
+      "shielding": {"mean": 68.0, "min": 50, "trend": "down"}
+    },
+    "rating_counts": {"great": 1, "ok": 1, "risky": 0},
+    "most_costly_decision_id": null,
+    "event_exposure_sols": 1,
+    "perspective_comparison": [{"perspective_id": "engineer", "survivability_score": 80}]
+  },
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-MISSION-SUMMARY", "text": "The debrief summarizes the mission outcome and choices."}
+    ],
+    "inputs": {"site": "moon", "perspective_id": "engineer"},
+    "sources": [{"name": "Mission rules", "kind": "simulated"}]
+  }
 }

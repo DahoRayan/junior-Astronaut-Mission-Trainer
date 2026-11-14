@@ -7,6 +7,7 @@ ResourceName = Literal["power", "oxygen", "shielding"]
 RiskLevel = Literal["low", "medium", "high"]
 Rating = Literal["great", "ok", "risky"]
 Outcome = Literal["survived", "failed"]
+DataSource = Literal["live", "curated", "simulated"]
 
 
 class Resources(BaseModel):
@@ -24,6 +25,8 @@ class GameSnapshot(BaseModel):
     sol: int
     mission_length: int
     site: Site
+    perspective_id: str
+    scene_id: str
     resources: Resources
     crew: int
     active_event: ActiveEvent | None = None
@@ -48,35 +51,76 @@ class Decision(BaseModel):
     delayed_effects: list[DelayedEffect]
 
 
-class HistoryMessage(BaseModel):
-    role: str
+class ExplanationRule(BaseModel):
+    rule_id: str
     text: str
 
 
-class AssistantChatRequest(BaseModel):
-    snapshot: GameSnapshot
-    message: str = Field(max_length=300)
-    history: list[HistoryMessage] = Field(max_length=6)
+class ExplanationSource(BaseModel):
+    name: str
+    kind: DataSource
 
 
-class AssistantChatResponse(BaseModel):
-    reply: str = Field(max_length=500)
-    data_source: Literal["live", "curated"]
-    fallback_used: bool
+class Explanation(BaseModel):
+    rules_fired: list[ExplanationRule]
+    inputs: dict
+    sources: list[ExplanationSource]
+
+
+class HealthResponse(BaseModel):
+    status: Literal["ok"]
+    nasa_live: bool
+    knowledge_base_version: str
 
 
 class SpaceWeather(BaseModel):
     risk_level: RiskLevel
     headline: str
-    data_source: Literal["live", "curated"]
+    data_source: DataSource
     source_name: str
     as_of: str
 
 
-class HealthResponse(BaseModel):
-    status: Literal["ok"]
-    llm: bool
-    nasa_live: bool
+class EventProfileWeight(BaseModel):
+    event_type: str
+    weight: float = Field(ge=0, le=1)
+    basis: str
+
+
+class EventProfileResponse(BaseModel):
+    weights: list[EventProfileWeight]
+    data_source: DataSource
+    as_of: str
+
+
+class AssistantQuestionsRequest(BaseModel):
+    snapshot: GameSnapshot
+
+
+class AssistantQuestion(BaseModel):
+    id: str
+    text: str
+
+
+class AssistantQuestionsResponse(BaseModel):
+    questions: list[AssistantQuestion] = Field(min_length=3, max_length=5)
+
+
+class AssistantAnswerRequest(BaseModel):
+    question_id: str
+    snapshot: GameSnapshot
+
+
+class Fact(BaseModel):
+    text: str
+    source: str
+
+
+class AssistantAnswerResponse(BaseModel):
+    answer: str = Field(max_length=500)
+    fact: Fact | None
+    explanation: Explanation
+    data_source: DataSource
 
 
 class SpaceWeatherInput(BaseModel):
@@ -106,20 +150,50 @@ class EvaluateDecisionResponse(BaseModel):
     tradeoff: Tradeoff
     feedback: str = Field(max_length=500)
     fact: Fact | None
-    data_source: Literal["live", "curated"]
-    fallback_used: bool
+    explanation: Explanation
+    data_source: DataSource
 
 
 class MissionHistoryItem(BaseModel):
     snapshot: GameSnapshot
     decision_id: str
-    rating: Rating
+    rating: str
+
+
+class OtherRun(BaseModel):
+    perspective_id: str
+    survivability_score: int = Field(ge=0, le=100)
 
 
 class EvaluateMissionRequest(BaseModel):
     site: Site
+    perspective_id: str
     history: list[MissionHistoryItem]
     outcome: Outcome
+    other_runs: list[OtherRun] | None = None
+
+
+class ResourceStats(BaseModel):
+    mean: float
+    min: int
+    trend: Literal["up", "down", "flat"]
+
+
+class PerspectiveComparison(BaseModel):
+    perspective_id: str
+    survivability_score: int = Field(ge=0, le=100)
+
+
+class MissionStats(BaseModel):
+    resource_stats: dict[ResourceName, ResourceStats]
+    rating_counts: dict[Rating, int]
+    most_costly_decision_id: str | None
+    event_exposure_sols: int
+    perspective_comparison: list[PerspectiveComparison]
+
+
+class MissionExplanation(Explanation):
+    pass
 
 
 class EvaluateMissionResponse(BaseModel):
@@ -127,7 +201,8 @@ class EvaluateMissionResponse(BaseModel):
     strengths: list[str] = Field(max_length=3)
     lessons: list[str] = Field(max_length=3)
     summary: str
-    fallback_used: bool
+    stats: MissionStats | None
+    explanation: Explanation
 
 
 class ErrorResponse(BaseModel):

@@ -2,8 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.routers import assistant, evaluation, health, space_weather
+from app.routers import assistant, evaluation, events, health, space_weather
 
 MAX_BODY_SIZE = 20 * 1024
 
@@ -30,7 +31,13 @@ async def validation_exception_handler(_: Request, exc: RequestValidationError):
     return JSONResponse(status_code=422, content={"error": str(exc.errors())})
 
 
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(_: Request, exc: StarletteHTTPException):
+    return JSONResponse(status_code=exc.status_code, content={"error": str(exc.detail)})
+
+
 app.include_router(health.router, prefix="/v1")
 app.include_router(space_weather.router, prefix="/v1")
+app.include_router(events.router, prefix="/v1")
 app.include_router(assistant.router, prefix="/v1")
 app.include_router(evaluation.router, prefix="/v1")

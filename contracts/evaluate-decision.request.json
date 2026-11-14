@@ -3,6 +3,8 @@
     "sol": 1,
     "mission_length": 10,
     "site": "moon",
+    "perspective_id": "engineer",
+    "scene_id": "power-check",
     "resources": {"power": 80, "oxygen": 90, "shielding": 70},
     "crew": 2,
     "active_event": null
@@ -11,6 +13,8 @@
     "sol": 1,
     "mission_length": 10,
     "site": "moon",
+    "perspective_id": "engineer",
+    "scene_id": "power-check",
     "resources": {"power": 70, "oxygen": 92, "shielding": 70},
     "crew": 2,
     "active_event": null
