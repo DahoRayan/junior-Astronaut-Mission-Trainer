@@ -41,8 +41,8 @@ export class HUDController {
     // 2. Oxygen Telemetry: Reserve + net rate
     const o2Rate = state.oxygenBalanceKgH;
     const o2Label = o2Rate >= 0
-      ? `${state.oxygenKgRemaining.toFixed(0)} kg (+${o2Rate.toFixed(1)}/h 🫁)`
-      : `${state.oxygenKgRemaining.toFixed(0)} kg (${o2Rate.toFixed(1)}/h 🔻)`;
+      ? `${state.oxygenKgRemaining.toFixed(0)} kg (+${o2Rate.toFixed(1)} kg/h)`
+      : `${state.oxygenKgRemaining.toFixed(0)} kg (${o2Rate.toFixed(1)} kg/h)`;
     this.updateMeter(
       'oxygen',
       (state.oxygenKgRemaining / 150) * 100,

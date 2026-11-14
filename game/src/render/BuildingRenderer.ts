@@ -272,8 +272,8 @@ export class BuildingRenderer {
     ctx: CanvasRenderingContext2D,
     px: number,
     py: number,
-    isPowered: boolean,
-    time: number
+    _isPowered: boolean,
+    _time: number
   ): void {
     const ex = px + 6;
     const ey = py + 6;
@@ -305,21 +305,11 @@ export class BuildingRenderer {
     ctx.roundRect(ex + tankW + 6, ey + 4, tankW, th, 4);
     ctx.fill();
 
-    // Center Transparent Inspection Chamber with Effervescent Bubbles
+    // Center Inspection Glass Window
     const chamberX = ex + tankW + 1;
     const chamberW = 4;
     ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
     ctx.fillRect(chamberX, ey + 6, chamberW, th - 4);
-
-    if (isPowered) {
-      const bub1 = (time * 0.03) % (th - 6);
-      const bub2 = (time * 0.02 + 4) % (th - 6);
-      ctx.fillStyle = '#e0f2fe';
-      ctx.beginPath();
-      ctx.arc(chamberX + 2, ey + th - bub1, 1.5, 0, Math.PI * 2);
-      ctx.arc(chamberX + 2, ey + th - bub2, 1.2, 0, Math.PI * 2);
-      ctx.fill();
-    }
 
     // Top Manifold Pipes
     ctx.strokeStyle = '#38bdf8';

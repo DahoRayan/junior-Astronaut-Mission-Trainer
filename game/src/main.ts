@@ -3,7 +3,6 @@
  * Implements Decoupled 3-Manager System + Event Bus Architecture
  */
 
-import { BUILDING_DEFINITIONS, TILE_SIZE } from './core/Constants';
 import { eventBus } from './core/EventBus';
 import { soundManager } from './core/SoundManager';
 import { BuildingType, DecisionEvaluationRequest } from './core/types';
@@ -72,27 +71,16 @@ window.addEventListener('DOMContentLoaded', () => {
       const removed = simulation.removeStructure(tile.x, tile.y);
       if (removed) {
         soundManager.playPoof();
-        renderer.addFloatingText('Poof! 💨', tile.x * TILE_SIZE + 16, tile.y * TILE_SIZE, '#fb7185');
       }
       return;
     }
 
     if (renderer.selectedBuildingType) {
       const type = renderer.selectedBuildingType;
-      const def = BUILDING_DEFINITIONS[type];
       const success = simulation.placeStructure(type, tile.x, tile.y);
 
       if (success) {
         soundManager.playBuild();
-
-        // Floating juice text
-        const impactText = def.powerGenerationKw > 0
-          ? `+${def.powerGenerationKw} kW ⚡`
-          : def.oxygenProductionKgH > 0
-          ? `+${def.oxygenProductionKgH} kg/h 🫁`
-          : `Placed ${def.name}! 🎉`;
-
-        renderer.addFloatingText(impactText, tile.x * TILE_SIZE + 16, tile.y * TILE_SIZE, '#facc15');
 
         if (type !== 'power_cable') {
           // Evaluate decision via AI Service (with deterministic fallback)

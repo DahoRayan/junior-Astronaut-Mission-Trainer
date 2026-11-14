@@ -5,15 +5,6 @@ import { BuildingRenderer } from './BuildingRenderer';
 import { Camera } from './Camera';
 import { LunarTerrain } from './LunarTerrain';
 
-interface FloatingText {
-  text: string;
-  x: number;
-  y: number;
-  color: string;
-  alpha: number;
-  vy: number;
-}
-
 interface ConfettiParticle {
   x: number;
   y: number;
@@ -38,7 +29,6 @@ export class ViewportRenderer {
   public selectedBuildingType: BuildingType | null = null;
   public isDemolishMode: boolean = false;
 
-  private floatingTexts: FloatingText[] = [];
   private confettiParticles: ConfettiParticle[] = [];
 
   // Background stars
@@ -62,17 +52,6 @@ export class ViewportRenderer {
         speed: 0.5 + Math.random() * 1.5,
       });
     }
-  }
-
-  public addFloatingText(text: string, worldX: number, worldY: number, color: string = '#facc15'): void {
-    this.floatingTexts.push({
-      text,
-      x: worldX,
-      y: worldY,
-      color,
-      alpha: 1.0,
-      vy: -1.2,
-    });
   }
 
   public start(): void {
@@ -159,9 +138,6 @@ export class ViewportRenderer {
     // 6. Draw Confetti Celebrations
     this.drawConfetti();
 
-    // 7. Draw Floating Text Particles
-    this.drawFloatingTexts();
-
     this.ctx.restore();
   }
 
@@ -176,29 +152,8 @@ export class ViewportRenderer {
   }
 
   private drawTerrain(): void {
-    // 1. Draw clean actual photographic moon texture background
+    // Pure clean actual photographic moon texture background
     this.ctx.drawImage(this.lunarTerrain.canvas, 0, 0);
-
-    // 2. Sparkling Blue Ice Crystals only on tiles that contain ice deposits
-    for (let y = 0; y < GRID_HEIGHT; y++) {
-      for (let x = 0; x < GRID_WIDTH; x++) {
-        const tile = this.grid.tiles[y][x];
-        if (!tile.hasIceDeposit) continue;
-
-        const px = x * TILE_SIZE;
-        const py = y * TILE_SIZE;
-        const sparkle = Math.sin(this.tickTime * 0.005 + x + y) * 0.4 + 0.6;
-        this.ctx.fillStyle = `rgba(56, 189, 248, ${0.28 * sparkle})`;
-        this.ctx.fillRect(px + 4, py + 4, TILE_SIZE - 8, TILE_SIZE - 8);
-
-        // Shiny diamond glints
-        this.ctx.fillStyle = '#bae6fd';
-        this.ctx.beginPath();
-        this.ctx.arc(px + 10, py + 10, 2, 0, Math.PI * 2);
-        this.ctx.arc(px + 22, py + 20, 1.5, 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-    }
   }
 
   private drawCables(): void {
@@ -398,31 +353,6 @@ export class ViewportRenderer {
       this.ctx.rotate(p.rotation);
       this.ctx.fillStyle = p.color;
       this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.5);
-      this.ctx.restore();
-    }
-  }
-
-  private drawFloatingTexts(): void {
-    for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
-      const ft = this.floatingTexts[i];
-      ft.y += ft.vy;
-      ft.alpha -= 0.018;
-
-      if (ft.alpha <= 0) {
-        this.floatingTexts.splice(i, 1);
-        continue;
-      }
-
-      this.ctx.save();
-      this.ctx.globalAlpha = Math.max(0, ft.alpha);
-      this.ctx.font = 'bold 12px "Space Grotesk", sans-serif';
-      this.ctx.fillStyle = ft.color;
-      this.ctx.textAlign = 'center';
-      // Outline for readability
-      this.ctx.strokeStyle = '#000';
-      this.ctx.lineWidth = 3;
-      this.ctx.strokeText(ft.text, ft.x, ft.y);
-      this.ctx.fillText(ft.text, ft.x, ft.y);
       this.ctx.restore();
     }
   }
