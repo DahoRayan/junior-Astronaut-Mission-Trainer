@@ -8,13 +8,35 @@ export class SoundManager {
   private ctx: AudioContext | null = null;
   public muted: boolean = false;
 
-  private constructor() {}
+  private constructor() {
+    // Read persisted audio preference if available
+    try {
+      const saved = localStorage.getItem('artemis_sound_muted');
+      if (saved !== null) {
+        this.muted = saved === 'true';
+      }
+    } catch {
+      // fallback
+    }
+  }
 
   public static getInstance(): SoundManager {
     if (!SoundManager.instance) {
       SoundManager.instance = new SoundManager();
     }
     return SoundManager.instance;
+  }
+
+  public toggleMute(): boolean {
+    this.muted = !this.muted;
+    try {
+      localStorage.setItem('artemis_sound_muted', String(this.muted));
+    } catch {}
+    return this.muted;
+  }
+
+  public isMuted(): boolean {
+    return this.muted;
   }
 
   private initCtx(): AudioContext | null {

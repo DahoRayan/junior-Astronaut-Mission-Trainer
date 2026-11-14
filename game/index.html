@@ -100,6 +100,8 @@
       </div>
 
       <div class="mission-clock">
+        <button id="btn-sound-toggle" class="hud-action-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
+        <button id="btn-orbit-view" class="hud-action-btn orbit-btn" title="Open 3D MoonOrbiter Global View">🚀 3D Orbit</button>
         <span class="sol-badge" id="hud-sol-val">Sol 1</span>
         <span class="time-badge" id="hud-time-val">06:00</span>
         <span class="mat-badge">🧱 <span id="hud-materials-val">250</span> Mat</span>
@@ -117,7 +119,7 @@
           <!-- Dynamically populated by CatalogPanel.ts -->
         </div>
         <div class="catalog-tools">
-          <button id="btn-demolish" class="tool-btn demolish">⚠️ Demolish Module</button>
+          <button id="btn-demolish" class="tool-btn demolish" title="Toggle Demolish Mode [Key: Esc to cancel]">⚠️ Demolish Module</button>
         </div>
       </aside>
 
@@ -159,8 +161,9 @@
 
         <!-- M.I.L.O. Interactive Terminal -->
         <div class="sub-panel milo-hud">
-          <div class="panel-header">
+          <div class="panel-header space-between">
             <h3>M.I.L.O. AI ADVISOR</h3>
+            <span class="milo-status-indicator pulse-green">● ONLINE</span>
           </div>
           <div id="milo-chat-history" class="milo-chat-history">
             <div class="chat-bubble milo">
@@ -183,9 +186,9 @@
     <!-- BOTTOM BAR: Time controls & Mission Log -->
     <footer id="bottom-bar">
       <div class="time-controls">
-        <button id="btn-speed-0" class="speed-btn">⏸ Pause</button>
-        <button id="btn-speed-1" class="speed-btn active">▶ 1x</button>
-        <button id="btn-speed-2" class="speed-btn">⏩ 2x</button>
+        <button id="btn-speed-0" class="speed-btn" title="Pause Simulation [Key: Space]">⏸ Pause</button>
+        <button id="btn-speed-1" class="speed-btn active" title="Normal 1x Speed [Key: 1]">▶ 1x</button>
+        <button id="btn-speed-2" class="speed-btn" title="Fast 2x Speed [Key: 2]">⏩ 2x</button>
       </div>
 
       <div class="status-ticker">

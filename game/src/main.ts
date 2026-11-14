@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 3. Initialize UI Layer
   const hud = new HUDController();
-  new CatalogPanel();
+  const catalog = new CatalogPanel();
   const milo = new MILOTerminal();
   const dialogueModal = new DialogueModal();
   const debriefModal = new DebriefModal();
@@ -127,7 +127,27 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. Time / Speed Controls
+  // 8. Sound Mute Toggle & 3D Orbit View Launcher
+  const soundToggleBtn = document.getElementById('btn-sound-toggle');
+  const updateSoundUI = () => {
+    if (soundToggleBtn) {
+      soundToggleBtn.textContent = soundManager.isMuted() ? '🔇 Muted' : '🔊 Sound';
+      soundToggleBtn.classList.toggle('muted', soundManager.isMuted());
+    }
+  };
+  updateSoundUI();
+  soundToggleBtn?.addEventListener('click', () => {
+    soundManager.toggleMute();
+    updateSoundUI();
+  });
+
+  const orbitViewBtn = document.getElementById('btn-orbit-view');
+  orbitViewBtn?.addEventListener('click', () => {
+    soundManager.playPop();
+    window.open('http://127.0.0.1:5173', '_blank');
+  });
+
+  // 9. Time / Speed Controls
   const speedButtons: Record<number, HTMLElement | null> = {
     0: document.getElementById('btn-speed-0'),
     1: document.getElementById('btn-speed-1'),
@@ -154,11 +174,12 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 9. Notifications Toast & Sound
+  // 10. Notifications Toast, Confetti & Sound
   const toastEl = document.getElementById('notification-toast');
   eventBus.on<{ type: string; message: string }>('notification', (n) => {
     if (n.type === 'success') {
       soundManager.playFanfare();
+      renderer.triggerConfetti();
     }
     if (!toastEl) return;
     toastEl.textContent = n.message;
@@ -170,11 +191,44 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 3500);
   });
 
-  // 10. Initial State Sync & Start Simulation Loop
+  // 11. Ergonomic Global Keyboard Shortcuts
+  window.addEventListener('keydown', (e) => {
+    // Avoid hotkeys when typing in M.I.L.O. chat input
+    if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    if (e.code === 'Space') {
+      e.preventDefault();
+      const currentSpeed = simulation.simulationSpeed;
+      const nextSpeed = currentSpeed === 0 ? 1 : 0;
+      soundManager.playPop();
+      simulation.setSpeed(nextSpeed);
+      updateSpeedUI(nextSpeed);
+    } else if (e.key === '1') {
+      soundManager.playPop();
+      simulation.setSpeed(1);
+      updateSpeedUI(1);
+    } else if (e.key === '2') {
+      soundManager.playPop();
+      simulation.setSpeed(2);
+      updateSpeedUI(2);
+    } else if (e.key === 'Escape') {
+      catalog.clearSelection();
+      renderer.selectedBuildingType = null;
+      renderer.isDemolishMode = false;
+      soundManager.playPop();
+    } else if (e.key === 'm' || e.key === 'M') {
+      soundManager.toggleMute();
+      updateSoundUI();
+    }
+  });
+
+  // 12. Initial State Sync & Start Simulation Loop
   hud.update(simulation.state);
   simulation.start();
 
-  // 11. Launch Authoritative Narrative Prologue
+  // 13. Launch Authoritative Narrative Prologue
   setTimeout(() => {
     eventBus.emit('prologue_start', null);
   }, 500);

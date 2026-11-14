@@ -43,12 +43,21 @@ export class CatalogPanel {
         itemBtn.className = 'catalog-item-btn';
         itemBtn.dataset.type = type;
 
+        const badges: string[] = [];
+        if (def.powerGenerationKw > 0) badges.push(`<span class="spec-tag badge-prod">+${def.powerGenerationKw} kW ⚡</span>`);
+        if (def.powerConsumptionKw > 0) badges.push(`<span class="spec-tag badge-cons">-${def.powerConsumptionKw} kW ⚡</span>`);
+        if (def.oxygenProductionKgH > 0) badges.push(`<span class="spec-tag badge-prod">+${def.oxygenProductionKgH} kg/h 🫁</span>`);
+        if (def.waterConsumptionL > 0) badges.push(`<span class="spec-tag badge-cons">-${def.waterConsumptionL} L 💧</span>`);
+        if (def.shieldingBonusPct > 0) badges.push(`<span class="spec-tag badge-spec">+${def.shieldingBonusPct}% 🛡️</span>`);
+        if (def.batteryCapacityKwh > 0) badges.push(`<span class="spec-tag badge-spec">${def.batteryCapacityKwh} kWh 🔋</span>`);
+
         itemBtn.innerHTML = `
           <div class="item-header">
             <span class="item-name">${def.name}</span>
-            <span class="item-cost">⚡ ${def.buildCost} Mat</span>
+            <span class="item-cost">🧱 ${def.buildCost} Mat</span>
           </div>
           <div class="item-impact">${def.description}</div>
+          ${badges.length > 0 ? `<div class="item-badges">${badges.join('')}</div>` : ''}
         `;
 
         itemBtn.addEventListener('click', () => {

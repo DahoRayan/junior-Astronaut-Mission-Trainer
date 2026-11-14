@@ -1,5 +1,5 @@
 import { GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
-import { BuildingType } from '../core/types';
+import { BuildingType, PlacedBuilding } from '../core/types';
 import { Grid } from '../simulation/Grid';
 import { BuildingRenderer } from './BuildingRenderer';
 import { Camera } from './Camera';
@@ -12,6 +12,18 @@ interface FloatingText {
   color: string;
   alpha: number;
   vy: number;
+}
+
+interface ConfettiParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  alpha: number;
+  rotation: number;
+  vRot: number;
 }
 
 export class ViewportRenderer {
@@ -27,6 +39,7 @@ export class ViewportRenderer {
   public isDemolishMode: boolean = false;
 
   private floatingTexts: FloatingText[] = [];
+  private confettiParticles: ConfettiParticle[] = [];
 
   // Background stars
   private stars: { x: number; y: number; size: number; speed: number }[] = [];
@@ -140,10 +153,13 @@ export class ViewportRenderer {
     // 4. Draw Chunky Fun Buildings
     this.drawBuildings();
 
-    // 5. Draw Placement Hover Preview
+    // 5. Draw Placement Hover & Ghost Preview
     this.drawHover();
 
-    // 6. Draw Floating Text Particles
+    // 6. Draw Confetti Celebrations
+    this.drawConfetti();
+
+    // 7. Draw Floating Text Particles
     this.drawFloatingTexts();
 
     this.ctx.restore();
@@ -256,27 +272,133 @@ export class ViewportRenderer {
     const py = this.hoveredTile.y * TILE_SIZE;
 
     if (this.isDemolishMode) {
-      this.ctx.fillStyle = 'rgba(239, 68, 68, 0.45)';
+      // Demolition hazard preview
+      this.ctx.save();
+      this.ctx.fillStyle = 'rgba(239, 68, 68, 0.35)';
       this.ctx.strokeStyle = '#ef4444';
-      this.ctx.lineWidth = 3;
+      this.ctx.lineWidth = 2.5;
       this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
       this.ctx.fill();
       this.ctx.stroke();
+
+      // Hazard cross
+      this.ctx.lineWidth = 2;
+      this.ctx.beginPath();
+      this.ctx.moveTo(px + 6, py + 6);
+      this.ctx.lineTo(px + TILE_SIZE - 6, py + TILE_SIZE - 6);
+      this.ctx.moveTo(px + TILE_SIZE - 6, py + 6);
+      this.ctx.lineTo(px + 6, py + TILE_SIZE - 6);
+      this.ctx.stroke();
+      this.ctx.restore();
     } else if (this.selectedBuildingType) {
       const tile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
       const isValid = tile && !tile.building;
 
-      this.ctx.fillStyle = isValid ? 'rgba(34, 197, 94, 0.45)' : 'rgba(239, 68, 68, 0.45)';
-      this.ctx.strokeStyle = isValid ? '#22c55e' : '#ef4444';
-      this.ctx.lineWidth = 3;
-      this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
-      this.ctx.fill();
-      this.ctx.stroke();
+      if (isValid) {
+        // 1. Ghost Silhouette Preview of Building
+        this.ctx.save();
+        this.ctx.globalAlpha = 0.58;
+        const ghost: PlacedBuilding = {
+          id: '__ghost__',
+          type: this.selectedBuildingType,
+          x: this.hoveredTile.x,
+          y: this.hoveredTile.y,
+          isPowered: true,
+        };
+        BuildingRenderer.drawBuilding(this.ctx, ghost, px, py, this.tickTime);
+        this.ctx.restore();
+
+        // 2. High-visibility green placement reticle
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(74, 222, 128, 0.16)';
+        this.ctx.strokeStyle = '#4ade80';
+        this.ctx.lineWidth = 2.5;
+        this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
+        this.ctx.fill();
+        this.ctx.stroke();
+
+        // Corner tick marks
+        const s = 6;
+        this.ctx.strokeStyle = '#22c55e';
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(px, py + s); this.ctx.lineTo(px, py); this.ctx.lineTo(px + s, py);
+        this.ctx.moveTo(px + TILE_SIZE - s, py); this.ctx.lineTo(px + TILE_SIZE, py); this.ctx.lineTo(px + TILE_SIZE, py + s);
+        this.ctx.moveTo(px, py + TILE_SIZE - s); this.ctx.lineTo(px, py + TILE_SIZE); this.ctx.lineTo(px + s, py + TILE_SIZE);
+        this.ctx.moveTo(px + TILE_SIZE - s, py + TILE_SIZE); this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE); this.ctx.lineTo(px + TILE_SIZE, py + TILE_SIZE - s);
+        this.ctx.stroke();
+        this.ctx.restore();
+      } else {
+        // Occupied / invalid tile
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+        this.ctx.strokeStyle = '#ef4444';
+        this.ctx.lineWidth = 2.5;
+        this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
+        this.ctx.fill();
+        this.ctx.stroke();
+
+        // Warning slash
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(px + 8, py + 8);
+        this.ctx.lineTo(px + TILE_SIZE - 8, py + TILE_SIZE - 8);
+        this.ctx.stroke();
+        this.ctx.restore();
+      }
     } else {
-      this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-      this.ctx.lineWidth = 2;
+      // Gentle subtle inspection cursor
+      this.ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+      this.ctx.lineWidth = 1.5;
       this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 4);
       this.ctx.stroke();
+    }
+  }
+
+  public triggerConfetti(centerX?: number, centerY?: number): void {
+    const cx = centerX ?? (this.hoveredTile ? this.hoveredTile.x * TILE_SIZE + 16 : (GRID_WIDTH * TILE_SIZE) / 2);
+    const cy = centerY ?? (this.hoveredTile ? this.hoveredTile.y * TILE_SIZE + 16 : (GRID_HEIGHT * TILE_SIZE) / 2);
+    const colors = ['#f59e0b', '#10b981', '#38bdf8', '#c084fc', '#f472b6', '#ffffff'];
+
+    for (let i = 0; i < 48; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.8 + Math.random() * 5.0;
+      this.confettiParticles.push({
+        x: cx,
+        y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2.8,
+        size: 3 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: 1.0,
+        rotation: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.25,
+      });
+    }
+  }
+
+  private drawConfetti(): void {
+    for (let i = this.confettiParticles.length - 1; i >= 0; i--) {
+      const p = this.confettiParticles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.09; // slight gravity
+      p.vx *= 0.985;
+      p.rotation += p.vRot;
+      p.alpha -= 0.016;
+
+      if (p.alpha <= 0) {
+        this.confettiParticles.splice(i, 1);
+        continue;
+      }
+
+      this.ctx.save();
+      this.ctx.globalAlpha = Math.max(0, p.alpha);
+      this.ctx.translate(p.x, p.y);
+      this.ctx.rotate(p.rotation);
+      this.ctx.fillStyle = p.color;
+      this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.5);
+      this.ctx.restore();
     }
   }
 

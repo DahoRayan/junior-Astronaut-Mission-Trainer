@@ -185,6 +185,49 @@ body {
   font-weight: 700;
 }
 
+.hud-action-btn {
+  background: var(--bg-card);
+  border: 2px solid var(--border-playful);
+  color: #f1f5f9;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #0d0f13;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.1s ease;
+}
+
+.hud-action-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--candy-yellow);
+  box-shadow: 0 5px 0 #0d0f13;
+}
+
+.hud-action-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0d0f13;
+}
+
+.hud-action-btn.muted {
+  color: var(--candy-red);
+  border-color: rgba(251, 113, 133, 0.4);
+}
+
+.hud-action-btn.orbit-btn {
+  background: linear-gradient(135deg, #1e2230 0%, #161a24 100%);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: var(--candy-yellow);
+}
+
+.hud-action-btn.orbit-btn:hover {
+  border-color: var(--candy-yellow);
+  box-shadow: 0 5px 0 #0d0f13, 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
 .sol-badge, .time-badge, .mat-badge {
   background: var(--bg-card);
   padding: 5px 10px;
@@ -307,6 +350,39 @@ body {
   font-size: 0.75rem;
   color: var(--text-muted);
   line-height: 1.3;
+}
+
+.item-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.spec-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+.badge-prod {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--candy-green);
+  border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+.badge-cons {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--candy-red);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+.badge-spec {
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--candy-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.4);
 }
 
 .catalog-tools {
@@ -498,6 +574,26 @@ body {
   background: rgba(74, 222, 128, 0.1);
 }
 .obj-check { font-weight: 700; font-size: 1rem; }
+
+.milo-status-indicator {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--candy-green);
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.milo-status-indicator.pulse-green {
+  animation: milo-pulse 2s infinite alternate;
+}
+
+@keyframes milo-pulse {
+  from { opacity: 0.75; }
+  to { opacity: 1; text-shadow: 0 0 8px rgba(74, 222, 128, 0.7); }
+}
 
 .milo-hud {
   flex: 1;
