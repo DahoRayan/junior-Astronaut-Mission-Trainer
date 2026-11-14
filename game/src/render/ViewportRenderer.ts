@@ -112,14 +112,14 @@ export class ViewportRenderer {
     const { width, height } = this.canvas;
     this.ctx.clearRect(0, 0, width, height);
 
-    // Deep cosmic space background with colorful star gradients
+    // Deep cosmic space background (sleek neutral obsidian)
     const bgGrad = this.ctx.createRadialGradient(
       width / 2, height / 2, 50,
       width / 2, height / 2, Math.max(width, height)
     );
-    bgGrad.addColorStop(0, '#1a103c'); // Cosmic purple center
-    bgGrad.addColorStop(0.5, '#0c0f2b'); // Deep blue
-    bgGrad.addColorStop(1, '#050714'); // Space black
+    bgGrad.addColorStop(0, '#12141a'); // Dark titanium center
+    bgGrad.addColorStop(0.5, '#08090c'); // Deep obsidian
+    bgGrad.addColorStop(1, '#020304'); // Cosmic black
     this.ctx.fillStyle = bgGrad;
     this.ctx.fillRect(0, 0, width, height);
 
