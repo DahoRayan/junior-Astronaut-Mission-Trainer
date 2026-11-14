@@ -1,54 +1,75 @@
 import { eventBus } from '../core/EventBus';
-import { DialogueEntry } from '../core/types';
-import { DialogueModal } from '../ui/DialogueModal';
+import { VisualNovelController } from '../ui/VisualNovelController';
+import { STORY_SCENES, StoryScene } from './StoryData';
 
 export class NarrativeManager {
-  private dialogueModal: DialogueModal;
+  private vn: VisualNovelController;
+  private customScenes: Map<string, StoryScene> = new Map();
 
-  constructor(dialogueModal: DialogueModal) {
-    this.dialogueModal = dialogueModal;
+  constructor(vn: VisualNovelController) {
+    this.vn = vn;
     this.bindEvents();
   }
 
   private bindEvents(): void {
-    eventBus.on<DialogueEntry>('show_dialogue', (entry) => {
-      this.dialogueModal.show(entry);
+    // Listen for story scene requests
+    eventBus.on<string>('play_story_scene', (sceneId) => {
+      this.playScene(sceneId);
     });
 
+    // Prologue trigger
     eventBus.on('prologue_start', () => {
-      this.playPrologue();
+      this.playScene('prologue', () => {
+        eventBus.emit('prologue_complete', null);
+      });
+    });
+
+    // Chapter load triggers
+    eventBus.on<number>('chapter_loaded', (ch) => {
+      const sceneId = `ch${ch}_intro`;
+      if (this.hasScene(sceneId)) {
+        this.playScene(sceneId);
+      }
     });
   }
 
-  public playPrologue(): void {
-    const sequence: DialogueEntry[] = [
-      {
-        speakerId: 'elena',
-        speakerName: 'Capt. Elena Ruiz (Commander)',
-        text: 'Touchdown confirmed on Shackleton Crater Rim! Artemis base site secure. Crew, check your spacesuits and prep for First Light.',
-      },
-      {
-        speakerId: 'milo',
-        speakerName: 'M.I.L.O. (AI Logistics Operator)',
-        text: 'Greetings, Junior Commander! I am M.I.L.O., your Mission Intelligence & Logistics Operator. My telemetry circuits are ready to assist you.',
-      },
-      {
-        speakerId: 'amir',
-        speakerName: 'Amir Haddad (Systems Engineer)',
-        text: 'Commander! The high ridge has perfect sunlight right now. Let\'s place our Solar Array and lay power cables to the Oxygen Electrolyzer!',
-      },
-    ];
+  /**
+   * Play any registered story scene by ID in full Visual Novel presentation
+   */
+  public playScene(sceneId: string, onComplete?: () => void): void {
+    const scene = this.getScene(sceneId);
+    if (!scene) {
+      console.warn(`[NarrativeManager] Story scene "${sceneId}" not found.`);
+      if (onComplete) onComplete();
+      return;
+    }
 
-    let index = 0;
-    const showNext = () => {
-      if (index < sequence.length) {
-        const item = sequence[index++];
-        this.dialogueModal.show(item, showNext);
-      } else {
-        eventBus.emit('prologue_complete', null);
-      }
-    };
+    this.vn.playScene(scene, () => {
+      eventBus.emit('story_scene_completed', sceneId);
+      if (onComplete) onComplete();
+    });
+  }
 
-    showNext();
+  /**
+   * Register a new dynamic custom story scene at runtime
+   */
+  public registerScene(scene: StoryScene): void {
+    this.customScenes.set(scene.id, scene);
+  }
+
+  public hasScene(sceneId: string): boolean {
+    return !!this.getScene(sceneId);
+  }
+
+  public getScene(sceneId: string): StoryScene | null {
+    return this.customScenes.get(sceneId) || STORY_SCENES[sceneId] || null;
+  }
+
+  public getAvailableScenes(): StoryScene[] {
+    const all = { ...STORY_SCENES };
+    this.customScenes.forEach((scene, id) => {
+      all[id] = scene;
+    });
+    return Object.values(all);
   }
 }

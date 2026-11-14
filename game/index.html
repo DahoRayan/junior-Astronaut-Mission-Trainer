@@ -101,6 +101,7 @@
 
       <div class="mission-clock">
         <button id="btn-sound-toggle" class="hud-action-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
+        <button id="btn-story-log" class="hud-action-btn story-btn" title="Open Mission Story Log [Visual Novel]">📖 Story</button>
         <span class="sol-badge" id="hud-sol-val">Sol 1</span>
         <span class="time-badge" id="hud-time-val">06:00</span>
         <span class="mat-badge">🧱 <span id="hud-materials-val">250</span> Mat</span>
@@ -201,21 +202,57 @@
     </footer>
   </div>
 
-  <!-- NARRATIVE DIALOGUE MODAL -->
-  <div id="dialogue-modal" class="modal-overlay hidden">
-    <div class="dialogue-card">
-      <div class="dialogue-character">
-        <div id="dialogue-portrait" class="character-portrait">👨‍🚀</div>
-        <div id="dialogue-speaker-name" class="character-name">Capt. Elena Ruiz</div>
+  <!-- VISUAL NOVEL STORY THEATER -->
+  <div id="vn-theater" class="vn-theater hidden">
+    <!-- Scene Title & Location Banner -->
+    <div class="vn-scene-header">
+      <div class="vn-scene-badge">
+        <span class="vn-badge-dot">●</span>
+        <span id="vn-scene-title">PROLOGUE: THE SELECTION</span>
       </div>
-      <div class="dialogue-content">
-        <div id="dialogue-text" class="dialogue-bubble">
-          Touchdown confirmed on Shackleton Crater Rim! Artemis base site secure.
+      <div id="vn-scene-location" class="vn-scene-loc">Shackleton Crater Rim — Sector Alpha</div>
+    </div>
+
+    <!-- Character Presentation Stage -->
+    <div class="vn-stage">
+      <div id="vn-character-stage" class="vn-character-container">
+        <div id="vn-character-avatar" class="vn-avatar">👩‍🚀</div>
+        <div id="vn-character-expression" class="vn-expression-badge">CONFIDENT</div>
+      </div>
+    </div>
+
+    <!-- Interactive Dialogue Box -->
+    <div class="vn-dialogue-box">
+      <!-- Top Speaker Bar -->
+      <div class="vn-speaker-bar">
+        <div class="vn-speaker-info">
+          <span id="vn-speaker-name" class="vn-speaker-name">CAPT. ELENA RUIZ</span>
+          <span id="vn-speaker-role" class="vn-speaker-role">MISSION COMMANDER</span>
         </div>
-        <div id="dialogue-options" class="dialogue-options">
-          <!-- Dynamically populated -->
+        <div class="vn-controls">
+          <button id="vn-btn-log" class="vn-ctrl-btn" title="View Dialogue Log">📜 Log</button>
+          <button id="vn-btn-auto" class="vn-ctrl-btn" title="Toggle Auto-Play">▶ Auto</button>
+          <button id="vn-btn-skip" class="vn-ctrl-btn" title="Fast Forward">⏩ Skip</button>
         </div>
       </div>
+
+      <!-- Dialogue Content Area -->
+      <div class="vn-content">
+        <p id="vn-dialogue-text" class="vn-text"></p>
+        <div id="vn-continue-indicator" class="vn-indicator">▼</div>
+      </div>
+
+      <!-- Interactive Branching Choice Options -->
+      <div id="vn-choice-container" class="vn-choices hidden"></div>
+    </div>
+
+    <!-- VN Dialogue Log Modal (Slide out) -->
+    <div id="vn-log-drawer" class="vn-log-drawer hidden">
+      <div class="vn-log-header">
+        <h3>COMMUNICATIONS TRANSCRIPT</h3>
+        <button id="vn-log-close" class="vn-log-close-btn">✕</button>
+      </div>
+      <div id="vn-log-body" class="vn-log-body"></div>
     </div>
   </div>
 

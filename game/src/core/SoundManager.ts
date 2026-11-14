@@ -53,6 +53,81 @@ export class SoundManager {
   }
 
   /**
+   * Fast subtle radio teletype chirp for VN typewriter effect
+   */
+  public playBlip(): void {
+    if (this.muted) return;
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800 + Math.random() * 200, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.02);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.02);
+  }
+
+  /**
+   * Apollo comms radio transmission quindar chirp
+   */
+  public playRadioChirp(): void {
+    if (this.muted) return;
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(2524, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.06);
+  }
+
+  /**
+   * Two-tone emergency siren / alert klaxon
+   */
+  public playAlarm(): void {
+    if (this.muted) return;
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.setValueAtTime(880, now + 0.15);
+    osc.frequency.setValueAtTime(440, now + 0.3);
+
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.45);
+  }
+
+  /**
    * Cheerful click / bubble pop sound
    */
   public playPop(): void {

@@ -30,6 +30,12 @@ Update after every meaningful change.
   - **Catalog Specification Badges**: Added color-coded production/consumption pills (`+20 kW ⚡`, `-10 kW ⚡`, `+15 kg/h 🫁`, `-12 L 💧`, `+80% 🛡️`, `100 kWh 🔋`) directly onto building cards.
   - **Audio Accessibility & Keyboard Hotkeys**: Added top-bar Sound Mute toggle button (`🔊 / 🔇`) with persistence, and global hotkeys (`Space` for pause/play, `1`/`2` for speed, `Esc` for cancel/deselect, `M` for audio mute, `R` for recenter).
 - **Decommissioned & Removed 3D MoonOrbiter**: Killed background dev server on port 5173, completely removed `game/MoonOrbiter-master` directory and UI hooks, focusing 100% of product development on the core 2D Lunar Colony Trainer.
+- **Visual Novel (VN) Story Engine Implemented**:
+  - Replaced the simple dialogue modal with a full **Visual Novel Presentation Theater** (`VisualNovelController.ts`, `StoryData.ts`).
+  - Added character presentations with mood badges (`CONFIDENT`, `ALERT`, `TINKERING`, `CURIOUS`, `WORRIED`, `CALM`), Apollo comms indicators, and color-coded themes.
+  - Implemented typewriter text animation with real-time audio teletype blips (`SoundManager.playBlip()`), screen shake on crisis lines, and radio quindar chirps.
+  - Built interactive multiple-choice branching options, auto-play with pacing delays, skip functionality, and a slide-out dialogue transcript history log.
+  - Built a data-driven story catalog in `StoryData.ts` mapping all campaign arcs (Prologue, Chapter 1 First Light, Chapter 2 The Long Night, Chapter 3 CME Alert, Chapter 4 Hydroponics, Chapter 5 Graduation) and added an in-game `📖 Story` transmission button.
 
 ## In Progress
 - Bootstrapping the Web Game project foundation in `game/` with Vite, TypeScript, Canvas 2D engine, and Perimeter Resource HUD.

@@ -13,9 +13,9 @@ import { ViewportRenderer } from './render/ViewportRenderer';
 import { SimulationEngine } from './simulation/SimulationEngine';
 import { CatalogPanel } from './ui/CatalogPanel';
 import { DebriefModal } from './ui/DebriefModal';
-import { DialogueModal } from './ui/DialogueModal';
 import { HUDController } from './ui/HUDController';
 import { MILOTerminal } from './ui/MILOTerminal';
+import { VisualNovelController } from './ui/VisualNovelController';
 
 window.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
@@ -42,11 +42,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const hud = new HUDController();
   const catalog = new CatalogPanel();
   const milo = new MILOTerminal();
-  const dialogueModal = new DialogueModal();
+  const visualNovel = new VisualNovelController();
   const debriefModal = new DebriefModal();
 
   // 4. Initialize Narrative & Mission Managers
-  new NarrativeManager(dialogueModal);
+  const narrative = new NarrativeManager(visualNovel);
   new MissionManager(debriefModal);
 
   // 5. Connect Catalog / Tool Selection to Renderer & Sounds
@@ -127,6 +127,14 @@ window.addEventListener('DOMContentLoaded', () => {
   soundToggleBtn?.addEventListener('click', () => {
     soundManager.toggleMute();
     updateSoundUI();
+  });
+
+  const storyLogBtn = document.getElementById('btn-story-log');
+  storyLogBtn?.addEventListener('click', () => {
+    soundManager.playPop();
+    const ch = simulation.currentChapter || 1;
+    const sceneId = ch === 1 ? 'prologue' : `ch${ch}_intro`;
+    narrative.playScene(sceneId);
   });
 
   // 9. Time / Speed Controls
