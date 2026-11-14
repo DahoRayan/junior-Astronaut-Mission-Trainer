@@ -6,7 +6,7 @@ Update after every meaningful change (only your own unit/row).
 - Plan v2 adopted (story-driven, expert system, statistics). Unit 01 awaiting verification.
 
 ## Current Goal
-- Unit 05 expert system completed; next planned unit is story bible validation.
+- Unit 07 statistics (see `specs/00-build-plan.md`)
 
 ## Completed
 - Unit 01 implemented (v1 contract mocks); verification pending
@@ -42,7 +42,7 @@ Update after every meaningful change (only your own unit/row).
 | 04b OSDR metadata pipeline | Ibrahim | feat/ai-04b-osdr-pipeline | partial corpus; review pending |
 | 04 NASA data layer | Ibrahim | feat/ai-04-nasa-data-layer | completed |
 | 05 expert system | Ibrahim | feat/ai-05-expert-system | completed |
-| 06 story validator | TBD | | not started |
+| 06 story validator | Ibrahim | feat/ai-06-story-bible | completed; release story file pending human sign-off |
 | 07 statistics | TBD | | not started |
 | 08 hardening + deploy | TBD | | not started |
 

@@ -70,3 +70,19 @@ uv run python scripts/validate_knowledge.py
 uv run pytest
 uv run ruff check .
 ```
+
+## Story bible validation
+
+The story team owns the narrative content. The existing draft is kept under
+`story/samples/story-bible.json` until its provisional sols, perspectives, NASA
+claims, and decision costs are reviewed. Validate it in draft mode with:
+
+```powershell
+uv run python ai-service/scripts/validate_story.py story/samples/story-bible.json
+```
+
+Use `--strict` for release readiness; draft review warnings then become errors:
+
+```powershell
+uv run python ai-service/scripts/validate_story.py story/samples/story-bible.json --strict
+```
