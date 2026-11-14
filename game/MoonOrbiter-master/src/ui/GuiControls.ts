@@ -34,6 +34,7 @@ export interface MultiTileCallbacks {
   onClearSearch: () => void;
   onDateTimeChange: (date: Date) => void;
   onNowPressed: (date: Date) => void;
+  onTextureChange?: (name: string) => void;
   getStats: () => { tiles: number; triangles: number };
 }
 
@@ -79,6 +80,19 @@ export class GuiControls {
       .onChange((v: number) => { lighting.frontFillLight.intensity = v; });
 
     lightFolder.open();
+
+    // --- Surface Texture selector (moon_01_4k vs LROC) ---
+    const texFolder = this.gui.addFolder('Surface Texture');
+    const texParams = { texture: 'Moon 01 (4K PBR)' };
+    texFolder
+      .add(texParams, 'texture', ['Moon 01 (4K PBR)', 'NASA LROC (Near Side Maria)'])
+      .name('Albedo Texture')
+      .onChange((name: string) => {
+        if (multiTile.onTextureChange) {
+          multiTile.onTextureChange(name);
+        }
+      });
+    texFolder.open();
 
     // --- Mode folder (Photo / Adaptive grouped together) ---
     const modeFolder = this.gui.addFolder('Mode');

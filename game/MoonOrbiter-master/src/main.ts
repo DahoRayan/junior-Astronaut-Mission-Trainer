@@ -150,28 +150,32 @@ function showLoadError(resource: string, err: unknown): void {
 // --- Load data ---
 const textureLoader = new THREE.TextureLoader();
 
-// 1) LROC color texture
+// 1) 4K color textures
+let moon01Texture: THREE.Texture | null = null;
+let lrocTexture: THREE.Texture | null = null;
+
+// Primary Moon 01 4K PBR texture (from moon_01_4k.blend.zip)
 textureLoader.load(
   getDataUrl('/moon-data/moon_texture_4k.jpg'),
   (texture) => {
+    moon01Texture = texture;
     globe.setTexture(texture);
     tileManager.setTexture(texture);
-    console.log('LROC 4K texture loaded');
+    console.log('Moon 01 4K PBR texture loaded');
   },
   undefined,
-  (err) => {
-    console.warn('4K texture failed, trying 2K...', err);
-    textureLoader.load(
-      getDataUrl('/moon-data/moon_texture_2k.jpg'),
-      (texture) => {
-        globe.setTexture(texture);
-        tileManager.setTexture(texture);
-        console.log('LROC 2K texture loaded');
-      },
-      undefined,
-      (err2) => showLoadError('Moon texture (4K+2K both failed)', err2)
-    );
-  }
+  (err) => console.warn('Moon 01 4K texture failed:', err)
+);
+
+// Alternate NASA LROC texture
+textureLoader.load(
+  getDataUrl('/moon-data/moon_texture_lroc_4k.jpg'),
+  (texture) => {
+    lrocTexture = texture;
+    console.log('NASA LROC alternate texture loaded');
+  },
+  undefined,
+  (err) => console.warn('NASA LROC alternate texture not available:', err)
 );
 
 // 2) Normal map (applied to both Globe and TileManager for consistent shading)
@@ -321,6 +325,17 @@ const gui = new GuiControls(lighting, globe, {
     const earthView = computeEarthViewPosition(date);
     moonScene.camera.position.copy(earthView.direction).multiplyScalar(SPHERE_RADIUS * 3.5);
     moonScene.controls.target.set(0, 0, 0);
+  },
+  onTextureChange: (name: string) => {
+    if (name.includes('LROC') && lrocTexture) {
+      globe.setTexture(lrocTexture);
+      tileManager.setTexture(lrocTexture);
+      console.log('Switched to NASA LROC texture');
+    } else if (moon01Texture) {
+      globe.setTexture(moon01Texture);
+      tileManager.setTexture(moon01Texture);
+      console.log('Switched to Moon 01 4K PBR texture');
+    }
   },
   getStats: () => ({
     tiles: tileManager.renderedTileCount,
