@@ -49,6 +49,21 @@ inputs used, and a simulated game-rules source. Tune thresholds, event pressure,
 and penalties in `app/evaluator/config.py`; the scoring functions in
 `app/evaluator/` contain no network calls, randomness, or LLM use.
 
+## Expert system
+
+Mission Buddy is a deterministic menu-driven expert system. Its questions and
+rules are versioned in `data/knowledge/questions.json` and
+`data/knowledge/rules.json`. NASA-derived text is limited to facts with a
+source, retrieval date, and evidence reference in `data/knowledge/facts.json`.
+The current facts use the committed OSDR metadata snapshot under `data/osdr/`;
+topic counts are metadata labels, not findings or measurements.
+
+Validate the knowledge base with:
+
+```powershell
+uv run python scripts/validate_knowledge.py
+```
+
 ## Verify
 
 ```powershell

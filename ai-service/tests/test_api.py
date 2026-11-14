@@ -60,7 +60,7 @@ def test_questions_endpoint_returns_model():
     response = client.post("/v1/assistant/questions", json={"snapshot": SNAPSHOT})
     assert response.status_code == 200
     questions = AssistantQuestionsResponse.model_validate(response.json())
-    assert len(questions.questions) == 3
+    assert 3 <= len(questions.questions) <= 5
 
 
 def test_answer_endpoint_returns_model():

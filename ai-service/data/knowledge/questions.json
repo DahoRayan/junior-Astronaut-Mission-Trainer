@@ -1,0 +1,47 @@
+{
+  "version": "1",
+  "questions": [
+    {
+      "id": "resource-balance",
+      "text": "Which resource should I protect first?",
+      "order": 10,
+      "applies_when": {"resource_below_any": {"power": 40, "oxygen": 40, "shielding": 40}},
+      "fallback": false
+    },
+    {
+      "id": "event-risk",
+      "text": "What should I notice about this event?",
+      "order": 20,
+      "applies_when": {"event_present": true},
+      "fallback": false
+    },
+    {
+      "id": "perspective-plan",
+      "text": "What should my mission role check here?",
+      "order": 30,
+      "applies_when": {"perspective_id": "engineer", "scene_id": "power-check"},
+      "fallback": false
+    },
+    {
+      "id": "science-evidence",
+      "text": "What does the NASA evidence snapshot tell us?",
+      "order": 40,
+      "applies_when": {},
+      "fallback": true
+    },
+    {
+      "id": "next-choice",
+      "text": "What should I check before my next choice?",
+      "order": 50,
+      "applies_when": {},
+      "fallback": true
+    },
+    {
+      "id": "mission-check",
+      "text": "What makes a careful mission plan?",
+      "order": 60,
+      "applies_when": {},
+      "fallback": true
+    }
+  ]
+}

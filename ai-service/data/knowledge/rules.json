@@ -1,0 +1,86 @@
+{
+  "version": "1",
+  "rules": [
+    {
+      "id": "R-RESOURCE-LOW",
+      "question_id": "resource-balance",
+      "priority": 10,
+      "conditions": {"resource_below_any": {"power": 40, "oxygen": 40, "shielding": 40}},
+      "text": "Mission Buddy notices a resource below the safe planning level.",
+      "answer": "Protect the resource that is lowest first, then check what your choice costs. Keeping all three resources steady helps the crew.",
+      "fact_id": null
+    },
+    {
+      "id": "R-RESOURCE-GENERIC",
+      "question_id": "resource-balance",
+      "priority": 100,
+      "conditions": {},
+      "text": "Mission Buddy gives a general resource-check reminder when no resource is low.",
+      "answer": "Check power, oxygen, and shielding together before you choose. Keeping them balanced gives the crew more options.",
+      "fact_id": null
+    },
+    {
+      "id": "R-EVENT-CHECK",
+      "question_id": "event-risk",
+      "priority": 10,
+      "conditions": {"event_present": true},
+      "text": "Mission Buddy checks the active event and its severity before suggesting a plan.",
+      "answer": "Look at the event type and severity, then protect the resource that counters it. Check the delayed costs before you choose.",
+      "fact_id": null
+    },
+    {
+      "id": "R-EVENT-GENERIC",
+      "question_id": "event-risk",
+      "priority": 100,
+      "conditions": {},
+      "text": "Mission Buddy gives a general event-check reminder when no event is active.",
+      "answer": "No event is active right now. Keep checking the resources and look for delayed costs before your next choice.",
+      "fact_id": null
+    },
+    {
+      "id": "R-ENGINEER-POWER",
+      "question_id": "perspective-plan",
+      "priority": 10,
+      "conditions": {"perspective_id": "engineer", "scene_id": "power-check"},
+      "text": "Mission Buddy connects the engineer perspective with the current power-check scene.",
+      "answer": "Start with power: make sure the choice leaves enough energy for life support and the next step. Then check oxygen and shielding too.",
+      "fact_id": null
+    },
+    {
+      "id": "R-ENGINEER-GENERIC",
+      "question_id": "perspective-plan",
+      "priority": 100,
+      "conditions": {},
+      "text": "Mission Buddy gives a general role-check reminder outside the engineer power scene.",
+      "answer": "Use your role's goal to guide the choice, then check power, oxygen, and shielding together.",
+      "fact_id": null
+    },
+    {
+      "id": "R-OSDR-COVERAGE",
+      "question_id": "science-evidence",
+      "priority": 10,
+      "conditions": {},
+      "text": "Mission Buddy uses the reviewed OSDR metadata snapshot and states its evidence limit.",
+      "answer": "The reviewed NASA snapshot contains 424 study records. These are metadata topic labels, not measurements or health findings.",
+      "fact_id": "F-OSDR-COVERAGE"
+    },
+    {
+      "id": "R-NEXT-CHOICE",
+      "question_id": "next-choice",
+      "priority": 10,
+      "conditions": {},
+      "text": "Mission Buddy checks immediate and delayed costs before a choice.",
+      "answer": "Check what the choice gives you, what it spends, and whether a delayed cost appears later. A careful astronaut checks all three resources.",
+      "fact_id": null
+    },
+    {
+      "id": "R-MISSION-CHECK",
+      "question_id": "mission-check",
+      "priority": 10,
+      "conditions": {},
+      "text": "Mission Buddy uses the game rules to encourage a balanced plan.",
+      "answer": "A careful plan watches power, oxygen, and shielding together. Small safe choices can help the crew reach the next scene.",
+      "fact_id": null
+    }
+  ]
+}
