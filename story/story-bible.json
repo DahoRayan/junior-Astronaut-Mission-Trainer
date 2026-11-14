@@ -1,0 +1,1640 @@
+{
+ "schema_version": "1.0-draft",
+ "status": "draft_v1_from_source_not_signed_off",
+ "meta": {
+  "title": "Beyond Earth: First Light",
+  "fictional_year": 2042,
+  "audience": "ages 7-12",
+  "language": "en",
+  "source_file": "Beyond_Earth_First_Light_AR.md",
+  "dialogue_file": "story/dialogue.en.json",
+  "provisional_markers": "Every sol and the mission length are PROVISIONAL (see review_flags FLAG-SOLS-PROVISIONAL). Perspectives other than player_console are derived drafts."
+ },
+ "mission": {
+  "site": "moon",
+  "location": "Shackleton Crater rim, lunar south pole",
+  "length_sols": 15,
+  "length_is_provisional": true,
+  "convergence_event_id": "E-CATASTROPHE",
+  "convergence_note": "Chosen because the source's climax (Chapter 5) is the shared peak all storylines must reach."
+ },
+ "characters": [
+  {
+   "id": "leo",
+   "name": "Captain Leo Ruiz",
+   "age": 38,
+   "nationality": "Spanish",
+   "role": "Mission Commander",
+   "specialty": "Crisis leadership, EVA operations, astronaut survival",
+   "signature_line": "In space, there are no second chances. We protect our air, we watch our backs, and we make it home together."
+  },
+  {
+   "id": "amir",
+   "name": "Amir Haddad",
+   "age": 29,
+   "nationality": "Algerian",
+   "role": "Systems Engineer",
+   "specialty": "Solar arrays, Kilopower reactors, rovers, cable grids",
+   "weakness": "Occasionally cuts corners with scrappy fixes",
+   "signature_line": "As long as current flows and circuits hold, we're alive and kicking!"
+  },
+  {
+   "id": "nia",
+   "name": "Dr. Nia Okafor",
+   "age": 32,
+   "nationality": "Nigerian",
+   "role": "Science and ECLSS Officer",
+   "specialty": "Hydroponics, crater ice mining, closed-loop life support, regolith radiation shielding",
+   "weakness": "Can get absorbed in observations during urgent moments",
+   "signature_line": "Every drop of water we melt from this ice crater keeps four hearts beating."
+  },
+  {
+   "id": "daniel",
+   "name": "Dr. Daniel Park",
+   "age": 34,
+   "nationality": "South Korean",
+   "role": "Medical Officer",
+   "specialty": "Human physiology, radiation dosimetry, CO2 poisoning, crew psychology",
+   "weakness": "Prone to high anxiety during compound emergencies",
+   "signature_line": "I monitor every breath you take. No one dies on my watch!"
+  },
+  {
+   "id": "milo",
+   "name": "M.I.L.O.",
+   "role": "Habitat AI flight computer (Mission Intelligence and Logistics Operator)",
+   "personality": "Analytical, helpful, slightly deadpan"
+  },
+  {
+   "id": "narrator",
+   "name": "Narrator",
+   "role": "Prologue narration"
+  }
+ ],
+ "systems": [
+  {
+   "id": "stored_o2",
+   "label": "Compressed oxygen tank",
+   "source_notes": "Named stored_o2 in the story; drains as the crew breathes; Earth resupply refills it.",
+   "thresholds": {
+    "ambient_trigger_percent": 15
+   }
+  },
+  {
+   "id": "cabin_o2_percent",
+   "label": "Cabin oxygen %",
+   "normal": 21,
+   "fatal_at_or_below": 5
+  },
+  {
+   "id": "pressure_kpa",
+   "label": "Cabin pressure (kPa)",
+   "normal": 101.3,
+   "alert_below": 70,
+   "failure_at_or_below": 10
+  },
+  {
+   "id": "temperature_c",
+   "label": "Cabin temperature (C)",
+   "normal": 21,
+   "failure_at_or_below": 5,
+   "outside_in_shadow": -180
+  },
+  {
+   "id": "battery_power",
+   "label": "Battery / solar power",
+   "notes": "Solar produces 0 kW in the 48 h shadow; labs and floodlights can be shut off."
+  },
+  {
+   "id": "radiation_msv_per_h",
+   "label": "Radiation (mSv/h)",
+   "fatal_above": 80,
+   "storm_exterior_example": 140
+  },
+  {
+   "id": "water",
+   "label": "Water",
+   "notes": "+10 L/h from the extractor"
+  },
+  {
+   "id": "food",
+   "label": "Food rations",
+   "notes": "Packaged rations last one more week at the start of Chapter 4"
+  },
+  {
+   "id": "co2",
+   "label": "Carbon dioxide",
+   "notes": "Scrubbers (CDRA) need power; hydroponics absorb CO2"
+  }
+ ],
+ "timeline": [
+  {
+   "event_id": "E-LANDING",
+   "sol": 1,
+   "sol_is_provisional": true,
+   "type": "landing",
+   "severity": 1,
+   "summary": "The First Light lander touches down on the Shackleton Crater rim; crew and player are introduced.",
+   "chapter": "Prologue"
+  },
+  {
+   "event_id": "E-HAB-SETUP",
+   "sol": 1,
+   "sol_is_provisional": true,
+   "type": "setup",
+   "severity": 1,
+   "summary": "Habitat inflated, solar array connected, compressed oxygen valve opened, CDRA scrubbers powered; cabin balanced at 21% O2 and 101.3 kPa.",
+   "chapter": "Chapter 1"
+  },
+  {
+   "event_id": "E-O2-VALVE-FRACTURE",
+   "sol": 2,
+   "sol_is_provisional": true,
+   "type": "oxygen_leak",
+   "severity": 3,
+   "summary": "Primary compressed oxygen tank valve fractures; less than 48 hours of breathable air remain; the player must demand an emergency resupply from Earth.",
+   "chapter": "Chapter 1"
+  },
+  {
+   "event_id": "E-RESUPPLY-LANDS",
+   "sol": 4,
+   "sol_is_provisional": true,
+   "type": "resupply_arrival",
+   "severity": 1,
+   "summary": "The emergency cargo lander arrives after a 2-sol transit and Amir swaps the oxygen tanks; oxygen returns to 100%.",
+   "chapter": "Chapter 1"
+  },
+  {
+   "event_id": "E-LONG-NIGHT-START",
+   "sol": 7,
+   "sol_is_provisional": true,
+   "type": "lunar_night",
+   "severity": 2,
+   "summary": "A mountain ridge will shadow the base for 48 consecutive hours; no solar power; outside temperature falls to -180 C.",
+   "chapter": "Chapter 2"
+  },
+  {
+   "event_id": "E-BATTERY-FREEZE",
+   "sol": 7,
+   "sol_is_provisional": true,
+   "type": "thermal_failure",
+   "severity": 3,
+   "summary": "During the dark, Battery Bank 2 cooling lines freeze and cabin temperature falls (18, 12, 6 C) until heating is rerouted and stabilizes at 21 C.",
+   "chapter": "Chapter 2"
+  },
+  {
+   "event_id": "E-SOLAR-FLARE",
+   "sol": 10,
+   "sol_is_provisional": true,
+   "type": "solar_flare",
+   "severity": 3,
+   "summary": "DONKI alert: an X-class flare from sunspot 4109 sends a CME along the Earth-Moon line; the proton shockwave arrives in 90 minutes.",
+   "chapter": "Chapter 3"
+  },
+  {
+   "event_id": "E-RADIATION-IMPACT",
+   "sol": 10,
+   "sol_is_provisional": true,
+   "type": "radiation_storm",
+   "severity": 3,
+   "summary": "The radiation storm hits (exterior 140 mSv/h); the crew survives in the storm vault behind regolith and water-tank shielding.",
+   "chapter": "Chapter 3"
+  },
+  {
+   "event_id": "E-RATIONS-LOW",
+   "sol": 11,
+   "sol_is_provisional": true,
+   "type": "food_shortage",
+   "severity": 2,
+   "summary": "Earth rations are down to the last week; the player starts water-ice extraction in the crater.",
+   "chapter": "Chapter 4"
+  },
+  {
+   "event_id": "E-HYDROPONICS",
+   "sol": 12,
+   "sol_is_provisional": true,
+   "type": "resource_gain",
+   "severity": 1,
+   "summary": "Hydroponic lettuce and radishes planted in greenhouse trays; the first sprouts grow.",
+   "chapter": "Chapter 4"
+  },
+  {
+   "event_id": "E-CATASTROPHE",
+   "sol": 14,
+   "sol_is_provisional": true,
+   "type": "compound_failure",
+   "severity": 3,
+   "summary": "Moonquake cuts power to life support, dust covers the solar arrays, and cabin oxygen leaks while Captain Leo is stuck outside at a jammed valve.",
+   "chapter": "Chapter 5"
+  },
+  {
+   "event_id": "E-RESCUE",
+   "sol": 14,
+   "sol_is_provisional": true,
+   "type": "rescue",
+   "severity": 3,
+   "summary": "The player restores power and repressurizes the airlock; Leo is pulled inside alive.",
+   "chapter": "Chapter 5"
+  },
+  {
+   "event_id": "E-DEBRIEF",
+   "sol": 15,
+   "sol_is_provisional": true,
+   "type": "debrief",
+   "severity": 1,
+   "summary": "Mission debrief, commendation and the First Light diploma.",
+   "chapter": "Epilogue"
+  },
+  {
+   "event_id": "E-MARS-TRANSMISSION",
+   "sol": 15,
+   "sol_is_provisional": true,
+   "type": "hook",
+   "severity": 1,
+   "summary": "NASA transmits a new expedition target: Mars, 225 million km away.",
+   "chapter": "Epilogue"
+  }
+ ],
+ "facts": [
+  {
+   "fact_id": "F-EARTH-MOON-DISTANCE",
+   "revealed_in_scene": "S-PRO-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "Narrator"
+   ],
+   "text": "The landing site is about 384,000 km from Earth.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-NO-BREATH-WITHOUT-LIFE-SUPPORT",
+   "revealed_in_scene": "S-PRO-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "Narrator"
+   ],
+   "text": "No human can breathe on the Moon without life support.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-POWER-HEAT-AIR-DEPENDENCY",
+   "revealed_in_scene": "S-PRO-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "Leo"
+   ],
+   "text": "If power dies the heaters die; if the air tanks run dry the crew dies.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-O2-FROM-TANKS",
+   "revealed_in_scene": "S-C1-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Habitat oxygen comes from high-pressure tanks delivered with the lander and is not infinite.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-CO2-SCRUBBERS",
+   "revealed_in_scene": "S-C1-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "Nia"
+   ],
+   "text": "Without powered CDRA scrubbers, carbon dioxide poisons the crew within hours.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-CABIN-ATMOSPHERE",
+   "revealed_in_scene": "S-C1-1",
+   "revealed_at_sol": 1,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "The balanced cabin atmosphere is 21% O2 at 101.3 kPa.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-TANK-FRACTURE-48H",
+   "revealed_in_scene": "S-C1-2",
+   "revealed_at_sol": 2,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "After the valve fracture, less than 48 hours of breathable air remain.",
+   "review_flags": [
+    "FLAG-O2-VS-TRANSIT"
+   ]
+  },
+  {
+   "fact_id": "F-PANIC-CONSUMES-O2",
+   "revealed_in_scene": "S-C1-2",
+   "revealed_at_sol": 2,
+   "stated_by": [
+    "Leo"
+   ],
+   "text": "Panic consumes more oxygen.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-RESUPPLY-TRANSIT-2SOLS",
+   "revealed_in_scene": "S-C1-2",
+   "revealed_at_sol": 2,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "The emergency resupply transit takes 2 sols.",
+   "review_flags": [
+    "FLAG-O2-VS-TRANSIT",
+    "FLAG-SOL-ON-MOON"
+   ]
+  },
+  {
+   "fact_id": "F-RESUPPLY-HALF-DAY-DELAY-FATAL",
+   "revealed_in_scene": "S-C1-3",
+   "revealed_at_sol": 4,
+   "stated_by": [
+    "Leo"
+   ],
+   "text": "A resupply delay of half a day would have been fatal.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-NIGHT-48H",
+   "revealed_in_scene": "S-C2-1",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "A mountain ridge will shadow the base for 48 consecutive hours.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-NO-SOLAR-IN-SHADOW",
+   "revealed_in_scene": "S-C2-1",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Amir"
+   ],
+   "text": "Solar panels produce nothing in shadow and outside temperature falls to -180 C.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-FREEZE-IN-2H",
+   "revealed_in_scene": "S-C2-1",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Without heaters the habitat interior drops below freezing in about two hours.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-STORE-POWER-BEFORE-SHADOW",
+   "revealed_in_scene": "S-C2-1",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Leo"
+   ],
+   "text": "Excess solar power must be stored in batteries before the shadow arrives.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-BATTERY-COOLING-FREEZE",
+   "revealed_in_scene": "S-C2-2",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Amir"
+   ],
+   "text": "Frozen cooling lines stop a battery bank from releasing power.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-CABIN-TEMP-FALLING",
+   "revealed_in_scene": "S-C2-2",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Cabin temperature fell from 18 to 12 to 6 C before the heaters were rerouted.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-HEATERS-STABILIZE-21C",
+   "revealed_in_scene": "S-C2-2",
+   "revealed_at_sol": 7,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Rerouted heating loops stabilize the cabin at 21 C.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-DONKI-X-FLARE-SUNSPOT-4109",
+   "revealed_in_scene": "S-C3-1",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "Nia"
+   ],
+   "text": "NASA DONKI reports an X-class flare from sunspot 4109.",
+   "review_flags": [
+    "FLAG-DONKI-SCRIPTED"
+   ]
+  },
+  {
+   "fact_id": "F-CME-90-MIN",
+   "revealed_in_scene": "S-C3-1",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "A CME along the Earth-Moon line brings a proton radiation shockwave in 90 minutes.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-HAB-WALLS-THIN",
+   "revealed_in_scene": "S-C3-1",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "Leo"
+   ],
+   "text": "Standard habitat walls are thin aluminum and Kevlar and do not stop the storm.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-TWO-LAYER-SHIELDING",
+   "revealed_in_scene": "S-C3-1",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "Nia"
+   ],
+   "text": "Protection needs regolith piled over the roof and an underground bunker surrounded by water tanks.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-EXTERIOR-RADIATION-140",
+   "revealed_in_scene": "S-C3-2",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "Exterior radiation spiked to 140 mSv/h; anyone outside would suffer fatal organ failure in 15 minutes.",
+   "review_flags": [
+    "FLAG-RADIATION-NUMBERS"
+   ]
+  },
+  {
+   "fact_id": "F-BUNKER-SAFE",
+   "revealed_in_scene": "S-C3-2",
+   "revealed_at_sol": 10,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Inside the bunker, water tanks and regolith absorb the radiation and the dosimeter reads safe.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-RATIONS-ONE-WEEK",
+   "revealed_in_scene": "S-C4-1",
+   "revealed_at_sol": 11,
+   "stated_by": [
+    "Daniel"
+   ],
+   "text": "Packaged rations from Earth are down to their last week.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-WATER-ICE-SHACKLETON",
+   "revealed_in_scene": "S-C4-1",
+   "revealed_at_sol": 11,
+   "stated_by": [
+    "Nia"
+   ],
+   "text": "Ancient water ice lies deep inside Shackleton's shadow and can be extracted with a thermal drill.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-WATER-EXTRACTION-10LH",
+   "revealed_in_scene": "S-C4-1",
+   "revealed_at_sol": 11,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "The water extractor yields +10 L/h of purified water.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-HYDROPONICS-LOOP",
+   "revealed_in_scene": "S-C4-2",
+   "revealed_at_sol": 12,
+   "stated_by": [
+    "Nia"
+   ],
+   "text": "Hydroponic plants use recycled wastewater, absorb CO2, and give food and oxygen.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-THREE-FAILURES",
+   "revealed_in_scene": "S-C5-1",
+   "revealed_at_sol": 14,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "A moonquake cut main power to life support, dust covered the solar arrays, and cabin pressure fell below 70 kPa.",
+   "review_flags": [
+    "FLAG-VARIABLES"
+   ]
+  },
+  {
+   "fact_id": "F-LEO-OUTSIDE-VALVE-JAMMED",
+   "revealed_in_scene": "S-C5-1",
+   "revealed_at_sol": 14,
+   "stated_by": [
+    "Daniel",
+    "Leo"
+   ],
+   "text": "Captain Leo is outside; the emergency valve is jammed by dust and his oxygen is running out.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-60-SECONDS",
+   "revealed_in_scene": "S-C5-1",
+   "revealed_at_sol": 14,
+   "stated_by": [
+    "Amir"
+   ],
+   "text": "Leo has about 60 seconds before he suffocates.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-RESCUE-STEPS",
+   "revealed_in_scene": "S-C5-2",
+   "revealed_at_sol": 14,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "Power is restored by four player steps; the airlock repressurizes and Leo survives.",
+   "review_flags": []
+  },
+  {
+   "fact_id": "F-MARS-DISTANCE-225M",
+   "revealed_in_scene": "S-EPI-2",
+   "revealed_at_sol": 15,
+   "stated_by": [
+    "MILO"
+   ],
+   "text": "The next target is Mars, 225 million km away.",
+   "review_flags": []
+  }
+ ],
+ "decisions": [
+  {
+   "decision_id": "D-PLACE-SOLAR-ARRAY",
+   "scene_id": "S-C1-1",
+   "label": "Place the solar array and connect the power cable",
+   "source_text": "Player places Solar Array and connects the power cable.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-POWER-CDRA-VENTILATION",
+   "scene_id": "S-C1-1",
+   "label": "Power the CDRA scrubber and habitat ventilation",
+   "source_text": "Player powers the CDRA Scrubber and Habitat ventilation.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "implied",
+   "cost_note": "Uses power from the grid.",
+   "affects_systems": [
+    "power",
+    "co2",
+    "oxygen"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-DEMAND-O2-RESUPPLY",
+   "scene_id": "S-C1-2",
+   "label": "Demand an emergency oxygen resupply from Earth",
+   "source_text": "Player opens the Earth Logistics Menu and clicks Demand Emergency Oxygen Resupply.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "oxygen"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-CONSERVE-OXYGEN",
+   "scene_id": "S-C1-3",
+   "label": "Shed non-vital power, seal interior airlocks, keep the crew rested",
+   "source_text": "Player must shed non-vital power, seal interior airlocks, and keep the crew rested to preserve oxygen.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "explicit",
+   "cost_note": "Non-vital power is shed.",
+   "affects_systems": [
+    "power",
+    "oxygen"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-BUILD-BATTERY-BANKS",
+   "scene_id": "S-C2-1",
+   "label": "Build high-capacity battery banks",
+   "source_text": "Player builds Battery Banks.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-SWITCH-OFF-LABS-FLOODLIGHTS",
+   "scene_id": "S-C2-1",
+   "label": "Toggle off research labs and floodlights",
+   "source_text": "toggles off research labs and floodlights",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "explicit",
+   "cost_note": "Research labs and floodlights are off during the night.",
+   "affects_systems": [
+    "power"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-REROUTE-HEATING-LOOPS",
+   "scene_id": "S-C2-2",
+   "label": "Reroute emergency heating loops to the battery core",
+   "source_text": "Player reroutes the circuit on the thermal panel.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power",
+    "temperature"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-BUILD-REGOLITH-SHIELDING",
+   "scene_id": "S-C3-1",
+   "label": "Pile regolith shielding over the roof",
+   "source_text": "Player builds Regolith Shielding.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "shielding"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-MOVE-CREW-TO-STORM-VAULT",
+   "scene_id": "S-C3-1",
+   "label": "Move the crew to the Underground Storm Vault",
+   "source_text": "moves crew to the Underground Storm Vault.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "shielding"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-BUILD-WATER-EXTRACTOR",
+   "scene_id": "S-C4-1",
+   "label": "Build the water extractor and run power into the crater",
+   "source_text": "Player builds Water Extractor and runs power down into the crater.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "implied",
+   "cost_note": "Needs power run down into the crater.",
+   "affects_systems": [
+    "power",
+    "water"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-BUILD-GREENHOUSE-TRAYS",
+   "scene_id": "S-C4-2",
+   "label": "Build greenhouse trays",
+   "source_text": "Player builds Greenhouse Trays.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "food",
+    "oxygen",
+    "water"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-RESCUE-1-BATTERIES-TO-AIRLOCK",
+   "scene_id": "S-C5-2",
+   "label": "Switch emergency batteries to the airlock power bus",
+   "source_text": "Toggles emergency batteries directly to the airlock power bus.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-RESCUE-2-CLEAN-SOLAR-PANELS",
+   "scene_id": "S-C5-2",
+   "label": "Clean the solar panels with an electrostatic pulse",
+   "source_text": "Cleans the solar panels using automated electrostatic pulse.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-RESCUE-3-REROUTE-BACKUP-CABLE",
+   "scene_id": "S-C5-2",
+   "label": "Reroute the backup power cable to the life-support loop",
+   "source_text": "Reroutes the backup power cable to the primary life-support loop.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "power",
+    "oxygen"
+   ],
+   "needs_balancing": true
+  },
+  {
+   "decision_id": "D-RESCUE-4-REPRESSURIZE-OVERRIDE",
+   "scene_id": "S-C5-2",
+   "label": "Press the emergency repressurization override",
+   "source_text": "Presses the emergency repressurization override.",
+   "deltas": null,
+   "delayed_effects": [],
+   "cost_status": "missing",
+   "cost_note": null,
+   "affects_systems": [
+    "oxygen",
+    "pressure"
+   ],
+   "needs_balancing": true
+  }
+ ],
+ "perspectives": [
+  {
+   "id": "player_console",
+   "role": "Junior Mission Commander at the command terminal",
+   "status": "source_complete",
+   "start_sol": 1,
+   "scenes": [
+    {
+     "scene_id": "S-PRO-1",
+     "sol": 1,
+     "event_id": "E-LANDING",
+     "chapter": "Prologue",
+     "title": "Touchdown on Shackleton Rim",
+     "reveals": [
+      "F-EARTH-MOON-DISTANCE",
+      "F-NO-BREATH-WITHOUT-LIFE-SUPPORT",
+      "F-POWER-HEAT-AIR-DEPENDENCY"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-PRO-1"
+    },
+    {
+     "scene_id": "S-C1-1",
+     "sol": 1,
+     "event_id": "E-HAB-SETUP",
+     "chapter": "Chapter 1",
+     "title": "Setting up the habitats",
+     "reveals": [
+      "F-O2-FROM-TANKS",
+      "F-CO2-SCRUBBERS",
+      "F-CABIN-ATMOSPHERE"
+     ],
+     "decision_ids": [
+      "D-PLACE-SOLAR-ARRAY",
+      "D-POWER-CDRA-VENTILATION"
+     ],
+     "dialogue_scene": "S-C1-1"
+    },
+    {
+     "scene_id": "S-C1-2",
+     "sol": 2,
+     "event_id": "E-O2-VALVE-FRACTURE",
+     "chapter": "Chapter 1",
+     "title": "The depleted tank and the Earth resupply demand",
+     "reveals": [
+      "F-TANK-FRACTURE-48H",
+      "F-PANIC-CONSUMES-O2",
+      "F-RESUPPLY-TRANSIT-2SOLS"
+     ],
+     "decision_ids": [
+      "D-DEMAND-O2-RESUPPLY"
+     ],
+     "dialogue_scene": "S-C1-2"
+    },
+    {
+     "scene_id": "S-C1-3",
+     "sol": 4,
+     "event_id": "E-RESUPPLY-LANDS",
+     "chapter": "Chapter 1",
+     "title": "Holding out until the cargo lander arrives",
+     "reveals": [
+      "F-RESUPPLY-HALF-DAY-DELAY-FATAL"
+     ],
+     "decision_ids": [
+      "D-CONSERVE-OXYGEN"
+     ],
+     "dialogue_scene": "S-C1-3"
+    },
+    {
+     "scene_id": "S-C2-1",
+     "sol": 7,
+     "event_id": "E-LONG-NIGHT-START",
+     "chapter": "Chapter 2",
+     "title": "The mountain shadow",
+     "reveals": [
+      "F-NIGHT-48H",
+      "F-NO-SOLAR-IN-SHADOW",
+      "F-FREEZE-IN-2H",
+      "F-STORE-POWER-BEFORE-SHADOW"
+     ],
+     "decision_ids": [
+      "D-BUILD-BATTERY-BANKS",
+      "D-SWITCH-OFF-LABS-FLOODLIGHTS"
+     ],
+     "dialogue_scene": "S-C2-1"
+    },
+    {
+     "scene_id": "S-C2-2",
+     "sol": 7,
+     "event_id": "E-BATTERY-FREEZE",
+     "chapter": "Chapter 2",
+     "title": "The anomaly: thermal battery freeze",
+     "reveals": [
+      "F-BATTERY-COOLING-FREEZE",
+      "F-CABIN-TEMP-FALLING",
+      "F-HEATERS-STABILIZE-21C"
+     ],
+     "decision_ids": [
+      "D-REROUTE-HEATING-LOOPS"
+     ],
+     "dialogue_scene": "S-C2-2"
+    },
+    {
+     "scene_id": "S-C3-1",
+     "sol": 10,
+     "event_id": "E-SOLAR-FLARE",
+     "chapter": "Chapter 3",
+     "title": "The NASA DONKI alert",
+     "reveals": [
+      "F-DONKI-X-FLARE-SUNSPOT-4109",
+      "F-CME-90-MIN",
+      "F-HAB-WALLS-THIN",
+      "F-TWO-LAYER-SHIELDING"
+     ],
+     "decision_ids": [
+      "D-BUILD-REGOLITH-SHIELDING",
+      "D-MOVE-CREW-TO-STORM-VAULT"
+     ],
+     "dialogue_scene": "S-C3-1"
+    },
+    {
+     "scene_id": "S-C3-2",
+     "sol": 10,
+     "event_id": "E-RADIATION-IMPACT",
+     "chapter": "Chapter 3",
+     "title": "The impact: safe behind water walls",
+     "reveals": [
+      "F-EXTERIOR-RADIATION-140",
+      "F-BUNKER-SAFE"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C3-2"
+    },
+    {
+     "scene_id": "S-C4-1",
+     "sol": 11,
+     "event_id": "E-RATIONS-LOW",
+     "chapter": "Chapter 4",
+     "title": "The empty pantry",
+     "reveals": [
+      "F-RATIONS-ONE-WEEK",
+      "F-WATER-ICE-SHACKLETON",
+      "F-WATER-EXTRACTION-10LH"
+     ],
+     "decision_ids": [
+      "D-BUILD-WATER-EXTRACTOR"
+     ],
+     "dialogue_scene": "S-C4-1"
+    },
+    {
+     "scene_id": "S-C4-2",
+     "sol": 12,
+     "event_id": "E-HYDROPONICS",
+     "chapter": "Chapter 4",
+     "title": "The hydroponics bay",
+     "reveals": [
+      "F-HYDROPONICS-LOOP"
+     ],
+     "decision_ids": [
+      "D-BUILD-GREENHOUSE-TRAYS"
+     ],
+     "dialogue_scene": "S-C4-2"
+    },
+    {
+     "scene_id": "S-C5-1",
+     "sol": 14,
+     "event_id": "E-CATASTROPHE",
+     "chapter": "Chapter 5",
+     "title": "The catastrophe",
+     "reveals": [
+      "F-THREE-FAILURES",
+      "F-LEO-OUTSIDE-VALVE-JAMMED",
+      "F-60-SECONDS"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-1"
+    },
+    {
+     "scene_id": "S-C5-2",
+     "sol": 14,
+     "event_id": "E-RESCUE",
+     "chapter": "Chapter 5",
+     "title": "The climax: multi-step rescue",
+     "reveals": [
+      "F-RESCUE-STEPS"
+     ],
+     "decision_ids": [
+      "D-RESCUE-1-BATTERIES-TO-AIRLOCK",
+      "D-RESCUE-2-CLEAN-SOLAR-PANELS",
+      "D-RESCUE-3-REROUTE-BACKUP-CABLE",
+      "D-RESCUE-4-REPRESSURIZE-OVERRIDE"
+     ],
+     "dialogue_scene": "S-C5-2"
+    },
+    {
+     "scene_id": "S-EPI-1",
+     "sol": 15,
+     "event_id": "E-DEBRIEF",
+     "chapter": "Epilogue",
+     "title": "The commendation",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-1"
+    },
+    {
+     "scene_id": "S-EPI-2",
+     "sol": 15,
+     "event_id": "E-MARS-TRANSMISSION",
+     "chapter": "Epilogue",
+     "title": "The Red Planet calls",
+     "reveals": [
+      "F-MARS-DISTANCE-225M"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-2"
+    }
+   ]
+  },
+  {
+   "id": "crew_leo",
+   "role": "Captain Leo Ruiz, Mission Commander",
+   "status": "derived_draft_needs_authoring",
+   "derivation": "Scenes where this character speaks in the source, and facts this character states. No unique decisions or start points exist in the source.",
+   "start_sol": 1,
+   "scenes": [
+    {
+     "scene_id": "S-PRO-1@leo",
+     "sol": 1,
+     "event_id": "E-LANDING",
+     "chapter": "Prologue",
+     "title": "Touchdown on Shackleton Rim",
+     "reveals": [
+      "F-POWER-HEAT-AIR-DEPENDENCY"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-PRO-1"
+    },
+    {
+     "scene_id": "S-C1-1@leo",
+     "sol": 1,
+     "event_id": "E-HAB-SETUP",
+     "chapter": "Chapter 1",
+     "title": "Setting up the habitats",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-1"
+    },
+    {
+     "scene_id": "S-C1-2@leo",
+     "sol": 2,
+     "event_id": "E-O2-VALVE-FRACTURE",
+     "chapter": "Chapter 1",
+     "title": "The depleted tank and the Earth resupply demand",
+     "reveals": [
+      "F-PANIC-CONSUMES-O2"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-2"
+    },
+    {
+     "scene_id": "S-C1-3@leo",
+     "sol": 4,
+     "event_id": "E-RESUPPLY-LANDS",
+     "chapter": "Chapter 1",
+     "title": "Holding out until the cargo lander arrives",
+     "reveals": [
+      "F-RESUPPLY-HALF-DAY-DELAY-FATAL"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-3"
+    },
+    {
+     "scene_id": "S-C2-1@leo",
+     "sol": 7,
+     "event_id": "E-LONG-NIGHT-START",
+     "chapter": "Chapter 2",
+     "title": "The mountain shadow",
+     "reveals": [
+      "F-STORE-POWER-BEFORE-SHADOW"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-1"
+    },
+    {
+     "scene_id": "S-C2-2@leo",
+     "sol": 7,
+     "event_id": "E-BATTERY-FREEZE",
+     "chapter": "Chapter 2",
+     "title": "The anomaly: thermal battery freeze",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-2"
+    },
+    {
+     "scene_id": "S-C3-1@leo",
+     "sol": 10,
+     "event_id": "E-SOLAR-FLARE",
+     "chapter": "Chapter 3",
+     "title": "The NASA DONKI alert",
+     "reveals": [
+      "F-HAB-WALLS-THIN"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C3-1"
+    },
+    {
+     "scene_id": "S-C3-2@leo",
+     "sol": 10,
+     "event_id": "E-RADIATION-IMPACT",
+     "chapter": "Chapter 3",
+     "title": "The impact: safe behind water walls",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C3-2"
+    },
+    {
+     "scene_id": "S-C4-2@leo",
+     "sol": 12,
+     "event_id": "E-HYDROPONICS",
+     "chapter": "Chapter 4",
+     "title": "The hydroponics bay",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C4-2"
+    },
+    {
+     "scene_id": "S-C5-1@leo",
+     "sol": 14,
+     "event_id": "E-CATASTROPHE",
+     "chapter": "Chapter 5",
+     "title": "The catastrophe",
+     "reveals": [
+      "F-LEO-OUTSIDE-VALVE-JAMMED"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-1"
+    },
+    {
+     "scene_id": "S-C5-2@leo",
+     "sol": 14,
+     "event_id": "E-RESCUE",
+     "chapter": "Chapter 5",
+     "title": "The climax: multi-step rescue",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-2"
+    },
+    {
+     "scene_id": "S-EPI-1@leo",
+     "sol": 15,
+     "event_id": "E-DEBRIEF",
+     "chapter": "Epilogue",
+     "title": "The commendation",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-1"
+    },
+    {
+     "scene_id": "S-EPI-2@leo",
+     "sol": 15,
+     "event_id": "E-MARS-TRANSMISSION",
+     "chapter": "Epilogue",
+     "title": "The Red Planet calls",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-2"
+    }
+   ]
+  },
+  {
+   "id": "crew_amir",
+   "role": "Amir Haddad, Systems Engineer",
+   "status": "derived_draft_needs_authoring",
+   "derivation": "Scenes where this character speaks in the source, and facts this character states. No unique decisions or start points exist in the source.",
+   "start_sol": 1,
+   "scenes": [
+    {
+     "scene_id": "S-PRO-1@amir",
+     "sol": 1,
+     "event_id": "E-LANDING",
+     "chapter": "Prologue",
+     "title": "Touchdown on Shackleton Rim",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-PRO-1"
+    },
+    {
+     "scene_id": "S-C1-1@amir",
+     "sol": 1,
+     "event_id": "E-HAB-SETUP",
+     "chapter": "Chapter 1",
+     "title": "Setting up the habitats",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-1"
+    },
+    {
+     "scene_id": "S-C1-3@amir",
+     "sol": 4,
+     "event_id": "E-RESUPPLY-LANDS",
+     "chapter": "Chapter 1",
+     "title": "Holding out until the cargo lander arrives",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-3"
+    },
+    {
+     "scene_id": "S-C2-1@amir",
+     "sol": 7,
+     "event_id": "E-LONG-NIGHT-START",
+     "chapter": "Chapter 2",
+     "title": "The mountain shadow",
+     "reveals": [
+      "F-NO-SOLAR-IN-SHADOW"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-1"
+    },
+    {
+     "scene_id": "S-C2-2@amir",
+     "sol": 7,
+     "event_id": "E-BATTERY-FREEZE",
+     "chapter": "Chapter 2",
+     "title": "The anomaly: thermal battery freeze",
+     "reveals": [
+      "F-BATTERY-COOLING-FREEZE"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-2"
+    },
+    {
+     "scene_id": "S-C4-2@amir",
+     "sol": 12,
+     "event_id": "E-HYDROPONICS",
+     "chapter": "Chapter 4",
+     "title": "The hydroponics bay",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C4-2"
+    },
+    {
+     "scene_id": "S-C5-1@amir",
+     "sol": 14,
+     "event_id": "E-CATASTROPHE",
+     "chapter": "Chapter 5",
+     "title": "The catastrophe",
+     "reveals": [
+      "F-60-SECONDS"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-1"
+    },
+    {
+     "scene_id": "S-C5-2@amir",
+     "sol": 14,
+     "event_id": "E-RESCUE",
+     "chapter": "Chapter 5",
+     "title": "The climax: multi-step rescue",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-2"
+    },
+    {
+     "scene_id": "S-EPI-2@amir",
+     "sol": 15,
+     "event_id": "E-MARS-TRANSMISSION",
+     "chapter": "Epilogue",
+     "title": "The Red Planet calls",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-2"
+    }
+   ]
+  },
+  {
+   "id": "crew_nia",
+   "role": "Dr. Nia Okafor, Science and ECLSS Officer",
+   "status": "derived_draft_needs_authoring",
+   "derivation": "Scenes where this character speaks in the source, and facts this character states. No unique decisions or start points exist in the source.",
+   "start_sol": 1,
+   "scenes": [
+    {
+     "scene_id": "S-C1-1@nia",
+     "sol": 1,
+     "event_id": "E-HAB-SETUP",
+     "chapter": "Chapter 1",
+     "title": "Setting up the habitats",
+     "reveals": [
+      "F-CO2-SCRUBBERS"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-1"
+    },
+    {
+     "scene_id": "S-C3-1@nia",
+     "sol": 10,
+     "event_id": "E-SOLAR-FLARE",
+     "chapter": "Chapter 3",
+     "title": "The NASA DONKI alert",
+     "reveals": [
+      "F-DONKI-X-FLARE-SUNSPOT-4109",
+      "F-TWO-LAYER-SHIELDING"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C3-1"
+    },
+    {
+     "scene_id": "S-C4-1@nia",
+     "sol": 11,
+     "event_id": "E-RATIONS-LOW",
+     "chapter": "Chapter 4",
+     "title": "The empty pantry",
+     "reveals": [
+      "F-WATER-ICE-SHACKLETON"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C4-1"
+    },
+    {
+     "scene_id": "S-C4-2@nia",
+     "sol": 12,
+     "event_id": "E-HYDROPONICS",
+     "chapter": "Chapter 4",
+     "title": "The hydroponics bay",
+     "reveals": [
+      "F-HYDROPONICS-LOOP"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C4-2"
+    },
+    {
+     "scene_id": "S-EPI-2@nia",
+     "sol": 15,
+     "event_id": "E-MARS-TRANSMISSION",
+     "chapter": "Epilogue",
+     "title": "The Red Planet calls",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-EPI-2"
+    }
+   ]
+  },
+  {
+   "id": "crew_daniel",
+   "role": "Dr. Daniel Park, Medical Officer",
+   "status": "derived_draft_needs_authoring",
+   "derivation": "Scenes where this character speaks in the source, and facts this character states. No unique decisions or start points exist in the source.",
+   "start_sol": 1,
+   "scenes": [
+    {
+     "scene_id": "S-C1-1@daniel",
+     "sol": 1,
+     "event_id": "E-HAB-SETUP",
+     "chapter": "Chapter 1",
+     "title": "Setting up the habitats",
+     "reveals": [
+      "F-O2-FROM-TANKS"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-1"
+    },
+    {
+     "scene_id": "S-C1-2@daniel",
+     "sol": 2,
+     "event_id": "E-O2-VALVE-FRACTURE",
+     "chapter": "Chapter 1",
+     "title": "The depleted tank and the Earth resupply demand",
+     "reveals": [
+      "F-TANK-FRACTURE-48H"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C1-2"
+    },
+    {
+     "scene_id": "S-C2-1@daniel",
+     "sol": 7,
+     "event_id": "E-LONG-NIGHT-START",
+     "chapter": "Chapter 2",
+     "title": "The mountain shadow",
+     "reveals": [
+      "F-FREEZE-IN-2H"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-1"
+    },
+    {
+     "scene_id": "S-C2-2@daniel",
+     "sol": 7,
+     "event_id": "E-BATTERY-FREEZE",
+     "chapter": "Chapter 2",
+     "title": "The anomaly: thermal battery freeze",
+     "reveals": [
+      "F-CABIN-TEMP-FALLING",
+      "F-HEATERS-STABILIZE-21C"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C2-2"
+    },
+    {
+     "scene_id": "S-C3-2@daniel",
+     "sol": 10,
+     "event_id": "E-RADIATION-IMPACT",
+     "chapter": "Chapter 3",
+     "title": "The impact: safe behind water walls",
+     "reveals": [
+      "F-BUNKER-SAFE"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C3-2"
+    },
+    {
+     "scene_id": "S-C4-1@daniel",
+     "sol": 11,
+     "event_id": "E-RATIONS-LOW",
+     "chapter": "Chapter 4",
+     "title": "The empty pantry",
+     "reveals": [
+      "F-RATIONS-ONE-WEEK"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C4-1"
+    },
+    {
+     "scene_id": "S-C5-1@daniel",
+     "sol": 14,
+     "event_id": "E-CATASTROPHE",
+     "chapter": "Chapter 5",
+     "title": "The catastrophe",
+     "reveals": [
+      "F-LEO-OUTSIDE-VALVE-JAMMED"
+     ],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-1"
+    },
+    {
+     "scene_id": "S-C5-2@daniel",
+     "sol": 14,
+     "event_id": "E-RESCUE",
+     "chapter": "Chapter 5",
+     "title": "The climax: multi-step rescue",
+     "reveals": [],
+     "decision_ids": [],
+     "dialogue_scene": "S-C5-2"
+    }
+   ]
+  }
+ ],
+ "ambient_triggers": [
+  {
+   "trigger": "first_sunrise",
+   "condition": "first sunrise at the base"
+  },
+  {
+   "trigger": "oxygen_tank_at_15_percent",
+   "condition": "stored_o2 reaches 15%"
+  },
+  {
+   "trigger": "resupply_rocket_lands",
+   "condition": "resupply lands (event E-RESUPPLY-LANDS)"
+  },
+  {
+   "trigger": "batteries_full",
+   "condition": "batteries reach 100%"
+  },
+  {
+   "trigger": "first_harvest",
+   "condition": "first harvest from the greenhouse"
+  },
+  {
+   "trigger": "shelter_evacuation",
+   "condition": "crew moves to the storm vault"
+  }
+ ],
+ "failure_states": {
+  "triggers": [
+   {
+    "variable": "oxygen",
+    "condition": "== 0"
+   },
+   {
+    "variable": "pressure",
+    "condition": "<= 10"
+   },
+   {
+    "variable": "temperature",
+    "condition": "<= 5"
+   }
+  ],
+  "presentation": [
+   "No gore; music slows to a fading heartbeat then silence",
+   "Screen dims to the silent outpost under the stars",
+   "Respectful casualty report with the cause",
+   "Button: Analyze Mistakes and Retry"
+  ],
+  "casualty_report_template": "MISSION FAILED: CASUALTY REPORT. Outpost Life Support Terminated at Sol {sol}. {cause}. Captain Leo Ruiz and his crew have perished in the lunar vacuum.",
+  "closing_quote": "Space exploration demands absolute vigilance. Every breath and every watt of power must be guarded.",
+  "review_flags": [
+   "FLAG-VARIABLES",
+   "FLAG-HARDCODED-DEBRIEF"
+  ]
+ },
+ "certificate": {
+  "title": "Project First Light Diploma",
+  "issuer": "National Aeronautics and Space Administration (in-game)",
+  "text": "This certifies that the Junior Mission Commander has demonstrated total mastery in Lunar Outpost Systems, Life-Support Survival, and Space Operations",
+  "signed_by": [
+   "Captain Leo Ruiz",
+   "Amir Haddad",
+   "Dr. Nia Okafor",
+   "Dr. Daniel Park",
+   "M.I.L.O."
+  ]
+ },
+ "ui": {
+  "portrait_expressions": [
+   "neutral",
+   "happy",
+   "concerned",
+   "surprised",
+   "serious",
+   "determined_relieved"
+  ],
+  "dialogue_box": "Lower center; portrait, speaker name and role, text, Continue / Auto-Advance / Skip; per-character color highlight"
+ },
+ "review_flags": [
+  {
+   "id": "FLAG-KALEIDOSCOPE-MISSING",
+   "severity": "high",
+   "area": "structure",
+   "issue": "The source is a single linear story from the player's console. It has no separate starting points.",
+   "evidence": "One campaign (Prologue to Epilogue); the TOC lists a Campaign Structure section but it is empty.",
+   "suggested_action": "The story team defines 3 starting points with different start sols and scenes. The four crew perspectives in this JSON are mechanical drafts (scenes where each character speaks) and must be authored or replaced."
+  },
+  {
+   "id": "FLAG-MISSING-SECTIONS",
+   "severity": "medium",
+   "area": "source",
+   "issue": "The TOC lists 'Production Data Schema (JSON)' and a Campaign Structure and Arc section, but neither exists in the file.",
+   "suggested_action": "Send them if they exist elsewhere; this JSON follows the project's own story-bible schema instead."
+  },
+  {
+   "id": "FLAG-SOLS-PROVISIONAL",
+   "severity": "high",
+   "area": "timeline",
+   "issue": "The story gives durations (2 sols transit, 48 h shadow, last week of rations) but no sol numbers or mission length.",
+   "evidence": "Failure screen example says Sol 34; the plan says about 10-15 sols.",
+   "suggested_action": "Team picks the real mission length and event sols; all sols here are provisional (mission 15 sols)."
+  },
+  {
+   "id": "FLAG-SOL-ON-MOON",
+   "severity": "medium",
+   "area": "science",
+   "issue": "'Sol' is a Mars day. The story uses it for the Moon.",
+   "suggested_action": "Either define 'sol' in-game as a 24 h game day (explain it to kids) or use 'day'."
+  },
+  {
+   "id": "FLAG-RADIATION-NUMBERS",
+   "severity": "high",
+   "area": "science",
+   "issue": "Radiation numbers are internally inconsistent and likely unrealistic: 'fatal above 80 mSv/h', exterior 140 mSv/h, 'fatal organ failure in 15 minutes'. At 140 mSv/h, 15 minutes is about 35 mSv.",
+   "evidence": "General knowledge (NOT verified against a NASA source here): acute radiation sickness generally needs doses of hundreds of mSv up to about 1 Sv received quickly. The project's own unverified seed fact puts ISS exposure at about 0.2-0.5 mSv per day.",
+   "suggested_action": "Ask the mentor. Either label these as fictional game values, or rework into a cumulative-dose mechanic with limits from a cited NASA source."
+  },
+  {
+   "id": "FLAG-DONKI-SCRIPTED",
+   "severity": "medium",
+   "area": "data",
+   "issue": "Chapter 3 is a scripted X-class flare from 'sunspot 4109'. The project plan wants DONKI-driven real events; DONKI samples saved in this project use 5-digit active region numbers (for example 14513).",
+   "suggested_action": "Decide: keep a scripted story beat but label it fictional, or drive the beat from real DONKI statistics (/events/profile) and drop the invented sunspot number."
+  },
+  {
+   "id": "FLAG-VARIABLES",
+   "severity": "high",
+   "area": "mechanics",
+   "issue": "Three different oxygen variables and thresholds: stored_o2 tank, cabin O2 % (fatal at or below 5%), and the failure rule 'oxygen == 0'. Pressure also has two thresholds (alert below 70 kPa, failure at or below 10).",
+   "suggested_action": "Define exactly which variables exist and which one the evaluator reads. Align the failure screen triggers."
+  },
+  {
+   "id": "FLAG-RESOURCE-SCOPE",
+   "severity": "medium",
+   "area": "scope",
+   "issue": "The story uses far more than the 3 core resources (also temperature, pressure, CO2, water, food).",
+   "suggested_action": "Map each to power / oxygen / shielding (for example temperature to power, pressure to oxygen) or consciously extend scope. Kids are best served by 2-3 resources."
+  },
+  {
+   "id": "FLAG-O2-VS-TRANSIT",
+   "severity": "medium",
+   "area": "mechanics",
+   "issue": "After the fracture there are 'less than 48 hours' of air, and the resupply takes 2 sols. If a sol is 24 h, air runs out at about the moment the rocket lands, so conservation is mandatory.",
+   "suggested_action": "If this is intended, state the oxygen drain rule so the evaluator can score conservation choices."
+  },
+  {
+   "id": "FLAG-NO-COSTS",
+   "severity": "high",
+   "area": "mechanics",
+   "issue": "Most decisions have no stated cost, which breaks the design rule that every choice has a trade-off. Rule 5 of the story validator will fail until costs and deltas exist.",
+   "evidence": "cost_status is 'missing' for most decisions in this file.",
+   "suggested_action": "Game devs and AI side define deltas and delayed effects per decision (see context/game-design.md)."
+  },
+  {
+   "id": "FLAG-HARDCODED-DEBRIEF",
+   "severity": "medium",
+   "area": "integration",
+   "issue": "The epilogue hardcodes 'Survival Rate: 100%, Life-Support Uptime: 98.4%' and the failure screen hardcodes 'Sol 34'.",
+   "suggested_action": "Use evaluator output and the real sol of failure; keep these as placeholders in the story."
+  },
+  {
+   "id": "FLAG-NIA-ABSENT-CH5",
+   "severity": "medium",
+   "area": "structure",
+   "issue": "Dr. Nia Okafor has no lines in Chapter 5 (the convergence scene), so her derived perspective crew_nia does not reach the convergence event and breaks validator rule 3.",
+   "suggested_action": "Give Nia a presence in the catastrophe (for example at her science terminal), or drop her from the 3 chosen starting points."
+  },
+  {
+   "id": "FLAG-TWO-COMMANDERS",
+   "severity": "low",
+   "area": "writing",
+   "issue": "Leo is 'Mission Commander' while the player is addressed as 'Commander'.",
+   "suggested_action": "Rename one (for example the player is 'Junior Commander' or 'Operator')."
+  }
+ ],
+ "open_questions": [
+  "Names, start sols and unique scenes of the 3 Kaleidoscope starting points",
+  "Real mission length and event sols",
+  "Numeric effects (deltas, delayed effects) for every decision",
+  "Which oxygen/pressure variables the game really tracks",
+  "Whether radiation values stay fictional or follow a cited NASA source"
+ ]
+}
