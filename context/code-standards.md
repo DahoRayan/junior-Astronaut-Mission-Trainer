@@ -25,3 +25,12 @@
 ## File Organization
 - `ai-service/app/routers|schemas|evaluator|llm|nasa/` · `ai-service/tests/` · `ai-service/data/curated/`
 - `contracts/` JSON examples · `context/specs/NN-name.md` per unit
+
+## Python Tooling
+- Package/env manager: **uv**. Dependencies in `pyproject.toml`, lockfile `uv.lock` committed.
+- Run everything via `uv run ...`. Do not use `pip install` or hand-made venvs.
+- `pyproject.toml` is the source of truth for dependencies. uv is the recommended tool;
+  a teammate not using uv may install with pip from `pyproject.toml`, but must not
+  commit changes to dependencies except by editing `pyproject.toml` (then run `uv lock`
+  or ask the uv user to). Agents run commands using the tool that teammate has installed
+  (detect first) and never create a second lockfile or requirements.txt.

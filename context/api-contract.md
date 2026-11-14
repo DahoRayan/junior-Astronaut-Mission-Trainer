@@ -24,7 +24,8 @@ Response: { reply:string (<=3 sentences), data_source, fallback_used:bool }
 Request: { before:GameSnapshot, after:GameSnapshot, decision:Decision, space_weather:{risk_level}|null }
 Response: { rating:"great"|"ok"|"risky", survival_delta:int(-20..20),
   tradeoff:{gained:string, cost:string}, feedback:string (<=2 sentences),
-  fact:{text:string, source:string}|null, data_source, fallback_used:bool }
+  fact:{text:string, source:string}|null, data_source:"live"|"curated"|"simulated", fallback_used:bool }
+  (data_source="simulated" = deterministic game-rules output, not NASA data)
 
 ## POST /v1/evaluate/mission
 Request: { site, history:[{snapshot, decision_id, rating}], outcome:"survived"|"failed" }

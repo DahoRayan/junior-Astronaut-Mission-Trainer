@@ -3,7 +3,7 @@
 Update after every meaningful change.
 
 ## Current Phase
-- Unit 01 implementation
+- Setup (context files, repo structure)
 
 ## Current Goal
 - Unit 01: AI service skeleton with mock endpoints (see specs/01-ai-service-skeleton.md)
@@ -12,10 +12,10 @@ Update after every meaningful change.
 - None yet.
 
 ## In Progress
-- Unit 01: AI service skeleton with mock endpoints (see `specs/01-ai-service-skeleton.md`)
+- None yet.
 
 ## Next Up
-- Unit 02 (see `specs/`)
+- Unit 01 (see `specs/01-ai-service-skeleton.md`)
 
 ## Open Questions
 - LLM provider and model (cost/quota, latency)?
@@ -32,4 +32,11 @@ Update after every meaningful change.
 
 ## Session Notes
 - Resume with: "Read AGENTS.md and resume."
-- Unit 01 implementation is present; pytest and ruff remain to be run in a Python-enabled environment.
+
+## Unit Ownership
+| Unit | Owner | Branch | Status |
+|---|---|---|---|
+| 01 skeleton + mocks | Ibrahim | feat/ai-01-skeleton | in verification |
+| 02 deterministic evaluator | TBD | | not started |
+| 03 NASA data layer | TBD | | not started |
+| 04 LLM client + assistant | TBD | | not started |
