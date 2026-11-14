@@ -1,0 +1,9 @@
+{
+  "weights": [
+    {"event_type": "solar-flare", "weight": 0.4, "basis": "Mock frequency profile for the moon site."},
+    {"event_type": "dust-storm", "weight": 0.35, "basis": "Mock frequency profile for the moon site."},
+    {"event_type": "equipment-fault", "weight": 0.25, "basis": "Mock frequency profile for the moon site."}
+  ],
+  "data_source": "simulated",
+  "as_of": "2026-01-01T00:00:00Z"
+}

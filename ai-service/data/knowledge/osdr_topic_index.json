@@ -1,0 +1,947 @@
+{
+ "generated_at": "2026-11-14T16:54:42.458349+00:00",
+ "source": "NASA OSDR Developer API (study metadata)",
+ "label_method": "keyword_v1",
+ "n_studies_total": 424,
+ "kind": "curated",
+ "verified_by_human": false,
+ "caveat": "Counts are keyword-heuristic label counts over study metadata, not findings or effect sizes.",
+ "topics": {
+  "bone": {
+   "n_studies": 53,
+   "by_organism_group": {
+    "mouse": 39,
+    "human": 4,
+    "rat": 4,
+    "other": 3,
+    "invertebrate_or_fish": 3
+   },
+   "by_environment": {
+    "spaceflight": 42,
+    "unknown": 6,
+    "ground_analog": 5
+   },
+   "game_domains": [
+    "crew_health",
+    "life_support"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-516",
+     "title": "Modeling cellular responses to serum and vitamin D in microgravity using a human kidney microphysiological system",
+     "organism_group": "human",
+     "mission_name": "SpaceX-17",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-516",
+     "matched_terms": [
+      "bone"
+     ]
+    },
+    {
+     "osd_id": "OSD-477",
+     "title": "Dose-dependent skeletal deficits due to varied reductions in mechanical loading in rats (Femur - microCT, three-point bending, histomorphometry)",
+     "organism_group": "rat",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-477",
+     "matched_terms": [
+      "bone",
+      "femur",
+      "osteo",
+      "tibia",
+      "trabecular"
+     ]
+    },
+    {
+     "osd_id": "OSD-486",
+     "title": "Fifteen days of microgravity causes growth in calvaria of mice (STS-131)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-486",
+     "matched_terms": [
+      "bone"
+     ]
+    },
+    {
+     "osd_id": "OSD-417",
+     "title": "Specific Host Metabolite and Gut Microbiome Alterations Are Associated with Bone-loss During Spaceflight",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-11",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-417",
+     "matched_terms": [
+      "bone",
+      "osteo"
+     ]
+    },
+    {
+     "osd_id": "OSD-310",
+     "title": "Spaceflight-induced (STS-62) vertebral bone loss in ovariectomized rats is associated with increased bone marrow adiposity and no change in bone formation",
+     "organism_group": "rat",
+     "mission_name": "STS-62",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-310",
+     "matched_terms": [
+      "bone",
+      "cancellous",
+      "osteo",
+      "vertebra"
+     ]
+    }
+   ]
+  },
+  "brain_neuro": {
+   "n_studies": 30,
+   "by_organism_group": {
+    "mouse": 14,
+    "microbe": 4,
+    "rat": 3,
+    "human": 3,
+    "invertebrate_or_fish": 3,
+    "other": 3
+   },
+   "by_environment": {
+    "spaceflight": 13,
+    "ground_analog": 8,
+    "unknown": 6,
+    "ground_radiation": 3
+   },
+   "game_domains": [
+    "crew_health",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-492",
+     "title": "Effects of heavy particle irradiation and diet on object recognition memory in rats",
+     "organism_group": "rat",
+     "mission_name": null,
+     "release_year": 2025,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-492",
+     "matched_terms": [
+      "behavior",
+      "neuro"
+     ]
+    },
+    {
+     "osd_id": "OSD-479",
+     "title": "The impact of deep space radiation on cognitive performance: From biological sex to biomarkers to countermeasures (Elevated Plus Maze, Novel Object Recognition, Open Field, Radial Arm Water Maze, and Three Chamber Social Isolation/Interaction)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-479",
+     "matched_terms": [
+      "behavior",
+      "cognit",
+      "hippocamp"
+     ]
+    },
+    {
+     "osd_id": "OSD-554",
+     "title": "Characterization of Biofilm Formation, Growth, and Gene Expression on Different Materials and Environmental Conditions in Microgravity (Gene expression of Pseudomonas aeruginosa biofilms)",
+     "organism_group": "microbe",
+     "mission_name": "NG-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-554",
+     "matched_terms": [
+      "behavior"
+     ]
+    },
+    {
+     "osd_id": "OSD-490",
+     "title": "Elevated plus-maze performance of Fischer-344 rats as a function of age and of exposure to 56Fe particles",
+     "organism_group": "rat",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-490",
+     "matched_terms": [
+      "behavior",
+      "cognit",
+      "neuro"
+     ]
+    },
+    {
+     "osd_id": "OSD-478",
+     "title": "Altered rodent gait characteristics after ~35 days in orbit aboard the International Space Station",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-478",
+     "matched_terms": [
+      "behavior"
+     ]
+    }
+   ]
+  },
+  "cardiovascular": {
+   "n_studies": 37,
+   "by_organism_group": {
+    "mouse": 24,
+    "human": 11,
+    "invertebrate_or_fish": 1,
+    "rat": 1
+   },
+   "by_environment": {
+    "spaceflight": 21,
+    "ground_analog": 8,
+    "ground_radiation": 6,
+    "unknown": 2
+   },
+   "game_domains": [
+    "crew_health",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-575",
+     "title": "SpaceX Inspiration4 Blood Serum Metabolic Panel and Immune/Cardiac Cytokine Arrays (Comprehensive Metabolic Panel and Multiplex)",
+     "organism_group": "human",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-575",
+     "matched_terms": [
+      "cardiac",
+      "cardio"
+     ]
+    },
+    {
+     "osd_id": "OSD-568",
+     "title": "Characterization of mouse ocular responses (Microscopy) to a 35-day (RR-9) spaceflight mission: Evidence of blood-retinal barrier disruption and ocular adaptations",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-568",
+     "matched_terms": [
+      "endotheli",
+      "vascular"
+     ]
+    },
+    {
+     "osd_id": "OSD-435",
+     "title": "Effects of low-dose oxygen ions and protons on cardiac function and structure in male C57BL/6J mice (echocardiogram/ultrasonography)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-435",
+     "matched_terms": [
+      "cardiac",
+      "cardio"
+     ]
+    },
+    {
+     "osd_id": "OSD-583",
+     "title": "Characterization of mouse ocular responses (intraocular pressure) to a 35-day (RR-9) spaceflight mission: Evidence of blood-retinal barrier disruption and ocular adaptations",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-583",
+     "matched_terms": [
+      "endotheli",
+      "vascular"
+     ]
+    },
+    {
+     "osd_id": "OSD-577",
+     "title": "3D Human Umbilical Vein Endothelial Cells (HUVECs) irradiated with GCR simulated irradiation with miRNA based countermeasures",
+     "organism_group": "human",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-577",
+     "matched_terms": [
+      "endotheli"
+     ]
+    }
+   ]
+  },
+  "gravity_effects": {
+   "n_studies": 179,
+   "by_organism_group": {
+    "mouse": 58,
+    "human": 40,
+    "other": 22,
+    "invertebrate_or_fish": 21,
+    "plant": 20,
+    "microbe": 14,
+    "rat": 4
+   },
+   "by_environment": {
+    "spaceflight": 96,
+    "ground_analog": 40,
+    "unknown": 38,
+    "ground_radiation": 5
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-516",
+     "title": "Modeling cellular responses to serum and vitamin D in microgravity using a human kidney microphysiological system",
+     "organism_group": "human",
+     "mission_name": "SpaceX-17",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-516",
+     "matched_terms": [
+      "microgravity"
+     ]
+    },
+    {
+     "osd_id": "OSD-522",
+     "title": "Integrative Transcriptomics and Proteomics Profiling of Arabidopsis thaliana Elucidates Novel Mechanisms Underlying Spaceflight Adaptation",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-13, SpaceX-14",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-522",
+     "matched_terms": [
+      "microgravity"
+     ]
+    },
+    {
+     "osd_id": "OSD-554",
+     "title": "Characterization of Biofilm Formation, Growth, and Gene Expression on Different Materials and Environmental Conditions in Microgravity (Gene expression of Pseudomonas aeruginosa biofilms)",
+     "organism_group": "microbe",
+     "mission_name": "NG-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-554",
+     "matched_terms": [
+      "microgravity"
+     ]
+    },
+    {
+     "osd_id": "OSD-486",
+     "title": "Fifteen days of microgravity causes growth in calvaria of mice (STS-131)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-486",
+     "matched_terms": [
+      "microgravity"
+     ]
+    },
+    {
+     "osd_id": "OSD-417",
+     "title": "Specific Host Metabolite and Gut Microbiome Alterations Are Associated with Bone-loss During Spaceflight",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-11",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-417",
+     "matched_terms": [
+      "microgravity"
+     ]
+    }
+   ]
+  },
+  "immune": {
+   "n_studies": 98,
+   "by_organism_group": {
+    "mouse": 44,
+    "human": 35,
+    "invertebrate_or_fish": 6,
+    "other": 6,
+    "plant": 5,
+    "microbe": 1,
+    "rat": 1
+   },
+   "by_environment": {
+    "spaceflight": 40,
+    "ground_radiation": 33,
+    "unknown": 14,
+    "ground_analog": 11
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-479",
+     "title": "The impact of deep space radiation on cognitive performance: From biological sex to biomarkers to countermeasures (Elevated Plus Maze, Novel Object Recognition, Open Field, Radial Arm Water Maze, and Three Chamber Social Isolation/Interaction)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-479",
+     "matched_terms": [
+      "inflammat"
+     ]
+    },
+    {
+     "osd_id": "OSD-516",
+     "title": "Modeling cellular responses to serum and vitamin D in microgravity using a human kidney microphysiological system",
+     "organism_group": "human",
+     "mission_name": "SpaceX-17",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-516",
+     "matched_terms": [
+      "inflammat"
+     ]
+    },
+    {
+     "osd_id": "OSD-566",
+     "title": "Sexual Dimorphism during Integrative Endocrine and Immune Responses to Ionizing Radiation in Mice -- Adrenal data",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-566",
+     "matched_terms": [
+      "immun"
+     ]
+    },
+    {
+     "osd_id": "OSD-575",
+     "title": "SpaceX Inspiration4 Blood Serum Metabolic Panel and Immune/Cardiac Cytokine Arrays (Comprehensive Metabolic Panel and Multiplex)",
+     "organism_group": "human",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-575",
+     "matched_terms": [
+      "cytokine",
+      "immun"
+     ]
+    },
+    {
+     "osd_id": "OSD-588",
+     "title": "Drosophila parasitoids go to space: Unexpected effects of spaceflight on hosts and their parasitoids - Drosophila data",
+     "organism_group": "invertebrate_or_fish",
+     "mission_name": "SpaceX-14",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-588",
+     "matched_terms": [
+      "immun",
+      "inflammat"
+     ]
+    }
+   ]
+  },
+  "metabolism_organs": {
+   "n_studies": 99,
+   "by_organism_group": {
+    "mouse": 53,
+    "human": 13,
+    "plant": 12,
+    "other": 10,
+    "microbe": 7,
+    "invertebrate_or_fish": 2,
+    "rat": 2
+   },
+   "by_environment": {
+    "spaceflight": 57,
+    "unknown": 18,
+    "ground_analog": 14,
+    "ground_radiation": 10
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-516",
+     "title": "Modeling cellular responses to serum and vitamin D in microgravity using a human kidney microphysiological system",
+     "organism_group": "human",
+     "mission_name": "SpaceX-17",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-516",
+     "matched_terms": [
+      "kidney",
+      "metabol"
+     ]
+    },
+    {
+     "osd_id": "OSD-571",
+     "title": "SpaceX Inspiration4 Plasma Profiling: Proteomics, EVPs, Metabolomics, cfDNA Sequencing and cfRNA Sequencing",
+     "organism_group": "human",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-571",
+     "matched_terms": [
+      "metabol"
+     ]
+    },
+    {
+     "osd_id": "OSD-575",
+     "title": "SpaceX Inspiration4 Blood Serum Metabolic Panel and Immune/Cardiac Cytokine Arrays (Comprehensive Metabolic Panel and Multiplex)",
+     "organism_group": "human",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-575",
+     "matched_terms": [
+      "metabol"
+     ]
+    },
+    {
+     "osd_id": "OSD-522",
+     "title": "Integrative Transcriptomics and Proteomics Profiling of Arabidopsis thaliana Elucidates Novel Mechanisms Underlying Spaceflight Adaptation",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-13, SpaceX-14",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-522",
+     "matched_terms": [
+      "lipid",
+      "metabol"
+     ]
+    },
+    {
+     "osd_id": "OSD-500",
+     "title": "Altered Quorum Sensing and Physiology of Staphylococcus aureus During Spaceflight Detected by Multi-omics Data Analysis (BRIC-23: Secretomics)",
+     "organism_group": "microbe",
+     "mission_name": "SpaceX-9",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-500",
+     "matched_terms": [
+      "metabol"
+     ]
+    }
+   ]
+  },
+  "microbes": {
+   "n_studies": 77,
+   "by_organism_group": {
+    "other": 34,
+    "microbe": 18,
+    "plant": 8,
+    "mouse": 7,
+    "human": 6,
+    "invertebrate_or_fish": 4
+   },
+   "by_environment": {
+    "spaceflight": 56,
+    "unknown": 12,
+    "ground_analog": 6,
+    "ground_radiation": 3
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-412",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03D",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-412",
+     "matched_terms": [
+      "bacteri",
+      "fung",
+      "microbio"
+     ]
+    },
+    {
+     "osd_id": "OSD-414",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03F",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-414",
+     "matched_terms": [
+      "bacteri",
+      "fung",
+      "microbio"
+     ]
+    },
+    {
+     "osd_id": "OSD-413",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03E",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-413",
+     "matched_terms": [
+      "bacteri",
+      "fung",
+      "microbio"
+     ]
+    },
+    {
+     "osd_id": "OSD-572",
+     "title": "SpaceX Inspiration4 Oral, Nasal, and Skin Metagenomic and Metatranscriptomic Microbial Swabs",
+     "organism_group": "human",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-572",
+     "matched_terms": [
+      "metagenom"
+     ]
+    },
+    {
+     "osd_id": "OSD-573",
+     "title": "SpaceX Inspiration4 Dragon Capsule Metagenomic and Metatranscriptomic Microbial Swabs",
+     "organism_group": "other",
+     "mission_name": "SpaceX Inspiration4",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-573",
+     "matched_terms": [
+      "metagenom"
+     ]
+    }
+   ]
+  },
+  "muscle": {
+   "n_studies": 53,
+   "by_organism_group": {
+    "mouse": 39,
+    "human": 7,
+    "rat": 6,
+    "other": 1
+   },
+   "by_environment": {
+    "spaceflight": 33,
+    "ground_analog": 16,
+    "ground_radiation": 2,
+    "unknown": 2
+   },
+   "game_domains": [
+    "crew_health",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-435",
+     "title": "Effects of low-dose oxygen ions and protons on cardiac function and structure in male C57BL/6J mice (echocardiogram/ultrasonography)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-435",
+     "matched_terms": [
+      "muscle"
+     ]
+    },
+    {
+     "osd_id": "OSD-477",
+     "title": "Dose-dependent skeletal deficits due to varied reductions in mechanical loading in rats (Femur - microCT, three-point bending, histomorphometry)",
+     "organism_group": "rat",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-477",
+     "matched_terms": [
+      "muscle"
+     ]
+    },
+    {
+     "osd_id": "OSD-488",
+     "title": "Characterizing SERCA Function in Murine Skeletal Muscles after 35-37 Days of Spaceflight from RR-1 and RR-9 (calcium uptake and Western blot in soleus and tibialis anterior)",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12, SpaceX-4",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-488",
+     "matched_terms": [
+      "atrophy",
+      "muscle",
+      "soleus",
+      "tibialis"
+     ]
+    },
+    {
+     "osd_id": "OSD-540",
+     "title": "Ten-day human unilateral lower limb suspension and active recovery in young healthy men",
+     "organism_group": "human",
+     "mission_name": null,
+     "release_year": 2022,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-540",
+     "matched_terms": [
+      "muscle"
+     ]
+    },
+    {
+     "osd_id": "OSD-426",
+     "title": "Cerium oxide nanoparticle administration to skeletal muscle cells under different gravity and radiation conditions",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-17",
+     "release_year": 2021,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-426",
+     "matched_terms": [
+      "muscle",
+      "myoblast"
+     ]
+    }
+   ]
+  },
+  "plants_food": {
+   "n_studies": 73,
+   "by_organism_group": {
+    "plant": 64,
+    "other": 9
+   },
+   "by_environment": {
+    "spaceflight": 38,
+    "unknown": 23,
+    "ground_radiation": 11,
+    "ground_analog": 1
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-412",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03D",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-412",
+     "matched_terms": [
+      "crop$",
+      "lettuce",
+      "plant$"
+     ]
+    },
+    {
+     "osd_id": "OSD-414",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03F",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-414",
+     "matched_terms": [
+      "crop$",
+      "lettuce",
+      "plant$"
+     ]
+    },
+    {
+     "osd_id": "OSD-413",
+     "title": "Spatial characterization of microbial communities on multi-species leafy greens grown simultaneously in the Veggie vegetable production systems on the International Space Station VEG-03E",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-12",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-413",
+     "matched_terms": [
+      "crop$",
+      "lettuce",
+      "plant$"
+     ]
+    },
+    {
+     "osd_id": "OSD-522",
+     "title": "Integrative Transcriptomics and Proteomics Profiling of Arabidopsis thaliana Elucidates Novel Mechanisms Underlying Spaceflight Adaptation",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-13, SpaceX-14",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-522",
+     "matched_terms": [
+      "arabidopsis",
+      "crop$",
+      "plant$"
+     ]
+    },
+    {
+     "osd_id": "OSD-386",
+     "title": "Persistence of Escherichia coli in the microbiomes of mizuna mustard (Brassica rapa var. japonica) - does seed sanitization matter?",
+     "organism_group": "other",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-386",
+     "matched_terms": [
+      "crop$",
+      "lettuce",
+      "plant$",
+      "seed$"
+     ]
+    }
+   ]
+  },
+  "radiation": {
+   "n_studies": 113,
+   "by_organism_group": {
+    "mouse": 42,
+    "human": 31,
+    "plant": 15,
+    "other": 11,
+    "rat": 7,
+    "microbe": 5,
+    "invertebrate_or_fish": 2
+   },
+   "by_environment": {
+    "ground_radiation": 78,
+    "spaceflight": 24,
+    "ground_analog": 11
+   },
+   "game_domains": [
+    "crew_health",
+    "food_and_oxygen",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-492",
+     "title": "Effects of heavy particle irradiation and diet on object recognition memory in rats",
+     "organism_group": "rat",
+     "mission_name": null,
+     "release_year": 2025,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-492",
+     "matched_terms": [
+      "cosmic ray",
+      "irradiat",
+      "radiation"
+     ]
+    },
+    {
+     "osd_id": "OSD-479",
+     "title": "The impact of deep space radiation on cognitive performance: From biological sex to biomarkers to countermeasures (Elevated Plus Maze, Novel Object Recognition, Open Field, Radial Arm Water Maze, and Three Chamber Social Isolation/Interaction)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-479",
+     "matched_terms": [
+      "radiation"
+     ]
+    },
+    {
+     "osd_id": "OSD-566",
+     "title": "Sexual Dimorphism during Integrative Endocrine and Immune Responses to Ionizing Radiation in Mice -- Adrenal data",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-566",
+     "matched_terms": [
+      "cosmic ray",
+      "radiation"
+     ]
+    },
+    {
+     "osd_id": "OSD-522",
+     "title": "Integrative Transcriptomics and Proteomics Profiling of Arabidopsis thaliana Elucidates Novel Mechanisms Underlying Spaceflight Adaptation",
+     "organism_group": "plant",
+     "mission_name": "SpaceX-13, SpaceX-14",
+     "release_year": 2024,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-522",
+     "matched_terms": [
+      "radiation"
+     ]
+    },
+    {
+     "osd_id": "OSD-435",
+     "title": "Effects of low-dose oxygen ions and protons on cardiac function and structure in male C57BL/6J mice (echocardiogram/ultrasonography)",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-435",
+     "matched_terms": [
+      "irradiat",
+      "radiation"
+     ]
+    }
+   ]
+  },
+  "sleep_circadian": {
+   "n_studies": 1,
+   "by_organism_group": {
+    "mouse": 1
+   },
+   "by_environment": {
+    "spaceflight": 1
+   },
+   "game_domains": [
+    "crew_health"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-343",
+     "title": "Comprehensive multi-omics analysis reveals mitochondrial stress as a central biological hub for spaceflight impact",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2020,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-343",
+     "matched_terms": [
+      "circadian"
+     ]
+    }
+   ]
+  },
+  "vision_eye": {
+   "n_studies": 26,
+   "by_organism_group": {
+    "mouse": 26
+   },
+   "by_environment": {
+    "spaceflight": 24,
+    "ground_analog": 2
+   },
+   "game_domains": [
+    "crew_health",
+    "life_support",
+    "shielding"
+   ],
+   "example_studies": [
+    {
+     "osd_id": "OSD-557",
+     "title": "Spaceflight influences gene expression, photoreceptor integrity, and oxidative stress related damage in the murine retina (RR-9)",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-557",
+     "matched_terms": [
+      "ocular",
+      "retina"
+     ]
+    },
+    {
+     "osd_id": "OSD-568",
+     "title": "Characterization of mouse ocular responses (Microscopy) to a 35-day (RR-9) spaceflight mission: Evidence of blood-retinal barrier disruption and ocular adaptations",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-568",
+     "matched_terms": [
+      "eye$",
+      "ocular",
+      "retina"
+     ]
+    },
+    {
+     "osd_id": "OSD-583",
+     "title": "Characterization of mouse ocular responses (intraocular pressure) to a 35-day (RR-9) spaceflight mission: Evidence of blood-retinal barrier disruption and ocular adaptations",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-12",
+     "release_year": 2023,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-583",
+     "matched_terms": [
+      "eye$",
+      "ocular",
+      "retina"
+     ]
+    },
+    {
+     "osd_id": "OSD-397",
+     "title": "Illumina NGS RNA-seq and RRBS Sequencing on Spaceflight Mouse Retina",
+     "organism_group": "mouse",
+     "mission_name": "SpaceX-4",
+     "release_year": 2021,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-397",
+     "matched_terms": [
+      "ocular",
+      "retina"
+     ]
+    },
+    {
+     "osd_id": "OSD-202",
+     "title": "Low dose (0.04 Gy) irradiation (LDR) and hindlimb unloading (HLU) microgravity in mice: brain transcriptomic and epigenomic data",
+     "organism_group": "mouse",
+     "mission_name": null,
+     "release_year": 2018,
+     "url": "https://osdr.nasa.gov/bio/repo/data/studies/OSD-202",
+     "matched_terms": [
+      "eye$"
+     ]
+    }
+   ]
+  }
+ }
+}

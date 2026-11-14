@@ -1,0 +1,8 @@
+{
+  "version": "osdr-metadata-v1",
+  "sources": [
+    "data/osdr/tables/studies_labeled.csv",
+    "data/osdr/reports/osdr_profile.md",
+    "data/knowledge/osdr_topic_index.json"
+  ]
+}

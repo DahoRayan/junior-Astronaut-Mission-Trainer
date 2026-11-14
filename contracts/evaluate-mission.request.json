@@ -1,11 +1,7 @@
 {
-  "chapter": 1,
-  "sols_completed": 3,
-  "total_kwh_generated": 240.0,
-  "total_o2_produced_kg": 45.0,
-  "total_water_recycled_l": 30.0,
-  "radiation_dose_mitigated_pct": 85,
-  "crew_final_health": 95,
-  "crew_final_morale": 90,
-  "anomalies_resolved": 1
+  "site": "moon",
+  "perspective_id": "engineer",
+  "history": [],
+  "outcome": "survived",
+  "other_runs": null
 }

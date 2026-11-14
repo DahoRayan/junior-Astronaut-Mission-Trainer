@@ -1,0 +1,38 @@
+{
+  "site": "moon",
+  "perspective_id": "engineer",
+  "history": [
+    {
+      "snapshot": {
+        "sol": 1,
+        "mission_length": 10,
+        "site": "moon",
+        "perspective_id": "engineer",
+        "scene_id": "scene-1",
+        "resources": {"power": 80, "oxygen": 70, "shielding": 60},
+        "crew": 2,
+        "active_event": null
+      },
+      "decision_id": "decision-1",
+      "rating": "great"
+    },
+    {
+      "snapshot": {
+        "sol": 2,
+        "mission_length": 10,
+        "site": "moon",
+        "perspective_id": "engineer",
+        "scene_id": "scene-2",
+        "resources": {"power": 60, "oxygen": 70, "shielding": 60},
+        "crew": 2,
+        "active_event": {"type": "solar_flare", "severity": 1}
+      },
+      "decision_id": "decision-2",
+      "rating": "risky"
+    }
+  ],
+  "outcome": "survived",
+  "other_runs": [
+    {"perspective_id": "commander", "survivability_score": 72}
+  ]
+}

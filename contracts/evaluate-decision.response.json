@@ -1,15 +1,21 @@
 {
-  "rating": "great",
-  "efficiency_score": 85,
-  "tradeoff": {
-    "gained": "+20 kW of clean solar power in direct sunlight",
-    "cost": "50 Materials from our landing reserves"
+  "rating": "ok",
+  "survival_delta": 0,
+  "tradeoff": {"gained": "more oxygen", "cost": "less power"},
+  "feedback": "You gained more oxygen, but paid less power. Keep balancing all three resources.",
+  "fact": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-RESOURCE-CHECK", "text": "The evaluator checked all three resources."}
+    ],
+    "inputs": {
+      "before_resources": {"power": 80, "oxygen": 90, "shielding": 70},
+      "after_resources": {"power": 70, "oxygen": 92, "shielding": 70},
+      "event": null,
+      "survival_delta": 0,
+      "thresholds": {"safe_level": 40, "critical_level": 20}
+    },
+    "sources": [{"name": "Game rules", "kind": "simulated"}]
   },
-  "feedback": "Excellent placement! Our power generation now exceeds base consumption, allowing battery banks to charge before nightfall.",
-  "science_fact": {
-    "text": "At the Moon's South Pole, solar panels on high crater rims receive near-constant sunlight even when crater floors remain in permanent shadow.",
-    "source": "NASA Lunar Reconnaissance Orbiter (LRO)"
-  },
-  "data_source": "curated",
-  "fallback_used": true
+  "data_source": "simulated"
 }

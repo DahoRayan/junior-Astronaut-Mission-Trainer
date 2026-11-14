@@ -5,18 +5,95 @@
 From `ai-service/`:
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -e ".[dev]"
-uvicorn app.main:app --reload --host 0.0.0.0
+uv sync
+uv run uvicorn app.main:app --reload --host 0.0.0.0
 ```
 
 The API is available at `http://localhost:8000/v1`. Open `/docs` to inspect the
-contract endpoints. The service currently returns contract-valid mock responses.
+contract endpoints. The service reads the curated OSDR topic index without importing
+the offline pipeline or pandas. The endpoint paths are:
+
+- `GET /v1/health`
+- `GET /v1/space-weather`
+- `GET /v1/events/profile?site=moon`
+- `POST /v1/assistant/questions`
+- `POST /v1/assistant/answer`
+- `POST /v1/evaluate/decision`
+- `POST /v1/evaluate/mission`
+
+`GET /v1/space-weather` reports neutral OSDR science evidence coverage, not live
+space-weather risk. `GET /v1/events/profile` normalizes OSDR topic counts from the
+committed metadata snapshot. Both responses are marked `data_source: "curated"`.
+
+## OSDR science snapshot
+
+The offline OSDR pipeline writes source tables under `data/osdr/tables/` and an
+explainable topic index at `data/knowledge/osdr_topic_index.json`. The API reads
+that JSON index and falls back to `data/curated/osdr_topic_snapshot.json`.
+Topic counts describe keyword mentions in study metadata, not scientific findings
+or hazard levels. Rebuild the offline snapshot with:
+
+```powershell
+uv run python -m osdr_pipeline all
+```
+
+## Deterministic evaluator
+
+The evaluator calculates a 0-100 survivability index from resource safety,
+event pressure, and resource balance. Decision ratings compare the index before
+and after a choice and account for delayed costs. Mission scores combine the
+average index, decision ratings, and mission outcome.
+
+Every evaluator response includes an explanation with stable rule IDs, the
+inputs used, and a simulated game-rules source. Tune thresholds, event pressure,
+and penalties in `app/evaluator/config.py`; the scoring functions in
+`app/evaluator/` contain no network calls, randomness, or LLM use.
+
+## Mission statistics
+
+Mission debrief statistics are deterministic and computed only from the
+history sent by Unity. They report resource mean/min/trend, rating counts,
+unique event-exposure sols, perspective comparison, and the most costly
+decision based on observed resource drops between consecutive snapshots.
+Empty history keeps the contract's `stats: null` behavior. The existing event
+profile remains based on the curated OSDR topic snapshot under
+`data/knowledge/osdr_topic_index.json`; its metadata counts are not physical
+risk probabilities.
+
+## Expert system
+
+Mission Buddy is a deterministic menu-driven expert system. Its questions and
+rules are versioned in `data/knowledge/questions.json` and
+`data/knowledge/rules.json`. NASA-derived text is limited to facts with a
+source, retrieval date, and evidence reference in `data/knowledge/facts.json`.
+The current facts use the committed OSDR metadata snapshot under `data/osdr/`;
+topic counts are metadata labels, not findings or measurements.
+
+Validate the knowledge base with:
+
+```powershell
+uv run python scripts/validate_knowledge.py
+```
 
 ## Verify
 
 ```powershell
-pytest
-ruff check .
+uv run pytest
+uv run ruff check .
+```
+
+## Story bible validation
+
+The story team owns the narrative content. The existing draft is kept under
+`story/samples/story-bible.json` until its provisional sols, perspectives, NASA
+claims, and decision costs are reviewed. Validate it in draft mode with:
+
+```powershell
+uv run python ai-service/scripts/validate_story.py story/samples/story-bible.json
+```
+
+Use `--strict` for release readiness; draft review warnings then become errors:
+
+```powershell
+uv run python ai-service/scripts/validate_story.py story/samples/story-bible.json --strict
 ```

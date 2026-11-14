@@ -1,0 +1,887 @@
+osd_id,factor
+OSD-1,Infection
+OSD-1,Spaceflight
+OSD-100,Spaceflight
+OSD-101,Spaceflight
+OSD-102,Spaceflight
+OSD-103,Spaceflight
+OSD-104,Spaceflight
+OSD-105,Spaceflight
+OSD-106,Microgravity Simulation
+OSD-107,Genotype
+OSD-107,Microgravity Simulation
+OSD-107,Treatment
+OSD-108,Spaceflight
+OSD-109,Ionizing Radiation
+OSD-109,Time of Sample Collection After Treatment
+OSD-11,Spaceflight
+OSD-110,Microgravity Simulation
+OSD-111,Spaceflight
+OSD-111,Tissue
+OSD-112,Altered Gravity
+OSD-112,Spaceflight
+OSD-113,Spaceflight
+OSD-114,Spaceflight
+OSD-114,Treatment
+OSD-115,Ionizing Radiation
+OSD-115,Time of Sample Collection After Treatment
+OSD-116,Spaceflight
+OSD-117,Ionizing Radiation
+OSD-117,Time of Sample Collection After Treatment
+OSD-118,Spaceflight
+OSD-118,Time
+OSD-119,Microgravity Simulation
+OSD-119,Time
+OSD-119,Treatment
+OSD-12,Microgravity Simulation
+OSD-12,generation
+OSD-120,Ecotype
+OSD-120,Spaceflight
+OSD-120,Treatment
+OSD-121,Spaceflight
+OSD-122,Microgravity Simulation
+OSD-122,Time
+OSD-123,Altered Gravity
+OSD-124,Electromagnetic Fields
+OSD-125,Cell Line
+OSD-125,Microgravity Simulation
+OSD-126,Sample Location
+OSD-126,Spaceflight
+OSD-126,Treatment
+OSD-127,Microgravity Simulation
+OSD-128,Absorbed Radiation Dose
+OSD-128,Ionizing Radiation
+OSD-128,Simulated Microgravity
+OSD-128,Time
+OSD-129,Ionizing Radiation
+OSD-129,Microgravity Simulation
+OSD-13,Altered Gravity
+OSD-13,Spaceflight
+OSD-13,Treatment
+OSD-130,Genotype
+OSD-130,Ionizing Radiation
+OSD-130,Time of Sample Collection After Treatment
+OSD-131,Age
+OSD-131,Ionzing Radiation
+OSD-132,radiation
+OSD-133,Spaceflight
+OSD-133,Time
+OSD-134,Atmospheric Pressure
+OSD-134,Organism Part
+OSD-135,Spaceflight
+OSD-135,Tissue
+OSD-136,Atmospheric Pressure
+OSD-137,Spaceflight
+OSD-138,Freezing
+OSD-138,Spaceflight
+OSD-139,Spaceflight
+OSD-139,Tissue
+OSD-14,Microgravity Simulation
+OSD-140,Time
+OSD-141,Library Construction Protocol
+OSD-141,Sample Collection Protocol
+OSD-144,Cell cycle phase
+OSD-144,Microgravity Simulation
+OSD-145,Freezing
+OSD-145,Spaceflight
+OSD-146,Absorbed Radiation Dose
+OSD-146,Ionizing Radiation
+OSD-146,Time of Sample Collection After Treatment
+OSD-147,Genotype
+OSD-147,Spaceflight
+OSD-148,Ionizing Radiation
+OSD-148,Number of Radiation Doses
+OSD-148,Sex
+OSD-149,Culture Condition
+OSD-149,Ionizing Radiation
+OSD-15,Microgravity Simulation
+OSD-15,Spaceflight
+OSD-151,Absorbed Radiation Dose
+OSD-151,Ionizing Radiation
+OSD-151,Radiation Distance
+OSD-152,Absorbed Radiation Dose
+OSD-152,Ionizing Radiation
+OSD-152,Time of Sample Collection After Treatment
+OSD-153,Genotype
+OSD-153,Ionizing Radiation
+OSD-153,Time of Sample Collection After Treatment
+OSD-154,Absorbed Radiation Dose
+OSD-154,Cell Line
+OSD-155,Absorbed Radiation Dose
+OSD-155,Ionizing Radiation
+OSD-155,Smoking Status
+OSD-156,Dose
+OSD-156,Ionizing Radiation
+OSD-157,Absorbed Radiation Dose
+OSD-157,Ionizing Radiation
+OSD-157,Sex
+OSD-157,Time of Sample Collection After Treatment
+OSD-158,Dose
+OSD-158,Ionizing Radiation
+OSD-159,Dose
+OSD-159,Ionizing Radiation
+OSD-16,Organism Part
+OSD-16,Spaceflight
+OSD-160,Ionizing Radiation
+OSD-160,Treatment
+OSD-161,Spaceflight
+OSD-162,Spaceflight
+OSD-163,Spaceflight
+OSD-164,Spaceflight
+OSD-164,Tissue
+OSD-168,Space Mission
+OSD-168,Spaceflight
+OSD-168,Spike-in Quality Control
+OSD-17,Organism Part
+OSD-17,Spaceflight
+OSD-170,Altitude
+OSD-170,Sample Location
+OSD-170,Time
+OSD-172,Altered Gravity
+OSD-173,Spaceflight
+OSD-174,Sex
+OSD-174,Spaceflight
+OSD-174,Tim
+OSD-174,Time
+OSD-175,Absorbed Radiation Dose
+OSD-175,Ionizing Radiation
+OSD-176,Ionizing Radiation
+OSD-176,Radiation Distance
+OSD-177,Spaceflight
+OSD-178,Ionizing Radiation
+OSD-178,Radiation Distance
+OSD-178,Time of Sample Collection After Treatment
+OSD-18,Microgravity Simulation
+OSD-182,Ionizing Radiation
+OSD-182,Treatment
+OSD-183,Genotype
+OSD-183,Ionizing Radiation
+OSD-183,Micronucleus Index
+OSD-183,Radiation Distance
+OSD-185,Spaceflight
+OSD-188,Altered Gravity
+OSD-189,Altered Gravity
+OSD-19,Hindlimb Unloading
+OSD-19,Treatment
+OSD-190,Altered Gravity
+OSD-191,Time
+OSD-192,Animal Housing
+OSD-192,Food Deprivation
+OSD-192,Light Cycle
+OSD-192,Spaceflight
+OSD-192,Water Deprivation
+OSD-193,Genotype
+OSD-193,Spaceflight
+OSD-193,Time
+OSD-194,Spaceflight
+OSD-195,Bed Rest
+OSD-195,Time
+OSD-198,Bed Rest
+OSD-198,Experimental Campaign
+OSD-198,Time
+OSD-199,Microgravity Simulation
+OSD-2,Absorbed Radiation Dose
+OSD-2,Ionizing Radiation
+OSD-20,Spaceflight
+OSD-200,Sample Location
+OSD-200,Sieve Size
+OSD-200,Spaceflight
+OSD-200,Treatment
+OSD-201,Hindlimb unloading
+OSD-201,tetanus toxoid
+OSD-201,vaccine adjuvant
+OSD-202,Hindlimb Unloading
+OSD-202,Ionizing Radiation
+OSD-202,Time of Sample Collection After Treatment
+OSD-203,Hindlimb Unloading
+OSD-203,Ionizing Radiation
+OSD-203,Time of Sample Collection After Treatment
+OSD-205,Genotype
+OSD-205,Spaceflight
+OSD-207,Genotype
+OSD-207,Spaceflight
+OSD-207,Strain
+OSD-208,Tissue
+OSD-209,Absorbed Radiation Dose
+OSD-209,Dissection Timeline
+OSD-209,Spaceflight
+OSD-21,Hindlimb Unloading
+OSD-21,Spaceflight
+OSD-21,Time
+OSD-21,Tissue
+OSD-210,Cosmic Radiation
+OSD-210,Genotype
+OSD-211,Hindlimb Unloading
+OSD-211,Ionizing Radiation
+OSD-212,Spaceflight
+OSD-214,Hindlimb Unloading
+OSD-214,Tetanus Toxoid
+OSD-214,Vaccine Adjuvant
+OSD-215,Microgravity Simulation
+OSD-216,Microgravity Simulation
+OSD-217,Organism Part
+OSD-217,Spaceflight
+OSD-218,Age
+OSD-218,Cultivar
+OSD-218,Spaceflight
+OSD-219,Age
+OSD-219,Cultivar
+OSD-219,Spaceflight
+OSD-22,Genotype
+OSD-22,Time
+OSD-22,soil environment exposure
+OSD-222,Spaceflight
+OSD-223,Altered Gravity
+OSD-223,Genotype
+OSD-223,Organism Part
+OSD-223,Spaceflight
+OSD-224,Sample Location
+OSD-224,Spaceflight
+OSD-224,Treatment
+OSD-225,Hindlimb Unloading
+OSD-225,Treatment
+OSD-227,Hindlimb Unloading
+OSD-227,Tissue
+OSD-228,Hindlimb Reloading Duration
+OSD-228,Hindlimb Unloading
+OSD-232,Spaceflight
+OSD-232,Tissue
+OSD-233,Growth Time
+OSD-233,Spaceflight
+OSD-233,Strain
+OSD-235,Carcass Preservation Method
+OSD-235,Dissection Condition
+OSD-235,Euthanasia Method
+OSD-235,Tissue Homogenate Preservation Time at -80C in RLT Buffer
+OSD-235,Tissue Preservation Method
+OSD-25,Spaceflight
+OSD-258,Spaceflight
+OSD-258,Time
+OSD-259,Spaceflight
+OSD-259,Treatment
+OSD-26,Sample Location
+OSD-26,Spaceflight
+OSD-260,Spaceflight
+OSD-260,Strain
+OSD-261,Spaceflight
+OSD-261,Strain
+OSD-262,Spaceflight
+OSD-263,Sample Location
+OSD-264,Spaceflight
+OSD-265,Growth Cycle
+OSD-265,Organism Part
+OSD-265,Sample Storage
+OSD-265,Strain
+OSD-265,UV Mutagenesis
+OSD-266,Absorbed Radiation Dose
+OSD-266,Ionizing Radiation
+OSD-267,Organism Part
+OSD-267,Spaceflight
+OSD-268,Organism Part
+OSD-268,Spaceflight
+OSD-269,Organism Part
+OSD-269,Spaceflight
+OSD-27,Duration
+OSD-27,Microgravity Simulation
+OSD-27,Sex
+OSD-27,Temperature
+OSD-270,Spaceflight
+OSD-271,Ionizing Radiation
+OSD-272,Dissection Condition
+OSD-272,Order of Preservation
+OSD-272,Preservation Method
+OSD-273,Dissection Condition
+OSD-273,Order of Preservation
+OSD-273,Preservation Method
+OSD-274,Dissection Condition
+OSD-274,Order of Preservation
+OSD-274,Preservation Method
+OSD-275,Ionizing Radiation
+OSD-276,Sample Location
+OSD-276,Spaceflight
+OSD-277,Genotype
+OSD-277,Infection
+OSD-277,Microgravity Simulation
+OSD-277,Time
+OSD-278,Infection
+OSD-278,Spaceflight
+OSD-279,Sample Location
+OSD-279,Spaceflight
+OSD-28,environment exposure
+OSD-28,gravitation
+OSD-280,Spaceflight
+OSD-280,Time
+OSD-281,Age
+OSD-281,Genotype
+OSD-281,Spaceflight
+OSD-282,Treatment
+OSD-283,Altered Gravity
+OSD-285,Absorbed Radiation Dose
+OSD-285,Ionizing Radiation
+OSD-285,Time of Sample Collection After Treatment
+OSD-286,Sample Location
+OSD-286,Spaceflight
+OSD-286,Treatment
+OSD-287,Sex
+OSD-287,Treatment
+OSD-288,Altered Gravity
+OSD-288,Spaceflight
+OSD-289,Altered Gravity
+OSD-289,Space Mission
+OSD-289,Spaceflight
+OSD-29,Altered Gravity
+OSD-29,Spaceflight
+OSD-29,Treatment
+OSD-290,Spaceflight
+OSD-290,Strain
+OSD-291,Strain
+OSD-293,Spaceflight
+OSD-293,Strain
+OSD-294,Ionizing Radiation
+OSD-294,Time of Sample Collection After Treatment
+OSD-295,Age
+OSD-295,Hindlimb Reloading Duration
+OSD-295,Hindlimb Unloading
+OSD-296,Genotype
+OSD-296,Light
+OSD-296,Time
+OSD-296,Treatment
+OSD-297,Altered Gravity
+OSD-297,Treatment
+OSD-298,Spaceflight
+OSD-298,Strain
+OSD-299,Spaceflight
+OSD-3,Developmental Stage
+OSD-3,Spaceflight
+OSD-30,Microgravity Simulation
+OSD-300,Spaceflight
+OSD-300,Strain
+OSD-301,Spaceflight
+OSD-301,Treatment
+OSD-302,Spaceflight
+OSD-302,Strain
+OSD-303,Spaceflight
+OSD-303,Strain
+OSD-304,Absorbed Radiation Dose
+OSD-304,Genotype
+OSD-304,Ionizing Radiation
+OSD-305,Atmospheric Composition
+OSD-305,Atmospheric Pressure
+OSD-305,Temperature
+OSD-306,Spaceflight
+OSD-306,Strain
+OSD-307,CO2 Concentration
+OSD-307,Relative Humidity
+OSD-307,Temperature
+OSD-309,Spaceflight
+OSD-309,Strain
+OSD-31,Ionizing Radiation
+OSD-31,Microgravity Simulation
+OSD-31,Spaceflight
+OSD-310,Spaceflight
+OSD-311,Spaceflight
+OSD-311,Strain
+OSD-313,Genotype
+OSD-313,Treatment
+OSD-314,Altered Gravity
+OSD-314,Light
+OSD-314,Spaceflight
+OSD-315,Microgravity Simulation
+OSD-315,Time
+OSD-316,Spaceflight
+OSD-316,Study Subject
+OSD-316,Time
+OSD-317,Absorbed Radiation Dose
+OSD-317,Ionizing Radiation
+OSD-317,Time of Sample Collection After Treatment
+OSD-318,Diet
+OSD-318,Ionizing Radiation
+OSD-319,Time
+OSD-32,Hindlimb Unloading
+OSD-320,Genotype
+OSD-320,Ionizing Radiation
+OSD-320,Time of sample collection after treatment
+OSD-321,Genotype
+OSD-321,Spaceflight
+OSD-322,Ionizing Radiation
+OSD-322,Time of Sample Collection After Treatment
+OSD-323,Infection
+OSD-323,Spaceflight
+OSD-324,Spaceflight
+OSD-324,Time
+OSD-326,Spaceflight
+OSD-329,Genotype
+OSD-329,Ionizing Radiation
+OSD-329,Organism Part
+OSD-329,Time of Sample Collection After Treatment
+OSD-33,Cage
+OSD-33,Spaceflight
+OSD-331,Microgravity Simulation
+OSD-334,Hindlimb Unloading
+OSD-334,Ionizing Radiation
+OSD-334,Particle Charge
+OSD-335,Hindlimb Unloading
+OSD-335,Ionizing Radiation
+OSD-335,Particle Charge
+OSD-336,Hindlimb Unloading
+OSD-336,Ionizing Radiation
+OSD-336,Particle Charge
+OSD-337,Hindlimb Unloading
+OSD-337,Ionizing Radiation
+OSD-337,Particle Charge
+OSD-34,Age
+OSD-34,Altered Gravity
+OSD-34,Altered Gravity Simulator
+OSD-34,Sex
+OSD-34,Temperature
+OSD-340,Absorbed Radiation Dose
+OSD-340,Genotype
+OSD-340,Ionizing Radiation
+OSD-342,Dissection Timeline
+OSD-342,Spaceflight
+OSD-342,Treatment
+OSD-343,Spaceflight
+OSD-343,Tissue
+OSD-344,Developmental Stage
+OSD-344,Spaceflight
+OSD-345,Spaceflight
+OSD-345,Time
+OSD-346,Altered Gravity
+OSD-346,Genotype
+OSD-346,Spaceflight
+OSD-346,Treatment
+OSD-347,Genotype
+OSD-347,Spaceflight
+OSD-35,Altered Gravity
+OSD-35,Spaceflight
+OSD-350,Spaceflight
+OSD-350,Strain
+OSD-351,Spaceflight
+OSD-351,Tissue
+OSD-352,Spaceflight
+OSD-353,Bed Rest
+OSD-353,Dry Immersion
+OSD-353,Spaceflight
+OSD-353,Time
+OSD-354,Age
+OSD-354,Hindlimb Unloading
+OSD-356,Genotype
+OSD-356,Microgravity Simulation
+OSD-356,Time
+OSD-358,Organism Part
+OSD-358,Spaceflight
+OSD-359,Spaceflight
+OSD-359,Time
+OSD-36,Altered Gravity
+OSD-36,Altered Gravity Simulator
+OSD-36,Spaceflight
+OSD-36,Treatment
+OSD-360,Absorbed Radiation Dose
+OSD-360,Ionizing Radiation
+OSD-360,Time of Sample Collection After Treatment
+OSD-361,Spaceflight
+OSD-361,Strain
+OSD-362,Strain
+OSD-362,Treatment
+OSD-363,Intracranial Pressure
+OSD-364,Intracranial Pressure
+OSD-366,Absorbed Radiation Dose
+OSD-366,Group ID
+OSD-366,Ionizing Radiation
+OSD-366,Strain
+OSD-366,Time of Sample Collection After Treatment
+OSD-367,Ionizing Radiation
+OSD-367,Radiation Distance
+OSD-368,Ionizing Radiation
+OSD-368,Time of Sample Collection After Treatment
+OSD-369,Ionizing Radiation
+OSD-37,Ecotype
+OSD-37,Spaceflight
+OSD-370,Bed Rest
+OSD-370,Time
+OSD-370,Treatment
+OSD-372,Collection Date
+OSD-372,Sample Location
+OSD-372,Spaceflight
+OSD-374,Ionizing Radiation
+OSD-375,Accession
+OSD-375,Organism Part
+OSD-375,Spaceflight
+OSD-379,Age
+OSD-379,Dissection Condition
+OSD-379,Duration
+OSD-379,Euthanasia Location
+OSD-379,Spaceflight
+OSD-38,Sample Preservation Method
+OSD-38,Spaceflight
+OSD-383,Spaceflight
+OSD-385,Organism Part
+OSD-385,Seed Sanitization
+OSD-385,Treatment
+OSD-386,Organism Part
+OSD-386,Seed Sanitization
+OSD-386,Treatment
+OSD-39,gravity
+OSD-39,spaceflight
+OSD-391,Sample Location
+OSD-396,Spaceflight
+OSD-396,Treatment
+OSD-397,Spaceflight
+OSD-4,Spaceflight
+OSD-40,Housing Temperature
+OSD-400,Spaceflight
+OSD-400,Strain
+OSD-401,Spaceflight
+OSD-401,Tissue
+OSD-402,Age
+OSD-402,Spaceflight
+OSD-403,Age
+OSD-403,Spaceflight
+OSD-404,Age
+OSD-404,Spaceflight
+OSD-405,Age
+OSD-405,Spaceflight
+OSD-406,Altered Gravity
+OSD-406,Ecotype
+OSD-406,Genotype
+OSD-406,Spacecraft
+OSD-41,Altered Gravity
+OSD-41,Spaceflight
+OSD-410,Absorbed Radiation Dose
+OSD-410,Ionizing Radiation
+OSD-410,Time of Sample Collection after Treatment
+OSD-411,Genotype
+OSD-411,Organism Part
+OSD-411,Treatment
+OSD-412,Organism Part
+OSD-412,Spaceflight
+OSD-413,Organism Part
+OSD-413,Spaceflight
+OSD-414,Organism Part
+OSD-414,Spaceflight
+OSD-416,Genotype
+OSD-416,Organism Part
+OSD-416,Spaceflight
+OSD-417,Euthanasia Location
+OSD-417,Spaceflight
+OSD-417,Time
+OSD-418,Partial Weight Bearing
+OSD-419,Spaceflight
+OSD-42,Spaceflight
+OSD-420,Spaceflight
+OSD-421,Spaceflight
+OSD-422,Spaceflight
+OSD-423,Spaceflight
+OSD-425,Altered Gravity
+OSD-425,Generation
+OSD-425,Genotype
+OSD-425,Spaceflight
+OSD-426,Altered Gravity
+OSD-426,Spaceflight
+OSD-426,Treatment
+OSD-427,Genotype
+OSD-427,Organism part
+OSD-427,Spaceflight
+OSD-428,Altered Gravity
+OSD-428,Time
+OSD-43,Microgravity Simulation
+OSD-430,Spaceflight
+OSD-430,Treatment
+OSD-431,Altered Gravity
+OSD-431,Spaceflight
+OSD-432,Genotype
+OSD-432,Ionizing Radiation
+OSD-432,Treatment
+OSD-434,Altered Gravity
+OSD-434,Time
+OSD-435,Absorbed Radiation Dose
+OSD-435,Ionizing Radiation
+OSD-435,Time Post-Irradiation
+OSD-436,Altered Gravity
+OSD-436,Time
+OSD-437,Age
+OSD-437,Altered Gravity
+OSD-437,Spaceflight
+OSD-44,Genotype
+OSD-44,Spaceflight
+OSD-45,Microgravity Simulation
+OSD-45,Time
+OSD-450,Altered Gravity
+OSD-450,Time
+OSD-452,Treatment
+OSD-455,Absorbed Radiation Dose
+OSD-455,Ionizing Radiation
+OSD-455,Time of Sample Collection after Treatment
+OSD-457,Genotype
+OSD-457,Spaceflight
+OSD-457,Tissue
+OSD-46,Absorbed Radiation Dose
+OSD-46,Age
+OSD-46,Exposure Duration
+OSD-46,Genotype
+OSD-46,Ionizing Radiation
+OSD-46,Time of Sample Collection After Treatment
+OSD-462,Spaceflight
+OSD-463,Spaceflight
+OSD-464,Spaceflight
+OSD-465,Spaceflight
+OSD-466,Genotype
+OSD-466,Spaceflight
+OSD-467,Hindlimb Unloading
+OSD-47,Spaceflight
+OSD-470,Spaceflight
+OSD-471,Spaceflight
+OSD-476,Treatment
+OSD-477,Partial Weight Bearing
+OSD-477,Time
+OSD-478,Spaceflight
+OSD-478,Time
+OSD-479,Absorbed Radiation Dose
+OSD-479,Ionizing Radiation
+OSD-479,Sex
+OSD-479,Treatment
+OSD-48,Dissection Condition
+OSD-48,Spaceflight
+OSD-480,Altered Gravity
+OSD-480,Genotype
+OSD-480,Organism Part
+OSD-480,Spaceflight
+OSD-480,Treatment
+OSD-481,Spaceflight
+OSD-481,Time
+OSD-483,Spaceflight
+OSD-483,Time
+OSD-484,Treatment
+OSD-485,Altered Gravity
+OSD-485,Parabola
+OSD-485,Time
+OSD-486,Spaceflight
+OSD-487,Sample Condition
+OSD-487,Spaceflight
+OSD-488,Space Mission
+OSD-488,Spaceflight
+OSD-488,Tissue
+OSD-489,Spaceflight
+OSD-49,Sample Preservation Method
+OSD-49,Sample Storage Time
+OSD-49,Time of Sample Collection After Euthanasia
+OSD-490,Age
+OSD-490,Ionizing Radiation
+OSD-490,absorbed radiation dose
+OSD-492,Absorbed Radiation Dose
+OSD-492,Ionizing Radiation
+OSD-496,Genotype
+OSD-496,Ionizing Radiation
+OSD-496,Time of Sample Collection After Treatment
+OSD-496,antibody
+OSD-497,Strain
+OSD-498,Ionizing Radiation
+OSD-498,Time of Sample Collection after Treatment
+OSD-5,Microgravity Simulation
+OSD-50,Spaceflight
+OSD-500,Spaceflight
+OSD-502,Genotype
+OSD-502,Ionizing Radiation
+OSD-505,Ionizing Radiation
+OSD-506,Spaceflight
+OSD-508,Genotype
+OSD-508,Ionizing Radiation
+OSD-508,Time of Sample Collection After Treatment
+OSD-509,Genotype
+OSD-509,Spaceflight
+OSD-51,Bed Rest
+OSD-51,Tissue
+OSD-51,Treatment
+OSD-510,Genotype
+OSD-510,Ionizing Radiation
+OSD-510,Time of Sample Collection After Treatment
+OSD-511,Age
+OSD-511,Spaceflight
+OSD-512,Spaceflight
+OSD-513,Spaceflight
+OSD-514,Altered Gravity
+OSD-514,Sex
+OSD-514,Spaceflight
+OSD-515,Spaceflight
+OSD-516,Sex
+OSD-516,Spaceflight
+OSD-516,Treatment
+OSD-518,Genotype
+OSD-518,Treatment
+OSD-519,Genotype
+OSD-519,Organism Part
+OSD-519,Time
+OSD-519,Treatment
+OSD-52,Spaceflight
+OSD-520,Generation
+OSD-520,Ionizing Radiation
+OSD-522,Organism Part
+OSD-522,Spaceflight
+OSD-524,Generation
+OSD-524,Ionizing Radiation
+OSD-525,Spaceflight
+OSD-528,Microgravity Simulation
+OSD-53,Sex
+OSD-53,Spaceflight
+OSD-53,Time
+OSD-530,Spaceflight
+OSD-530,Time
+OSD-531,Time
+OSD-531,Tissue segment
+OSD-531,Treatment
+OSD-532,Altered Gravity
+OSD-532,Spaceflight
+OSD-536,Spaceflight
+OSD-539,Sex
+OSD-539,Treatment
+OSD-54,Spaceflight
+OSD-54,Time
+OSD-54,Treatment
+OSD-540,Hindlimb Unloading
+OSD-541,Altered Gravity
+OSD-542,Time
+OSD-546,Spaceflight
+OSD-546,Treatment
+OSD-548,Hindlimb Unloading
+OSD-55,Microgravity Simulation
+OSD-554,Growth Environment
+OSD-554,Spaceflight
+OSD-554,Time
+OSD-557,Spaceflight
+OSD-56,Microgravity Simulation
+OSD-561,Age
+OSD-561,Euthanasia Location
+OSD-561,Spaceflight
+OSD-562,Age
+OSD-562,Euthanasia Location
+OSD-562,Spaceflight
+OSD-563,Spaceflight
+OSD-564,Spaceflight
+OSD-565,Microgravity Simulation
+OSD-565,Organism Part
+OSD-565,Treatment
+OSD-566,Ionizing Radiation
+OSD-566,Sex
+OSD-568,Spaceflight
+OSD-569,Spaceflight
+OSD-569,Time
+OSD-57,Treatment
+OSD-570,Spaceflight
+OSD-570,Time
+OSD-571,Spaceflight
+OSD-571,Time
+OSD-572,Sample Location
+OSD-572,Spaceflight
+OSD-572,Time
+OSD-573,Sample Location
+OSD-573,Spaceflight
+OSD-573,Time
+OSD-574,Spaceflight
+OSD-574,Time
+OSD-575,Spaceflight
+OSD-575,Time
+OSD-576,Spaceflight
+OSD-577,Ionizing Radiation
+OSD-577,Tissue Model
+OSD-577,Treatment
+OSD-58,Culture Media
+OSD-58,Spaceflight
+OSD-58,generation number
+OSD-58,zygosity
+OSD-580,Age
+OSD-580,Euthanasia Location
+OSD-580,Spaceflight
+OSD-581,Organism Part
+OSD-581,soil environment exposure
+OSD-582,Spaceflight
+OSD-583,Spaceflight
+OSD-588,Developmental Stage
+OSD-588,Genotype
+OSD-588,Infection
+OSD-588,Spaceflight
+OSD-59,Spaceflight
+OSD-6,Ionizing Radiation
+OSD-60,Hypergravity
+OSD-61,Genotype
+OSD-61,Spaceflight
+OSD-62,Genotype
+OSD-62,Spaceflight
+OSD-63,Altered Gravity
+OSD-63,Developmental Condition
+OSD-63,Spaceflight
+OSD-63,Tissue
+OSD-64,Spaceflight
+OSD-65,Spaceflight
+OSD-66,Spaceflight
+OSD-67,Sample Location
+OSD-67,Spaceflight
+OSD-68,Spaceflight
+OSD-69,Spaceflight
+OSD-69,Treatment
+OSD-7,Organism Part
+OSD-7,Spaceflight
+OSD-70,Altered Gravity
+OSD-70,Altered Gravity Simulator
+OSD-70,O2 Level
+OSD-70,Temperature
+OSD-71,Absorbed Radiation Dose
+OSD-71,Ionizing Radiation
+OSD-72,Age at Start of Experiment
+OSD-72,Diet
+OSD-72,Ionizing Radiation
+OSD-72,Microgravity Simulation
+OSD-72,Spaceflight
+OSD-72,Strain
+OSD-73,Absorbed Radiation Dose
+OSD-73,Ionizing Radiation
+OSD-73,Time of Sample Collection After Treatment
+OSD-74,Absorbed Radiation Dose
+OSD-74,Ionizing Radiation
+OSD-75,Altered Gravity
+OSD-75,Duration
+OSD-75,Spaceflight
+OSD-76,Microgravity Simulation
+OSD-78,Ionizing Radiation
+OSD-78,Treatment
+OSD-79,Genotype
+OSD-79,Ionizing Radiation
+OSD-8,Altered Gravity
+OSD-8,Magnetic Field
+OSD-80,Absorbed Radiation Dose
+OSD-80,Ionizing Radiation
+OSD-80,Time of Sample Collection After Treatment
+OSD-81,Atmospheric Pressure
+OSD-81,Strain
+OSD-82,Sample Location
+OSD-82,Space Mission
+OSD-82,Spaceflight
+OSD-83,Spaceflight
+OSD-83,Tissue
+OSD-84,Spaceflight
+OSD-85,Hypergravity
+OSD-86,Antibody
+OSD-86,Microgravity Simulation
+OSD-87,Spaceflight
+OSD-88,Age
+OSD-88,Ionizing Radiation
+OSD-89,Age
+OSD-89,Ionizing Radiation
+OSD-9,Ionizing Radiation
+OSD-90,Microgravity Simulation
+OSD-90,Time
+OSD-91,Microgravity Simulation
+OSD-92,Ionizing Radiation
+OSD-92,Time of Sample Collection After Treatment
+OSD-92,absorbed radiation dose
+OSD-93,ionizing radiation
+OSD-93,strain
+OSD-94,Neoplasm
+OSD-94,ionizing radiation
+OSD-95,Dose
+OSD-95,Spaceflight
+OSD-96,Generation
+OSD-96,Spaceflight
+OSD-96,Time of Sample Collection After Treatment
+OSD-97,"Radiation, Ionzing"
+OSD-98,Spaceflight
+OSD-99,Spaceflight

@@ -1,0 +1,18 @@
+{
+  "provider": "NASA OSDR Developer API",
+  "retrieved_at": "2026-11-14",
+  "samples": [
+    {
+      "path": "../osdr/tables/studies.csv",
+      "purpose": "Committed metadata table used for the 424-study coverage fact."
+    },
+    {
+      "path": "../knowledge/osdr_topic_index.json",
+      "purpose": "Committed topic index and caveat used for the metadata-evidence answer."
+    },
+    {
+      "path": "../osdr/reports/osdr_profile.md",
+      "purpose": "Committed report documenting the metadata snapshot provenance."
+    }
+  ]
+}

@@ -14,11 +14,19 @@ dependencies = [
     "pydantic-settings",
 ]
 
-[project.optional-dependencies]
+[tool.setuptools.packages.find]
+include = ["app*", "osdr_pipeline*"]
+
+[dependency-groups]
 dev = [
     "httpx",
     "pytest",
     "ruff",
+]
+pipeline = [
+    "pandas>=3.1.1",
+    "pyarrow>=26.0.1",
+    "scipy>=1.17.1",
 ]
 
 [tool.pytest.ini_options]

@@ -1,17 +1,20 @@
-# Architecture Context — Beyond Earth: First Light
+# Architecture Context (v2) — Beyond Earth: First Light
 
 ## Stack
 | Layer | Technology | Role |
 |---|---|---|
-| Game Client | Web Application (TypeScript 5+, Vite, HTML5 Canvas 2D + DOM/CSS HUD) | Authoritative simulation, 2D pixel-art viewport, UI frames, sound |
-| AI Service | Python 3.11+, FastAPI, Pydantic v2 | HTTP API for M.I.L.O. advisor, DONKI weather, and deterministic evaluators |
-| LLM Provider | OpenAI / Gemini / Groq (optional) | M.I.L.O. dialogue narration; offline fallback bundled locally |
-| NASA & CSA Data | Curated fixtures & httpx client | DONKI space weather, RadLab dosimetry, OSDR biology, CSA hydroponics |
-| Cache | In-memory TTL cache | Avoid API rate limits, ensure sub-second response times |
-| Tests | pytest, ruff | AI service verification and contract validation |
+| Game Client | Web Application (TypeScript 5+, Vite, Three.js / HTML5 Canvas + DOM/CSS HUD) | Authoritative simulation, 3D lunar terrain, UI frames, sound |
+| AI Service | Python 3.11+, FastAPI, Pydantic v2, uv | Evaluator, expert system, data, statistics |
+| Knowledge Base | versioned JSON in `ai-service/data/knowledge/` | Questions, rules, facts (all sourced) |
+| NASA & CSA Data | httpx -> DONKI (+ curated OSDR/RadLab) | Real space weather, biology and science facts |
+| Statistics | stdlib `statistics` | Event weights, debrief analysis |
+| Story | `story/samples/story-bible.json` | Canonical timeline + perspectives (shared) |
+| Tests | pytest, ruff, vitest/tsc | Code standards and contract validation |
+
+No runtime generative LLM required: expert system + deterministic evaluator with full explainability.
 
 ## Client Software Architecture: Decoupled 3-Manager System
-The game client architecture is explicitly organized into three independent engines communicating through a centralized **Event Bus**:
+The game client architecture is organized into three independent engines communicating through a centralized **Event Bus**:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -33,36 +36,30 @@ The game client architecture is explicitly organized into three independent engi
 └───────────────────────┘ └───────────────────┘ └────────────────────────┘
 ```
 
-### System Responsibilities
-1. **Narrative Manager**:
-   - Manages character dialogue, emotion states (neutral, happy, concerned, surprised, serious, excited), cutscenes, and ambient story banter.
-   - Reads narrative data from externalized JSON files (`data/narrative/chapter_NN.json`).
-   - Never modifies simulation variables directly; reacts to simulation and mission events.
-2. **Simulation Engine**:
-   - Authoritative manager of physical systems: 2D tile grid, structure placement, power cable graph, physical rates (kW, kg/h, L), battery state of charge, and load-shedding.
-   - Emits events (`on_structure_placed`, `on_power_shortage`, `on_cable_fault`) when physical states change.
-3. **Mission Manager**:
-   - Tracks chapter goals, objective completion, and scripted narrative anomalies.
-   - Manages non-punitive mission debriefs when systems fail.
-   - Communicates with the Python `ai-service/` via HTTP REST with strict $\le 3\text{ s}$ timeouts and automatic offline fallbacks.
-
 ## System Boundaries
-- `game/` — Web game client project (TypeScript + Vite). Owns simulation, viewport rendering, audio, and all UI.
-- `ai-service/` — FastAPI service (owned by Ibrahim).
-  - `app/routers/` HTTP endpoint handlers.
-  - `app/schemas/` Pydantic v2 contract models.
-  - `app/evaluator/` Deterministic mathematical scoring rules for placement and debriefs.
-  - `app/llm/` M.I.L.O. prompt templates and model wrappers.
-  - `app/nasa/` NASA DONKI client and cached feeds.
-- `context/` — Shared architecture, contracts, standards, and progress tracking.
-- `contracts/` — Shared JSON request/response contract examples.
-- `resources/` — 7 verified NASA/CSA open data catalogs and reference fixtures.
+- `game/` Web Game client project (TypeScript + Vite). Owns simulation, viewport rendering, audio, and all UI.
+- `ai-service/` FastAPI app:
+  `app/routers/` HTTP only · `app/schemas/` Pydantic = contract · `app/evaluator/` pure scoring
+  `app/expert/` question catalog + rule engine · `app/nasa/` DONKI client + cache + fallback
+  `app/stats/` event profile + debrief stats · `data/knowledge/` questions/rules/facts
+  `data/curated/` saved NASA samples (source + retrieval date) · `scripts/validate_story.py`
+- `story/` story bible and dialogue scripts (shared between client and AI).
+- `context/` shared specs · `contracts/` JSON examples of every request/response.
 
-## Architectural Invariants
-1. **The Game Client is Authoritative**: The AI service never mutates or dictates game simulation state. It only advises, evaluates, and debriefs.
-2. **100% Offline-First Zero-Failure**: The game must remain completely playable without network connectivity or external API keys. Every AI endpoint has a bundled local fallback.
-3. **Deterministic Math for Evaluation**: Survivability scores and placement evaluations are computed via pure deterministic Python rules, never by generative LLMs. The LLM only formats player-facing dialogue.
-4. **Decoupled Event-Driven Communication**: Client subsystems communicate via events. The narrative manager never directly reads or writes simulation memory.
-5. **Age-Appropriate Language (Ages 7–12)**: All text generated by M.I.L.O. or the evaluator must be concise, encouraging, and explain any scientific terms inline.
-6. **Data Provenance**: Every real data element must be badged as LIVE or CURATED. Simulated values must never be presented as live NASA telemetry.
-7. **Zero Secrets in Client**: API keys exist only on the server in `.env`. The client build never contains secrets.
+## Storage Model
+- No database. Game state lives in the game client and is sent as a snapshot per request.
+- Service is stateless; only an in-memory TTL cache for NASA calls.
+- Knowledge base and curated data are versioned files; `knowledge_base_version` is returned by `/health`.
+- Secrets in `.env` (never committed): only the NASA API key.
+
+## Invariants
+1. The Game Client is the single source of truth for simulation state; the service never mutates it.
+2. Everything the service computes is deterministic: same input -> same output.
+3. Every evaluation and assistant answer includes an `explanation` (rules fired, inputs, sources).
+4. 100% Offline-First: Anything depending on NASA APIs has a curated fallback; the game never blocks on the service.
+5. `data_source` is truthful: `live` only if fetched live, `curated` for saved NASA data, `simulated` for game-rule output.
+6. Every fact shown to the player has a source and retrieval date in the knowledge base; never invent NASA facts.
+7. Player-facing text is plain language for ages 7-12; terms explained inline.
+8. The story bible is the only source of story truth; every perspective is validated against it before release.
+9. Zero secrets in client builds.
+10. Contract changes go through `api-contract.md` first.

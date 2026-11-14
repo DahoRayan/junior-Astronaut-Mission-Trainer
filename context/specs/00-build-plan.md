@@ -1,11 +1,16 @@
-# Build Plan — AI Service (draft; Ibrahim's units)
+# Build Plan - AI Service (v2)
 
-1. **Skeleton + contract mocks** — FastAPI app, config, Pydantic schemas, all endpoints returning valid mock data, `contracts/*.json`, `/health`. Depends on: none.
-2. **Deterministic evaluator** — pure scoring for decision rating/survival_delta/tradeoff + mission score; unit tests. Depends on: 1.
-3. **NASA data layer** — DONKI client with TTL cache, risk-level mapping, curated fallback JSON (OSDR/RadLab facts with sources). Depends on: 1.
-4. **LLM client + assistant chat** — provider wrapper, kid-tone prompt, grounding on snapshot, timeout + fallback. Depends on: 1.
-5. **LLM feedback narration** — wrap evaluator output into 2-sentence feedback + fact; mission debrief endpoint. Depends on: 2, 3, 4.
-6. **Hardening + deploy** — rate limit, input caps, injection guard, logging, deployment, demo script. Depends on: 5.
+| # | Unit | Depends on | Notes |
+|---|---|---|---|
+| 01 | Skeleton + mocks (v1 contract) | - | DONE, awaiting verification |
+| 02 | Contract v2 migration (mocks) | 01 | Do first so Unity integrates against the new contract |
+| 03 | Deterministic evaluator + explanations | 02 | rules engine for decisions/missions |
+| 04 | NASA data layer + curated dataset | 02 | DONKI client, cache, curated fallback, curated facts |
+| 05 | Expert system | 02 (04 for facts) | question catalog, knowledge base, rule engine |
+| 06 | Story bible schema + validator | 02 + agreed story schema | `scripts/validate_story.py`, tests with good/bad examples |
+| 07 | Statistics | 03, 04 | event profile endpoint + debrief `stats` |
+| 08 | Hardening + deploy | all | rate limit, input caps, logging, hosting, demo script |
 
-Game-side units are listed by the game devs in their own plan; sync at each contract change.
-Each unit gets `NN-name.md` generated just before building (Goal, Design, Implementation, Dependencies, Verify when done).
+Parallel after 02: units 03, 04, 06 are independent. 05 can start with a seed knowledge base. 07 waits for 03 + 04.
+Each unit gets `NN-name.md` just before building (use `_template.md`).
+Game-side units are planned by the game devs; sync at every contract or story-schema change.

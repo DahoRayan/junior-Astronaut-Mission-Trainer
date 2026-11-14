@@ -1,0 +1,7 @@
+{
+  "questions": [
+    {"id": "resource-balance", "text": "Which resource should I protect first?"},
+    {"id": "event-risk", "text": "What does this event mean for the crew?"},
+    {"id": "next-choice", "text": "What should I check before my next choice?"}
+  ]
+}

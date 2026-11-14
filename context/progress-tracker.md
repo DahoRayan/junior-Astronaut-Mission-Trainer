@@ -1,59 +1,43 @@
 # Progress Tracker — Beyond Earth: First Light
 
-Update after every meaningful change.
+Update after every meaningful change (only your own unit/row).
 
 ## Current Phase
-- Web Client Foundation Phase: Reconciled documentation, contracts, and establishing the Web Game Client (`game/`) for Milestone 1.
-
-## Current Goal
-- Initialize the TypeScript + Vite Web Game architecture in `game/` with decoupled 3-Manager model, Canvas 2D simulation viewport, Perimeter Resource HUD, and offline-first AI client.
+- Integrating Web Game Client with Contract v2, Story Bible narrative data, and Lunar Outpost Equipment Specification.
 
 ## Completed
-- Audited entire project codebase against `local_plan/Beyond_Earth_First_Light_Complete_Project_Brief.md` and compiled master blueprint `beyond_earth_milestone_plan.md`.
-- Master milestone implementation plan approved by user.
-- Updated `context/project-overview.md` to 2D top-down pixel-art colony builder, 4 astronauts, M.I.L.O., and 5 chapters.
-- Updated `context/architecture.md` with the 3 decoupled client engines (Narrative, Simulation, Mission) and Event Bus.
-- Updated `context/game-design.md` with structure catalog, continuous simulation balancing values, and story structure.
-- Created `context/story-bible.md` containing full script, character bibles, and dialogue UI guidelines.
-- Built 7 curated NASA/CSA reference fixtures in `resources/` with schemas and extraction audit.
-- Updated `context/api-contract.md` and `contracts/*.json` for grid building evaluation and M.I.L.O. assistant chat.
-- **Client Pivot to Web Game**: Transitioned client architecture from Unity to modern Web Game (TypeScript 5+ / Vite / HTML5 Canvas 2D viewport + DOM HUD overlay) in `game/`.
-- **Kid-Friendly UI & Sound System**: Implemented vibrant candy capsule HUD, chunky 3D tactile controls, and 8-bit Web Audio synthesizer (`SoundManager.ts`).
-- **Procedural Authentic Lunar Terrain (48px)**: Built `LunarTerrain.ts` with authentic highland anorthosite & mare basalt tones, multi-octave harmonic regolith noise, Shackleton crater rim lighting gradient, 3D impact craters with sunlit crests and bowl shadows, Artemis descent engine blast halo, rover tracks, and scattered boulders with low-angle shadows. Replaced square box outlines with subtle NASA tactical '+' corner marks.
-- **High-Fidelity Building Sprites (`BuildingRenderer.ts`)**: Implemented dedicated high-detail visual rendering for all 10 lunar structures with authentic engineering components, specular glints, pulsing LED status beacons, and animated sub-elements (gimbaled solar arrays, multi-cell battery banks, Stirling nuclear reactor core, bubbling electrolyzers, spinning scrubber fan, crew habitat cupola with window silhouette, 3D regolith shield striations, subterranean vault hazard hatch, CSA hydroponics lettuce sprouts, and auger drill ice extractor).
-- **Aerospace UI Theme Overhaul**: De-saturated the chrome bars (top bar, bottom bar, left and right sidebars) away from excess blue/cyan, replacing them with sleek matte aerospace titanium graphite (`#121419` / `#1c1e26`), refined slate borders (`#2c313d`), warm gold/amber Artemis accents (`#f59e0b`), and neutral cosmic space (`#08090c`).
-- **Pure Photographic Moon Terrain Background**: Stripped away all artificial overlay graphics (drawn vector craters, dark slope gradients, landing pad blast rings, rover trails, boulder dots, and astronaut sprite) in `LunarTerrain.ts` and `ViewportRenderer.ts`, presenting the clean, unobstructed 4K lunar surface texture.
-- **UI/UX Audit & Comprehensive Polish Overhaul (`/boost /teamwork`)**:
-  - **Telemetry Scannability**: Overhauled top telemetry chips to display instant Net Status in plain English (`+20 kW (Charging ⚡)` vs `-10 kW Deficit (⏳)`, `+15 kg/h (🫁)` vs `-2 kg/h (🔻)`), removing adult mental-math burdens for kids aged 7-12.
-  - **Ghost Building Placement Preview**: Hovering over the canvas in placement mode now renders an authentic, translucent 58% ghost silhouette of the selected building with neon green alignment ticks and red occupied-tile prohibition guides.
-  - **Celebration Confetti System**: Integrated canvas particle confetti bursts (Artemis gold, emerald, cyan, pink, white) triggering on objective completion and milestones.
-  - **Catalog Specification Badges**: Added color-coded production/consumption pills (`+20 kW ⚡`, `-10 kW ⚡`, `+15 kg/h 🫁`, `-12 L 💧`, `+80% 🛡️`, `100 kWh 🔋`) directly onto building cards.
-  - **Audio Accessibility & Keyboard Hotkeys**: Added top-bar Sound Mute toggle button (`🔊 / 🔇`) with persistence, and global hotkeys (`Space` for pause/play, `1`/`2` for speed, `Esc` for cancel/deselect, `M` for audio mute, `R` for recenter).
-- **Decommissioned & Removed 3D MoonOrbiter**: Killed background dev server on port 5173, completely removed `game/MoonOrbiter-master` directory and UI hooks, focusing 100% of product development on the core 2D Lunar Colony Trainer.
-- **Visual Novel (VN) Story Engine Implemented**:
-  - Replaced the simple dialogue modal with a full **Visual Novel Presentation Theater** (`VisualNovelController.ts`, `StoryData.ts`).
-  - Added character presentations with mood badges (`CONFIDENT`, `ALERT`, `TINKERING`, `CURIOUS`, `WORRIED`, `CALM`), Apollo comms indicators, and color-coded themes.
-  - Implemented typewriter text animation with real-time audio teletype blips (`SoundManager.playBlip()`), screen shake on crisis lines, and radio quindar chirps.
-  - Built interactive multiple-choice branching options, auto-play with pacing delays, skip functionality, and a slide-out dialogue transcript history log.
-  - Built a data-driven story catalog in `StoryData.ts` mapping all campaign arcs (Prologue, Chapter 1 First Light, Chapter 2 The Long Night, Chapter 3 CME Alert, Chapter 4 Hydroponics, Chapter 5 Graduation) and added an in-game `📖 Story` transmission button.
+### AI Service (Units 01-07)
+- **Unit 01**: Skeleton + Mocks (v1).
+- **Unit 02**: Contract v2 migration (expert system, explanations, questions/answer models).
+- **Unit 03**: Deterministic Evaluator (`app/evaluator/`).
+- **Unit 04**: NASA Data Layer (DONKI space weather + cache + curated fallback).
+- **Unit 04b**: OSDR Metadata pipeline.
+- **Unit 05**: Expert System (`app/expert/`) with question catalog and rule engine.
+- **Unit 06**: Story Bible Validator (`scripts/validate_story.py`) and schema.
+- **Unit 07**: Statistics and Debrief Analysis (`app/stats/`).
+
+### Web Game Client (`game/`)
+- **Web Game Architecture**: TypeScript 5+ / Vite / Three.js / HTML5 Canvas + Semantic CSS DOM HUD.
+- **Visual Novel Story Engine**: Built `VisualNovelController.ts` supporting character portraits, mood badges, typewriter text with teletype sound chirps, screen shake, and Apollo quindar beeps.
+- **Telemetry & Interaction Overhaul**: Top telemetry chips with instant net rates, chunky 3D controls, ghost building placement preview, celebration confetti, and catalog specification pills.
+- **Sound System**: 8-bit Web Audio synthesizer (`SoundManager.ts`) with mute persistence and global hotkeys.
+- **Authentic Lunar Textures**: Integrated 4K lunar textures (`moon_01_diff_4k.jpg`, `moon_normal_4ppd.png`).
 
 ## In Progress
-- Bootstrapping the Web Game project foundation in `game/` with Vite, TypeScript, Canvas 2D engine, and Perimeter Resource HUD.
-- Porting perimeter telemetry HUD concepts (Power, Oxygen, Water, Radiation Shield, Crew Health, Morale) into crisp responsive CSS/DOM.
+- Merging `origin/main` into `OUAZENE-2026/initial-setup`.
+- Implementing story from `story/samples/dialogue.en.json` and `story/samples/story-bible.json`.
+- Implementing `Lunar_Outpost_Equipment_Specification.md` (hourly tick cycles, machine rates, load-shedding priorities).
+- 3D Moon Surface ground rendering with horizon elimination.
 
-## Next Up
-- **Milestone 1**: 2D Grid Tilemap, Free Camera Pan/Zoom, Cable Power Network, and Structure Placement on Canvas (`game/`).
-
-## Master 8-Phase Milestone Roadmap
-- [ ] **Milestone 1**: 2D Grid, Free Camera Pan/Zoom, Structure Placement, and Cable Power Network.
-- [ ] **Milestone 2**: Life Support Respiration (O2, CO2), Automatic Load-Shedding, and Mission Debrief Modals.
-- [ ] **Milestone 3**: Narrative Engine, Portrait Dialogue, M.I.L.O. Chat, and Chapter 1 Vertical Slice.
-- [ ] **Milestone 4**: Chapter 2 ("The Long Night") — Day/Night Cycle, Battery Storage, and Power Priorities.
-- [ ] **Milestone 5**: Chapter 3 ("The Invisible Threat") — NASA DONKI Integration, Regolith Shielding, and Vault Bunker.
-- [ ] **Milestone 6**: Chapter 4 ("Growing Beyond Earth") — Water Extraction, CSA Hydroponics, and Harvest Morale.
-- [ ] **Milestone 7**: Chapter 5 ("A Home Among the Stars") — Multi-Hazard Finale, Debrief Scoring, and Sandbox Mode.
-- [ ] **Milestone 8**: Audio, Accessibility, Offline Verification, and Hackathon Presentation Polish.
-
-## Architecture & Design Decisions
-1. **Client Engine**: Confirmed **Web Game (TypeScript 5+ / Vite / HTML5 Canvas 2D + DOM HUD)** in `game/`. Hybrid architecture: fast integer-pixel simulation canvas + zero-blur accessible HTML/CSS telemetry & dialogue.
-2. **AI Boundary**: `ai-service/` is strictly isolated; communication is exclusively via HTTP contracts in `contracts/` with <= 3.0s timeout and bundled offline fallbacks.
+## Unit Ownership
+| Unit | Owner | Branch | Status |
+|---|---|---|---|
+| 01 skeleton + mocks (v1) | Ibrahim | feat/ai-01-skeleton | in verification |
+| 02 contract v2 migration | Ibrahim | feat/ai-02-contract-v2 | completed |
+| 03 deterministic evaluator | Ibrahim | feat/ai-03-deterministic-evaluator | completed |
+| 04b OSDR metadata pipeline | Ibrahim | feat/ai-04b-osdr-pipeline | partial corpus; review pending |
+| 04 NASA data layer | Ibrahim | feat/ai-04-nasa-data-layer | completed |
+| 05 expert system | Ibrahim | feat/ai-05-expert-system | completed |
+| 06 story validator | Ibrahim | feat/ai-06-story-bible | completed |
+| 07 statistics | Ibrahim | feat/ai-07-statistics | completed |
+| Web Game Client & Story | Game Devs | OUAZENE-2026/initial-setup | active |

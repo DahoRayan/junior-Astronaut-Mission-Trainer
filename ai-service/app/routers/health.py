@@ -7,4 +7,4 @@ router = APIRouter()
 
 @router.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
-    return HealthResponse(status="ok", llm=False, nasa_live=False)
+    return HealthResponse(status="ok", nasa_live=False, knowledge_base_version="mock-v2")

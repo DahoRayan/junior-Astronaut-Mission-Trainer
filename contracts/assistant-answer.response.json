@@ -1,0 +1,12 @@
+{
+  "answer": "Check oxygen, power, and shielding together. A safe mission needs all three.",
+  "fact": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-RESOURCE-CHECK", "text": "Mission Buddy checks the current resources before answering."}
+    ],
+    "inputs": {"sol": 1, "perspective_id": "engineer", "scene_id": "power-check"},
+    "sources": [{"name": "Mission rules", "kind": "simulated"}]
+  },
+  "data_source": "simulated"
+}

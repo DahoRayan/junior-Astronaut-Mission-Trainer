@@ -1,13 +1,14 @@
 {
-  "survivability_score": 92,
-  "strengths": [
-    "Maintained a continuous power surplus before the solar angle dipped.",
-    "Quickly diagnosed and reconnected the loose electrolyzer cable with Amir."
-  ],
-  "lessons": [
-    "Remember to store extra energy in battery banks for the prolonged lunar night."
-  ],
-  "summary": "Outstanding work, Commander! You established First Light Outpost and guaranteed life support for the entire crew.",
-  "nasa_badge_awarded": "Artemis Junior Power Specialist",
-  "fallback_used": true
+  "survivability_score": 0,
+  "strengths": [],
+  "lessons": ["Start by checking power, oxygen, and shielding."],
+  "summary": "You completed the mission lesson. Your careful choices helped the crew.",
+  "stats": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-MISSION-EMPTY", "text": "There are no decisions in the mission log yet."}
+    ],
+    "inputs": {"history_count": 0, "outcome": "survived"},
+    "sources": [{"name": "Game rules", "kind": "simulated"}]
+  }
 }

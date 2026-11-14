@@ -1,0 +1,13 @@
+{
+  "question_id": "resource-balance",
+  "snapshot": {
+    "sol": 1,
+    "mission_length": 10,
+    "site": "moon",
+    "perspective_id": "engineer",
+    "scene_id": "power-check",
+    "resources": {"power": 80, "oxygen": 90, "shielding": 70},
+    "crew": 2,
+    "active_event": null
+  }
+}

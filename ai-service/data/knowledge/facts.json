@@ -1,0 +1,20 @@
+{
+  "facts": [
+    {
+      "id": "F-OSDR-COVERAGE",
+      "text": "The reviewed NASA OSDR metadata snapshot contains 424 study records.",
+      "source": "NASA OSDR Developer API study metadata snapshot",
+      "retrieved_at": "2026-11-14",
+      "evidence": "data/osdr/tables/studies.csv and data/knowledge/osdr_topic_index.json",
+      "data_source": "curated"
+    },
+    {
+      "id": "F-OSDR-CAVEAT",
+      "text": "OSDR topic counts are keyword labels in study metadata, not experimental findings or effect sizes.",
+      "source": "NASA OSDR topic index caveat",
+      "retrieved_at": "2026-11-14",
+      "evidence": "data/knowledge/osdr_topic_index.json",
+      "data_source": "curated"
+    }
+  ]
+}
