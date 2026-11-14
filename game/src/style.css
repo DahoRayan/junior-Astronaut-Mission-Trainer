@@ -217,17 +217,6 @@ body {
   border-color: rgba(251, 113, 133, 0.4);
 }
 
-.hud-action-btn.orbit-btn {
-  background: linear-gradient(135deg, #1e2230 0%, #161a24 100%);
-  border-color: rgba(245, 158, 11, 0.5);
-  color: var(--candy-yellow);
-}
-
-.hud-action-btn.orbit-btn:hover {
-  border-color: var(--candy-yellow);
-  box-shadow: 0 5px 0 #0d0f13, 0 0 10px rgba(245, 158, 11, 0.25);
-}
-
 .sol-badge, .time-badge, .mat-badge {
   background: var(--bg-card);
   padding: 5px 10px;

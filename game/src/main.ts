@@ -127,7 +127,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. Sound Mute Toggle & 3D Orbit View Launcher
+  // 8. Sound Mute Toggle
   const soundToggleBtn = document.getElementById('btn-sound-toggle');
   const updateSoundUI = () => {
     if (soundToggleBtn) {
@@ -139,12 +139,6 @@ window.addEventListener('DOMContentLoaded', () => {
   soundToggleBtn?.addEventListener('click', () => {
     soundManager.toggleMute();
     updateSoundUI();
-  });
-
-  const orbitViewBtn = document.getElementById('btn-orbit-view');
-  orbitViewBtn?.addEventListener('click', () => {
-    soundManager.playPop();
-    window.open('http://127.0.0.1:5173', '_blank');
   });
 
   // 9. Time / Speed Controls
