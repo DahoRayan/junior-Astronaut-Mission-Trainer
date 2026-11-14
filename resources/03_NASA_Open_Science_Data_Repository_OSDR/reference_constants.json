@@ -1,0 +1,13 @@
+{
+  "source": "NASA Open Science Data Repository (OSDR) & Human Research Program",
+  "spaceflightPhysiology": {
+    "boneDensityDeclinePerMonthWithoutExercisePercent": 1.2,
+    "muscleMassLossPerWeekInactivityPercent": 3.0,
+    "dailyExerciseTargetHours": 2.0,
+    "treadmillAndAREDResistancePowerWatts": 250,
+    "caloricBurnDuringExercise_kcal": 550,
+    "immuneEnhancementFromFreshHydroponicVeggiesPercent": 15.0,
+    "circadianMelatoninShiftPerSolHours": 0.65
+  }
+}
+

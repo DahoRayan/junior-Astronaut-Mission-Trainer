@@ -1,0 +1,38 @@
+{
+  "source": "Canadian Space Agency (CSA) Food Production Toolkit",
+  "remoteAndSpaceAgriculture": {
+    "freshFoodMoraleBonusPercent": 10.0,
+    "scurvyAndVitaminMitigationPercent": 100.0,
+    "waterRecyclingRecoveryRatePercent": 95.0
+  },
+  "crops": [
+    {
+      "cropId": "csa_lettuce",
+      "cropName": "Crisphead & Red Romaine Lettuce",
+      "growthCycleDays": 28,
+      "waterRequirementLitersPerDay": 0.4,
+      "ledPowerWatts": 45,
+      "moraleBoostPercent": 10.0,
+      "earthCommunityApplication": "Controlled environment vertical farming in Northern Canadian Arctic communities"
+    },
+    {
+      "cropId": "csa_radish",
+      "cropName": "Fast-Cycle Radish",
+      "growthCycleDays": 21,
+      "waterRequirementLitersPerDay": 0.3,
+      "ledPowerWatts": 35,
+      "moraleBoostPercent": 7.0,
+      "earthCommunityApplication": "Emergency rapid-growth root vegetable for remote food resilience"
+    },
+    {
+      "cropId": "csa_cherry_tomato",
+      "cropName": "Micro-Tom Cherry Tomato",
+      "growthCycleDays": 70,
+      "waterRequirementLitersPerDay": 1.1,
+      "ledPowerWatts": 80,
+      "moraleBoostPercent": 25.0,
+      "earthCommunityApplication": "High-antioxidant fruiting crop for enclosed greenhouse pods"
+    }
+  ]
+}
+

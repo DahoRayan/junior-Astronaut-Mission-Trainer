@@ -1,0 +1,12 @@
+{
+  "source": "NASA Mars Trek (trek.nasa.gov/mars/) & MOLA/HiRISE Datasets",
+  "jezeroCraterSite": {
+    "name": "Jezero Crater Outpost (Perseverance Landing Zone)",
+    "coordinates": { "latitude": 18.38, "longitude": 77.58 },
+    "elevationRelativeToDatum_m": -2500,
+    "craterDiameter_km": 45.0,
+    "deltaFeatureType": "Ancient clay-rich river delta",
+    "surfaceTrafficabilityRating": 0.82
+  }
+}
+

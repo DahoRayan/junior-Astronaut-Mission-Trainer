@@ -1,0 +1,35 @@
+{
+  "source": "Canadian Space Agency (CSA) Youth STEM Resources",
+  "pedagogyGuidelines": {
+    "targetAudienceAges": "7-12",
+    "bilingualSupport": ["en", "fr"],
+    "coreCompetencies": ["Critical Thinking", "Resource Budgeting", "Closed-Loop Systems", "Resilience"]
+  },
+  "achievementBadges": [
+    {
+      "badgeId": "FIRST_HARVEST",
+      "title_en": "Green Thumb Astronaut",
+      "title_fr": "Astronaute au pouce vert",
+      "description_en": "Successfully harvested your first space-grown crop tray!",
+      "description_fr": "Vous avez récolté votre premier plateau de culture spatiale avec succès!",
+      "unlocked": false
+    },
+    {
+      "badgeId": "STORM_SURVIVOR",
+      "title_en": "Solar Storm Survivor",
+      "title_fr": "Survivant de la tempête solaire",
+      "description_en": "Sheltered all crew members inside the regolith bunker before a CME hit!",
+      "description_fr": "Tous les membres d'équipage ont été mis à l'abri dans le bunker avant l'éjection coronale!",
+      "unlocked": false
+    },
+    {
+      "badgeId": "WATER_MASTER",
+      "title_en": "Closed Loop Pioneer",
+      "title_fr": "Pionnier de la boucle fermée",
+      "description_en": "Recycled 95% of outpost water for 7 consecutive sols.",
+      "description_fr": "Vous avez recyclé 95% de l'eau de l'avant-poste pendant 7 sols consécutifs.",
+      "unlocked": false
+    }
+  ]
+}
+

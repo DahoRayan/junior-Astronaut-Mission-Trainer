@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RadLabDosimetryTelemetry",
+  "type": "object",
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "instrumentName": { "type": "string", "enum": ["DOSTEL", "CPDS", "LIULIN", "MSL_RAD"] },
+    "absorbedDoseRate_uGy_per_day": { "type": "number", "minimum": 0 },
+    "doseEquivalentRate_uSv_per_day": { "type": "number", "minimum": 0 },
+    "cumulativeMissionDose_mSv": { "type": "number", "minimum": 0 },
+    "shieldingDepth_cm": { "type": "number", "minimum": 0 }
+  },
+  "required": ["timestamp", "instrumentName", "doseEquivalentRate_uSv_per_day", "cumulativeMissionDose_mSv"]
+}
+

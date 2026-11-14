@@ -1,0 +1,19 @@
+{
+  "source": "NASA Open APIs (api.nasa.gov)",
+  "sampleApod": {
+    "title": "Artemis Launch to the Moon",
+    "explanation": "Humanity prepares to return to the Moon to build permanent outposts.",
+    "url": "https://images.nasa.gov/details/artemis-1-launch.jpg",
+    "date": "2026-10-31"
+  },
+  "sampleMarsPhotos": [
+    {
+      "id": 102693,
+      "sol": 420,
+      "camera": { "name": "NAVCAM", "full_name": "Navigation Camera" },
+      "img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00420/soas/rdr/ncam/NRB_420000000EDR_F0010000AUT_04096M1.JPG",
+      "earth_date": "2024-04-12"
+    }
+  ]
+}
+

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSAEducationalAchievementBadge",
+  "type": "object",
+  "properties": {
+    "badgeId": { "type": "string" },
+    "title_en": { "type": "string" },
+    "title_fr": { "type": "string" },
+    "description_en": { "type": "string" },
+    "description_fr": { "type": "string" },
+    "criteriaMetric": { "type": "string" },
+    "unlocked": { "type": "boolean" }
+  },
+  "required": ["badgeId", "title_en", "title_fr", "unlocked"]
+}
+

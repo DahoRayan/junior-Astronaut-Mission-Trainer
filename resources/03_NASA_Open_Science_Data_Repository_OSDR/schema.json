@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AstronautPhysiologicalState",
+  "type": "object",
+  "properties": {
+    "astronautId": { "type": "string" },
+    "boneDensityPercent": { "type": "number", "minimum": 50, "maximum": 100 },
+    "muscleMassPercent": { "type": "number", "minimum": 50, "maximum": 100 },
+    "immuneHealthScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "sleepCircadianAlignment": { "type": "number", "minimum": 0, "maximum": 100 },
+    "hoursExercisedToday": { "type": "number", "minimum": 0, "maximum": 4 }
+  },
+  "required": ["astronautId", "boneDensityPercent", "muscleMassPercent", "immuneHealthScore"]
+}
+

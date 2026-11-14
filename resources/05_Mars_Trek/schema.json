@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarsTrekSiteMetadata",
+  "type": "object",
+  "properties": {
+    "siteName": { "type": "string" },
+    "latitude": { "type": "number" },
+    "longitude": { "type": "number" },
+    "elevationMeters": { "type": "number" },
+    "terrainSlopeDegrees": { "type": "number" },
+    "boulderDensityPerKm2": { "type": "number" }
+  },
+  "required": ["siteName", "latitude", "longitude", "elevationMeters"]
+}
+

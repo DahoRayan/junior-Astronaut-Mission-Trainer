@@ -1,0 +1,25 @@
+{
+  "description": "Representative DONKI space weather fixtures for offline simulator testing",
+  "sampleEvents": [
+    {
+      "activityID": "2024-05-10T17:44:00-FLR-001",
+      "type": "FLR",
+      "classType": "X5.8",
+      "startTime": "2024-05-10T17:44:00Z",
+      "radiationFlux_mSvPerHour": 210.0,
+      "estimatedProtonArrivalMinutes": 18,
+      "severity": "CRITICAL",
+      "gameNarration": "Warning! Solar flare X5.8 detected. High-energy protons incoming."
+    },
+    {
+      "activityID": "2024-05-11T01:23:00-CME-001",
+      "type": "CME",
+      "startTime": "2024-05-11T01:23:00Z",
+      "cmeSpeed_km_s": 1250,
+      "estimatedArrivalHours": 32.5,
+      "severity": "HIGH",
+      "gameNarration": "CME shock front inbound. Comms disruption anticipated."
+    }
+  ]
+}
+

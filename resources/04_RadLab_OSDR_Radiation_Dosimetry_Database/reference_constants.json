@@ -1,0 +1,18 @@
+{
+  "source": "RadLab (OSDR Radiation Dosimetry Database) & ISS Active Dosimetry",
+  "baselineDoseRates_uSv_per_day": {
+    "earthSeaLevel": 6.5,
+    "issInteriorNominal": 380.0,
+    "lunarSurfaceNominal": 1360.0,
+    "martianSurfaceNominal": 670.0,
+    "solarParticleEventUnshielded": 180000.0,
+    "regolithVaultUnderground": 80.0
+  },
+  "permissibleLimits_mSv": {
+    "careerTotal": 600.0,
+    "annualLimit": 250.0,
+    "thirtyDayLimit": 250.0,
+    "acuteSicknessThreshold": 500.0
+  }
+}
+

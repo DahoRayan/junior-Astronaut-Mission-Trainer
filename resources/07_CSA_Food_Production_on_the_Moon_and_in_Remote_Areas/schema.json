@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CSAFoodProductionTray",
+  "type": "object",
+  "properties": {
+    "cropId": { "type": "string" },
+    "cropName": { "type": "string" },
+    "growthCycleDays": { "type": "integer" },
+    "waterRequirementLitersPerDay": { "type": "number" },
+    "ledPowerWatts": { "type": "number" },
+    "moraleBoostPercent": { "type": "number" },
+    "earthCommunityApplication": { "type": "string" }
+  },
+  "required": ["cropId", "cropName", "growthCycleDays", "waterRequirementLitersPerDay", "moraleBoostPercent"]
+}
+

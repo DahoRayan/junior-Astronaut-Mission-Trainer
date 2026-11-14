@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NASASpaceWeatherEvent",
+  "type": "object",
+  "properties": {
+    "activityID": { "type": "string" },
+    "catalog": { "type": "string" },
+    "startTime": { "type": "string", "format": "date-time" },
+    "classType": { "type": "string", "pattern": "^[ABCMX][0-9]+(\\.[0-9]+)?$" },
+    "sourceLocation": { "type": "string" },
+    "activeRegionNum": { "type": ["integer", "null"] },
+    "cmeAnalyses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "speed": { "type": "number" },
+          "halfAngle": { "type": "number" }
+        },
+        "required": ["speed"]
+      }
+    }
+  },
+  "required": ["activityID", "startTime"]
+}
+
