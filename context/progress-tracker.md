@@ -6,7 +6,7 @@ Update after every meaningful change (only your own unit/row).
 - Plan v2 adopted (story-driven, expert system, statistics). Unit 01 awaiting verification.
 
 ## Current Goal
-- Unit 07 statistics (see `specs/00-build-plan.md`)
+- Unit 08 hardening + deploy (see `specs/00-build-plan.md`)
 
 ## Completed
 - Unit 01 implemented (v1 contract mocks); verification pending
@@ -43,7 +43,7 @@ Update after every meaningful change (only your own unit/row).
 | 04 NASA data layer | Ibrahim | feat/ai-04-nasa-data-layer | completed |
 | 05 expert system | Ibrahim | feat/ai-05-expert-system | completed |
 | 06 story validator | Ibrahim | feat/ai-06-story-bible | completed; release story file pending human sign-off |
-| 07 statistics | TBD | | not started |
+| 07 statistics | Ibrahim | feat/ai-07-statistics | completed; OSDR-backed profile preserved |
 | 08 hardening + deploy | TBD | | not started |
 
 ## Session Notes

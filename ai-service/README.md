@@ -49,6 +49,17 @@ inputs used, and a simulated game-rules source. Tune thresholds, event pressure,
 and penalties in `app/evaluator/config.py`; the scoring functions in
 `app/evaluator/` contain no network calls, randomness, or LLM use.
 
+## Mission statistics
+
+Mission debrief statistics are deterministic and computed only from the
+history sent by Unity. They report resource mean/min/trend, rating counts,
+unique event-exposure sols, perspective comparison, and the most costly
+decision based on observed resource drops between consecutive snapshots.
+Empty history keeps the contract's `stats: null` behavior. The existing event
+profile remains based on the curated OSDR topic snapshot under
+`data/knowledge/osdr_topic_index.json`; its metadata counts are not physical
+risk probabilities.
+
 ## Expert system
 
 Mission Buddy is a deterministic menu-driven expert system. Its questions and

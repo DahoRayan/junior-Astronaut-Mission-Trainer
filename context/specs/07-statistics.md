@@ -22,23 +22,20 @@ network calls, and persistent player state.
 
 ### Evidence-first inputs
 
-Before implementing event-frequency calculations, the human must save reviewed
-real samples under `ai-service/data/samples/`:
+Before implementing or changing event-profile calculations, use the reviewed
+OSDR data already committed under `ai-service/data/osdr/` and
+`ai-service/data/knowledge/`:
 
-1. Save 2-3 small DONKI response samples covering the event types the game
-   actually uses, such as a flare, CME, or geomagnetic storm only when those
-   types are present in the real responses. Preserve the complete provider
-   JSON without rewriting fields.
-2. Save a manifest recording each sample's provider URL or endpoint, event
-   type as returned by the provider, retrieval date, response status, and
-   filename. Never include `.env` or an API key in the sample or manifest.
-3. Save a small reviewed debrief fixture containing contract-shaped mission
+1. Review `data/osdr/reports/osdr_profile.md`, the committed OSDR tables, and
+   `data/knowledge/osdr_topic_index.json`. Preserve their source, caveat,
+   label method, and verification metadata; do not download study files.
+2. Save a small reviewed debrief fixture containing contract-shaped mission
    history, ratings, decision ids, snapshots, outcome, and any
    `other_runs` values needed to exercise perspective comparison. Build this
    fixture from the existing contract and Pydantic models, not from guessed
    fields.
-4. Record which real DONKI fields support each normalized event label and
-   which fields are intentionally ignored. Do not turn sample counts into
+3. Record which OSDR metadata fields support each normalized topic label and
+   which fields are intentionally ignored. Do not turn metadata counts into
    health findings, radiation measurements, or NASA facts.
 
 The implementation must be written against those saved samples, the existing
@@ -82,10 +79,10 @@ metadata index. Unit 07 may add regression tests around reproducibility and
 non-negative weights, but must not change its response shape or label source
 based on unreviewed DONKI samples.
 
-If reviewed DONKI samples demonstrate that a separate non-story event sampler
-is needed, keep that calculation as an internal pure helper and document the
-mapping. Do not expose a new API field or claim that a metadata frequency is a
-physical risk probability.
+If the reviewed OSDR metadata demonstrates that a separate non-story event
+sampler is needed, keep that calculation as an internal pure helper and
+document the mapping. Do not expose a new API field or claim that a metadata
+frequency is a physical risk probability.
 
 ### Explanation and kid-facing behavior
 
@@ -98,12 +95,12 @@ raw provider responses or secrets.
 ## Implementation
 
 1. **Prepare and review evidence**
-   - Add or update a sample manifest under `ai-service/data/samples/` with the
-     real DONKI samples, source URLs, retrieval dates, and field mappings.
+   - Review the committed OSDR tables, profile report, and topic index before
+     coding. Do not invent provider fields or NASA facts.
    - Add a small reviewed debrief fixture based on the existing contract
-     models. Do not invent provider fields or NASA facts.
-   - Stop and report the gap if the samples do not contain enough information
-     to support a proposed event mapping.
+     models.
+   - Stop and report the gap if the OSDR metadata does not support a proposed
+     topic mapping.
 2. **Add pure statistics helpers**
    - Create `ai-service/app/stats/` with typed helpers for resource summaries,
      rating counts, decision cost selection, event exposure, and perspective
@@ -146,15 +143,12 @@ raw provider responses or secrets.
 
 ## Manual steps for the human (keys, env, installs)
 
-1. Open the official DONKI pages or API documentation and save 2-3 real
-   responses for the event types the game will use under
-   `ai-service/data/samples/`. Record each source URL and retrieval date in a
-   manifest. If the provider requires a key, put it only in
-   `ai-service/.env`; never paste it into chat or commit it.
-2. Review the saved responses with the game and science reviewers. Approve the
-   exact event labels and field mappings, and confirm that metadata
-   frequencies are not presented as physical risk probabilities or NASA
-   findings.
+1. Review `ai-service/data/osdr/reports/osdr_profile.md` and
+   `ai-service/data/knowledge/osdr_topic_index.json`. Confirm that the
+   committed caveat remains visible: topic counts are metadata labels, not
+   findings, measurements, or risk probabilities.
+2. Review the contract-shaped debrief fixture and approve the resource,
+   rating, event-exposure, cost-observation, and perspective-comparison cases.
 3. From `ai-service/`, synchronize and run the focused checks:
    ```powershell
    uv sync --all-groups
@@ -171,8 +165,8 @@ raw provider responses or secrets.
   `/v1/events/profile` implementation are available.
 - The current Pydantic mission request/response models and contract examples
   are available for the debrief fixture.
-- 2-3 reviewed real DONKI response samples and their provenance manifest have
-  been saved under `ai-service/data/samples/`.
+- The committed OSDR tables, profile report, and topic index are available
+  under `ai-service/data/osdr/` and `ai-service/data/knowledge/`.
 - A reviewed contract-shaped debrief fixture is available.
 - `pytest` and `ruff` are available through uv. No new runtime dependency is
   expected.
@@ -205,9 +199,10 @@ raw provider responses or secrets.
 - `GET /v1/events/profile?site=moon`
   - Expected: the existing OSDR-backed response remains reproducible,
     non-negative, normalized to a weight sum of 1, and unchanged in shape.
-- Review the saved DONKI sample manifest and field-mapping test.
-  - Expected: every used provider field points to a saved real sample, source
-    URL, and retrieval date; no raw response or secret is exposed to players.
+- Review the committed OSDR profile, topic index, and field-mapping test.
+  - Expected: every used topic points to the committed metadata snapshot and
+    its caveat remains visible; no raw response or secret is exposed to
+    players.
 - `rg "pandas|osdr_pipeline|openai|anthropic|random|httpx" ai-service/app/stats`
   - Expected: no matches in the pure statistics package.
 - `git diff --stat`

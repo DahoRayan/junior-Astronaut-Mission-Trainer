@@ -54,3 +54,18 @@ def test_mission_reports_low_resource_lesson(snapshot_factory):
         )
     )
     assert any("power" in lesson for lesson in result.lessons)
+
+
+def test_mission_includes_deterministic_stats(snapshot_factory):
+    result = evaluate_mission(
+        make_request(
+            snapshot_factory(power=80, oxygen=80, shielding=80),
+            history=[
+                snapshot_factory(power=80, oxygen=80, shielding=80),
+                snapshot_factory(power=70, oxygen=80, shielding=80),
+            ],
+        )
+    )
+
+    assert result.stats is not None
+    assert result.stats.most_costly_decision_id == "decision-0"

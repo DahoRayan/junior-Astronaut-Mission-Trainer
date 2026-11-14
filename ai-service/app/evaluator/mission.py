@@ -12,6 +12,7 @@ from app.evaluator.explain import build_explanation
 from app.evaluator.scoring import survivability_index
 from app.evaluator.text import mission_summary
 from app.schemas.models import EvaluateMissionRequest, EvaluateMissionResponse
+from app.stats.debrief import build_mission_stats
 
 
 def evaluate_mission(request: EvaluateMissionRequest) -> EvaluateMissionResponse:
@@ -68,7 +69,7 @@ def evaluate_mission(request: EvaluateMissionRequest) -> EvaluateMissionResponse
         strengths=strengths[:3],
         lessons=lessons[:3],
         summary=mission_summary(request.outcome),
-        stats=None,
+        stats=build_mission_stats(request),
         explanation=build_explanation(
             rules,
             {

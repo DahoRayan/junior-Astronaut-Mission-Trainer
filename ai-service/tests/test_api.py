@@ -56,6 +56,13 @@ def test_event_profile_endpoint_returns_normalized_weights():
     )
 
 
+def test_event_profile_endpoint_is_reproducible_from_osdr_snapshot():
+    first = client.get("/v1/events/profile?site=moon")
+    second = client.get("/v1/events/profile?site=moon")
+    assert first.json() == second.json()
+    assert all(item["weight"] >= 0 for item in first.json()["weights"])
+
+
 def test_questions_endpoint_returns_model():
     response = client.post("/v1/assistant/questions", json={"snapshot": SNAPSHOT})
     assert response.status_code == 200
@@ -107,6 +114,36 @@ def test_mission_endpoint_returns_model():
     )
     assert response.status_code == 200
     EvaluateMissionResponse.model_validate(response.json())
+
+
+def test_mission_endpoint_returns_deterministic_stats():
+    request = {
+        "site": "moon",
+        "perspective_id": "engineer",
+        "history": [
+            {"snapshot": SNAPSHOT, "decision_id": "save-power", "rating": "great"},
+            {
+                "snapshot": {
+                    **SNAPSHOT,
+                    "sol": 2,
+                    "resources": {"power": 60, "oxygen": 90, "shielding": 70},
+                    "active_event": {"type": "solar_flare", "severity": 1},
+                },
+                "decision_id": "protect-crew",
+                "rating": "risky",
+            },
+        ],
+        "outcome": "survived",
+        "other_runs": [{"perspective_id": "doctor", "survivability_score": 75}],
+    }
+    first = client.post("/v1/evaluate/mission", json=request)
+    second = client.post("/v1/evaluate/mission", json=request)
+
+    assert first.status_code == 200
+    assert first.json() == second.json()
+    result = EvaluateMissionResponse.model_validate(first.json())
+    assert result.stats is not None
+    assert result.stats.most_costly_decision_id == "save-power"
 
 
 def test_out_of_range_resource_returns_contract_error():
