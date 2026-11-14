@@ -15,14 +15,37 @@ export class HUDController {
       const cycleEl = document.getElementById('hud-cycle-badge');
       if (cycleEl) {
         const azDeg = Math.round((data.azimuth * 180) / Math.PI) % 360;
-        if (data.isDaylight) {
-          cycleEl.textContent = `☀️ Polar Sun (${azDeg}°)`;
-          cycleEl.classList.remove('night-mode');
-          cycleEl.title = `Mode: ${data.mode}. Continuous polar grazing sunlight at Shackleton Rim (Azimuth ${azDeg}°). Click to toggle mode.`;
+        if (data.mode === 'compressed_24h') {
+          if (data.isDaylight) {
+            cycleEl.textContent = `☀️ Day (${Math.floor(data.hour)}h)`;
+            cycleEl.classList.remove('night-mode');
+            cycleEl.title = `Mode: Compressed 24h Educational Cycle. 12h Day / 12h Night. Click to switch to Shackleton Polar Rim.`;
+          } else {
+            cycleEl.textContent = `🌑 Lunar Night`;
+            cycleEl.classList.add('night-mode');
+            cycleEl.title = `Mode: Compressed 24h Educational Cycle. Night: Solar arrays produce 0 kW. Click to switch to Shackleton Polar Rim.`;
+          }
+        } else if (data.mode === 'lunar_synodic') {
+          if (data.isDaylight) {
+            cycleEl.textContent = `☀️ Synodic Day`;
+            cycleEl.classList.remove('night-mode');
+            cycleEl.title = `Mode: Astronomical Synodic Month (354h Day / 354h Night). Click to cycle mode.`;
+          } else {
+            cycleEl.textContent = `🌑 Synodic Night`;
+            cycleEl.classList.add('night-mode');
+            cycleEl.title = `Mode: Astronomical Synodic Month (354h Day / 354h Night). Click to cycle mode.`;
+          }
         } else {
-          cycleEl.textContent = `🌑 Mountain Shadow`;
-          cycleEl.classList.add('night-mode');
-          cycleEl.title = `Mode: ${data.mode}. 48-Hour mountain ridge shadow eclipse (-180°C). Click to toggle mode.`;
+          // Canonical Shackleton Polar Rim
+          if (data.isDaylight) {
+            cycleEl.textContent = `☀️ Polar Sun (${azDeg}°)`;
+            cycleEl.classList.remove('night-mode');
+            cycleEl.title = `Mode: Shackleton Polar Rim (Continuous ~86% grazing sunlight at 89.9°S, Azimuth ${azDeg}°). Click to cycle mode.`;
+          } else {
+            cycleEl.textContent = `🌑 48h Shadow Eclipse`;
+            cycleEl.classList.add('night-mode');
+            cycleEl.title = `Mode: Shackleton Polar Rim. 48-Hour mountain ridge shadow eclipse active (-180°C, Solar 0 kW). Click to cycle mode.`;
+          }
         }
       }
     });

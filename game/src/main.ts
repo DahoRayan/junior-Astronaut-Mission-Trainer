@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 4. Initialize Narrative & Mission Managers
   const narrative = new NarrativeManager(visualNovel);
-  new MissionManager(debriefModal);
+  new MissionManager(debriefModal, simulation, narrative);
 
   // 5. Connect Catalog / Tool Selection to Renderer & Sounds
   eventBus.on<BuildingType | null>('building_selected', (type) => {

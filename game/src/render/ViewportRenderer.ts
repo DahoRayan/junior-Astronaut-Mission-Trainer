@@ -29,6 +29,8 @@ export class ViewportRenderer {
   public hoveredTile: { x: number; y: number } | null = null;
   public selectedBuildingType: BuildingType | null = null;
   public isDemolishMode: boolean = false;
+  public sunAzimuth: number = 0;
+  public isDaylight: boolean = true;
 
   private confettiParticles: ConfettiParticle[] = [];
 
@@ -46,6 +48,8 @@ export class ViewportRenderer {
 
     // Listen for realistic sun azimuth & illumination changes
     eventBus.on<{ azimuth: number; isDaylight: boolean }>('sun_updated', ({ azimuth, isDaylight }) => {
+      this.sunAzimuth = azimuth;
+      this.isDaylight = isDaylight;
       if (this.ground3D) {
         this.ground3D.setSunAngle(azimuth, isDaylight);
       }
@@ -120,13 +124,16 @@ export class ViewportRenderer {
     // 2. Draw Animated Power Cables
     this.drawCables();
 
-    // 3. Draw Chunky Detailed Buildings
+    // 3. Draw Chunky Detailed Buildings with Dynamic Polar Shadows
     this.drawBuildings();
 
-    // 4. Draw Placement Hover & Ghost Preview
+    // 4. Draw Atmospheric Lunar Day/Night Overlay & Habitat Lights
+    this.drawDayNightAtmosphere();
+
+    // 5. Draw Placement Hover & Ghost Preview
     this.drawHover();
 
-    // 5. Draw Confetti Celebrations
+    // 6. Draw Confetti Celebrations
     this.drawConfetti();
 
     this.ctx.restore();
@@ -218,10 +225,69 @@ export class ViewportRenderer {
 
   private drawBuildings(): void {
     const buildings = this.grid.getPlacedBuildings();
+
+    // Draw dynamic long shadows cast by the grazing polar sun across lunar regolith
+    if (this.isDaylight) {
+      this.ctx.save();
+      this.ctx.fillStyle = 'rgba(6, 10, 20, 0.42)';
+      const shadowDist = 20;
+      const sx = -Math.cos(this.sunAzimuth) * shadowDist;
+      const sy = -Math.sin(this.sunAzimuth) * shadowDist;
+
+      for (const b of buildings) {
+        const px = b.x * TILE_SIZE;
+        const py = b.y * TILE_SIZE;
+        this.ctx.beginPath();
+        this.ctx.ellipse(
+          px + TILE_SIZE / 2 + sx,
+          py + TILE_SIZE / 2 + sy,
+          TILE_SIZE * 0.46,
+          TILE_SIZE * 0.22,
+          this.sunAzimuth,
+          0,
+          Math.PI * 2
+        );
+        this.ctx.fill();
+      }
+      this.ctx.restore();
+    }
+
     for (const b of buildings) {
       const px = b.x * TILE_SIZE;
       const py = b.y * TILE_SIZE;
       BuildingRenderer.drawBuilding(this.ctx, b, px, py, this.tickTime);
+    }
+  }
+
+  private drawDayNightAtmosphere(): void {
+    const worldW = GRID_WIDTH * TILE_SIZE;
+    const worldH = GRID_HEIGHT * TILE_SIZE;
+
+    if (!this.isDaylight) {
+      this.ctx.save();
+      // Authentic lunar night shadow (-180°C darkness)
+      this.ctx.fillStyle = 'rgba(4, 7, 18, 0.72)';
+      this.ctx.fillRect(0, 0, worldW, worldH);
+
+      // Radial warmth halos around powered habitat and lighted structures
+      const buildings = this.grid.getPlacedBuildings();
+      for (const b of buildings) {
+        if (b.isPowered) {
+          const cx = b.x * TILE_SIZE + TILE_SIZE / 2;
+          const cy = b.y * TILE_SIZE + TILE_SIZE / 2;
+
+          const halo = this.ctx.createRadialGradient(cx, cy, 10, cx, cy, TILE_SIZE * 1.4);
+          halo.addColorStop(0, 'rgba(250, 204, 21, 0.45)'); // Warm incandescent window glow
+          halo.addColorStop(0.5, 'rgba(56, 189, 248, 0.18)'); // Cyan LED avionics glow
+          halo.addColorStop(1, 'rgba(4, 7, 18, 0)');
+
+          this.ctx.fillStyle = halo;
+          this.ctx.beginPath();
+          this.ctx.arc(cx, cy, TILE_SIZE * 1.4, 0, Math.PI * 2);
+          this.ctx.fill();
+        }
+      }
+      this.ctx.restore();
     }
   }
 

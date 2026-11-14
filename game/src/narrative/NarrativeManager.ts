@@ -23,22 +23,6 @@ export class NarrativeManager {
         eventBus.emit('prologue_complete', null);
       });
     });
-
-    // Chapter load triggers
-    eventBus.on<number>('chapter_loaded', (ch) => {
-      const aliasMap: Record<number, string> = {
-        1: 'S-C1-1',
-        2: 'S-C2-1',
-        3: 'S-C3-1',
-        4: 'S-C4-1',
-        5: 'S-C5-1',
-        6: 'S-EPI-1',
-      };
-      const sceneId = aliasMap[ch] || `S-C${ch}-1`;
-      if (this.hasScene(sceneId)) {
-        this.playScene(sceneId);
-      }
-    });
   }
 
   /**
