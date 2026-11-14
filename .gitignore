@@ -13,6 +13,10 @@ ai-service/.env
 game/node_modules/
 game/dist/
 game/.vite/
+*.zip
+game/MoonOrbiter-master/node_modules/
+game/MoonOrbiter-master/dist/
+game/MoonOrbiter-master/dist-electron/
 *.local
 
 # OS / Editor

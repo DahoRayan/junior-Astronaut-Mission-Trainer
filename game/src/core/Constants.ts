@@ -2,7 +2,7 @@ import { BuildingDefinition, BuildingType } from './types';
 
 export const GRID_WIDTH = 24;
 export const GRID_HEIGHT = 16;
-export const TILE_SIZE = 32; // In pixels for 2D pixel-art grid
+export const TILE_SIZE = 48; // In pixels for high-detail 2D space simulation grid
 
 export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
   solar_array: {

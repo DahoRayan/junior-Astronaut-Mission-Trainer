@@ -1,6 +1,7 @@
 import { GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
-import { BuildingType, PlacedBuilding } from '../core/types';
+import { BuildingType } from '../core/types';
 import { Grid } from '../simulation/Grid';
+import { BuildingRenderer } from './BuildingRenderer';
 import { Camera } from './Camera';
 import { LunarTerrain } from './LunarTerrain';
 
@@ -305,206 +306,14 @@ export class ViewportRenderer {
     for (const b of buildings) {
       const px = b.x * TILE_SIZE;
       const py = b.y * TILE_SIZE;
-
-      this.drawFunBuildingSprite(b, px, py);
-
-      // Playful bouncy status bubble
-      const isOk = b.isPowered;
-      const bubbleColor = isOk ? '#22c55e' : '#f59e0b';
-      const bounce = Math.sin(this.tickTime * 0.008 + b.x) * 2;
-
-      this.ctx.fillStyle = bubbleColor;
-      this.ctx.beginPath();
-      this.ctx.arc(px + TILE_SIZE - 6, py + 6 + bounce, 5, 0, Math.PI * 2);
-      this.ctx.fill();
-
-      // White shine dot on status bubble
-      this.ctx.fillStyle = '#ffffff';
-      this.ctx.beginPath();
-      this.ctx.arc(px + TILE_SIZE - 7, py + 5 + bounce, 1.5, 0, Math.PI * 2);
-      this.ctx.fill();
+      BuildingRenderer.drawBuilding(this.ctx, b, px, py, this.tickTime);
     }
-  }
-
-  private drawFunBuildingSprite(b: PlacedBuilding, px: number, py: number): void {
-    this.ctx.save();
-
-    // Soft drop shadow
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-    this.ctx.beginPath();
-    this.ctx.ellipse(px + TILE_SIZE / 2, py + TILE_SIZE - 2, 12, 4, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-
-    switch (b.type) {
-      case 'solar_array': {
-        // Cheerful blue photovoltaic panel with glossy highlights
-        const tilt = Math.sin(this.tickTime * 0.002) * 2;
-        this.ctx.fillStyle = '#1e40af';
-        this.roundRect(px + 4, py + 4 + tilt, TILE_SIZE - 8, TILE_SIZE - 10, 4);
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#60a5fa';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-
-        // Sunlight reflection bar
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-        this.ctx.fillRect(px + 7, py + 7 + tilt, 4, TILE_SIZE - 16);
-
-        // Metallic stand
-        this.ctx.fillStyle = '#94a3b8';
-        this.ctx.fillRect(px + TILE_SIZE / 2 - 2, py + TILE_SIZE - 6, 4, 6);
-        break;
-      }
-
-      case 'battery_bank': {
-        // Green battery capsule with glowing charge bars
-        this.ctx.fillStyle = '#065f46';
-        this.roundRect(px + 6, py + 6, TILE_SIZE - 12, TILE_SIZE - 10, 5);
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#34d399';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-
-        // Glowing battery level bars
-        this.ctx.fillStyle = '#10b981';
-        this.ctx.fillRect(px + 9, py + 14, 14, 3);
-        this.ctx.fillRect(px + 9, py + 19, 14, 3);
-
-        // Cute terminal cap
-        this.ctx.fillStyle = '#facc15';
-        this.ctx.fillRect(px + 13, py + 3, 6, 3);
-        break;
-      }
-
-      case 'kilopower_reactor': {
-        // Orange/red futuristic nuclear turbine
-        this.ctx.fillStyle = '#ea580c';
-        this.ctx.beginPath();
-        this.ctx.arc(px + TILE_SIZE / 2, py + TILE_SIZE / 2, 11, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#fbbf24';
-        this.ctx.lineWidth = 3;
-        this.ctx.stroke();
-
-        // Glowing core
-        const coreGlow = Math.sin(this.tickTime * 0.006) * 2 + 5;
-        this.ctx.fillStyle = '#fef08a';
-        this.ctx.beginPath();
-        this.ctx.arc(px + TILE_SIZE / 2, py + TILE_SIZE / 2, coreGlow, 0, Math.PI * 2);
-        this.ctx.fill();
-        break;
-      }
-
-      case 'oxygen_electrolyzer': {
-        // Twin bubbling tanks with energetic blue bubbles
-        this.ctx.fillStyle = '#0284c7';
-        this.roundRect(px + 5, py + 6, 9, 20, 4);
-        this.roundRect(px + 18, py + 6, 9, 20, 4);
-        this.ctx.fill();
-
-        // Animated bubbles floating up
-        const bubY = (this.tickTime * 0.02) % 12;
-        this.ctx.fillStyle = '#bae6fd';
-        this.ctx.beginPath();
-        this.ctx.arc(px + 9, py + 20 - bubY, 2, 0, Math.PI * 2);
-        this.ctx.arc(px + 22, py + 22 - bubY, 2, 0, Math.PI * 2);
-        this.ctx.fill();
-        break;
-      }
-
-      case 'crew_habitat': {
-        // Cozy white dome with smiling yellow windows
-        this.ctx.fillStyle = '#f8fafc';
-        this.ctx.beginPath();
-        this.ctx.arc(px + TILE_SIZE / 2, py + TILE_SIZE / 2 + 4, 13, Math.PI, 0);
-        this.ctx.closePath();
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#38bdf8';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-
-        // Warm cozy yellow cabin window
-        this.ctx.fillStyle = '#fef08a';
-        this.roundRect(px + 11, py + 12, 10, 5, 2);
-        this.ctx.fill();
-        break;
-      }
-
-      case 'regolith_shield': {
-        // Tough moon rock fortress shield
-        this.ctx.fillStyle = '#64748b';
-        this.ctx.beginPath();
-        this.ctx.moveTo(px + 3, py + TILE_SIZE - 4);
-        this.ctx.lineTo(px + TILE_SIZE / 2, py + 4);
-        this.ctx.lineTo(px + TILE_SIZE - 3, py + TILE_SIZE - 4);
-        this.ctx.closePath();
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#94a3b8';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-        break;
-      }
-
-      case 'subterranean_vault': {
-        // Purple underground bunker dome
-        this.ctx.fillStyle = '#4f46e5';
-        this.roundRect(px + 4, py + 6, TILE_SIZE - 8, TILE_SIZE - 10, 6);
-        this.ctx.fill();
-        this.ctx.strokeStyle = '#a5b4fc';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-
-        // Secure hatch wheel
-        this.ctx.fillStyle = '#fbbf24';
-        this.ctx.beginPath();
-        this.ctx.arc(px + TILE_SIZE / 2, py + TILE_SIZE / 2 + 1, 4, 0, Math.PI * 2);
-        this.ctx.fill();
-        break;
-      }
-
-      case 'hydroponics_tray': {
-        // Cute planter box with happy green lettuce leaves
-        this.ctx.fillStyle = '#15803d';
-        this.roundRect(px + 4, py + 12, TILE_SIZE - 8, 14, 4);
-        this.ctx.fill();
-
-        // 3 bouncing green sprouts
-        const bounce = Math.sin(this.tickTime * 0.005) * 1.5;
-        this.ctx.fillStyle = '#4ade80';
-        this.ctx.beginPath();
-        this.ctx.arc(px + 9, py + 10 + bounce, 4, 0, Math.PI * 2);
-        this.ctx.arc(px + 16, py + 9 - bounce, 4, 0, Math.PI * 2);
-        this.ctx.arc(px + 23, py + 10 + bounce, 4, 0, Math.PI * 2);
-        this.ctx.fill();
-        break;
-      }
-
-      case 'water_extractor': {
-        // Cyan drill rig mining blue ice
-        this.ctx.fillStyle = '#0891b2';
-        this.roundRect(px + 6, py + 4, TILE_SIZE - 12, 16, 4);
-        this.ctx.fill();
-        // Spinning drill tip
-        this.ctx.fillStyle = '#38bdf8';
-        this.ctx.fillRect(px + 14, py + 20, 4, 10);
-        break;
-      }
-
-      default: {
-        this.ctx.fillStyle = '#94a3b8';
-        this.roundRect(px + 4, py + 4, TILE_SIZE - 8, TILE_SIZE - 8, 4);
-        this.ctx.fill();
-        break;
-      }
-    }
-
-    this.ctx.restore();
   }
 
   private drawAstronaut(): void {
     const { x, y, bobble, facingRight } = this.astronaut;
     this.ctx.save();
-    this.ctx.translate(x, y + bobble);
+    this.ctx.translate(x + TILE_SIZE / 2, y + TILE_SIZE / 2 + bobble);
 
     // Direction flip
     if (!facingRight) {

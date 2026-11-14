@@ -1,0 +1,15 @@
+[
+  { "name": "Shackleton", "lat": -89.9, "lon": 0.0, "diameter": 21, "type": "Crater", "id": 1 },
+  { "name": "Tycho", "lat": -43.3, "lon": -11.2, "diameter": 85, "type": "Crater", "id": 2 },
+  { "name": "Copernicus", "lat": 9.62, "lon": -20.08, "diameter": 93, "type": "Crater", "id": 3 },
+  { "name": "Kepler", "lat": 8.1, "lon": -38.0, "diameter": 32, "type": "Crater", "id": 4 },
+  { "name": "Aristarchus", "lat": 23.7, "lon": -47.4, "diameter": 40, "type": "Crater", "id": 5 },
+  { "name": "Mare Tranquillitatis", "lat": 8.5, "lon": 31.4, "diameter": 873, "type": "Mare", "id": 6 },
+  { "name": "Mare Imbrium", "lat": 32.8, "lon": -15.6, "diameter": 1123, "type": "Mare", "id": 7 },
+  { "name": "Mare Serenitatis", "lat": 28.0, "lon": 17.5, "diameter": 707, "type": "Mare", "id": 8 },
+  { "name": "Oceanus Procellarum", "lat": 18.4, "lon": -57.4, "diameter": 2568, "type": "Mare", "id": 9 },
+  { "name": "Mare Crisium", "lat": 17.0, "lon": 59.1, "diameter": 418, "type": "Mare", "id": 10 },
+  { "name": "Clavius", "lat": -58.4, "lon": -14.4, "diameter": 225, "type": "Crater", "id": 11 },
+  { "name": "Plato", "lat": 51.6, "lon": -9.3, "diameter": 101, "type": "Crater", "id": 12 },
+  { "name": "Archimedes", "lat": 29.7, "lon": -4.0, "diameter": 83, "type": "Crater", "id": 13 }
+]
