@@ -18,6 +18,8 @@ Update after every meaningful change.
 - Built 7 curated NASA/CSA reference fixtures in `resources/` with schemas and extraction audit.
 - Updated `context/api-contract.md` and `contracts/*.json` for grid building evaluation and M.I.L.O. assistant chat.
 - **Client Pivot to Web Game**: Transitioned client architecture from Unity to modern Web Game (TypeScript 5+ / Vite / HTML5 Canvas 2D viewport + DOM HUD overlay) in `game/`.
+- **Kid-Friendly UI & Sound System**: Implemented vibrant candy capsule HUD, chunky 3D tactile controls, and 8-bit Web Audio synthesizer (`SoundManager.ts`).
+- **Procedural Authentic Lunar Terrain**: Built `LunarTerrain.ts` with authentic highland anorthosite & mare basalt tones, 3D impact craters with sunlit crests and bowl shadows, Artemis descent engine blast halo, rover tracks, and scattered boulders with low-angle shadows. Replaced square box outlines with subtle NASA tactical '+' corner marks.
 
 ## In Progress
 - Bootstrapping the Web Game project foundation in `game/` with Vite, TypeScript, Canvas 2D engine, and Perimeter Resource HUD.
