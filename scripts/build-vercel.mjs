@@ -36,11 +36,24 @@ fs.mkdirSync(distDir, { recursive: true });
 fs.copyFileSync(path.join(rootDir, 'index.html'), path.join(distDir, 'index.html'));
 console.log('  ✓ Copied root index.html -> dist/index.html');
 
-// Copy game/dist to dist/game
+// Copy game/dist to dist/game and copy play.html to dist/play.html
 const gameDist = path.join(rootDir, 'game', 'dist');
 if (fs.existsSync(gameDist)) {
   fs.cpSync(gameDist, path.join(distDir, 'game'), { recursive: true });
   console.log('  ✓ Copied game/dist/ -> dist/game/');
+
+  const playHtml = path.join(gameDist, 'play.html');
+  if (fs.existsSync(playHtml)) {
+    fs.copyFileSync(playHtml, path.join(distDir, 'play.html'));
+    console.log('  ✓ Copied play.html -> dist/play.html');
+  }
+
+  // Also copy game/dist/assets to dist/assets for play.html top-level access
+  const gameAssets = path.join(gameDist, 'assets');
+  if (fs.existsSync(gameAssets)) {
+    fs.cpSync(gameAssets, path.join(distDir, 'assets'), { recursive: true });
+    console.log('  ✓ Copied assets -> dist/assets/');
+  }
 } else {
   console.error('  ✗ Error: game/dist does not exist!');
   process.exit(1);
