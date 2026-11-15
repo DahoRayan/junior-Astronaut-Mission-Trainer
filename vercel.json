@@ -1,9 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
-    "home": {
-      "root": "home"
-    },
     "game": {
       "root": "game",
       "framework": "vite"
@@ -29,19 +26,28 @@
     {
       "source": "/game/(.*)",
       "destination": {
-        "service": "game"
+        "service": "game",
+        "path": "/play.html"
       }
     },
     {
       "source": "/game",
       "destination": {
-        "service": "game"
+        "service": "game",
+        "path": "/play.html"
+      }
+    },
+    {
+      "source": "/play.html",
+      "destination": {
+        "service": "game",
+        "path": "/play.html"
       }
     },
     {
       "source": "/(.*)",
       "destination": {
-        "service": "home"
+        "service": "game"
       }
     }
   ]

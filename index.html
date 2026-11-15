@@ -544,12 +544,12 @@
         </ul>
 
         <div class="card-actions">
-          <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" class="btn-launch" id="launch-2d-btn">
-            <span>Launch 2D Game (Port 3000)</span>
+          <a href="./play.html" class="btn-launch" id="launch-2d-btn">
+            <span>Launch 2D Game</span>
             <span>➜</span>
           </a>
-          <a href="./game/index.html" class="btn-sublink" id="sublink-2d" title="Open relative path inside game/ directory">
-            <span>📁 Direct Path: game/index.html</span>
+          <a href="./play.html" class="btn-sublink" id="sublink-2d" title="Open 2D Tactical Mission Control">
+            <span>🕹️ Tactical Simulator (play.html)</span>
           </a>
         </div>
       </section>
@@ -594,12 +594,12 @@
         </ul>
 
         <div class="card-actions">
-          <a href="http://localhost:3001" target="_blank" rel="noopener noreferrer" class="btn-launch" id="launch-3d-btn">
-            <span>Launch 3D Game (Port 3001)</span>
+          <a href="/frontend-3d/" class="btn-launch" id="launch-3d-btn">
+            <span>Launch 3D Game</span>
             <span>➜</span>
           </a>
-          <a href="./frontend-3d/index.html" class="btn-sublink" id="sublink-3d" title="Open relative path inside frontend-3d/ directory">
-            <span>📁 Direct Path: frontend-3d/index.html</span>
+          <a href="/frontend-3d/" class="btn-sublink" id="sublink-3d" title="Open 3D Lunar Outpost">
+            <span>🌕 3D Lunar Outpost (/frontend-3d/)</span>
           </a>
         </div>
       </section>
@@ -696,17 +696,17 @@
       // Production mode (Vercel / Cloud): direct routes
       const btn2d = document.getElementById('launch-2d-btn');
       const btn3d = document.getElementById('launch-3d-btn');
-      btn2d.href = './game/';
-      btn3d.href = './frontend-3d/';
+      btn2d.href = './play.html';
+      btn3d.href = '/frontend-3d/';
       btn2d.querySelector('span:first-child').textContent = 'Launch 2D Game';
       btn3d.querySelector('span:first-child').textContent = 'Launch 3D Game';
 
       const sub2d = document.getElementById('sublink-2d');
       const sub3d = document.getElementById('sublink-3d');
-      sub2d.href = './game/';
-      sub2d.innerHTML = '<span>🔗 Direct Path: /game/</span>';
-      sub3d.href = './frontend-3d/';
-      sub3d.innerHTML = '<span>🔗 Direct Path: /frontend-3d/</span>';
+      sub2d.href = './play.html';
+      sub2d.innerHTML = '<span>🕹️ Tactical Simulator (/play.html)</span>';
+      sub3d.href = '/frontend-3d/';
+      sub3d.innerHTML = '<span>🌕 3D Lunar Outpost (/frontend-3d/)</span>';
 
       const pill2d = document.getElementById('status-2d');
       const pill3d = document.getElementById('status-3d');
