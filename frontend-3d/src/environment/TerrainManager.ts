@@ -53,14 +53,30 @@ export class TerrainManager {
         const dispUrl = options.dispTexture ?? './textures/moon_01_disp_4k.png';
         const repeat = options.repeat ?? 16;
 
-        const diffTex = texLoader.load(diffUrl);
+        const diffTex = texLoader.load(diffUrl, undefined, undefined, () => {
+          const fallbackTex = texLoader.load('/textures/moon_01_diff_4k.jpg');
+          fallbackTex.wrapS = THREE.RepeatWrapping;
+          fallbackTex.wrapT = THREE.RepeatWrapping;
+          fallbackTex.repeat.set(repeat, repeat);
+          fallbackTex.colorSpace = THREE.SRGBColorSpace;
+          this.groundMaterial.map = fallbackTex;
+          this.groundMaterial.needsUpdate = true;
+        });
         diffTex.wrapS = THREE.RepeatWrapping;
         diffTex.wrapT = THREE.RepeatWrapping;
         diffTex.repeat.set(repeat, repeat);
         diffTex.colorSpace = THREE.SRGBColorSpace;
         this.groundMaterial.map = diffTex;
 
-        const dispTex = texLoader.load(dispUrl);
+        const dispTex = texLoader.load(dispUrl, undefined, undefined, () => {
+          const fallbackDisp = texLoader.load('/textures/moon_01_disp_4k.png');
+          fallbackDisp.wrapS = THREE.RepeatWrapping;
+          fallbackDisp.wrapT = THREE.RepeatWrapping;
+          fallbackDisp.repeat.set(repeat, repeat);
+          this.groundMaterial.bumpMap = fallbackDisp;
+          this.groundMaterial.bumpScale = 0.85;
+          this.groundMaterial.needsUpdate = true;
+        });
         dispTex.wrapS = THREE.RepeatWrapping;
         dispTex.wrapT = THREE.RepeatWrapping;
         dispTex.repeat.set(repeat, repeat);

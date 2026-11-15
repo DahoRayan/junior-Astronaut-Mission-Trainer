@@ -21,17 +21,25 @@ export class LunarTerrain {
 
   private loadActualMoonTexture(): void {
     const img = new Image();
-    img.src = '/textures/lunar_terrain_real.jpg';
+    img.src = './textures/lunar_terrain_real.jpg';
     img.onload = () => {
       this.isPhotoLoaded = true;
       this.renderPhotographicTerrain(img);
     };
     img.onerror = () => {
       const fallbackImg = new Image();
-      fallbackImg.src = '/textures/moon_01_diff_4k.jpg';
+      fallbackImg.src = './textures/moon_01_diff_4k.jpg';
       fallbackImg.onload = () => {
         this.isPhotoLoaded = true;
         this.renderPhotographicTerrain(fallbackImg);
+      };
+      fallbackImg.onerror = () => {
+        const rootImg = new Image();
+        rootImg.src = '/textures/moon_01_diff_4k.jpg';
+        rootImg.onload = () => {
+          this.isPhotoLoaded = true;
+          this.renderPhotographicTerrain(rootImg);
+        };
       };
     };
   }

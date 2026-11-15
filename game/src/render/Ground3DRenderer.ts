@@ -46,14 +46,37 @@ export class Ground3DRenderer {
     // Huge ground plane covering 40,000 x 40,000 units
     const planeGeo = new THREE.PlaneGeometry(40000, 40000, 32, 32);
 
-    // Load authentic 4K textures
+    // Load authentic 4K textures (with robust relative/absolute fallbacks)
     const texLoader = new THREE.TextureLoader();
-    this.diffTexture = texLoader.load('/textures/moon_01_diff_4k.jpg');
+    
+    // Check if hosted under subfolder or root
+    const diffUrl = './textures/moon_01_diff_4k.jpg';
+    this.diffTexture = texLoader.load(
+      diffUrl,
+      undefined,
+      undefined,
+      () => {
+        // Fallback to absolute if relative fails
+        this.diffTexture = texLoader.load('/textures/moon_01_diff_4k.jpg');
+        groundMat.map = this.diffTexture;
+        groundMat.needsUpdate = true;
+      }
+    );
     this.diffTexture.wrapS = THREE.RepeatWrapping;
     this.diffTexture.wrapT = THREE.RepeatWrapping;
     this.diffTexture.repeat.set(20, 20);
 
-    this.bumpTexture = texLoader.load('/textures/moon_01_disp_4k.png');
+    const bumpUrl = './textures/moon_01_disp_4k.png';
+    this.bumpTexture = texLoader.load(
+      bumpUrl,
+      undefined,
+      undefined,
+      () => {
+        this.bumpTexture = texLoader.load('/textures/moon_01_disp_4k.png');
+        groundMat.bumpMap = this.bumpTexture;
+        groundMat.needsUpdate = true;
+      }
+    );
     this.bumpTexture.wrapS = THREE.RepeatWrapping;
     this.bumpTexture.wrapT = THREE.RepeatWrapping;
     this.bumpTexture.repeat.set(20, 20);

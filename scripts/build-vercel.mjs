@@ -69,6 +69,31 @@ if (fs.existsSync(frontend3dDist)) {
   process.exit(1);
 }
 
+// 4. Mirror all static assets (textures, models, data) to root dist and subpaths
+// so both absolute (/textures/...) and relative (./textures/...) requests succeed 100%
+const texturesSrc = path.join(rootDir, 'frontend-3d', 'public', 'textures');
+if (fs.existsSync(texturesSrc)) {
+  fs.cpSync(texturesSrc, path.join(distDir, 'textures'), { recursive: true });
+  fs.cpSync(texturesSrc, path.join(distDir, 'game', 'textures'), { recursive: true });
+  fs.cpSync(texturesSrc, path.join(distDir, 'frontend-3d', 'textures'), { recursive: true });
+  console.log('  ✓ Synced textures -> dist/textures/, dist/game/textures/, dist/frontend-3d/textures/');
+}
+
+const modelsSrc = path.join(rootDir, 'frontend-3d', 'public', 'models');
+if (fs.existsSync(modelsSrc)) {
+  fs.cpSync(modelsSrc, path.join(distDir, 'models'), { recursive: true });
+  fs.cpSync(modelsSrc, path.join(distDir, 'frontend-3d', 'models'), { recursive: true });
+  console.log('  ✓ Synced models -> dist/models/, dist/frontend-3d/models/');
+}
+
+const dataSrc = path.join(rootDir, 'frontend-3d', 'public', 'data');
+if (fs.existsSync(dataSrc)) {
+  fs.cpSync(dataSrc, path.join(distDir, 'data'), { recursive: true });
+  fs.cpSync(dataSrc, path.join(distDir, 'game', 'data'), { recursive: true });
+  fs.cpSync(dataSrc, path.join(distDir, 'frontend-3d', 'data'), { recursive: true });
+  console.log('  ✓ Synced data -> dist/data/');
+}
+
 console.log('\n\x1b[32m%s\x1b[0m', '═══════════════════════════════════════════════════════════');
 console.log('\x1b[32m%s\x1b[0m', '  ✓ Unified Build Complete! Ready for Vercel deployment.');
 console.log('\x1b[32m%s\x1b[0m', '═══════════════════════════════════════════════════════════');
