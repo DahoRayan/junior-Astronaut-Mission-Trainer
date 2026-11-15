@@ -715,6 +715,14 @@
       pill3d.classList.add('online');
       pill3d.querySelector('.status-label').textContent = '● Live Ready';
     } else {
+      // Local development mode:
+      const btn3d = document.getElementById('launch-3d-btn');
+      const sub3d = document.getElementById('sublink-3d');
+      btn3d.href = 'http://localhost:3001';
+      btn3d.target = '_blank';
+      sub3d.href = 'http://localhost:3001';
+      sub3d.target = '_blank';
+      sub3d.innerHTML = '<span>🌕 3D Lunar Outpost (Port 3001)</span>';
       probeServers();
       setInterval(probeServers, 6000);
     }
