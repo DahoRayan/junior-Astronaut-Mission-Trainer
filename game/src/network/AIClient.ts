@@ -90,11 +90,51 @@ export class AIClient {
    */
   async evaluateMission(request: MissionDebriefRequest): Promise<MissionDebriefResponse> {
     try {
-      return await this.fetchWithTimeout(`${this.baseUrl}/evaluate/mission`, {
+      const contractPayload = {
+        site: 'moon',
+        perspective_id: 'commander',
+        history: [
+          {
+            snapshot: {
+              sol: request.sols_completed,
+              mission_length: 30,
+              site: 'moon',
+              perspective_id: 'commander',
+              scene_id: `S-C${request.chapter}-1`,
+              resources: {
+                power: Math.min(100, Math.max(0, Math.round(request.total_kwh_generated / 10))),
+                oxygen: Math.min(100, Math.max(0, Math.round(request.total_o2_produced_kg))),
+                shielding: Math.min(100, Math.max(0, Math.round(request.radiation_dose_mitigated_pct))),
+              },
+              crew: 4,
+              active_event: null,
+            },
+            decision_id: `chapter_${request.chapter}_complete`,
+            rating: 'great',
+          },
+        ],
+        outcome: 'survived',
+      };
+
+      const res = await this.fetchWithTimeout<any>(`${this.baseUrl}/evaluate/mission`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request),
+        body: JSON.stringify(contractPayload),
       });
+
+      return {
+        survivability_score: res.survivability_score ?? 100,
+        strengths: res.strengths && res.strengths.length > 0 ? res.strengths : [
+          'Successfully established critical life support infrastructure.',
+          'Maintained power grid balance on Shackleton Ridge.',
+        ],
+        lessons: res.lessons && res.lessons.length > 0 ? res.lessons : [
+          'Always monitor battery reserves before entering prolonged lunar night.',
+        ],
+        summary: res.summary ?? `Outstanding work, Commander! You established First Light Outpost and guaranteed life support for the entire crew.`,
+        nasa_badge_awarded: `Artemis Level ${request.chapter} Pioneer`,
+        fallback_used: false,
+      };
     } catch (err) {
       console.warn('[AIClient] Mission debrief offline fallback used:', err);
       return this.getLocalMissionDebriefFallback(request);

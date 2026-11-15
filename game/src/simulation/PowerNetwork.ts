@@ -61,10 +61,6 @@ export class PowerNetwork {
               if (currTile.inSunlight && isDaylight && !b.isFaulty) {
                 islandGenKw += def.powerGenerationKw;
               }
-            } else if (b.type === 'kilopower_reactor') {
-              if (!b.isFaulty) {
-                islandGenKw += def.powerGenerationKw;
-              }
             }
 
             // Calculate battery capacity

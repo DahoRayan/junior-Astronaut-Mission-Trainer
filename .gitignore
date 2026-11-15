@@ -1,6 +1,25 @@
 # Local plans
 local_plan/
 
+# Dependencies
+node_modules/
+game/node_modules/
+frontend-3d/node_modules/
+game/MoonOrbiter-master/node_modules/
+
+# Production Builds
+dist/
+game/dist/
+frontend-3d/dist/
+game/MoonOrbiter-master/dist/
+game/MoonOrbiter-master/dist-electron/
+.vercel/
+
+# Vite caches
+.vite/
+game/.vite/
+frontend-3d/.vite/
+
 # Python / AI Service
 __pycache__/
 *.py[cod]
@@ -9,14 +28,8 @@ ai-service/.venv/
 ai-service/.pytest_cache/
 ai-service/.env
 
-# Web Game Client
-game/node_modules/
-game/dist/
-game/.vite/
+# Archives & local
 *.zip
-game/MoonOrbiter-master/node_modules/
-game/MoonOrbiter-master/dist/
-game/MoonOrbiter-master/dist-electron/
 *.local
 
 # OS / Editor

@@ -35,21 +35,6 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
     description: 'Stores surplus solar energy (100 kWh) for the 12-hour lunar night.',
     educationalFact: 'Deep lunar night requires energy storage systems with low depth-of-discharge to power life support when solar arrays enter darkness.'
   },
-  kilopower_reactor: {
-    type: 'kilopower_reactor',
-    name: 'Kilopower Fission Reactor',
-    category: 'energy',
-    buildCost: 120,
-    powerGenerationKw: 30,
-    powerConsumptionKw: 0,
-    batteryCapacityKwh: 0,
-    oxygenProductionKgH: 0,
-    waterConsumptionL: 0,
-    waterProductionL: 0,
-    shieldingBonusPct: 0,
-    description: 'Continuous +30 kW power day and night regardless of shadows or dust storms.',
-    educationalFact: 'NASA\'s KRUSTY (Kilopower) project proved that compact fission surface power can reliably sustain lunar outposts through long darkness.'
-  },
   emergency_o2_generator: {
     type: 'emergency_o2_generator',
     name: 'Emergency Oxygen Generator',
@@ -237,5 +222,20 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
     shieldingBonusPct: 0,
     description: 'Transmits electric current between power sources and consumer buildings.',
     educationalFact: 'Superconducting surface cables transmit high-voltage power with near-zero resistance in the cryogenic cold of the lunar south pole.'
+  },
+  outpost_base: {
+    type: 'outpost_base',
+    name: 'Central Outpost Base',
+    category: 'life_support',
+    buildCost: 0,
+    powerGenerationKw: 0,
+    powerConsumptionKw: 0,
+    batteryCapacityKwh: 0,
+    oxygenProductionKgH: 0,
+    waterConsumptionL: 0,
+    waterProductionL: 0,
+    shieldingBonusPct: 0,
+    description: 'Central Artemis landing base (4 tiles). Foundational command hub with 0 resource draw.',
+    educationalFact: 'NASA Artemis Base Camp envisions a permanent foundation habitat hub on the lunar surface around which power and science modules connect.'
   }
 };

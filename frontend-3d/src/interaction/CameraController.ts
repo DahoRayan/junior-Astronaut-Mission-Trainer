@@ -262,12 +262,15 @@ export class CameraController {
     if (this.keysPressed.size > 0) {
       let moveZ = 0;
       let moveX = 0;
+      let moveY = 0;
       if (this.keysPressed.has('KeyW') || this.keysPressed.has('ArrowUp')) moveZ += 1;
       if (this.keysPressed.has('KeyS') || this.keysPressed.has('ArrowDown')) moveZ -= 1;
       if (this.keysPressed.has('KeyD') || this.keysPressed.has('ArrowRight')) moveX += 1;
       if (this.keysPressed.has('KeyA') || this.keysPressed.has('ArrowLeft')) moveX -= 1;
+      if (this.keysPressed.has('Space')) moveY += 1;
+      if (this.keysPressed.has('KeyC')) moveY -= 1;
 
-      if (moveZ !== 0 || moveX !== 0) {
+      if (moveZ !== 0 || moveX !== 0 || moveY !== 0) {
         if (this.transition.active) this.cancelTransition();
         if (this.followTarget) this.clearFollowTarget();
 
@@ -282,12 +285,22 @@ export class CameraController {
 
         const moveVec = new THREE.Vector3()
           .addScaledVector(fwd, moveZ)
-          .addScaledVector(right, moveX)
-          .normalize()
-          .multiplyScalar(speed);
+          .addScaledVector(right, moveX);
+        if (moveVec.lengthSq() > 0.001) {
+          moveVec.normalize().multiplyScalar(speed);
+        }
+        if (moveY !== 0) {
+          moveVec.y = moveY * speed;
+        }
 
+        // Apply movement while strictly enforcing polar ground lock minimum height
+        const nextCamY = Math.max(1.2, this.camera.position.y + moveVec.y);
+        const nextTargetY = Math.max(0.2, this.controls.target.y + moveVec.y);
+        moveVec.y = nextCamY - this.camera.position.y;
         this.camera.position.add(moveVec);
-        this.controls.target.add(moveVec);
+        this.controls.target.x += moveVec.x;
+        this.controls.target.z += moveVec.z;
+        this.controls.target.y = nextTargetY;
       }
 
       // Q / E: Smooth Azimuth Orbit Rotation

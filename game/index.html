@@ -102,6 +102,7 @@
       <div class="mission-clock">
         <button id="btn-sound-toggle" class="hud-action-btn icon-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
         <button id="btn-story-log" class="hud-action-btn story-btn" title="Open Mission Story Log [Visual Novel]">📖 Story</button>
+        <button id="btn-trigger-anomaly" class="hud-action-btn anomaly-btn" title="Trigger a Lunar Mission Anomaly Event [Decision Drill]">🚨 Event</button>
         <button id="hud-cycle-badge" class="hud-action-btn cycle-btn" title="Moon Day: 30 Earth Days (15d Sun / 15d Night). Click to cycle mode.">☀️ Day 1/15</button>
         <span class="sol-badge" id="hud-sol-val" title="Mission Sol 1. Day 1 of the 30 Earth-day Lunar Synodic Cycle.">Sol 1 (1/30)</span>
         <span class="time-badge" id="hud-time-val">06:00</span>
@@ -153,8 +154,6 @@
           <button id="btn-recenter" class="overlay-btn" title="Recenter Camera (Key: R)">🎯 Recenter</button>
           <div class="overlay-hints">WASD / Drag to Pan | Scroll to Zoom</div>
         </div>
-
-        <div id="notification-toast" class="notification-toast hidden"></div>
       </section>
 
       <!-- RIGHT PANEL: Full Navigable Tabs (Goals, Telemetry, M.I.L.O.) -->
@@ -500,17 +499,43 @@
     </div>
   </div>
 
+  <!-- LUNAR ANOMALY DECISION MODAL (NASA ANOMALIES) -->
+  <div id="anomaly-modal" class="modal-overlay hidden">
+    <div class="anomaly-card">
+      <div class="anomaly-header">
+        <div class="anomaly-badge-group">
+          <span class="anomaly-alert-tag">⚠️ MISSION ANOMALY</span>
+          <span id="anomaly-name" class="anomaly-title">Oxygen Leak Detected</span>
+        </div>
+        <span class="anomaly-icon" id="anomaly-icon">🫧</span>
+      </div>
+
+      <div class="anomaly-body">
+        <p id="anomaly-description" class="anomaly-description"></p>
+        
+        <div class="anomaly-impact-box">
+          <div class="impact-label">🚨 CRITICAL IMPACT & DANGER</div>
+          <p id="anomaly-impact-text" class="impact-text"></p>
+        </div>
+
+        <div class="anomaly-question-box">
+          <div class="question-label">COMMANDER DECISION REQUIRED:</div>
+          <div id="anomaly-question" class="question-text"></div>
+        </div>
+
+        <div id="anomaly-choices" class="anomaly-choices-grid">
+          <!-- Dynamically populated choices -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- NON-PUNITIVE MISSION DEBRIEF CERTIFICATE MODAL -->
   <div id="debrief-modal" class="modal-overlay hidden">
     <div class="debrief-card">
       <div class="debrief-header">
         <div class="debrief-title">NASA ARTEMIS MISSION DEBRIEF</div>
         <div id="debrief-badge" class="debrief-badge">🏅 Artemis Junior Power Specialist</div>
-      </div>
-
-      <div class="debrief-score-container">
-        <div class="score-label">SURVIVABILITY SCORE</div>
-        <div id="debrief-score" class="score-value">95/100</div>
       </div>
 
       <p id="debrief-summary" class="debrief-summary">

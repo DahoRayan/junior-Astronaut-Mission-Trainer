@@ -31,6 +31,36 @@ export class Grid {
       }
       this.tiles.push(row);
     }
+    this.placeCentralBase();
+  }
+
+  public placeCentralBase(): void {
+    const baseId = 'central_outpost_base';
+    // Occupies a 2x2 footprint in the exact center: (11, 7), (12, 7), (11, 8), (12, 8)
+    const centralBase: PlacedBuilding = {
+      id: baseId,
+      type: 'outpost_base',
+      x: 11,
+      y: 7,
+      isPowered: true,
+      isEnabled: true,
+    };
+
+    const tiles = [
+      { x: 11, y: 7 },
+      { x: 12, y: 7 },
+      { x: 11, y: 8 },
+      { x: 12, y: 8 },
+    ];
+
+    for (const pos of tiles) {
+      const tile = this.getTile(pos.x, pos.y);
+      if (tile) {
+        tile.building = centralBase;
+        tile.hasCable = false;
+        tile.cablePowered = false;
+      }
+    }
   }
 
   public getTile(x: number, y: number): Tile | null {
@@ -54,6 +84,10 @@ export class Grid {
     if (!tile || !tile.building) {
       return null;
     }
+    // The central base cannot be demolished
+    if (tile.building.type === 'outpost_base') {
+      return null;
+    }
     const removed = tile.building;
     tile.building = undefined;
     return removed;
@@ -68,10 +102,13 @@ export class Grid {
 
   public getPlacedBuildings(): PlacedBuilding[] {
     const buildings: PlacedBuilding[] = [];
+    const seen = new Set<string>();
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
-        if (this.tiles[y][x].building) {
-          buildings.push(this.tiles[y][x].building!);
+        const b = this.tiles[y][x].building;
+        if (b && !seen.has(b.id)) {
+          seen.add(b.id);
+          buildings.push(b);
         }
       }
     }

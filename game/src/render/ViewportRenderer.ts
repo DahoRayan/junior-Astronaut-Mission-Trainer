@@ -343,10 +343,14 @@ export class ViewportRenderer {
 
       // Show what will be demolished
       const demoTile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
-      if (demoTile?.hasCable) {
+      if (demoTile?.hasCable && !demoTile?.building) {
         this.drawHoverLabel(px, py, BUILDING_DEFINITIONS.power_cable.name, '🗑️ Click to Demolish', '#ef4444', '#fca5a5');
       } else if (demoTile?.building) {
-        this.drawHoverLabel(px, py, BUILDING_DEFINITIONS[demoTile.building.type].name, '🗑️ Click to Demolish', '#ef4444', '#fca5a5');
+        if (demoTile.building.type === 'outpost_base') {
+          this.drawHoverLabel(px, py, BUILDING_DEFINITIONS.outpost_base.name, '🔒 Permanent Base (Cannot Demolish)', '#64748b', '#cbd5e1');
+        } else {
+          this.drawHoverLabel(px, py, BUILDING_DEFINITIONS[demoTile.building.type].name, '🗑️ Click to Demolish', '#ef4444', '#fca5a5');
+        }
       }
     } else if (this.selectedBuildingType) {
       // Check tutorial restriction: player is not allowed to use any Moon space except highlighted

@@ -39,12 +39,12 @@ export class EventBus {
     }
   }
 
-  public emit<T = any>(event: string, payload: T): void {
+  public emit<T = any>(event: string, payload?: T): void {
     const handlers = this.listeners.get(event);
     if (handlers) {
       handlers.forEach((handler) => {
         try {
-          handler(payload);
+          handler(payload as T);
         } catch (err) {
           console.error(`[EventBus] Error in handler for event "${event}":`, err);
         }

@@ -17,6 +17,7 @@ export class SimulationEngine {
   private tickIntervalId: number | null = null;
   public isDaylight: boolean = true;
   public dayCycleMode: DayCycleMode = 'lunar_synodic'; // Default: Standard Lunar Synodic (15 days day / 15 days night)
+  public isMissionFailed: boolean = false;
   private isEmergencyO2Active: boolean = false;
   public isO2AtmosphereEmissionPaused: boolean = false;
 
@@ -97,6 +98,9 @@ export class SimulationEngine {
       }
     }
 
+    // Always place the 4-tile central base in the middle of the grid (11, 7)-(12, 8)
+    this.grid.placeCentralBase();
+
     // 2. Solar Farm: 8 Solar Panels along elevated sunlit ridge (y = 4)
     for (let x = 6; x <= 13; x++) {
       this.grid.placeBuilding({
@@ -139,19 +143,19 @@ export class SimulationEngine {
     this.grid.placeBuilding({ id: 'water_recycler', type: 'water_recycler', x: 11, y: 9, isPowered: true, isEnabled: true });
 
     // 6. Thermal Control & Agriculture: Heating System and Growth Farm
-    this.grid.placeBuilding({ id: 'heating_system', type: 'heating_system', x: 12, y: 8, isPowered: true, isEnabled: true });
-    this.grid.placeBuilding({ id: 'growth_farm', type: 'hydroponics_tray', x: 12, y: 9, isPowered: true, isEnabled: true });
+    this.grid.placeBuilding({ id: 'heating_system', type: 'heating_system', x: 13, y: 7, isPowered: true, isEnabled: true });
+    this.grid.placeBuilding({ id: 'growth_farm', type: 'hydroponics_tray', x: 13, y: 9, isPowered: true, isEnabled: true });
 
     // 7. Radiation Defense: Lunar Soil Regolith Shield & Subterranean Storm Vault
     this.grid.placeBuilding({ id: 'regolith_shield', type: 'regolith_shield', x: 10, y: 7, isPowered: true, isEnabled: true });
-    this.grid.placeBuilding({ id: 'storm_vault', type: 'subterranean_vault', x: 13, y: 8, isPowered: true, isEnabled: true });
+    this.grid.placeBuilding({ id: 'storm_vault', type: 'subterranean_vault', x: 14, y: 8, isPowered: true, isEnabled: true });
 
     // 8. Communication Link: Earth Connection Channel
-    this.grid.placeBuilding({ id: 'earth_channel', type: 'earth_channel', x: 14, y: 7, isPowered: true, isEnabled: true });
+    this.grid.placeBuilding({ id: 'earth_channel', type: 'earth_channel', x: 15, y: 7, isPowered: true, isEnabled: true });
 
     // 9. Comprehensive Power Cable Grid
     // East-West Main Conduit Highway along y = 5
-    for (let x = 6; x <= 14; x++) {
+    for (let x = 6; x <= 15; x++) {
       this.grid.setCable(x, 5, true);
     }
     // North-South distribution feeder lines
@@ -162,8 +166,9 @@ export class SimulationEngine {
       { x: 10, y: 7 }, { x: 10, y: 8 }, { x: 10, y: 9 },
       { x: 11, y: 7 }, { x: 11, y: 8 }, { x: 11, y: 9 },
       { x: 12, y: 7 }, { x: 12, y: 8 }, { x: 12, y: 9 },
-      { x: 13, y: 7 }, { x: 13, y: 8 },
-      { x: 14, y: 6 }, { x: 14, y: 7 },
+      { x: 13, y: 7 }, { x: 13, y: 8 }, { x: 13, y: 9 },
+      { x: 14, y: 6 }, { x: 14, y: 7 }, { x: 14, y: 8 },
+      { x: 15, y: 6 }, { x: 15, y: 7 },
     ];
     feeders.forEach((pt) => {
       this.grid.setCable(pt.x, pt.y, true);
@@ -220,6 +225,9 @@ export class SimulationEngine {
       }
     }
 
+    // Always place the 4-tile central base in the middle of the grid (11, 7)-(12, 8)
+    this.grid.placeCentralBase();
+
     // Starting budget of 1400 materials (as recommended in Section 11.1 of Equipment Specification)
     this.state.materials = 1400;
     this.state.batteryCapacityKwh = 50;
@@ -253,9 +261,38 @@ export class SimulationEngine {
     this.state.health = 100;
     this.state.crewHealthAvg = 100;
     this.state.isSheltering = false;
+    this.state.sol = 1;
+    this.state.timeOfDayHours = 6.0;
+    this.state.is_daylight = true;
+    this.state.activeAlert = null;
+    this.isMissionFailed = false;
 
     this.updateDaylightStatus();
     this.powerNetwork.calculate(this.grid, this.isDaylight);
+    eventBus.emit('resources_updated', this.state);
+  }
+
+  /**
+   * Clears all placed buildings and surface cables from the grid EXCEPT the 4-tile central base.
+   * Invoked upon level / chapter completion to clear the surface for the next level.
+   */
+  public clearStructuresExceptBase(): void {
+    for (let y = 0; y < this.grid.height; y++) {
+      for (let x = 0; x < this.grid.width; x++) {
+        const tile = this.grid.tiles[y][x];
+        if (tile.building?.type !== 'outpost_base') {
+          tile.building = undefined;
+        }
+        tile.hasCable = false;
+        tile.cablePowered = false;
+      }
+    }
+
+    // Ensure the 4-tile central base remains firmly anchored in the center
+    this.grid.placeCentralBase();
+
+    // Recalculate power network and status with clean surface
+    this.recalculate();
     eventBus.emit('resources_updated', this.state);
   }
 
@@ -334,6 +371,15 @@ export class SimulationEngine {
   public removeStructure(x: number, y: number): boolean {
     const tile = this.grid.getTile(x, y);
     if (!tile) return false;
+
+    // The central base cannot be decommissioned
+    if (tile.building?.type === 'outpost_base') {
+      eventBus.emit('notification', {
+        type: 'warning',
+        message: '🔒 Central Outpost Base is the permanent landing hub and cannot be decommissioned!',
+      });
+      return false;
+    }
 
     if (tile.hasCable) {
       this.grid.setCable(x, y, false);
@@ -619,7 +665,7 @@ export class SimulationEngine {
       this.dayCycleMode = 'lunar_synodic';
       eventBus.emit('notification', {
         type: 'info',
-        message: 'Day Cycle: Standard Moon Day (30 Earth Days: 15 Days Sunlight / 15 Days Night, 1 Tick = 4h).',
+        message: 'Day Cycle: Standard Moon Day (30 Earth Days: 15 Days Sunlight / 15 Days Night, 1s = 1h).',
       });
     }
     this.updateDaylightStatus();
@@ -628,16 +674,23 @@ export class SimulationEngine {
     return this.dayCycleMode;
   }
 
-  // --- Simulation Tick: 1 Tick = 4 Hours (§User request) ---
+  // --- Simulation Tick: 1 Second = 1 Hour (§User request: time accelerates 1h per second) ---
   public tick(multiplier: number = 1): void {
-    const deltaHours = 4 * multiplier;
+    if (this.isMissionFailed) return;
+    const deltaHours = 1 * multiplier;
 
     // 1. Clock (§6.1 #1)
     this.state.timeOfDayHours += deltaHours;
     while (this.state.timeOfDayHours >= 24) {
       this.state.timeOfDayHours -= 24;
       this.state.sol += 1;
+      // Daily materials stipend: gain new 100 mats every day (§User request)
+      this.state.materials += 100;
       eventBus.emit('sol_changed', this.state.sol);
+      eventBus.emit('notification', {
+        type: 'info',
+        message: `📦 Sol ${this.state.sol}: Daily logistics stipend received (+100 Materials granted). Total: ${this.state.materials} Mat.`,
+      });
     }
     this.updateDaylightStatus();
     this.state.is_daylight = this.isDaylight;
@@ -977,25 +1030,25 @@ export class SimulationEngine {
     }
 
     if (this.state.radiation > 50) {
-      this.state.food_growth = Math.max(0, this.state.food_growth - 3 * deltaHours);
+      this.state.food_growth = Math.max(0, this.state.food_growth - 3 * (deltaHours / 4));
     }
     if (this.state.radiation > 60) {
-      this.state.health = Math.max(0, this.state.health - 4 * deltaHours);
-      this.state.enthusiasm = Math.max(0, this.state.enthusiasm - 2 * deltaHours);
+      this.state.health = Math.max(0, this.state.health - 4 * (deltaHours / 4));
+      this.state.enthusiasm = Math.max(0, this.state.enthusiasm - 2 * (deltaHours / 4));
       this.triggerAlert('radiation_high');
     }
     if (this.state.radiation > 75) {
-      this.state.power = Math.max(0, this.state.power - 3 * deltaHours);
+      this.state.power = Math.max(0, this.state.power - 3 * (deltaHours / 4));
     }
     if (this.state.radiation > 80) {
-      this.state.health = Math.max(0, this.state.health - 8 * deltaHours);
+      this.state.health = Math.max(0, this.state.health - 8 * (deltaHours / 4));
     }
 
     if (this.state.saturation <= 0) {
-      this.state.health = Math.max(0, this.state.health - 3 * deltaHours);
+      this.state.health = Math.max(0, this.state.health - 3 * (deltaHours / 4));
     }
     if (this.state.quenching <= 0) {
-      this.state.health = Math.max(0, this.state.health - 5 * deltaHours);
+      this.state.health = Math.max(0, this.state.health - 5 * (deltaHours / 4));
     }
 
     // 7. Clamp All Gauges to 0–100 (§6.1 #7 & §1.1 A3)
@@ -1017,6 +1070,45 @@ export class SimulationEngine {
     this.state.quenching = Math.max(0, Math.min(100, this.state.quenching));
     this.state.enthusiasm = Math.max(0, Math.min(100, this.state.enthusiasm));
     this.state.health = Math.max(0, Math.min(100, this.state.health));
+
+    // Check Lethal Mission Failure Conditions (§Debrief Modal trigger)
+    if (this.state.health <= 0 && !this.isMissionFailed) {
+      this.isMissionFailed = true;
+      this.setSpeed(0);
+
+      let reason = 'Crew health collapsed due to sustained life-support failure.';
+      let lesson = 'NASA Systems Rule: Keep all critical life-support modules powered and connected via power cables at all times.';
+
+      if (this.state.oxygen > 25.0 && this.state.temperature > 55.0) {
+        reason = `Catastrophic flash fire ignited in an oxygen-rich atmosphere (${this.state.oxygen.toFixed(1)}%) at elevated temperature (${this.state.temperature.toFixed(0)}°).`;
+        lesson = 'Apollo 1 Investigation: High atmospheric oxygen concentrations combined with electrical or thermal triggers create catastrophic fire risks. Regulate cabin oxygen below 23.5% and maintain active thermal cooling.';
+      } else if (this.state.oxygen <= 0) {
+        reason = 'Habitat atmospheric oxygen was completely depleted, resulting in crew hypoxia.';
+        lesson = 'ECLSS Atmosphere Redundancy: Maintain active O2 replenishment from storage tanks or water electrolyzers, and monitor oxygen consumption rates.';
+      } else if (this.state.co2 >= 95) {
+        reason = 'Carbon dioxide accumulated to lethal toxic concentrations inside the habitat.';
+        lesson = 'Apollo 13 CO2 Lessons: Human respiration produces CO2 continuously. Ensure CDRA carbon dioxide scrubbers have uninterrupted electrical power and active cable connectivity.';
+      } else if (this.state.temperature <= 5.0) {
+        reason = 'Habitat thermal control collapsed, exposing the crew to lethal freezing conditions.';
+        lesson = 'Thermal Balance: Lunar ambient temperatures plunge during night or shadowed periods. Maintain heating radiators and power battery reserves to keep habitat interior at 21°C (gauge 50).';
+      } else if (this.state.radiation >= 80) {
+        reason = 'Crew received acute lethal cosmic and solar particle radiation doses.';
+        lesson = 'Radiation Shielding: The Moon lacks a protective atmosphere and magnetosphere. Regolith shielding and active magnetic coils must be powered during solar storms.';
+      } else if (this.state.quenching <= 0) {
+        reason = 'Crew water reserves were completely exhausted, resulting in severe dehydration.';
+        lesson = 'Closed-Loop Hydration: Crew life support requires constant water recycling. Deploy water recyclers and ice extraction drills to sustain life.';
+      } else if (this.state.saturation <= 0) {
+        reason = 'Crew nutrition rations were completely exhausted, resulting in starvation.';
+        lesson = 'Hydroponic Autonomy: Deep space bases must establish hydroponic farms and safeguard food storage to sustain multi-sol missions.';
+      }
+
+      eventBus.emit('mission_failed', {
+        reason,
+        lesson,
+        sol: this.state.sol,
+        sols_completed: Math.max(0, this.state.sol - 1),
+      });
+    }
 
     // Synchronize legacy aliases
     this.state.batteryChargeKwh = this.state.power;

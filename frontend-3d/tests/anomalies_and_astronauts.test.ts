@@ -11,6 +11,8 @@ import { AstronautManager } from '../src/actors/AstronautManager.js';
 import { MissionDecisionManager } from '../src/simulation/MissionDecisionManager.js';
 import { SimulationEngine } from '../src/simulation/SimulationEngine.js';
 import { RoverManager } from '../src/rovers/RoverManager.js';
+import { NarrativeManager } from '../src/narrative/NarrativeManager.js';
+import { TimeManager } from '../src/astronomy/TimeManager.js';
 import { CameraController, CAMERA_SECTOR_PRESETS } from '../src/interaction/CameraController.js';
 import { CityBuilder } from '../src/city/CityBuilder.js';
 import { SoundSystem } from '../src/audio/SoundSystem.js';
@@ -147,6 +149,182 @@ describe('NASA Outpost 3D — Astronauts, Anomalies & Navigation Test Suite', ()
       // Immediate subsequent check must return null due to minSolInterval
       const spamCheck = decisions.checkAnomalies(3.1, 8.0);
       assert.strictEqual(spamCheck, null, 'Must prevent anomaly spam within short sol intervals');
+    });
+
+    it('ANOM-06: Sol 1 Peaceful Grace Period strictly suppresses all random anomaly notifications', () => {
+      // Sol 1 06:00 (base start)
+      assert.strictEqual(decisions.checkAnomalies(1.0, 6.0, 6.0), null, 'Sol 1 06:00 must be peaceful');
+      // Sol 1 12:00
+      assert.strictEqual(decisions.checkAnomalies(1.0, 12.0, 12.0), null, 'Sol 1 12:00 must be peaceful');
+      // Sol 1 23.9h (just before Sol 2)
+      assert.strictEqual(decisions.checkAnomalies(1.0, 23.9, 23.9), null, 'Sol 1 23.9h must be peaceful');
+
+      // Even if cooldown would otherwise be satisfied, Sol 1 is fully protected
+      decisions.lastAnomalyHour = -100.0;
+      decisions.cooldownHours = 10.0;
+      assert.strictEqual(decisions.checkAnomalies(1.0, 18.0, 18.0), null, 'Sol 1 grace period overrides cooldown');
+    });
+
+    it('ANOM-07: Mandatory minimum cooldown strictly enforces lastAnomalyHour + cooldownHours <= currentTotalHours', () => {
+      decisions.reset();
+      decisions.lastAnomalyHour = 48.0;
+      decisions.cooldownHours = 48.0; // 48h cooldown -> expires at 96.0h
+
+      // Boundary: Exactly 0.1h before cooldown expires (95.9h)
+      const blocked = decisions.checkAnomalies(4.0, 23.9, 95.9);
+      assert.strictEqual(blocked, null, 'Must block anomaly at 95.9h (< 96.0h)');
+
+      // Boundary: Exactly at cooldown expiration (96.0h / Sol 5 00:00)
+      const allowed = decisions.checkAnomalies(5.0, 0.0, 96.0);
+      assert.ok(allowed !== null, 'Must allow anomaly at exactly 96.0h (lastAnomalyHour + cooldownHours)');
+      assert.strictEqual(decisions.lastAnomalyHour, 96.0, 'lastAnomalyHour must update to current total hours');
+    });
+
+    it('ANOM-08: Quiet period after dismissal resets cooldown timer and blocks new notifications', () => {
+      decisions.reset();
+      // Sol 3.0 triggers anomaly
+      const anom = decisions.checkAnomalies(3.0, 6.0, 54.0);
+      assert.ok(anom !== null, 'Anomaly triggers at 54.0h');
+      assert.strictEqual(decisions.activeAnomaly?.id, anom?.id);
+
+      // Player dismisses/closes the notification modal at 56.0h (Sol 3, 08:00)
+      decisions.dismissActiveAnomaly(56.0);
+      assert.strictEqual(decisions.activeAnomaly, null, 'Active anomaly cleared on dismissal');
+      assert.strictEqual(decisions.lastAnomalyHour, 56.0, 'lastAnomalyHour updated to dismissal time');
+
+      // Cooldown (48h) means quiet period is active until 56.0 + 48.0 = 104.0h
+      assert.strictEqual(decisions.checkAnomalies(3.5, 12.0, 72.0), null, 'Blocked at 72.0h');
+      assert.strictEqual(decisions.checkAnomalies(4.5, 12.0, 96.0), null, 'Blocked at 96.0h');
+      assert.strictEqual(decisions.checkAnomalies(5.0, 7.9, 103.9), null, 'Blocked at 103.9h');
+
+      // Once 104.0h is reached, quiet period ends
+      const nextAnom = decisions.checkAnomalies(5.0, 8.0, 104.0);
+      assert.ok(nextAnom !== null, 'Next anomaly allowed after quiet period elapses');
+    });
+
+    it('ANOM-09: Quiet period after resolution resets cooldown timer and blocks new notifications', () => {
+      decisions.reset();
+      sim.state.materials = 500;
+      sim.state.power = 500;
+
+      // Trigger anomaly at 54.0h
+      const anom = decisions.checkAnomalies(3.0, 6.0, 54.0);
+      assert.ok(anom !== null);
+
+      // Player resolves active anomaly at 58.0h with choice 'rover_clean_sweep' or 'eva_repair'
+      const record = decisions.resolveActiveAnomaly('eva_repair', 58.0);
+      assert.ok(record !== null, 'Decision record returned');
+      assert.strictEqual(decisions.activeAnomaly, null, 'Active anomaly cleared on resolution');
+      assert.strictEqual(decisions.lastAnomalyHour, 58.0, 'lastAnomalyHour updated to resolution time');
+      assert.strictEqual(record.sol, 3, 'Record sol must be Sol 3 (58.0h is Sol 3, 10:00h)');
+      assert.strictEqual(record.hour, 10.0, 'Record hour must be 10.0h');
+      assert.strictEqual(decisions.lastAnomalySol, 3, 'lastAnomalySol must be Sol 3');
+
+      // Quiet period active until 58.0 + 48.0 = 106.0h
+      assert.strictEqual(decisions.checkAnomalies(4.0, 0.0, 72.0), null, 'Blocked during quiet period');
+      assert.strictEqual(decisions.checkAnomalies(5.0, 9.9, 105.9), null, 'Blocked right before 106.0h');
+
+      // Resolving recorded in resolvedAnomalyIds
+      assert.ok(decisions.resolvedAnomalyIds.has(record.anomalyId));
+    });
+
+    it('ANOM-10: Narrative dialogue collision suppression and dismissal quiet period', () => {
+      const tm = new TimeManager({ initialHours: 6.0 });
+      const narrative = new NarrativeManager(tm, sim, rovers, decisions);
+      decisions.setNarrativeManager(narrative);
+
+      decisions.reset();
+      // Set time to Sol 3.0 (54h)
+      narrative.isModalOpen = true;
+
+      // When narrative modal is open, anomalies MUST NOT trigger
+      const suppressed = decisions.checkAnomalies(3.0, 6.0, 54.0);
+      assert.strictEqual(suppressed, null, 'Anomaly blocked while story dialogue modal is open');
+
+      // Closing narrative modal resets anomaly cooldown timer
+      narrative.closeModal();
+      assert.strictEqual(narrative.isModalOpen, false);
+      // Last anomaly hour updated to current TimeManager time
+      assert.strictEqual(decisions.lastAnomalyHour, tm.getState().totalHours);
+    });
+
+    it('ANOM-11: Custom cooldown hours (e.g. 36 hours / 1.5 Sols) accurately scales quiet interval', () => {
+      decisions.reset();
+      decisions.setCooldownHours(36.0);
+      assert.strictEqual(decisions.cooldownHours, 36.0);
+      assert.strictEqual(decisions.minSolInterval, 1.5);
+
+      // Trigger and dismiss at 60.0h
+      decisions.lastAnomalyHour = 60.0;
+
+      // Blocked at 60.0 + 35.9 = 95.9h
+      assert.strictEqual(decisions.checkAnomalies(4.0, 23.9, 95.9), null, 'Blocked before 36h cooldown');
+
+      // Allowed at 60.0 + 36.0 = 96.0h
+      const allowed = decisions.checkAnomalies(5.0, 0.0, 96.0);
+      assert.ok(allowed !== null, 'Allowed at exactly 36h cooldown');
+    });
+
+    it('ANOM-12: Resetting mission clears active anomaly and resets cooldown timer baseline', () => {
+      decisions.triggerAnomaly(MissionDecisionManager.CANONICAL_ANOMALIES[0], 100.0, 5.0);
+      assert.ok(decisions.activeAnomaly !== null);
+      assert.strictEqual(decisions.lastAnomalyHour, 100.0);
+
+      decisions.reset();
+      assert.strictEqual(decisions.activeAnomaly, null);
+      assert.strictEqual(decisions.lastAnomalyHour, -decisions.cooldownHours);
+      assert.strictEqual(decisions.pastDecisions.length, 0);
+      assert.strictEqual(decisions.resolvedAnomalyIds.size, 0);
+    });
+
+    it('ANOM-13: Fractional cooldown mid-sol transition (30h + 36h = 66h) allows anomaly without discrete sol lockout', () => {
+      decisions.reset();
+      decisions.setCooldownHours(36.0); // 1.5 Sols
+
+      // Event resolved at Sol 2 06:00 (30.0h)
+      decisions.resetCooldown(30.0);
+      assert.strictEqual(decisions.lastAnomalyHour, 30.0);
+      assert.strictEqual(decisions.lastAnomalySol, 2);
+
+      // At 65.9h (35.9h later), blocked
+      assert.strictEqual(decisions.checkAnomalies(3.0, 17.9, 65.9), null, 'Must block before 36h');
+
+      // At 66.0h (Sol 3 18:00h, exactly 36.0h later), allowed
+      // Note: integer sol is 3, lastAnomalySol is 2, integer diff is 1 < 1.5,
+      // but continuous sol elapsed is exactly 1.5 Sols (36h), so it MUST be allowed!
+      const nextAnom = decisions.checkAnomalies(3.0, 18.0, 66.0);
+      assert.ok(nextAnom !== null, 'Must allow anomaly at exactly 36.0h cooldown without integer sol lockout');
+    });
+
+    it('ANOM-14: Backward time scrubbing clamps lastAnomalyHour to avoid runaway lockouts', () => {
+      decisions.reset();
+
+      // Anomaly occurred forward in time at 70.0h
+      decisions.lastAnomalyHour = 70.0;
+      decisions.lastAnomalySol = 3;
+
+      // Player scrubs time backwards to Sol 2 06:00 (30.0h)
+      // Check should detect time jump backward, clamp lastAnomalyHour to 30.0h
+      const check = decisions.checkAnomalies(2.0, 6.0, 30.0);
+      assert.strictEqual(check, null, 'Quiet period active starting from scrubbed time 30.0h');
+      assert.strictEqual(decisions.lastAnomalyHour, 30.0, 'lastAnomalyHour must be clamped to scrub point');
+
+      // Quiet period runs for 48h from 30.0h (expires at 78.0h)
+      assert.strictEqual(decisions.checkAnomalies(4.0, 5.9, 77.9), null, 'Blocked before 78.0h');
+      const allowed = decisions.checkAnomalies(4.0, 6.0, 78.0);
+      assert.ok(allowed !== null, 'Allowed at 78.0h (48h from scrub point)');
+    });
+
+    it('ANOM-15: Sol 2 midday continuous anomaly unlock (Sol 2.5 / 36.0h)', () => {
+      decisions.reset();
+
+      // Sol 2 06:00 (30.0h -> continuous sol 2.25) is before minSol 2.5
+      assert.strictEqual(decisions.checkAnomalies(2.0, 6.0, 30.0), null, 'Blocked before minSol 2.5');
+
+      // Sol 2 12:00 (36.0h -> continuous sol 2.5) reaches minSol 2.5!
+      const anom = decisions.checkAnomalies(2.0, 12.0, 36.0);
+      assert.ok(anom !== null, 'Oxygen leak unlocks at Sol 2 12:00 (Sol 2.5)');
+      assert.strictEqual(anom?.id, 'o2_leak');
     });
   });
 

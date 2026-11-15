@@ -2,6 +2,7 @@ import { STORY_SCENES_3D, type DialogueScene } from './StoryData3D';
 import type { TimeManager } from '../astronomy/TimeManager';
 import type { SimulationEngine } from '../simulation/SimulationEngine';
 import type { RoverManager } from '../rovers/RoverManager';
+import type { MissionDecisionManager } from '../simulation/MissionDecisionManager';
 
 export interface TimelineEvent {
   id: string;
@@ -37,22 +38,39 @@ export class NarrativeManager {
    */
   public autoOpenDialogues: boolean = false;
   public unreadTransmissions: TimelineEvent[] = [];
+  private lastToastTimeMs: number = 0;
 
   private cachedSpeed: number = 1.0;
   private timeManager: TimeManager;
   private simEngine: SimulationEngine;
   private roverManager?: RoverManager;
+  private decisionManager?: MissionDecisionManager;
   private modalRoot: HTMLElement | null = null;
   private onTransmissionCallback?: (ev: TimelineEvent) => void;
+  private onDismissCallback?: () => void;
 
-  constructor(timeManager: TimeManager, simEngine: SimulationEngine, roverManager?: RoverManager) {
+  constructor(
+    timeManager: TimeManager,
+    simEngine: SimulationEngine,
+    roverManager?: RoverManager,
+    decisionManager?: MissionDecisionManager
+  ) {
     this.timeManager = timeManager;
     this.simEngine = simEngine;
     this.roverManager = roverManager;
+    this.decisionManager = decisionManager;
 
     if (typeof document !== 'undefined') {
       this.modalRoot = document.getElementById('modal-root');
     }
+  }
+
+  public setDecisionManager(dm: MissionDecisionManager): void {
+    this.decisionManager = dm;
+  }
+
+  public onIncidentDismissed(cb: () => void): void {
+    this.onDismissCallback = cb;
   }
 
   public onIncomingTransmission(cb: (ev: TimelineEvent) => void): void {
@@ -65,10 +83,16 @@ export class NarrativeManager {
   public checkTimeline(sol: number, hour: number): void {
     if (this.isModalOpen) return;
 
+    // Throttle automated event triggers during rapid scrubbing (at least 1.5s between events)
+    if (!this.autoOpenDialogues && Date.now() - this.lastToastTimeMs < 1500) {
+      return;
+    }
+
     for (const ev of NarrativeManager.TIMELINE_EVENTS) {
       if (!this.triggeredEvents.has(ev.id)) {
         if (sol > ev.sol || (sol === ev.sol && hour >= ev.hour)) {
           this.triggeredEvents.add(ev.id);
+          this.lastToastTimeMs = Date.now();
           this.executeEvent(ev);
           break; // trigger one event per tick to avoid modal stacking
         }
@@ -109,40 +133,44 @@ export class NarrativeManager {
   private showRadioTransmissionToast(ev: TimelineEvent): void {
     if (typeof document === 'undefined') return;
 
-    const existing = document.getElementById(`radio-toast-${ev.id}`);
-    if (existing) return;
+    // Remove any existing active toast to prevent overlapping
+    const activeToasts = document.querySelectorAll('.radio-toast-active');
+    activeToasts.forEach((t) => t.remove());
 
     const toast = document.createElement('div');
     toast.id = `radio-toast-${ev.id}`;
+    toast.className = 'radio-toast-active kid-pop-in';
     toast.style.cssText = `
       position: fixed;
-      top: 60px;
-      right: 20px;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 9999;
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid #38bdf8;
-      border-radius: 8px;
-      padding: 10px 14px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%);
+      border: 2.5px solid #38bdf8;
+      border-radius: 18px;
+      padding: 12px 18px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(56, 189, 248, 0.4);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 12px;
+      font-size: 12.5px;
       color: #f1f5f9;
-      animation: fadeIn 0.3s ease;
       pointer-events: auto;
+      max-width: 90vw;
+      animation: kid-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     `;
 
     toast.innerHTML = `
-      <div style="font-size:18px;">📻</div>
+      <div style="font-size:24px; animation: kid-star-twinkle 2s infinite ease-in-out;">📻</div>
       <div>
-        <div style="font-weight:bold; color:#38bdf8; font-size:11px;">INCOMING COMMS TRANSMISSION</div>
-        <div>${ev.title}</div>
+        <div style="font-weight:800; color:#38bdf8; font-size:11px; letter-spacing:0.8px; text-transform:uppercase;">Incoming Lunar Comms</div>
+        <div style="font-weight:700; color:#ffffff;">${ev.title}</div>
       </div>
-      <div style="display:flex; gap:6px; margin-left:6px;">
-        <button id="btn-read-toast" style="background:#0284c7; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:bold;">View</button>
-        <button id="btn-dismiss-toast" style="background:transparent; color:#94a3b8; border:1px solid #475569; padding:4px 6px; border-radius:4px; cursor:pointer; font-size:11px;">✕</button>
+      <div style="display:flex; gap:8px; margin-left:10px;">
+        <button id="btn-read-toast" class="kid-arcade-btn" style="background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; border:1.5px solid #38bdf8; padding:6px 14px; border-radius:10px; cursor:pointer; font-size:11.5px; font-weight:800; box-shadow:0 3px 8px rgba(2,132,199,0.4);">View</button>
+        <button id="btn-dismiss-toast" class="kid-arcade-btn" style="background:transparent; color:#94a3b8; border:1px solid #475569; padding:6px 10px; border-radius:10px; cursor:pointer; font-size:11.5px; font-weight:700;">✕</button>
       </div>
     `;
 
@@ -155,14 +183,20 @@ export class NarrativeManager {
     const btnDismiss = toast.querySelector('#btn-dismiss-toast') as HTMLButtonElement;
     btnDismiss.onclick = () => {
       if (toast.parentElement) toast.parentElement.removeChild(toast);
+      if (this.decisionManager) {
+        this.decisionManager.resetCooldown(this.timeManager.getState().totalHours);
+      }
+      if (this.onDismissCallback) {
+        this.onDismissCallback();
+      }
     };
 
-    // Auto-fade after 12 seconds
+    // Auto-fade after 10 seconds
     setTimeout(() => {
       if (toast.parentElement) {
         toast.parentElement.removeChild(toast);
       }
-    }, 12000);
+    }, 10000);
 
     document.body.appendChild(toast);
   }
@@ -188,12 +222,13 @@ export class NarrativeManager {
     overlay.style.cssText = `
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
       pointer-events: auto;
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      padding-bottom: 30px;
+      padding-bottom: 35px;
       z-index: 9999;
     `;
 
@@ -202,42 +237,60 @@ export class NarrativeManager {
       pointer-events: auto;
       width: 90%;
       max-width: 780px;
-      background: rgba(10, 16, 28, 0.95);
-      border: 1px solid rgba(80, 160, 240, 0.5);
-      border-radius: 12px;
-      box-shadow: 0 0 35px rgba(0, 140, 255, 0.25);
-      padding: 20px 24px;
-      color: #e2e8f0;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%);
+      border: 3px solid rgba(56, 189, 248, 0.65);
+      border-radius: 24px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.85), 0 0 35px rgba(56, 189, 248, 0.35);
+      padding: 22px 26px;
+      color: #f1f5f9;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      animation: kid-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     `;
 
     let currentLineIdx = 0;
 
+    const getSpeakerAvatar = (speaker: string) => {
+      const s = speaker.toLowerCase();
+      if (s.includes('milo')) return '🤖';
+      if (s.includes('director')) return '🚀';
+      if (s.includes('amir')) return '🔧';
+      if (s.includes('nia')) return '🌿';
+      if (s.includes('daniel')) return '🩺';
+      return '🧑‍🚀';
+    };
+
     const updateLineDisplay = () => {
       const line = scene.lines[currentLineIdx];
       const isLast = currentLineIdx === scene.lines.length - 1;
+      const avatar = line.type === 'line' && line.speaker ? getSpeakerAvatar(line.speaker) : '📡';
 
       box.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px;">
-          <div style="font-size:12px; font-weight:bold; letter-spacing:0.5px; color:#38bdf8;">
-            ◈ MISSION LOG — ${scene.title} (SOL ${scene.sol})
-          </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid rgba(56,189,248,0.25); padding-bottom:10px; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:11px; color:#94a3b8;">${currentLineIdx + 1} / ${scene.lines.length}</span>
-            <button id="btn-skip-dialogue" style="background:transparent; border:none; color:#94a3b8; cursor:pointer; font-size:12px;" title="Skip dialogue">✕ Close</button>
+            <span style="font-size:16px;">💬</span>
+            <div style="font-size:12.5px; font-weight:800; letter-spacing:0.5px; color:#38bdf8;">
+              MISSION COMMS — ${scene.title} (SOL ${scene.sol})
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:11.5px; color:#94a3b8; font-weight:700;">${currentLineIdx + 1} / ${scene.lines.length}</span>
+            <button id="btn-skip-dialogue" class="kid-arcade-btn" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#94a3b8; cursor:pointer; font-size:12px; border-radius:10px; padding:3px 8px; font-weight:700;" title="Skip dialogue">✕ Close</button>
           </div>
         </div>
 
-        <div style="min-height:75px; margin-bottom:16px;">
-          ${line.type === 'line' ? `
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-              <span style="color:#f59e0b; font-weight:bold; font-size:14px;">${line.speaker}</span>
-              ${line.role ? `<span style="font-size:11px; background:rgba(56,189,248,0.15); color:#7dd3fc; padding:2px 6px; border-radius:4px;">${line.role}</span>` : ''}
-            </div>
-            <p style="font-size:14.5px; line-height:1.5; color:#f8fafc;">${line.text}</p>
-          ` : `
-            <p style="font-style:italic; color:#94a3b8; font-size:13.5px; line-height:1.5;">${line.text}</p>
-          `}
+        <div style="min-height:85px; margin-bottom:18px; display:flex; gap:14px; align-items:flex-start;">
+          <div style="font-size:36px; line-height:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4)); flex-shrink:0;">${avatar}</div>
+          <div style="flex:1;">
+            ${line.type === 'line' ? `
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span style="color:#f59e0b; font-weight:800; font-size:15px;">${line.speaker}</span>
+                ${line.role ? `<span style="font-size:11px; font-weight:700; background:rgba(56,189,248,0.18); border:1px solid rgba(56,189,248,0.35); color:#7dd3fc; padding:2px 8px; border-radius:9999px;">${line.role}</span>` : ''}
+              </div>
+              <p style="font-size:14.5px; line-height:1.55; color:#f8fafc; font-weight:500;">${line.text}</p>
+            ` : `
+              <p style="font-style:italic; color:#94a3b8; font-size:14px; line-height:1.55;">${line.text}</p>
+            `}
+          </div>
         </div>
 
         <div id="modal-controls" style="display:flex; justify-content:flex-end; gap:10px;"></div>
@@ -250,10 +303,11 @@ export class NarrativeManager {
 
       if (!isLast) {
         const nextBtn = document.createElement('button');
+        nextBtn.className = 'kid-arcade-btn';
         nextBtn.textContent = 'Continue ▶';
         nextBtn.style.cssText = `
-          background: #0284c7; color: #ffffff; border: none; padding: 7px 16px; border-radius: 6px;
-          cursor: pointer; font-weight: bold; font-size: 12px;
+          background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; border: 2px solid #38bdf8; padding: 9px 22px; border-radius: 14px;
+          cursor: pointer; font-weight: 800; font-size: 13px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
         `;
         nextBtn.onclick = () => {
           currentLineIdx++;
@@ -265,10 +319,11 @@ export class NarrativeManager {
         if (scene.choices && scene.choices.length > 0) {
           for (const ch of scene.choices) {
             const btn = document.createElement('button');
+            btn.className = 'kid-arcade-btn';
             btn.textContent = ch.text;
             btn.style.cssText = `
-              background: #0f766e; color: #ffffff; border: 1px solid #14b8a6; padding: 7px 14px; border-radius: 6px;
-              cursor: pointer; font-weight: bold; font-size: 12px; margin-left: 6px;
+              background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color: #ffffff; border: 2px solid #14b8a6; padding: 9px 18px; border-radius: 14px;
+              cursor: pointer; font-weight: 800; font-size: 13px; margin-left: 6px; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.45);
             `;
             btn.onclick = () => {
               if (ch.action) this.handleAction(ch.action);
@@ -278,10 +333,11 @@ export class NarrativeManager {
           }
         } else {
           const closeBtn = document.createElement('button');
+          closeBtn.className = 'kid-arcade-btn';
           closeBtn.textContent = 'Acknowledge ✔';
           closeBtn.style.cssText = `
-            background: #059669; color: #ffffff; border: none; padding: 7px 16px; border-radius: 6px;
-            cursor: pointer; font-weight: bold; font-size: 12px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #ffffff; border: 2px solid #10b981; padding: 9px 22px; border-radius: 14px;
+            cursor: pointer; font-weight: 800; font-size: 13px; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.45);
           `;
           closeBtn.onclick = () => this.closeModal();
           controls.appendChild(closeBtn);
@@ -322,6 +378,15 @@ export class NarrativeManager {
 
     // Restore cached pre-pause simulation multiplier
     this.timeManager.setMultiplier(this.cachedSpeed);
+
+    // Enforce quiet period on decision engine following story/incident dialogue closure
+    if (this.decisionManager) {
+      this.decisionManager.resetCooldown(this.timeManager.getState().totalHours);
+    }
+    if (this.onDismissCallback) {
+      this.onDismissCallback();
+    }
+
     console.log(`[NarrativeManager] Modal dismissed. Restored simulation multiplier to ${this.cachedSpeed}x.`);
   }
 }

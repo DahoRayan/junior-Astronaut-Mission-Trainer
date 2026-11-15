@@ -20,7 +20,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { BUILDING_CATALOG, type BuildingDefinition } from './BuildingCatalog';
 import type { SimulationEngine } from '../simulation/SimulationEngine';
 import type { SoundSystem } from '../audio/SoundSystem';
-import type { AstronautManager } from '../actors/AstronautManager';
+import type { AstronautManager, AstronautEntity } from '../actors/AstronautManager';
+import type { RoverManager, RoverEntity } from '../rovers/RoverManager';
+import type { BaseLoader, BaseModuleInfo } from '../base/BaseLoader';
 
 export interface PlacedBuildingInstance {
   uid: string;
@@ -33,7 +35,7 @@ export interface PlacedBuildingInstance {
 }
 
 export type CityBuilderEventCallback = (
-  event: 'placed' | 'demolished' | 'selected' | 'selected_building' | 'error',
+  event: 'placed' | 'demolished' | 'selected' | 'selected_building' | 'selected_astronaut' | 'selected_rover' | 'selected_base_module' | 'deselected_all' | 'error',
   data?: unknown
 ) => void;
 
@@ -45,12 +47,17 @@ export class CityBuilder {
   private simEngine: SimulationEngine;
   private sound: SoundSystem;
   public astronautManager?: AstronautManager;
+  public roverManager?: RoverManager;
+  public baseLoader?: BaseLoader;
 
   public activeDef: BuildingDefinition | null = null;
   public isBulldozeMode: boolean = false;
   public placementRotation: number = 0; // In radians
   public placedBuildings: Map<string, PlacedBuildingInstance> = new Map();
   public selectedBuilding: PlacedBuildingInstance | null = null;
+  public selectedAstronaut: AstronautEntity | null = null;
+  public selectedRover: RoverEntity | null = null;
+  public selectedBaseModule: BaseModuleInfo | null = null;
 
   private buildingGroup: THREE.Group;
   private previewGroup: THREE.Group;
@@ -73,6 +80,8 @@ export class CityBuilder {
     simEngine: SimulationEngine;
     sound: SoundSystem;
     astronautManager?: AstronautManager;
+    roverManager?: RoverManager;
+    baseLoader?: BaseLoader;
   }) {
     this.scene = options.scene;
     this.camera = options.camera;
@@ -81,6 +90,8 @@ export class CityBuilder {
     this.simEngine = options.simEngine;
     this.sound = options.sound;
     this.astronautManager = options.astronautManager;
+    this.roverManager = options.roverManager;
+    this.baseLoader = options.baseLoader;
 
     this.raycaster = new THREE.Raycaster();
     this.mouseVec = new THREE.Vector2();
@@ -110,14 +121,14 @@ export class CityBuilder {
     this.reticleMesh.visible = false;
     this.scene.add(this.reticleMesh);
 
-    // Glowing selection marker for inspecting placed buildings
-    const selectGeo = new THREE.RingGeometry(1.0, 1.25, 32);
+    // Obvious glowing emerald green selection ring for kids
+    const selectGeo = new THREE.RingGeometry(1.0, 1.35, 48);
     selectGeo.rotateX(-Math.PI / 2);
     const selectMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
+      color: 0x22c55e, // Vivid neon emerald green
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.95,
       depthWrite: false,
     });
     this.selectionMarker = new THREE.Mesh(selectGeo, selectMat);
@@ -132,7 +143,19 @@ export class CityBuilder {
     this.listeners.push(cb);
   }
 
-  private emit(event: 'placed' | 'demolished' | 'selected' | 'selected_building' | 'error', data?: unknown): void {
+  private emit(
+    event:
+      | 'placed'
+      | 'demolished'
+      | 'selected'
+      | 'selected_building'
+      | 'selected_astronaut'
+      | 'selected_rover'
+      | 'selected_base_module'
+      | 'deselected_all'
+      | 'error',
+    data?: unknown
+  ): void {
     for (const cb of this.listeners) {
       cb(event, data);
     }
@@ -168,10 +191,8 @@ export class CityBuilder {
       this.pointerDownClientY = e.clientY;
       this.isPointerPressed = true;
     } else if (e.button === 2) {
-      // Right click: cancel active building or bulldoze mode immediately (clean deselect!)
-      if (this.activeDef || this.isBulldozeMode || this.selectedBuilding) {
-        this.cancelAction();
-      }
+      // Right click: cancel active building, bulldoze mode, or ANY entity selection immediately!
+      this.cancelAction();
     }
   };
 
@@ -196,42 +217,114 @@ export class CityBuilder {
     } else if (this.activeDef) {
       this.attemptPlace();
     } else {
-      // World click: select placed building or deselect if clicking ground!
-      this.raycastSelectBuilding();
+      // World click: select building, astronaut, rover, base module, or deselect!
+      this.raycastSelectEntity();
     }
   };
 
-  private raycastSelectBuilding(): void {
+  private raycastSelectEntity(): void {
     this.raycaster.setFromCamera(this.mouseVec, this.camera);
-    const targets: THREE.Object3D[] = [];
-    this.placedBuildings.forEach((b) => targets.push(b.rootMesh));
 
-    const intersects = this.raycaster.intersectObjects(targets, true);
-    if (intersects.length > 0) {
-      let top: THREE.Object3D | null = intersects[0].object;
+    // 1. Check placed buildings
+    const buildingTargets: THREE.Object3D[] = [];
+    this.placedBuildings.forEach((b) => buildingTargets.push(b.rootMesh));
+    const bHits = this.raycaster.intersectObjects(buildingTargets, true);
+    if (bHits.length > 0) {
+      let top: THREE.Object3D | null = bHits[0].object;
       while (top && top.parent && top.parent !== this.buildingGroup) {
         top = top.parent;
       }
-      if (top) {
-        for (const instance of this.placedBuildings.values()) {
-          if (instance.rootMesh === top) {
+      for (const instance of this.placedBuildings.values()) {
+        if (instance.rootMesh === top) {
+          this.sound.playSelect();
+          this.selectPlacedBuilding(instance);
+          return;
+        }
+      }
+    }
+
+    // 2. Check Artemis crew astronauts
+    if (this.astronautManager) {
+      const astroTargets: THREE.Object3D[] = [];
+      for (const a of this.astronautManager.astronauts.values()) {
+        if (!a.isSheltered && a.mesh.visible) {
+          astroTargets.push(a.mesh);
+        }
+      }
+      const aHits = this.raycaster.intersectObjects(astroTargets, true);
+      if (aHits.length > 0) {
+        let top: THREE.Object3D | null = aHits[0].object;
+        while (top && top.parent && top.parent !== this.astronautManager.group) {
+          top = top.parent;
+        }
+        for (const astro of this.astronautManager.astronauts.values()) {
+          if (astro.mesh === top) {
             this.sound.playSelect();
-            this.selectPlacedBuilding(instance);
+            this.selectAstronaut(astro);
             return;
           }
         }
       }
     }
 
-    // Clicked empty ground or sky -> cleanly deselect!
-    if (this.selectedBuilding) {
-      this.selectPlacedBuilding(null);
+    // 3. Check lunar rovers
+    if (this.roverManager) {
+      const roverTargets: THREE.Object3D[] = [];
+      for (const r of this.roverManager.rovers.values()) {
+        if (r.mesh.visible) {
+          roverTargets.push(r.mesh);
+        }
+      }
+      const rHits = this.raycaster.intersectObjects(roverTargets, true);
+      if (rHits.length > 0) {
+        let top: THREE.Object3D | null = rHits[0].object;
+        while (top && top.parent && top.parent !== this.roverManager.group) {
+          top = top.parent;
+        }
+        for (const rover of this.roverManager.rovers.values()) {
+          if (rover.mesh === top) {
+            this.sound.playSelect();
+            this.selectRover(rover);
+            return;
+          }
+        }
+      }
     }
+
+    // 4. Check starter base modules
+    if (this.baseLoader && this.baseLoader.group.children.length > 0) {
+      const baseHits = this.raycaster.intersectObjects(this.baseLoader.group.children, true);
+      if (baseHits.length > 0) {
+        let top: THREE.Object3D | null = baseHits[0].object;
+        while (top && top.parent && top.parent !== this.baseLoader.group) {
+          top = top.parent;
+        }
+        if (top) {
+          const mod = this.baseLoader.modules.find((m) => m.name === top?.name || m.mesh === top) || {
+            name: top.name || 'Outpost Module',
+            category: 'outpost',
+            position: top.position.clone(),
+            mesh: top,
+          };
+          this.sound.playSelect();
+          this.selectBaseModule(mod);
+          return;
+        }
+      }
+    }
+
+    // 5. Clicked empty lunar ground or sky -> cleanly deselect!
+    this.cancelAction();
   }
 
   public selectPlacedBuilding(instance: PlacedBuildingInstance | null): void {
     this.selectedBuilding = instance;
     if (instance) {
+      this.selectedAstronaut = null;
+      this.selectedRover = null;
+      this.selectedBaseModule = null;
+      if (this.astronautManager) this.astronautManager.selectAstronaut(null);
+
       const r = (instance.def.radiusMeters || 3.0) * 1.25;
       this.selectionMarker.scale.set(r, r, r);
       this.selectionMarker.position.set(instance.x, 0.07, instance.z);
@@ -243,10 +336,55 @@ export class CityBuilder {
     }
   }
 
-  private onContextMenu = (e: MouseEvent): void => {
-    if (this.activeDef || this.isBulldozeMode || this.selectedBuilding) {
-      e.preventDefault(); // Don't show browser right-click menu when canceling build mode
+  public selectAstronaut(astro: AstronautEntity | null): void {
+    this.selectedAstronaut = astro;
+    if (astro) {
+      this.selectedBuilding = null;
+      this.selectedRover = null;
+      this.selectedBaseModule = null;
+      if (this.astronautManager) this.astronautManager.selectAstronaut(astro.id);
+
+      this.selectionMarker.scale.set(1.5, 1.5, 1.5);
+      this.selectionMarker.position.set(astro.mesh.position.x, 0.07, astro.mesh.position.z);
+      this.selectionMarker.visible = true;
+      this.emit('selected_astronaut', astro);
+    } else {
+      if (this.astronautManager) this.astronautManager.selectAstronaut(null);
     }
+  }
+
+  public selectRover(rover: RoverEntity | null): void {
+    this.selectedRover = rover;
+    if (rover) {
+      this.selectedBuilding = null;
+      this.selectedAstronaut = null;
+      this.selectedBaseModule = null;
+      if (this.astronautManager) this.astronautManager.selectAstronaut(null);
+
+      this.selectionMarker.scale.set(3.2, 3.2, 3.2);
+      this.selectionMarker.position.set(rover.mesh.position.x, 0.07, rover.mesh.position.z);
+      this.selectionMarker.visible = true;
+      this.emit('selected_rover', rover);
+    }
+  }
+
+  public selectBaseModule(mod: BaseModuleInfo | null): void {
+    this.selectedBaseModule = mod;
+    if (mod) {
+      this.selectedBuilding = null;
+      this.selectedAstronaut = null;
+      this.selectedRover = null;
+      if (this.astronautManager) this.astronautManager.selectAstronaut(null);
+
+      this.selectionMarker.scale.set(4.5, 4.5, 4.5);
+      this.selectionMarker.position.set(mod.position.x, 0.07, mod.position.z);
+      this.selectionMarker.visible = true;
+      this.emit('selected_base_module', mod);
+    }
+  }
+
+  private onContextMenu = (e: MouseEvent): void => {
+    e.preventDefault(); // Don't show browser right-click menu when right-clicking 3D scene
   };
 
   private onKeyDown = (e: KeyboardEvent): void => {
@@ -307,9 +445,14 @@ export class CityBuilder {
     this.activeDef = null;
     this.isBulldozeMode = false;
     this.selectPlacedBuilding(null);
+    this.selectAstronaut(null);
+    this.selectedRover = null;
+    this.selectedBaseModule = null;
     this.clearPreview();
     this.reticleMesh.visible = false;
+    this.selectionMarker.visible = false;
     this.emit('selected', null);
+    this.emit('deselected_all', null);
   }
 
   private updateRaycast(): void {

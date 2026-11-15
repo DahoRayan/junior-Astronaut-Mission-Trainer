@@ -6,12 +6,13 @@
 import { BUILDING_DEFINITIONS } from './core/Constants';
 import { eventBus } from './core/EventBus';
 import { soundManager } from './core/SoundManager';
-import { BuildingType, DecisionEvaluationRequest } from './core/types';
+import { BuildingType, DecisionEvaluationRequest, MissionFailedData } from './core/types';
 import { MissionManager } from './mission/MissionManager';
 import { NarrativeManager } from './narrative/NarrativeManager';
 import { aiClient } from './network/AIClient';
 import { ViewportRenderer } from './render/ViewportRenderer';
 import { SimulationEngine } from './simulation/SimulationEngine';
+import { AnomalyManager } from './simulation/AnomalyManager';
 import { TutorialManager, TutorialStep } from './simulation/TutorialManager';
 import { CatalogPanel } from './ui/CatalogPanel';
 import { DebriefModal } from './ui/DebriefModal';
@@ -50,7 +51,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 4. Initialize Narrative & Mission Managers
   const narrative = new NarrativeManager(visualNovel);
-  new MissionManager(debriefModal, simulation, narrative);
+  const missionManager = new MissionManager(debriefModal, simulation, narrative);
+
+  // 4b. Initialize Anomaly Decision Engine (§anomalies.json)
+  const anomalyManager = new AnomalyManager(simulation);
+  eventBus.on<{ sol: number; hour: number; isDaylight: boolean }>('sun_updated', (data) => {
+    anomalyManager.checkPeriodicIncidents(data.sol, data.hour, data.isDaylight);
+  });
 
   // 4b. Guided Tutorial Manager (used when guided step is active)
   const tutorial = new TutorialManager();
@@ -66,6 +73,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const renderGuideObjectivesList = () => {
     if (!objectivesContainer) return;
+    if (simulation.currentChapter > 1 || !tutorial.isActive) {
+      missionManager.renderObjectives();
+      return;
+    }
     const milestones = tutorial.getAllMilestones(simulation.grid);
     objectivesContainer.innerHTML = '';
     milestones.forEach((m) => {
@@ -93,6 +104,37 @@ window.addEventListener('DOMContentLoaded', () => {
   let lastPannedStep: TutorialStep | null = null;
 
   const updateGuideUI = () => {
+    if (simulation.currentChapter > 1) {
+      if (guideBanner) {
+        guideBanner.style.display = 'flex';
+        guideBanner.classList.remove('completed');
+      }
+      if (btnGuideToggle) {
+        btnGuideToggle.textContent = '🎯 Chapter Goals';
+        btnGuideToggle.classList.add('active');
+        btnGuideToggle.classList.remove('off');
+      }
+      catalog.highlightTool(null);
+      if (simulation.currentChapter === 2) {
+        if (guideTag) guideTag.textContent = 'LEVEL 2 • THE MOUNTAIN SHADOW (48H DARKNESS)';
+        if (guideText) guideText.textContent = 'Expand battery storage to 200+ kWh and construct heating to endure the eclipse.';
+      } else if (simulation.currentChapter === 3) {
+        if (guideTag) guideTag.textContent = 'LEVEL 3 • DONKI SOLAR STORM & CME IMPACT';
+        if (guideText) guideText.textContent = 'Build Lunar Soil Radiation Shield (+40%) & Storm Vault bunker to protect the crew.';
+      } else if (simulation.currentChapter === 4) {
+        if (guideTag) guideTag.textContent = 'LEVEL 4 • LUNAR ICE CRATER & HYDROPONICS';
+        if (guideText) guideText.textContent = 'Deploy Ice Core Extractor in crater shadow and cultivate hydroponic crops.';
+      } else if (simulation.currentChapter === 5) {
+        if (guideTag) guideTag.textContent = 'LEVEL 5 • COMPOUND MOONQUAKE RESCUE';
+        if (guideText) guideText.textContent = 'Clear dust from solar arrays, restore airlock power cables, and rescue Capt. Leo Ruiz.';
+      } else if (simulation.currentChapter === 6) {
+        if (guideTag) guideTag.textContent = 'LEVEL 6 • FIRST LIGHT DIPLOMA & EXPEDITION MARS';
+        if (guideText) guideText.textContent = 'Artemis Mission Diploma awarded! Creative sandbox unlocked.';
+      }
+      renderGuideObjectivesList();
+      return;
+    }
+
     if (!tutorial.isActive) {
       if (guideBanner) {
         guideBanner.classList.remove('completed');
@@ -176,6 +218,7 @@ window.addEventListener('DOMContentLoaded', () => {
       hud.setPowerFocusMode(false);
       simulation.clearBaseForScratch();
       tutorial.reset();
+      missionManager.loadChapter(1);
       lastPannedStep = null;
       tutorial.evaluateGrid(simulation.grid);
       updateGuideUI();
@@ -218,6 +261,26 @@ window.addEventListener('DOMContentLoaded', () => {
   btnPrebuilt?.addEventListener('click', () => {
     soundManager.playPop();
     setMode('prebuilt');
+  });
+
+  // 4d. Mission Failure Debrief & Evacuation Protocol
+  eventBus.on<MissionFailedData>('mission_failed', (data) => {
+    soundManager.playAlarm();
+    anomalyManager.reset();
+    debriefModal.showFailure(data, () => {
+      setMode('scratch');
+      simulation.setSpeed(1);
+      eventBus.emit('notification', {
+        type: 'info',
+        message: '🔄 Mission Restarted: Base cleared, 1,400 materials loaded. Good luck, Commander!',
+      });
+      milo.appendMILOMessage('🔄 Mission Restarted: Base cleared, 1,400 materials loaded. Monitor your life support systems carefully to keep your crew healthy!');
+    });
+  });
+
+  // 4e. Daily Sol Transition Audio Cue
+  eventBus.on<number>('sol_changed', (_sol) => {
+    soundManager.playRadioChirp();
   });
 
   eventBus.on('tutorial_step_changed', () => {
@@ -403,21 +466,46 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 10. Notifications Toast, Confetti & Sound
-  const toastEl = document.getElementById('notification-toast');
+  eventBus.on<number>('speed_changed', (spd) => {
+    updateSpeedUI(spd);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') return;
+    if (e.code === 'Space') {
+      e.preventDefault();
+      simulation.setSpeed(simulation.simulationSpeed === 0 ? 1 : 0);
+    } else if (e.key === '1') {
+      simulation.setSpeed(1);
+    } else if (e.key === '2') {
+      simulation.setSpeed(2);
+    }
+  });
+
+  // 10. Notifications Streamed into Lower Mission Log & Sound (No disruptive screen popups)
+  const tickerMsgEl = document.getElementById('ticker-message');
+  const tickerContainer = document.querySelector('.status-ticker');
+  let tickerResetTimeout: number | null = null;
+
   eventBus.on<{ type: string; message: string }>('notification', (n) => {
     if (n.type === 'success') {
       soundManager.playFanfare();
       renderer.triggerConfetti();
+    } else if (n.type === 'warning') {
+      soundManager.playPop();
     }
-    if (!toastEl) return;
-    toastEl.textContent = n.message;
-    toastEl.className = `notification-toast ${n.type}`;
-    toastEl.classList.remove('hidden');
 
-    setTimeout(() => {
-      toastEl.classList.add('hidden');
-    }, 3500);
+    if (tickerMsgEl) {
+      tickerMsgEl.textContent = n.message;
+      tickerContainer?.classList.remove('flash-info', 'flash-success', 'flash-warning');
+      void (tickerContainer as HTMLElement)?.offsetWidth; // Trigger reflow for clean re-animation
+      tickerContainer?.classList.add(`flash-${n.type || 'info'}`);
+
+      if (tickerResetTimeout) clearTimeout(tickerResetTimeout);
+      tickerResetTimeout = window.setTimeout(() => {
+        tickerContainer?.classList.remove('flash-info', 'flash-success', 'flash-warning');
+      }, 5000);
+    }
   });
 
   // 11. Ergonomic Global Keyboard Shortcuts
@@ -460,7 +548,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const iconMap: Record<string, string> = {
     solar_array: '☀️',
     battery_bank: '🔋',
-    kilopower_reactor: '⚛️',
     crew_habitat: '🏠',
     emergency_o2_generator: '⚠️',
     co2_scrubber: '🫧',
@@ -476,7 +563,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const updateSwitchboardUI = () => {
     if (!switchboardEl) return;
     const buildings = simulation.grid.getPlacedBuildings().filter(
-      (b) => b.type !== 'power_cable' && b.type !== 'regolith_shield'
+      (b) => b.type !== 'power_cable' && b.type !== 'regolith_shield' && b.type !== 'outpost_base'
     );
     if (buildings.length === 0) {
       switchboardEl.innerHTML = '<div style="padding: 10px; font-size: 0.72rem; color: #64748b; text-align: center;">No switchable machines placed yet.</div>';
@@ -554,8 +641,11 @@ window.addEventListener('DOMContentLoaded', () => {
         catalog.selectTool(tutorial.getHighlightedTool());
       } else {
         catalog.clearSelection();
+        eventBus.emit('tutorial_complete');
       }
       updateGuideUI();
+    } else {
+      renderGuideObjectivesList();
     }
     updateSwitchboardUI();
   });
@@ -566,8 +656,11 @@ window.addEventListener('DOMContentLoaded', () => {
         catalog.selectTool(tutorial.getHighlightedTool());
       } else {
         catalog.clearSelection();
+        eventBus.emit('tutorial_complete');
       }
       updateGuideUI();
+    } else {
+      renderGuideObjectivesList();
     }
     updateSwitchboardUI();
   });
@@ -575,6 +668,8 @@ window.addEventListener('DOMContentLoaded', () => {
     if (tutorial.isActive) {
       tutorial.evaluateGrid(simulation.grid);
       updateGuideUI();
+    } else {
+      renderGuideObjectivesList();
     }
     updateSwitchboardUI();
   });
@@ -582,8 +677,16 @@ window.addEventListener('DOMContentLoaded', () => {
     if (tutorial.isActive) {
       tutorial.evaluateGrid(simulation.grid);
       updateGuideUI();
+    } else {
+      renderGuideObjectivesList();
     }
     updateSwitchboardUI();
+  });
+  eventBus.on<number>('chapter_loaded', (ch) => {
+    if (ch > 1) {
+      tutorial.isActive = false;
+    }
+    updateGuideUI();
   });
   eventBus.on('device_toggled', () => updateSwitchboardUI());
 

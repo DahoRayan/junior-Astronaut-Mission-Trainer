@@ -138,7 +138,8 @@ export function initApp(): AppInstance | null {
   const narrativeManager = new NarrativeManager(timeManager, simEngine, roverManager);
 
   // 12. Strategic Mission Decision & Anomaly Incidents Engine (anomalies.json)
-  const decisionManager = new MissionDecisionManager(simEngine, astronautManager, roverManager);
+  const decisionManager = new MissionDecisionManager(simEngine, astronautManager, roverManager, narrativeManager);
+  narrativeManager.setDecisionManager(decisionManager);
 
   // 13. Interactive 3D City Builder Engine (snapping, holographic reticle, audio)
   const cityBuilder = new CityBuilder({

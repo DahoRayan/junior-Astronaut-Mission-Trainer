@@ -16,6 +16,7 @@
 import type { SimulationEngine } from './SimulationEngine';
 import type { AstronautManager } from '../actors/AstronautManager';
 import type { RoverManager } from '../rovers/RoverManager';
+import type { NarrativeManager } from '../narrative/NarrativeManager';
 import { soundSystem } from '../audio/SoundSystem';
 
 export interface DecisionChoice {
@@ -56,13 +57,16 @@ export class MissionDecisionManager {
   private simEngine: SimulationEngine;
   private astronautManager: AstronautManager;
   private roverManager: RoverManager;
+  private narrativeManager?: NarrativeManager;
 
   public activeAnomaly: MissionAnomaly | null = null;
   public missionSuccessScore: number = 85; // 0 - 100%
   public pastDecisions: DecisionRecord[] = [];
   public resolvedAnomalyIds: Set<string> = new Set();
   public lastAnomalySol: number = 0;
-  public minSolInterval: number = 2.5; // Prevent anomaly spam!
+  public cooldownHours: number = 48.0; // 48 simulation hours (2 full Sols)
+  public lastAnomalyHour: number = -48.0; // Initialized so first anomaly can trigger at minSol once Sol 1 grace period ends
+  public minSolInterval: number = 2.0; // Prevent anomaly spam (48h / 24h = 2 full Sols)
 
   private onDecisionEventCallback?: (record: DecisionRecord) => void;
 
@@ -125,6 +129,59 @@ export class MissionDecisionManager {
       ],
     },
     {
+      id: 'dust_on_panels',
+      name: 'Lunar Dust on Solar Panels',
+      emoji: '🧹',
+      description: 'A cloud of abrasive electrostatically charged lunar dust settled over the tracking solar arrays!',
+      danger: 'Reduced solar panel sunlight conversion cuts electrical power generation by 50%.',
+      impact: 'Solar efficiency down to 45% • Battery charging slowed.',
+      minSol: 3.5,
+      choices: [
+        {
+          id: 'rover_clean_sweep',
+          title: '🚜 Dispatch Automated Cleaning Rovers',
+          description: 'Deploy LRV-01 and the robotic survey bot equipped with electrostatic wiper sweeps.',
+          tradeoffText: 'Cleans 100% dust • Uses 15% rover battery • +18 Mission Points',
+          materialsCost: 0,
+          successPoints: 20,
+          execute: (sim, _astro, rovers) => {
+            sim.cleanSolarPanels();
+            sim.state.dust = 0.0;
+            rovers.dispatchCleanSolarArrays();
+            return 'Rover cleaning sweep completed! Solar panels polished clean, restoring 100% peak solar generation!';
+          },
+        },
+        {
+          id: 'electrostatic_pulse',
+          title: '⚡ High-Voltage Dust Repulsion Pulse',
+          description: 'Trigger a brief electrostatic charge pulse through the solar panel surface glass to repel the dust.',
+          tradeoffText: 'Consumes 60 kWh base electricity • Instant 1-second cleaning',
+          powerCost: 60,
+          successPoints: 16,
+          execute: (sim) => {
+            sim.state.power = Math.max(0, sim.state.power - 60);
+            sim.state.dust = Math.max(0, sim.state.dust - 80);
+            return 'Electrostatic repulsion pulse triggered! Charged dust lifted and floated away from arrays!';
+          },
+        },
+        {
+          id: 'manual_eva_sweep',
+          title: '🧑‍🚀 Astronaut Manual EVA Dust Sweeping',
+          description: 'Assign two astronauts to perform a walking EVA with manual carbon-fiber brushes.',
+          tradeoffText: 'Zero power or materials cost • Builds great crew spirit (+10% Morale)',
+          materialsCost: 0,
+          successPoints: 15,
+          execute: (sim, astro) => {
+            sim.state.dust = Math.max(0, sim.state.dust - 65);
+            for (const a of astro.getAllAstronauts()) {
+              a.morale = Math.min(100, a.morale + 10);
+            }
+            return 'Astronaut EVA dust sweep complete! Astronaut morale boosted by outdoor teamwork!';
+          },
+        },
+      ],
+    },
+    {
       id: 'solar_storm',
       name: 'Solar Storm',
       emoji: '☀️',
@@ -153,7 +210,7 @@ export class MissionDecisionManager {
           powerCost: 120,
           successPoints: 15,
           execute: (sim) => {
-            sim.state.power = Math.max(50, sim.state.power - 120);
+            sim.state.power = Math.max(0, sim.state.power - 120);
             sim.state.radiation_protection = 90.0;
             return 'Magnetic deflection coils hummed to life! Radiation deflected away from the surface habitats!';
           },
@@ -168,6 +225,55 @@ export class MissionDecisionManager {
           execute: (_sim, _astro, rovers) => {
             rovers.returnAllRovers();
             return 'Rovers safely docked in base berths and crew stationed in the reinforced central core.';
+          },
+        },
+      ],
+    },
+    {
+      id: 'electrolyzer_failure',
+      name: 'Water Electrolyzer Failure',
+      emoji: '💧',
+      description: 'The main water electrolysis unit suffered a pump valve breakdown and cannot extract oxygen from water!',
+      danger: 'Oxygen production stalled; continuing to water crops without O₂ extraction burns through water reserves.',
+      impact: 'Electrolyzer offline • Oxygen generation halted until repaired.',
+      minSol: 6.5,
+      choices: [
+        {
+          id: '3d_print_valve',
+          title: '🖨️ 3D-Print Replacement Sintered Valve',
+          description: 'Use the regolith sintering 3D print gantry to fabricate a custom titanium-regolith replacement valve.',
+          tradeoffText: 'Costs 30 🧱 Materials • Fully restores 100% electrolyzer function',
+          materialsCost: 30,
+          successPoints: 22,
+          execute: (sim) => {
+            sim.spendMaterials(30);
+            sim.state.stored_o2 = Math.min(100.0, (sim.state.stored_o2 ?? 80) + 15);
+            sim.state.oxygen = 21.0;
+            return 'Replacement valve 3D-printed and installed! Water electrolysis and oxygen extraction running at 100% capacity!';
+          },
+        },
+        {
+          id: 'conserve_water',
+          title: '🌱 Pause Greenhouse Irrigation to Save Water',
+          description: 'Temporarily pause crop watering, diverting all available purified water to emergency life support.',
+          tradeoffText: 'Zero materials cost • Preserves drinking water • Crops slightly delayed',
+          materialsCost: 0,
+          successPoints: 14,
+          execute: (sim) => {
+            sim.state.water = Math.min(100.0, sim.state.water + 15);
+            return 'Water conserved for critical life-support breathing loops. Water reserves remain safe!';
+          },
+        },
+        {
+          id: 'bypass_filter',
+          title: '🔄 Reroute Through Auxiliary Recycler',
+          description: 'Bypass the primary electrolyzer and run water through secondary catalytic filter beds.',
+          tradeoffText: 'Operates at 75% efficiency • No materials required',
+          materialsCost: 0,
+          successPoints: 12,
+          execute: (sim) => {
+            sim.state.oxygen = Math.max(20.4, sim.state.oxygen);
+            return 'Secondary catalytic loop engaged. Outpost oxygen production safely stabilized!';
           },
         },
       ],
@@ -222,114 +328,37 @@ export class MissionDecisionManager {
         },
       ],
     },
-    {
-      id: 'dust_on_panels',
-      name: 'Lunar Dust on Solar Panels',
-      emoji: '🧹',
-      description: 'A cloud of abrasive electrostatically charged lunar dust settled over the tracking solar arrays!',
-      danger: 'Reduced solar panel sunlight conversion cuts electrical power generation by 50%.',
-      impact: 'Solar efficiency down to 45% • Battery charging slowed.',
-      minSol: 3.5,
-      choices: [
-        {
-          id: 'rover_clean_sweep',
-          title: '🚜 Dispatch Automated Cleaning Rovers',
-          description: 'Deploy LRV-01 and the robotic survey bot equipped with electrostatic wiper sweeps.',
-          tradeoffText: 'Cleans 100% dust • Uses 15% rover battery • +18 Mission Points',
-          materialsCost: 0,
-          successPoints: 20,
-          execute: (sim, _astro, rovers) => {
-            sim.cleanSolarPanels();
-            sim.state.dust = 0.0;
-            rovers.dispatchCleanSolarArrays();
-            return 'Rover cleaning sweep completed! Solar panels polished clean, restoring 100% peak solar generation!';
-          },
-        },
-        {
-          id: 'electrostatic_pulse',
-          title: '⚡ High-Voltage Dust Repulsion Pulse',
-          description: 'Trigger a brief electrostatic charge pulse through the solar panel surface glass to repel the dust.',
-          tradeoffText: 'Consumes 60 kWh base electricity • Instant 1-second cleaning',
-          powerCost: 60,
-          successPoints: 16,
-          execute: (sim) => {
-            sim.state.power = Math.max(20, sim.state.power - 60);
-            sim.state.dust = Math.max(0, sim.state.dust - 80);
-            return 'Electrostatic repulsion pulse triggered! Charged dust lifted and floated away from arrays!';
-          },
-        },
-        {
-          id: 'manual_eva_sweep',
-          title: '🧑‍🚀 Astronaut Manual EVA Dust Sweeping',
-          description: 'Assign two astronauts to perform a walking EVA with manual carbon-fiber brushes.',
-          tradeoffText: 'Zero power or materials cost • Builds great crew spirit (+10% Morale)',
-          materialsCost: 0,
-          successPoints: 15,
-          execute: (sim, astro) => {
-            sim.state.dust = Math.max(0, sim.state.dust - 65);
-            for (const a of astro.getAllAstronauts()) {
-              a.morale = Math.min(100, a.morale + 10);
-            }
-            return 'Astronaut EVA dust sweep complete! Astronaut morale boosted by outdoor teamwork!';
-          },
-        },
-      ],
-    },
-    {
-      id: 'electrolyzer_failure',
-      name: 'Water Electrolyzer Failure',
-      emoji: '💧',
-      description: 'The main water electrolysis unit suffered a pump valve breakdown and cannot extract oxygen from water!',
-      danger: 'Oxygen production stalled; continuing to water crops without O₂ extraction burns through water reserves.',
-      impact: 'Electrolyzer offline • Oxygen generation halted until repaired.',
-      minSol: 6.5,
-      choices: [
-        {
-          id: '3d_print_valve',
-          title: '🖨️ 3D-Print Replacement Sintered Valve',
-          description: 'Use the regolith sintering 3D print gantry to fabricate a custom titanium-regolith replacement valve.',
-          tradeoffText: 'Costs 30 🧱 Materials • Fully restores 100% electrolyzer function',
-          materialsCost: 30,
-          successPoints: 22,
-          execute: (sim) => {
-            sim.spendMaterials(30);
-            sim.state.stored_o2 = Math.min(100.0, (sim.state.stored_o2 ?? 80) + 15);
-            sim.state.oxygen = 21.0;
-            return 'Replacement valve 3D-printed and installed! Water electrolysis and oxygen extraction running at 100% capacity!';
-          },
-        },
-        {
-          id: 'conserve_water',
-          title: '🌱 Pause Greenhouse Irrigation to Save Water',
-          description: 'Temporarily pause crop watering, diverting all available purified water to emergency life support.',
-          tradeoffText: 'Zero materials cost • Preserves drinking water • Crops slightly delayed',
-          materialsCost: 0,
-          successPoints: 14,
-          execute: (sim) => {
-            sim.state.water = Math.min(100.0, sim.state.water + 15);
-            return 'Water conserved for critical life-support breathing loops. Water reserves remain safe!';
-          },
-        },
-        {
-          id: 'bypass_filter',
-          title: '🔄 Reroute Through Auxiliary Recycler',
-          description: 'Bypass the primary electrolyzer and run water through secondary catalytic filter beds.',
-          tradeoffText: 'Operates at 75% efficiency • No materials required',
-          materialsCost: 0,
-          successPoints: 12,
-          execute: (sim) => {
-            sim.state.oxygen = Math.max(20.4, sim.state.oxygen);
-            return 'Secondary catalytic loop engaged. Outpost oxygen production safely stabilized!';
-          },
-        },
-      ],
-    },
   ];
 
-  constructor(simEngine: SimulationEngine, astronautManager: AstronautManager, roverManager: RoverManager) {
+  constructor(
+    simEngine: SimulationEngine,
+    astronautManager: AstronautManager,
+    roverManager: RoverManager,
+    narrativeManager?: NarrativeManager
+  ) {
     this.simEngine = simEngine;
     this.astronautManager = astronautManager;
     this.roverManager = roverManager;
+    this.narrativeManager = narrativeManager;
+    this.lastAnomalyHour = -this.cooldownHours;
+  }
+
+  public setNarrativeManager(nm: NarrativeManager): void {
+    this.narrativeManager = nm;
+  }
+
+  public setCooldownHours(hours: number): void {
+    this.cooldownHours = hours;
+    this.minSolInterval = hours / 24.0;
+  }
+
+  public reset(): void {
+    this.activeAnomaly = null;
+    this.missionSuccessScore = 85;
+    this.pastDecisions = [];
+    this.resolvedAnomalyIds.clear();
+    this.lastAnomalySol = 0;
+    this.lastAnomalyHour = -this.cooldownHours;
   }
 
   public onDecision(cb: (record: DecisionRecord) => void): void {
@@ -337,20 +366,101 @@ export class MissionDecisionManager {
   }
 
   /**
-   * Evaluates whether an anomaly should trigger at the current Sol and Hour.
-   * Pacing ensures events are spaced out and never overwhelm the player.
+   * Resets the anomaly cooldown timer starting from the specified simulation time.
+   * Enforces a mandatory quiet period (cooldownHours) following dismissal or resolution
+   * of an anomaly or incident notification.
    */
-  public checkAnomalies(sol: number, _hour: number): MissionAnomaly | null {
+  public resetCooldown(currentTotalHours?: number, currentSol?: number): void {
+    let sol = currentSol ?? this.simEngine.state.sol;
+    let hour = this.simEngine.state.timeOfDayHours;
+    let totalHours = currentTotalHours ?? ((sol - 1) * 24.0 + hour);
+    if (currentTotalHours !== undefined && currentSol === undefined) {
+      sol = Math.floor(currentTotalHours / 24.0) + 1;
+      hour = currentTotalHours % 24.0;
+    }
+
+    this.lastAnomalyHour = totalHours;
+    this.lastAnomalySol = sol;
+    console.log(
+      `[MissionDecisionManager] Cooldown timer reset at Sol ${sol}, ${totalHours.toFixed(1)}h. Quiet period active until ${(totalHours + this.cooldownHours).toFixed(1)}h.`
+    );
+  }
+
+  /**
+   * Dismisses the active anomaly notification without taking a strategic action.
+   * Clears the active anomaly state and resets the cooldown timer so that absolutely
+   * NO new anomaly notifications or popups can be sent until the full cooldown has elapsed.
+   */
+  public dismissActiveAnomaly(currentTotalHours?: number): void {
+    if (this.activeAnomaly) {
+      console.log(`[MissionDecisionManager] Anomaly modal dismissed: ${this.activeAnomaly.name}`);
+      this.activeAnomaly = null;
+    }
+    this.resetCooldown(currentTotalHours);
+  }
+
+  /**
+   * Alias for dismissActiveAnomaly matching incident terminology.
+   */
+  public closeIncidentNotification(currentTotalHours?: number): void {
+    this.dismissActiveAnomaly(currentTotalHours);
+  }
+
+  /**
+   * Evaluates whether an anomaly should trigger at the current Sol and Hour.
+   * Enforces:
+   * 1. Active anomaly blocking (no stacking)
+   * 2. Narrative modal suppression (never interrupt active story dialogue)
+   * 3. Sol 1 Peaceful Grace Period: Suppress all random anomaly notifications during Sol 1
+   * 4. Strict Anomaly Notification Cooldown: Enforces lastAnomalyHour + cooldownHours <= currentTotalHours
+   * 5. Minimum Sol interval: sol - lastAnomalySol >= minSolInterval
+   */
+  public checkAnomalies(solOrTotalHours: number, hour?: number, explicitTotalHours?: number): MissionAnomaly | null {
     if (this.activeAnomaly) return null;
 
-    // Minimum sol interval between anomalies
-    if (sol - this.lastAnomalySol < this.minSolInterval) {
+    // Suppress anomaly popups if a narrative visual novel modal is currently displayed
+    if (this.narrativeManager?.isModalOpen) return null;
+
+    let sol: number;
+    let currentHour: number;
+    let currentTotalHours: number;
+
+    if (hour === undefined) {
+      currentTotalHours = solOrTotalHours;
+      sol = Math.floor(currentTotalHours / 24.0) + 1;
+      currentHour = currentTotalHours % 24.0;
+    } else {
+      sol = solOrTotalHours;
+      currentHour = hour;
+      currentTotalHours = explicitTotalHours ?? ((sol - 1) * 24.0 + currentHour);
+    }
+
+    // Backward scrub defense: clamp lastAnomalyHour to currentTotalHours to avoid runaway deadlocks
+    if (this.lastAnomalyHour > currentTotalHours) {
+      this.lastAnomalyHour = currentTotalHours;
+      this.lastAnomalySol = sol;
+    }
+
+    // 1. Sol 1 Peaceful Grace Period: Suppress all random anomaly notifications during Sol 1
+    if (sol <= 1 || currentTotalHours < 24.0) {
+      return null;
+    }
+
+    // 2. Strict Anomaly Notification Cooldown in simulation hours
+    // Strictly respects: lastAnomalyHour + cooldownHours <= currentTotalHours
+    if (this.lastAnomalyHour + this.cooldownHours > currentTotalHours) {
+      return null;
+    }
+
+    // 3. Minimum sol interval check using continuous Sol
+    const effectiveSol = Math.max(sol, 1.0 + currentTotalHours / 24.0);
+    if (effectiveSol - this.lastAnomalySol < this.minSolInterval) {
       return null;
     }
 
     for (const anom of MissionDecisionManager.CANONICAL_ANOMALIES) {
-      if (!this.resolvedAnomalyIds.has(anom.id) && sol >= anom.minSol) {
-        this.triggerAnomaly(anom);
+      if (!this.resolvedAnomalyIds.has(anom.id) && effectiveSol >= anom.minSol) {
+        this.triggerAnomaly(anom, currentTotalHours, sol);
         return anom;
       }
     }
@@ -358,14 +468,19 @@ export class MissionDecisionManager {
     return null;
   }
 
-  public triggerAnomaly(anom: MissionAnomaly): void {
+  public triggerAnomaly(anom: MissionAnomaly, currentTotalHours?: number, sol?: number): void {
     this.activeAnomaly = anom;
-    this.lastAnomalySol = this.simEngine.state.sol;
+    const currentSol = sol ?? this.simEngine.state.sol;
+    const currentHour = this.simEngine.state.timeOfDayHours;
+    const totalHours = currentTotalHours ?? ((currentSol - 1) * 24.0 + currentHour);
+
+    this.lastAnomalySol = currentSol;
+    this.lastAnomalyHour = totalHours;
     soundSystem.playError();
-    console.log(`[MissionDecisionManager] Anomaly Triggered: ${anom.name}`);
+    console.log(`[MissionDecisionManager] Anomaly Triggered: ${anom.name} at Sol ${currentSol}, ${totalHours.toFixed(1)}h`);
   }
 
-  public resolveActiveAnomaly(choiceId: string): DecisionRecord | null {
+  public resolveActiveAnomaly(choiceId: string, currentTotalHours?: number): DecisionRecord | null {
     if (!this.activeAnomaly) return null;
 
     const choice = this.activeAnomaly.choices.find((c) => c.id === choiceId);
@@ -376,6 +491,10 @@ export class MissionDecisionManager {
       soundSystem.playError();
       return null;
     }
+    if (choice.powerCost && (this.simEngine.state.power ?? 0) < choice.powerCost) {
+      soundSystem.playError();
+      return null;
+    }
 
     // Execute choice
     const summary = choice.execute(this.simEngine, this.astronautManager, this.roverManager);
@@ -383,13 +502,21 @@ export class MissionDecisionManager {
     // Update mission success score
     this.missionSuccessScore = Math.min(100, this.missionSuccessScore + choice.successPoints);
 
+    let sol = this.simEngine.state.sol;
+    let hour = this.simEngine.state.timeOfDayHours;
+    const totalHours = currentTotalHours ?? ((sol - 1) * 24.0 + hour);
+    if (currentTotalHours !== undefined) {
+      sol = Math.floor(currentTotalHours / 24.0) + 1;
+      hour = currentTotalHours % 24.0;
+    }
+
     const record: DecisionRecord = {
       anomalyId: this.activeAnomaly.id,
       anomalyName: this.activeAnomaly.name,
       choiceId: choice.id,
       choiceTitle: choice.title,
-      sol: this.simEngine.state.sol,
-      hour: this.simEngine.state.timeOfDayHours,
+      sol,
+      hour,
       resultSummary: summary,
       successPoints: choice.successPoints,
     };
@@ -398,6 +525,9 @@ export class MissionDecisionManager {
     this.resolvedAnomalyIds.add(this.activeAnomaly.id);
     const resolvedName = this.activeAnomaly.name;
     this.activeAnomaly = null;
+
+    // Reset cooldown timer upon resolution to enforce quiet period
+    this.resetCooldown(totalHours, sol);
 
     soundSystem.playMilestone();
 

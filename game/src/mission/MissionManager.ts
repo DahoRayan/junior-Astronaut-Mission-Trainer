@@ -1,4 +1,5 @@
 import { eventBus } from '../core/EventBus';
+import { soundManager } from '../core/SoundManager';
 import { PlacedBuilding, ResourceState } from '../core/types';
 import { NarrativeManager } from '../narrative/NarrativeManager';
 import { aiClient } from '../network/AIClient';
@@ -32,6 +33,7 @@ export class MissionManager {
   private firedEvents: Set<string> = new Set();
   public oxygenLeakActive: boolean = false;
   public airlockEmergencyActive: boolean = false;
+  private vaultStormTimer: any = null;
 
   // Canonical 14 Events from story-bible.json
   private readonly timeline: StoryTimelineEvent[] = [
@@ -221,6 +223,22 @@ export class MissionManager {
       this.checkObjective('connect_cables');
       this.narrative.playScene('S-C1-1');
     });
+
+    // Handle full base establishment tutorial completion
+    eventBus.on('tutorial_complete', () => {
+      if (this.currentChapter === 1) {
+        this.objectives.forEach((o) => (o.completed = true));
+        this.renderObjectives();
+        this.completeLevel();
+      }
+    });
+
+    // Handle anomaly resolution for mission objectives
+    eventBus.on<string>('anomaly_resolved', (id) => {
+      if (id === 'solar_storm' && this.currentChapter === 3) {
+        this.checkObjective('shelter_cme');
+      }
+    });
   }
 
   private checkTimelineProgression(state: ResourceState): void {
@@ -292,7 +310,14 @@ export class MissionManager {
     }
   }
 
+  public isCompletingLevel: boolean = false;
+
   public loadChapter(ch: number): void {
+    if (this.vaultStormTimer) {
+      clearTimeout(this.vaultStormTimer);
+      this.vaultStormTimer = null;
+    }
+    this.isCompletingLevel = false;
     this.currentChapter = ch;
     this.simulation.currentChapter = ch;
 
@@ -300,9 +325,11 @@ export class MissionManager {
       case 1:
         this.objectives = [
           { id: 'place_solar', text: 'Deploy Solar Array on high sunlit ridge (+20 kW)', completed: false },
+          { id: 'build_battery', text: 'Deploy Battery Bank to store lunar night power', completed: false },
           { id: 'connect_cables', text: 'Run Power Cables along surface to connect grid', completed: false },
-          { id: 'power_scrubber', text: 'Construct & power CO₂ Scrubber or Hab Module', completed: false },
-          { id: 'demand_resupply', text: 'Construct Earth Channel & demand emergency O₂ resupply', completed: false },
+          { id: 'build_habitat', text: 'Deploy pressurized Crew Habitat living quarters', completed: false },
+          { id: 'power_life_support', text: 'Install Oxygen Electrolyzer or CO₂ Scrubber', completed: false },
+          { id: 'power_heating', text: 'Install Heating System for thermal protection', completed: false },
         ];
         break;
 
@@ -353,19 +380,41 @@ export class MissionManager {
   private checkBuildingObjectives(b: PlacedBuilding): void {
     if (b.type === 'solar_array') {
       this.checkObjective('place_solar');
-    } else if (b.type === 'co2_scrubber' || b.type === 'crew_habitat') {
-      this.checkObjective('power_scrubber');
-    } else if (b.type === 'earth_channel') {
-      this.checkObjective('demand_resupply');
     } else if (b.type === 'battery_bank') {
+      this.checkObjective('build_battery');
       const banks = this.simulation.grid.getPlacedBuildings().filter((x) => x.type === 'battery_bank').length;
       if (banks >= 2) this.checkObjective('build_batteries');
+    } else if (b.type === 'crew_habitat') {
+      this.checkObjective('build_habitat');
+    } else if (b.type === 'oxygen_electrolyzer' || b.type === 'co2_scrubber') {
+      this.checkObjective('power_life_support');
+      this.checkObjective('power_scrubber');
     } else if (b.type === 'heating_system') {
+      this.checkObjective('power_heating');
       this.checkObjective('power_heater');
+    } else if (b.type === 'earth_channel') {
+      this.checkObjective('demand_resupply');
     } else if (b.type === 'regolith_shield') {
       this.checkObjective('build_shield');
     } else if (b.type === 'subterranean_vault') {
       this.checkObjective('build_vault');
+      if (this.currentChapter === 3) {
+        eventBus.emit('notification', {
+          type: 'warning',
+          message: '🛡️ Subterranean Storm Vault constructed! Atmospheric sensors detecting solar flare in 3 seconds...',
+        });
+        if (this.vaultStormTimer) clearTimeout(this.vaultStormTimer);
+        this.vaultStormTimer = setTimeout(() => {
+          if (this.currentChapter === 3) {
+            soundManager.playAlarm();
+            eventBus.emit('trigger_anomaly', 'solar_storm');
+            eventBus.emit('notification', {
+              type: 'warning',
+              message: '🚨 NASA DONKI ALERT: Coronal Mass Ejection (CME) solar storm front has arrived! Shelter crew in the vault!',
+            });
+          }
+        }, 3000);
+      }
     } else if (b.type === 'water_extractor') {
       this.checkObjective('build_ice_extractor');
     } else if (b.type === 'hydroponics_tray') {
@@ -379,22 +428,28 @@ export class MissionManager {
         this.checkObjective('demand_resupply');
       }
     } else if (this.currentChapter === 2) {
-      if (state.sol >= 9) {
+      if (state.batteryCapacityKwh >= 200 || this.simulation.grid.getPlacedBuildings().filter((x) => x.type === 'battery_bank').length >= 2) {
+        this.checkObjective('build_batteries');
+      }
+      if (state.sol >= 8 || !this.simulation.isDaylight || (state.batteryChargeKwh > 50 && state.sol >= 2)) {
         this.checkObjective('survive_shadow');
       }
     } else if (this.currentChapter === 3) {
-      if (state.isSheltering && state.sol >= 10 && state.timeOfDayHours >= 8) {
+      if (state.radiationDoseMitigatedPct >= 30) {
+        this.checkObjective('build_shield');
+      }
+      if (state.isSheltering || (state.sol >= 10 && state.timeOfDayHours >= 8)) {
         this.checkObjective('shelter_cme');
       }
     } else if (this.currentChapter === 4) {
-      if (state.food > 20) {
+      if (state.food > 20 || state.waterLiters > 600) {
         this.checkObjective('harvest_food');
       }
     } else if (this.currentChapter === 5) {
       if (state.dust <= 20) {
         this.checkObjective('clean_dust');
       }
-      if (this.firedEvents.has('E-RESCUE')) {
+      if (this.firedEvents.has('E-RESCUE') || state.oxygenKgRemaining > 50) {
         this.checkObjective('rescue_leo');
       }
     }
@@ -415,12 +470,35 @@ export class MissionManager {
   }
 
   private checkChapterCompletion(): void {
-    const allDone = this.objectives.every((o) => o.completed);
+    const allDone = this.objectives.length > 0 && this.objectives.every((o) => o.completed);
     if (allDone) {
-      setTimeout(() => {
-        this.triggerChapterDebrief();
-      }, 1500);
+      this.completeLevel();
     }
+  }
+
+  public completeLevel(): void {
+    if (this.isCompletingLevel) return;
+    this.isCompletingLevel = true;
+
+    // 1. Immediately stop the game (§User request: stop the game)
+    this.simulation.setSpeed(0);
+
+    // 2. Play celebratory fanfare audio cue
+    soundManager.playFanfare();
+
+    // 3. Emphasize level completion clearly via bottom notification ticker
+    eventBus.emit('notification', {
+      type: 'success',
+      message: `🎉 LEVEL ${this.currentChapter} COMPLETED! Simulation stopped. Current structures cleared for next level.`,
+    });
+
+    // 4. Remove current structures except the base (§User request: remove current structures expept the base)
+    this.simulation.clearStructuresExceptBase();
+
+    // 5. Trigger Level Completion debrief modal
+    setTimeout(() => {
+      this.triggerChapterDebrief();
+    }, 600);
   }
 
   private async triggerChapterDebrief(): Promise<void> {
@@ -436,15 +514,42 @@ export class MissionManager {
       anomalies_resolved: this.currentChapter,
     });
 
+    const completedChapter = this.currentChapter;
     this.debriefModal.show(debrief, () => {
-      // Advance to next chapter
-      if (this.currentChapter < 6) {
-        this.loadChapter(this.currentChapter + 1);
+      // Advance to next chapter / level
+      if (completedChapter < 6) {
+        this.loadChapter(completedChapter + 1);
+        this.simulation.setSpeed(1); // Resume simulation at 1x
+        eventBus.emit('notification', {
+          type: 'info',
+          message: `🚀 Level ${completedChapter + 1} Started! Plan and construct your new outpost modules.`,
+        });
       }
-    });
+    }, completedChapter);
+  }
+
+  private getToolForObjective(id: string): string | null {
+    switch (id) {
+      case 'place_solar': return 'solar_array';
+      case 'build_battery':
+      case 'build_batteries': return 'battery_bank';
+      case 'connect_cables':
+      case 'reconnect_cables': return 'power_cable';
+      case 'build_habitat': return 'crew_habitat';
+      case 'power_life_support':
+      case 'power_scrubber': return 'oxygen_electrolyzer';
+      case 'power_heating':
+      case 'power_heater': return 'heating_system';
+      case 'build_shield': return 'regolith_shield';
+      case 'build_vault': return 'subterranean_vault';
+      case 'build_ice_extractor': return 'water_extractor';
+      case 'build_farm': return 'hydroponics_tray';
+      default: return null;
+    }
   }
 
   public renderObjectives(): void {
+    if (typeof document === 'undefined') return;
     const container = document.getElementById('mission-objectives-list');
     if (!container) return;
 
@@ -452,10 +557,17 @@ export class MissionManager {
     this.objectives.forEach((obj) => {
       const li = document.createElement('li');
       li.className = `objective-item ${obj.completed ? 'completed' : 'pending'}`;
+      li.style.cursor = 'pointer';
       li.innerHTML = `
         <span class="obj-check">${obj.completed ? '✓' : '○'}</span>
         <span class="obj-text">${obj.text}</span>
       `;
+      li.addEventListener('click', () => {
+        const tool = this.getToolForObjective(obj.id);
+        if (tool) {
+          eventBus.emit('building_selected', tool);
+        }
+      });
       container.appendChild(li);
     });
   }

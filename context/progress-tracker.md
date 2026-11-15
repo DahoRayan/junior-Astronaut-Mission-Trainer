@@ -16,7 +16,108 @@ Update after every meaningful change (only your own unit/row).
 - **Unit 06**: Story Bible Validator (`scripts/validate_story.py`) and schema.
 - **Unit 07**: Statistics and Debrief Analysis (`app/stats/`).
 
+### 3D Lunar Frontend (`frontend-3d/`)
+- **Red Alert Removal & Non-Alarming Incident Experience**:
+  - Permanently suppressed the prominent red emergency crisis banner (`#hud-crisis-banner` / `crisisBannerEl`) from appearing during gameplay in `HUDController.ts`.
+  - Replaced the jarring red gradient (`rgba(220, 38, 38, 0.96)`) and pulsing red alert animation (`kid-alert-pulse`) with clean simulation updates, leaving the 48-hour valve fracture countdown in the backend simulation engine while preventing alarming visual alerts.
+  - Normalized M.I.L.O. speech bubble placement to a clean, stable `top: 96px`, eliminating jumping offsets previously used to dodge the red banner.
+  - Re-styled the incident decision modal (`#hud-incident-modal`): updated header from `🚨 M.I.L.O. MISSION BUDDY ALERT!` to `🛰️ M.I.L.O. MISSION ADVISORY` and swapped red hazard callouts (`#ef4444`) with friendly, kid-approachable arcade space-gold borders and soft amber badges (`#f59e0b`).
+  - Removed unused TypeScript references to achieve clean zero-warning builds with `tsc && vite build`. All 155 unit, boundary, and scenario tests pass cleanly.
+
 ### Web Game Client (`game/`)
+- **Level 3 Timed Solar Storm Anomaly (3s Post-Vault)**:
+  - Configured Level 3 (Chapter 3) in `MissionManager.ts` so that constructing the Subterranean Storm Vault (`subterranean_vault`) automatically starts a 3-second countdown timer.
+  - When the 3-second timer expires, `MissionManager` triggers an emergency alarm, streams a NASA DONKI alert banner, and emits `trigger_anomaly` for `solar_storm`.
+  - Wired `AnomalyManager.ts` to listen to `trigger_anomaly` events, immediately launching the Solar Storm incident modal, returning simulation speed to 1x, and applying coronal mass ejection (CME) crisis impacts (+45 rem radiation spike, -15% shield loss).
+  - Configured `AnomalyManager.ts` to emit `anomaly_resolved` upon choice execution, automatically marking the Level 3 `shelter_cme` objective completed when the player resolves the solar storm dilemma (or activates storm shelter).
+  - Created automated verification test suite `game/scripts/verify_level3_vault_solar_storm.ts` confirming that vault placement completes the vault objective, does not fire prematurely at 1.0s, triggers the solar storm at 3.0s, and completes the storm objective upon resolution.
+- **Level Completion Trigger Unification & Modal Popup Fix**:
+  - Resolved root cause of level completion popup failure:
+    - Previously, `TutorialManager` had 6 base-building milestones that rendered into `#mission-objectives-list`, while `MissionManager` had a disconnected set of 4 objectives (including unprompted `demand_resupply` requiring `earth_channel`), leaving Level 1 in a permanent incomplete state even after all 6 visible milestones were checked off.
+    - Unified Chapter 1 (Level 1) objectives in `MissionManager.ts` to directly map to the 6 essential base establishment modules: Solar Array, Battery Bank, Power Cable, Crew Living Quarters, Life Support, and Heating System.
+    - Wired `tutorial_complete` event listener to immediately complete Chapter 1 and call `completeLevel()`.
+    - Updated `main.ts` to synchronize `#guide-banner` dynamically across all chapters (Levels 1–6) and delegate `#mission-objectives-list` rendering to `MissionManager` when advancing beyond Level 1.
+    - Updated `AIClient.ts` to send Contract v2-compliant evaluation payload to `POST /v1/evaluate/mission`, avoiding HTTP 422 errors and providing instant (<20ms) server-backed or local debrief generation.
+    - Enhanced `DebriefModal.ts` and `style.css` to enforce `display: flex;` and `z-index: 250;` on `#debrief-modal`, ensuring completion debrief certificates are never blocked, occluded, or hidden behind other DOM overlays.
+    - Created automated verification test suite `game/scripts/verify_level1_natural_completion.ts` validating that placing the 6 base establishment components automatically halts simulation clock, clears surface structures except central base, and triggers the Level 1 Debrief Certificate modal.
+- **Real Metric Impacts on Anomaly Choices & Immediate HUD Synchronization**:
+  - Implemented `applyAnomalyCrisisImpact(anomalyId)` in `AnomalyManager.ts`:
+    - When an emergency occurs, tangible system crisis penalties hit the outpost immediately before the player even picks a response:
+      - **Oxygen Leak**: Drops `stored_o2` by 15 kg, `oxygen` by 6%, `enthusiasm` by 10%, and flags `oxygen_cabin_low`.
+      - **Solar Storm**: Spikes ionizing `radiation` by +45 rem, damages `shield` by -15%, drops crew `enthusiasm` by 15%, and flags `radiation_high`.
+      - **Lunar Dust Blanket**: Surges `dust` accumulation on arrays by +45% and flags `dust_high`.
+      - **Water Electrolyzer Failure**: Vents `water` by -15 L, drops `stored_o2` by -12 kg, spikes `temperature` by +12°C (reaching 62°C), and flags `stored_o2_low`.
+  - Re-engineered all 12 decision choices across the 4 canonical anomalies to enforce real resource economics and execute concrete metric shifts:
+    - **Resource Validation**: Choices requiring Materials, Battery kWh, or Stored O₂ check current reserves before proceeding; if insufficient, the action fails cleanly (`success: false`) and streams an alert (`"Cannot execute choice: Insufficient materials!"`).
+    - **Physical Effects**: Deducts materials/power/O2 and directly impacts pressure, temperature, dust coverage, radiation, shielding integrity, crew health, and morale.
+    - **Instant HUD Recalculation**: Immediately triggers `this.sim.recalculate()`, updates legacy state aliases (`crew_health`, `crew_morale`, `power_stored`), and emits `eventBus.emit('resources_updated', this.sim.state)` so all 18 HUD telemetry gauges, top chips, and objective trackers reflect the resolution on the very next render frame.
+  - Created automated test suite `game/scripts/verify_anomaly_metrics.ts` validating crisis metric drops, resource cost deductions, metric adjustments, and reactive event bus notifications.
+- **Level Completion Game Pause & Surface Clear Protocol**:
+  - Implemented `completeLevel()` in `MissionManager.ts` when all chapter objectives are fulfilled:
+    - **Immediately stops the game clock** (`simulation.setSpeed(0)`), updating HUD speed toggles to paused.
+    - Plays a celebratory fanfare audio cue (`soundManager.playFanfare()`).
+    - Emits a clear level completion banner across the status log ticker (`🎉 LEVEL X COMPLETED!`).
+    - Automatically clears all placed structures (solar arrays, battery banks, machines) and surface cables from the lunar surface via `simulation.clearStructuresExceptBase()`, keeping only the 4-tile Central Outpost Base firmly anchored in the center.
+    - Displays the debrief modal titled `LEVEL X COMPLETED • MISSION DEBRIEF` with action button `Start Level X+1 ➜`.
+  - Created automated test suite `game/scripts/verify_level_completion.ts` verifying speed halt, notification emission, structure clearance, and central base persistence.
+- **Daily Materials Logistics Stipend (+100 Mats/Day)**:
+  - Configured `SimulationEngine.ts` to grant **+100 Materials** on every Sol transition (`this.state.materials += 100`).
+  - Added real-time notification stream (`Sol X: Daily logistics stipend received (+100 Materials granted)`) and 8-bit NASA radio chirp sound effect on day change.
+  - Created automated test suite `game/scripts/verify_daily_materials.ts` confirming material progression across consecutive Sols.
+- **4-Tile Central Outpost Base (0 Functions Hub)**:
+  - Added the canonical permanent Central Outpost Base (`outpost_base`) occupying a $2 \times 2$ (4-tile) footprint at the exact center of the map (`(11, 7)`, `(12, 7)`, `(11, 8)`, `(12, 8)`).
+  - Configured with strictly **0 functions**: 0 kW power generation, 0 kW power consumption, 0 battery capacity, 0 O₂ production, 0 water consumption/production, and 0 shielding bonus (purely structural foundational base camp).
+  - Automatically pre-placed at the start of every level, scratch mode initialization, and mission restart.
+  - Protected against accidental construction and demolition (cannot be overwritten or deleted).
+  - Rendered with rich $96 \times 96$ px graphics in `BuildingRenderer.ts`: titanium shock-absorbing landing struts with gold foil footpads, multi-port pressurized docking vestibules, white MLI thermal insulation dome, glowing cyan cupola windows, steerable comms dish, and "ARTEMIS BASE" insignia.
+  - Created automated test suite `game/scripts/verify_central_base.ts` confirming 4-tile footprint, 0 functions, demolition protection, entity deduplication, and persistence across resets.
+- **1 Hour / Second Simulation Cadence & Evaluation Score Removal**:
+  - Calibrated the simulation engine clock in `SimulationEngine.ts` to advance exactly 1 game hour per real-world second at 1x speed (`deltaHours = 1 * multiplier`), with 2h/s at 2x and 0h/s when paused.
+  - Normalized life-support, thermal, radiation, and metabolic rates to scale smoothly per hour.
+  - Removed the numerical evaluation score (`SURVIVABILITY SCORE` / `FINAL EVALUATION SCORE` / `debrief-score`) from `index.html`, `DebriefModal.ts`, and `style.css`, refocusing debriefs and incident reviews on narrative outcomes, engineering lessons, and mission strengths without arbitrary point penalties.
+- **Mission Failure Debrief & Evacuation Protocol**:
+  - Implemented automatic mission failure detection in `SimulationEngine.ts` when crew health drops to $\le 0$.
+  - Immediately pauses the simulation (`this.setSpeed(0)`) and triggers the emergency alarm sound (`soundManager.playAlarm()`).
+  - Differentiates NASA root-cause failure incidents (Apollo 1 atmospheric flash fire, complete hypoxia/O2 depletion, Apollo 13 lethal CO2 hypercapnia, lunar freezing, acute radiation sickness, severe dehydration, or calorie depletion) and provides realistic engineering lessons learned.
+  - Enhanced `DebriefModal.ts` with `showFailure(data, onRestart)` displaying a dedicated emergency theme (`MISSION FAILED • OUTPOST EVACUATED`, red caution glow, evacuation protocol badge, surviving sol count, and scientific root cause analysis).
+  - Wired a clean `🔄 Re-plan & Restart Mission` button that invokes `setMode('scratch')`, resetting the outpost to Sol 1 with 1,400 materials, resetting the tutorial guidance system, and resuming simulation at 1x speed without deadlocks.
+  - Created automated test suite `game/scripts/verify_mission_failure.ts` validating pause on failure, tick blockage, payload emission, and clean scratch restarts.
+- **NASA Canonical Anomaly Decision Events (`anomalies.json`)**:
+  - Implemented `AnomalyManager.ts` featuring 4 canonical lunar events from `anomalies.json`:
+    1. **Oxygen Leak**: Habitat distribution leak venting breathable gas; choice between EVA Spacewalk Repair (costs 25 Materials), Sector Isolation (reduces O2 quality), or Emergency Reserve Injection.
+    2. **Solar Storm**: High-energy particle event; choice between Regolith Subterranean Shelter, Overcharging Magnetic Shielding, or Minimizing Surface Activities.
+    3. **Lunar Dust on Solar Panels**: Regolith blanket reducing panel efficiency by 35%; choice between Deploying Dust Sweeper Rover (costs 20 Materials), Electrostatic Wave Pulse (costs 30 kWh Power), or Mechanical Array Tilting.
+    4. **Water Electrolyzer Failure**: Catalytic membrane fouled; choice between Installing Spare Membrane (costs 30 Materials), Suspending Hydroponics Water Feed, or Thermal Descaling Flush.
+    *(Note: Long Lunar Night removed from random popups per design preference, letting the ambient synodic cycle handle night transitions naturally).*
+  - **Tri-Daily Anomaly Cadence & Automatic 1x Speed Reset**:
+    - Strictly enforces an event trigger every 3 simple days (`sol >= 3 && sol % 3 === 0`, firing on Day 3, Day 6, Day 9, Day 12...).
+    - Automatically forces simulation speed back to `1x` (`simulation.setSpeed(1)`) whenever an emergency strikes, updating the bottom HUD speed buttons so the player is not rushed by fast-forwarding during critical decisions.
+    - Wired bottom bar time acceleration buttons (`0x`, `1x`, `2x`) and keyboard shortcuts (`Space`, `1`, `2`) to the reactive `speed_changed` event bus.
+  - Added clean dilemma modal `#anomaly-modal` with NASA danger warnings and 3 interactive trade-off choice cards.
+  - Added top bar `🚨 Event` trigger button for instant testing and manual decision drills.
+  - Created automated test suite `game/scripts/verify_anomalies.ts` confirming tri-daily event cadence, speed drop to 1x on incident trigger, and decision executions.
+- **Reactor Module Removal**:
+  - Removed `kilopower_reactor` ("Kilopower Fission Reactor") from the game:
+    - Removed from `CatalogPanel.ts` under the Energy category so it no longer appears as a buildable option.
+    - Removed definitions from `Constants.ts` and `types.ts`.
+    - Removed power grid simulation logic from `PowerNetwork.ts` and sprite rendering routines from `BuildingRenderer.ts`.
+    - Removed device switchboard mapping from `main.ts`.
+- **Notification Ticker Streaming & M.I.L.O. Knowledge Base Overhaul**:
+  - **M.I.L.O. Typography & Smooth Scrolling Overhaul**:
+    - Fixed card layout squishing: restructured question card headers into a distinct 2-tier layout — a top metadata row displaying category icon, category name, `⭐ RECOMMENDED` pill, and accordion chevron, above a dedicated 100% full-width multi-line question text element with `word-break: break-word` and `overflow-wrap: break-word`, preventing horizontal compression of text into narrow vertical columns.
+    - Set `.expert-card` to `display: block; width: 100%; box-sizing: border-box; flex-shrink: 0;` so items never get compressed by flexbox shrink algorithms across all 67 topics.
+    - Enforced `min-height: 0; flex: 1 1 0%; overflow-y: auto; overflow-x: hidden;` across `.milo-questions-list`, `.objectives-pane`, `.telemetry-grid-scroll`, and `#catalog-content`, with `flex-shrink: 0` on all fixed headers, search wrappers, and footers.
+    - Added styled amber/gold custom scrollbars (`scrollbar-width: thin; scrollbar-color: ...;` and `::-webkit-scrollbar` with tracks and hoverable thumbs) ensuring scrollability is visibly intuitive and draggable in Chromium, Firefox, and WebKit.
+    - Expanded right panel width from 340px to 360px for improved readability and text breathing room.
+  - **Bottom Mission Log Notification Streaming**:
+    - Completely removed the disruptive floating `#notification-toast` popup from the canvas viewport overlay.
+    - Routed all notification events (`info`, `success`, `warning`) directly into `#ticker-message` inside the bottom bar (`#bottom-bar .status-ticker`).
+    - Added ambient animated flash pulses (`flash-info`, `flash-success`, `flash-warning`) with glowing border tints that automatically revert after 5 seconds without blocking user interaction.
+  - **M.I.L.O. Expert Question List & Accordion Fix**:
+    - Fixed critical scroll jumping bug: eliminated full-list re-renders on accordion toggle; clicking a card now uses in-place DOM mutation (`toggleCardDOM`), preserving exact scroll position and preventing visual glitching.
+    - Cleaned up cluttered question headers: removed the crammed row of 4 colored badges from the collapsed card header and introduced a streamlined top row containing the category icon, crisp question text, golden star badge (`⭐` for active situational recommendations), and rotating chevron.
+    - Moved technical tags (category, difficulty, related resources) into an internal `.expert-meta-row` inside the expanded card body.
+    - Removed intrusive speech bubble injection above the questions; advisor notifications now stream smoothly through the bottom mission log.
 - **Right Panel Navigation & Slim Power Cable Redesign**:
   - **Full-Height Right Panel Navigation Tabs**:
     - Reorganized `#right-panel` into 3 dedicated top navigation tabs: `🎯 GOALS` (base objectives, mode selector & DONKI radar), `📊 ALL VARS (18)` (comprehensive telemetry), and `🤖 M.I.L.O. (67)` (NASA Expert Knowledge Base).
@@ -148,6 +249,71 @@ Update after every meaningful change (only your own unit/row).
   - Solved deselection across the entire game: clicking an active building card again toggles it off, Escape key and right-click deselect immediately, clicking empty ground deselects, and added explicit close buttons to Inspector cards.
   - Added interactive 3D Inspector card giving meaning, kid-friendly descriptions, real-time stats, camera focus, and recycle actions for placed buildings and astronauts.
   - All 137/137 tests passing across 36 test suites; clean production build with Vite.
+
+- **Kid-Friendly Aerospace UI Redesign (frontend-3d)**:
+  - Overhauled Top Vitals Bar with playful rounded capsules (`rounded-2xl`), glowing cyan/amber borders, and large colorful icons (⚡ Power, 🌬️ Oxygen, 💧 Water, 🥦 Food, 🧱 Materials, ❤️ Crew Health, 🧑‍🚀 Crew, 😊 Morale, 🏆 Mission Rating) featuring bold numerical badges and dynamic friendly status smileys/pills (e.g. `Rich`, `Charged`, `Fresh`, `Pure`, `Yum`, `Safe`, `Happy`).
+  - Redesigned City Builder Dock with bright, colorful category tabs (🏠 Homes, ⚡ Energy, 🌿 Food & Air, 🚀 Spaceport, 🚜 Rovers), rounded-2xl building cards with satisfying hover/active bounce (`.kid-arcade-btn`), price badges (`🧱 120`), and clear positive benefits.
+  - Implemented unmistakable `[✕ Cancel / Deselect [Esc]]` arcade button with high-contrast red gradient styling and right-click escape hatch, alongside vivid emerald green selection highlight rings in 3D (`0x22c55e`).
+  - Created dedicated Mission Sol Evaluation Screen (`#hud-sol-eval-modal`) accessible anytime via `⭐ Sol Report` button or `🏆` trophy badge, complete with dynamic 5-star rating (⭐⭐⭐⭐⭐), Outpost achievements breakdown (Power, Atmosphere, Crew Welfare, Base Expansion), and encouraging mascot feedback from M.I.L.O.
+  - Revamped Telemetry Panel with friendly status smileys and pills (`[⚡ Charged]`, `[❤️ Healthy]`, `[🟢 Fresh Air]`, `[🌿 Clean]`, `[🛋️ Cozy]`, `[🛡️ Safe]`, `[🧱 Berms]`, `[✨ Clean]`, `[🚀 Outpost]`) replacing dense technical jargon while preserving underlying simulation data.
+  - Enhanced M.I.L.O. Robot Assistant with floating bounce animation (`@keyframes kid-milo-bounce`), cheerful speech bubble, and collapsible toggle safely positioned to prevent screen clutter.
+  - Restyled Narrative Dialogue Modal in `NarrativeManager.ts` with aerospace communication console aesthetics, character avatars (🤖, 🧑‍🚀, 🚀, 🔧, 🌿, 🩺), and tactile arcade action buttons (`Continue ▶`, `Acknowledge ✔`).
+  - All 137/137 tests passing cleanly across 36 suites; production Vite build compiles in ~1.4s with 0 errors.
+
+- **J-Astro Master Home Page & Dual Game Launcher (`index.html`)**:
+  - Implemented unified landing page `index.html` titled **J-Astro** (Junior Astronaut Deep-Space Mission Trainer) with NASA Artemis mission styling.
+  - Linked both games:
+    1. **J-Astro 2D: Mission Control** (`game/`) — Tactical 2D grid base builder, ECLSS 18-variable telemetry, manual device switches, and M.I.L.O. 67-question NASA expert system. Direct link to `http://localhost:3000` + relative fallback `game/index.html`.
+    2. **J-Astro 3D: Lunar Outpost** (`frontend-3d/`) — Three.js full 3D lunar crater colony builder, authentic 4K Moon terrain displacement, 1/6th-gravity astronaut physics, and rovers. Direct link to `http://localhost:3001` + relative fallback `frontend-3d/index.html`.
+  - Added live port ping status indicators (`:3000` and `:3001`) with green pulsing badges when dev servers are active.
+  - Added workspace scripts: `npm run dev:all` (`scripts/start-both.mjs`) to launch both simulators concurrently, `npm run home` (`scripts/serve-home.mjs`), `npm run dev:2d`, and `npm run dev:3d`.
+  - **Vercel Cloud Deployment Setup**: Added [vercel.json](file:///c:/Users/acer%20i7/Programation/2026/NASA%20-%20OutPost/vercel.json) and [scripts/build-vercel.mjs](file:///c:/Users/acer%20i7/Programation/2026/NASA%20-%20OutPost/scripts/build-vercel.mjs) which compiles both 2D and 3D games and packages everything into a unified `dist/` ready for zero-config Vercel deployment. Updated [index.html](file:///c:/Users/acer%20i7/Programation/2026/NASA%20-%20OutPost/index.html) to dynamically detect production cloud environments and link directly to `/game/` and `/frontend-3d/`.
+
+- **HUD Non-Overlapping Layout Boundaries & Spacious City Builder Dock (`HUDController.ts`)**:
+  - Restructured Top Bar into a rigid 2-row layout with `height: 84px; max-height: 84px; overflow: hidden;`:
+    - Row 1 (Height 32px): Logo (`🚀 MOON BASE`), Sol badge (`📅 SOL 1 | 06.0h`), and Polar Day/Night badge on the left; simulation speed (`SPD: 1x`) and 5 action buttons (`📊 Vitals`, `🧑‍🚀 Base Ops`, `⚠️ Decisions`, `⭐ Sol Report`, `🤖 M.I.L.O.`) on the right.
+    - Row 2 (Height 32px): Kid-friendly resource ribbon with 9 capsules (`Materials`, `Power`, `Oxygen`, `Water`, `Food`, `Health`, `Crew`, `Morale`, `Trophy Report`) smoothly scrolling horizontally (`overflow-x: auto; white-space: nowrap; scrollbar-width: none;`), never wrapping into additional vertical lines.
+  - Re-anchored and clamped all side panels below the 84px Top Bar (`top: 96px;`) and well above the Bottom Dock (`max-height: calc(100vh - 320px); overflow-y: auto;`), ensuring zero overlap:
+    - Left Telemetry Panel (`#hud-telemetry-panel`): `left: 14px; width: 270px;` (starts closed).
+    - Right Base Ops Panel (`#hud-controls-panel`): `right: 14px; width: 280px;` (starts closed).
+    - Inspector Panel (`#hud-inspector-card`): `left: 14px; width: 270px;`, mutually exclusive with Left Telemetry.
+    - M.I.L.O. Assistant Bubble (`#hud-milo-bubble`): Centered in upper viewport (`left: 50%; transform: translateX(-50%); top: 96px;` or `top: 160px;` during crisis), completely clear of both left and right side panels.
+  - Spacious, Uncramped City Builder Dock (`#hud-city-builder-dock`):
+    - Expanded width to `min(1180px, calc(100vw - 28px))` with dedicated height of `198px` (`min-height: 198px; max-height: 205px; overflow: hidden;`).
+    - Fixed Dock Header to a single non-wrapping row (`height: 34px; flex-shrink: 0; overflow-x: auto; scrollbar-width: none; white-space: nowrap;`) keeping category tabs, integrated time scrubber, and tool buttons on one line.
+    - Set dedicated cards tray `#city-cards-tray` to `height: 130px; min-height: 130px; flex-shrink: 0; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: thin;`.
+    - Resized building cards to `flex: 0 0 148px; width: 148px; height: 118px; box-sizing: border-box; overflow: hidden;` with proportional emoji, name, materials cost, and kid benefit, guaranteeing 100% visibility of all card details with zero clipping or elements appearing out of frame.
+    - Updated dock minimise toggle: collapses smoothly to `height: 56px;` for panoramic views and expands back to `198px;`.
+  - All 147/147 tests pass across 36 test suites; TypeScript build compiles cleanly with zero errors in 1.30s. Dev server running on `http://localhost:3001/`.
+
+- **Bottom-Right M.I.L.O. NASA Expert Knowledge Panel (`MILOExpertPanel.ts`)**:
+  - Implemented dedicated M.I.L.O. Expert Assistant Panel anchored in the bottom-right corner (`position: absolute; right: 14px; bottom: 12px; width: 380px; height: 520px; z-index: 45;`):
+    - **Header & Advice Balloon**: Bouncing robot avatar (`🤖`), title `M.I.L.O. NASA BUDDY`, live advice speech balloon, minimise button (`─`), and close button (`✕`).
+    - **Minimised Floating Pill**: Collapses to an unobtrusive pill in the bottom-right corner (`#hud-milo-pill`: `[ 🤖 M.I.L.O. Expert (67) ▲ ]`, height: 42px) with glowing border, always accessible with one click or via the Top Bar button (`🤖 M.I.L.O.`).
+    - **Tab 1 — Expert Q&A (67 Questions)**: Loaded from `C:\Users\acer i7\Downloads\expert_questions.json` across all 10 canonical categories:
+      - Interactive search input with clear button `✕`.
+      - Category filter strip (`All (67)`, `⭐ Recommended`, `☢️ Radiation (12)`, `💨 Oxygen (7)`, `⚡ Power (8)`, `🌞 Space Weather (8)`, `🛠️ Life Support (6)`, `🌙 Moon (5)`, `🔴 Mars (5)`, `🧠 Strategy (10)`, `🧑‍🚀 Crew (4)`, `🌡️ Thermal (2)`).
+      - Dynamic contextual triggers surfacing "⭐ Recommended" questions during critical ECLSS states (`site_moon`, `oxygen_critical`, `power_critical`, `shielding_critical`).
+      - Scrollable accordion cards displaying question, kid-friendly answer, difficulty pill (`Beginner`, `Intermediate`, `Advanced`), NASA source citation badge (`🔬 NASA Source`), tags, and verified external reference links (`🌐 Open NASA Reference Data ↗`).
+    - **Tab 2 — Field Guide (README.md)**: Loaded from `C:\Users\acer i7\Downloads\README.md` with rich formatting:
+      - Overview of the expert system and zero-network design.
+      - 10 Science Domains breakdown cards and question counts.
+      - Cited official NASA repositories (OSDR RadLab, DONKI, ECLSS Reference, HRP, Mars Exploration Program).
+      - Expandable full verbatim markdown viewer.
+  - Added dedicated test suite `frontend-3d/tests/milo_expert_panel.test.ts` with 8 automated invariant tests.
+  - All 155/155 tests pass across 37 test suites; production build compiles cleanly in 1.35s with zero errors. Dev server running on `http://localhost:3001/`.
+
+- **Strict Anomaly Notification Cooldown, Sol 1 Peaceful Grace Period & Dismissal Quiet Period (frontend-3d)**:
+  - Enforced a mandatory minimum cooldown period (`cooldownHours = 48.0` simulation hours / 2.0 full Sols, customizable down to 36.0h / 1.5 Sols) between any anomaly notifications in `MissionDecisionManager.ts`.
+  - Implemented Sol 1 Peaceful Grace Period in `checkAnomalies`: completely suppresses all random canonical anomaly notifications throughout Sol 1 (`sol <= 1 || currentTotalHours < 24.0`), giving new commanders uninterrupted quiet time to explore the crater and construct their starter base.
+  - Implemented Mandatory Quiet Period on Dismissal & Resolution: whenever an active anomaly modal or story incident notification is closed or dismissed (`dismissActiveAnomaly`, `#btn-close-incident`, `Escape` key, backdrop click, or `NarrativeManager.closeModal`), `resetCooldown(currentTotalHours)` resets `lastAnomalyHour = currentTotalHours`, guaranteeing a full 48h quiet period with zero popup interruptions.
+  - Enforced strict hour verification: `lastAnomalyHour + cooldownHours <= currentTotalHours` strictly checked before any anomaly can trigger.
+  - Fixed Sol calculation and data integrity in `resolveActiveAnomaly` and `resetCooldown`: timestamps, `DecisionRecord.sol`, `DecisionRecord.hour`, and `lastAnomalySol` now derive dynamically from `currentTotalHours` instead of defaulting to stale `simEngine.state.sol`.
+  - Upgraded Sol pacing comparisons to use continuous Sols (`effectiveSol = Math.max(sol, 1.0 + currentTotalHours / 24.0)`): eliminates artificial 24h lockout bugs when using fractional cooldowns (e.g. 36.0h / 1.5 Sols) and unlocks midday anomalies (e.g. Oxygen Leak at Sol 2.5 / 36.0h) precisely on schedule.
+  - Added backward time scrub defense: automatically anchors forward cooldown timestamps when scrubbing backward in time, eliminating multi-sol silence deadlocks.
+  - Added scrubber drag isolation: suppresses incident modals while actively dragging the mission time scrubber (`!isUserScrubbing`), triggering cleanly only after the slider is released.
+  - Linked `NarrativeManager` and `MissionDecisionManager` so visual novel narrative story scenes take priority and suppress anomaly popups (`narrativeManager.isModalOpen`), and closing or auto-fading narrative comms toasts resets the cooldown timer.
+  - Added 10 automated test cases (ANOM-06 through ANOM-15) in `tests/anomalies_and_astronauts.test.ts`. All 147 tests passing across 36 suites; production Vite build passes cleanly in ~1.1s.
 
 ## Next Steps / Handover State
 1. Web Game Client is fully built (`npm --prefix game run build` exits 0) and synced with remote branch `OUAZENE-2026/initial-setup`.

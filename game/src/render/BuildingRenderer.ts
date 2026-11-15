@@ -25,6 +25,13 @@ export class BuildingRenderer {
       return;
     }
 
+    // Fast-path: 4-Tile Central Outpost Base (renders iconic 96x96 Artemis Core Base)
+    if (b.type === 'outpost_base') {
+      this.drawOutpostBase(ctx, px, py, b.isPowered, time);
+      ctx.restore();
+      return;
+    }
+
     // 1. Structure Ground Shadow
     ctx.fillStyle = 'rgba(10, 15, 30, 0.45)';
     ctx.beginPath();
@@ -39,10 +46,6 @@ export class BuildingRenderer {
 
       case 'battery_bank':
         this.drawBatteryBank(ctx, px, py, b.isPowered, time);
-        break;
-
-      case 'kilopower_reactor':
-        this.drawKilopowerReactor(ctx, px, py, b.isPowered, time);
         break;
 
       case 'oxygen_electrolyzer':
@@ -257,55 +260,6 @@ export class BuildingRenderer {
     ctx.fillStyle = '#f59e0b';
     ctx.fillRect(bx + bw * 0.25 - 2, by - 3, 4, 3);
     ctx.fillRect(bx + bw * 0.75 - 2, by - 3, 4, 3);
-  }
-
-  // --- Kilopower Reactor ---
-  private static drawKilopowerReactor(
-    ctx: CanvasRenderingContext2D,
-    px: number,
-    py: number,
-    isPowered: boolean,
-    time: number
-  ): void {
-    const cx = px + TILE_SIZE / 2;
-    const cy = py + TILE_SIZE / 2;
-
-    // Circular Radiation Shield Base
-    ctx.fillStyle = '#334155';
-    ctx.strokeStyle = '#475569';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(cx, cy + 4, TILE_SIZE * 0.38, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-
-    // Titanium Heat Pipes Radiating Outward (4 heat fins)
-    ctx.strokeStyle = '#94a3b8';
-    ctx.lineWidth = 3;
-    const angles = [0, Math.PI * 0.5, Math.PI, Math.PI * 1.5];
-    angles.forEach((ang) => {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + Math.cos(ang) * (TILE_SIZE * 0.42), cy + Math.sin(ang) * (TILE_SIZE * 0.42));
-      ctx.stroke();
-    });
-
-    // Umbrella Stirling Radiator Dome
-    ctx.fillStyle = '#ea580c';
-    ctx.beginPath();
-    ctx.arc(cx, cy - 2, TILE_SIZE * 0.28, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Pulsing Nuclear Core Center
-    const pulse = isPowered ? Math.sin(time * 0.007) * 2 + 6 : 4;
-    const coreGrad = ctx.createRadialGradient(cx, cy - 2, 1, cx, cy - 2, pulse);
-    coreGrad.addColorStop(0, '#ffffff');
-    coreGrad.addColorStop(0.4, '#fde047');
-    coreGrad.addColorStop(1, 'rgba(234, 88, 12, 0)');
-    ctx.fillStyle = coreGrad;
-    ctx.beginPath();
-    ctx.arc(cx, cy - 2, pulse, 0, Math.PI * 2);
-    ctx.fill();
   }
 
   // --- Oxygen Electrolyzer ---
@@ -843,6 +797,179 @@ export class BuildingRenderer {
     ctx.fill();
 
     ctx.restore();
+  }
+
+  // --- Central Outpost Base (4 Tiles: 96x96 px) ---
+  private static drawOutpostBase(
+    ctx: CanvasRenderingContext2D,
+    px: number,
+    py: number,
+    _isPowered: boolean,
+    time: number
+  ): void {
+    const w = TILE_SIZE * 2; // 96px
+    const h = TILE_SIZE * 2; // 96px
+    const cx = px + w / 2;
+    const cy = py + h / 2;
+
+    // 1. Massive 4-tile Ground Shadow
+    ctx.fillStyle = 'rgba(10, 15, 30, 0.55)';
+    ctx.beginPath();
+    ctx.ellipse(cx + 6, cy + 32, 42, 18, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 2. Heavy Titanium Landing Gear & Hydraulic Shock Struts (4 corners)
+    const corners = [
+      { legX: px + 14, legY: py + 14, footX: px + 8, footY: py + 8 },
+      { legX: px + w - 14, legY: py + 14, footX: px + w - 8, footY: py + 8 },
+      { legX: px + 14, legY: py + h - 14, footX: px + 8, footY: py + h - 8 },
+      { legX: px + w - 14, legY: py + h - 14, footX: px + w - 8, footY: py + h - 8 },
+    ];
+
+    corners.forEach((c) => {
+      // Primary titanium structural beam
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(c.legX, c.legY);
+      ctx.stroke();
+
+      // Hydraulic piston arm
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(c.legX, c.legY);
+      ctx.lineTo(c.footX, c.footY);
+      ctx.stroke();
+
+      // Gold MLI foil covered landing footpad
+      ctx.fillStyle = '#d97706';
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(c.footX, c.footY, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    });
+
+    // 3. Central Reinforced Foundation Deck
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 38, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 4. Outer Docking Airlock Vestibules (North, South, West, East)
+    const airlocks = [
+      { x: cx - 10, y: py + 6, w: 20, h: 16 }, // North
+      { x: cx - 10, y: py + h - 22, w: 20, h: 16 }, // South
+      { x: px + 6, y: cy - 10, w: 16, h: 20 }, // West
+      { x: px + w - 22, y: cy - 10, w: 16, h: 20 }, // East
+    ];
+
+    airlocks.forEach((al, i) => {
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(al.x, al.y, al.w, al.h, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      // Hatch docking seal
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      if (i < 2) {
+        ctx.fillRect(al.x + 4, al.y + (i === 0 ? 1 : al.h - 3), al.w - 8, 2);
+      } else {
+        ctx.fillRect(al.x + (i === 2 ? 1 : al.w - 3), al.y + 4, 2, al.h - 8);
+      }
+    });
+
+    // 5. Inflatable Multi-Layer Insulation (MLI) Pressurized Main Dome
+    const domeGrad = ctx.createRadialGradient(cx - 8, cy - 8, 4, cx, cy, 28);
+    domeGrad.addColorStop(0, '#ffffff');
+    domeGrad.addColorStop(0.7, '#e2e8f0');
+    domeGrad.addColorStop(1, '#94a3b8');
+    ctx.fillStyle = domeGrad;
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 27, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Circumferential Kevlar structural tension seam
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 6. Observation Cupola & Command Bridge (Glowing Cyan Windows)
+    const cupolaRadius = 10;
+    ctx.fillStyle = '#090d16';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 3, cupolaRadius + 1, 0, Math.PI * 2);
+    ctx.fill();
+
+    const winGrad = ctx.createRadialGradient(cx, cy - 3, 2, cx, cy - 3, cupolaRadius);
+    winGrad.addColorStop(0, '#7dd3fc');
+    winGrad.addColorStop(1, '#0284c7');
+    ctx.fillStyle = winGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 3, cupolaRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Cupola cross-mullion window frames
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - cupolaRadius, cy - 3);
+    ctx.lineTo(cx + cupolaRadius, cy - 3);
+    ctx.moveTo(cx, cy - 3 - cupolaRadius);
+    ctx.lineTo(cx, cy - 3 + cupolaRadius);
+    ctx.stroke();
+
+    // 7. Parabolic Communications Antenna Dish
+    const dishX = cx + 14;
+    const dishY = cy - 14;
+    ctx.strokeStyle = '#d97706';
+    ctx.fillStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(dishX, dishY, 7, 0.8 * Math.PI, 1.8 * Math.PI);
+    ctx.stroke();
+    // Dish feed horn
+    ctx.beginPath();
+    ctx.moveTo(dishX, dishY);
+    ctx.lineTo(dishX + 4, dishY - 4);
+    ctx.stroke();
+
+    // 8. Central Telemetry Beacon (Pulsing Green / Blue)
+    const beaconPulse = Math.sin(time * 0.005) * 1.5 + 3.5;
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 3, beaconPulse + 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 9. NASA Artemis Base Nameplate Badge
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(cx - 28, cy + 18, 56, 11, 3);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 7.5px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('ARTEMIS BASE', cx, cy + 24);
   }
 
   // --- Fallback Module ---

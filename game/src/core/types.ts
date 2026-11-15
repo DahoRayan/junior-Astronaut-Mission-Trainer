@@ -6,7 +6,6 @@
 export type BuildingType =
   | 'solar_array'
   | 'battery_bank'
-  | 'kilopower_reactor'
   | 'emergency_o2_generator'
   | 'oxygen_electrolyzer'
   | 'co2_scrubber'
@@ -18,7 +17,8 @@ export type BuildingType =
   | 'hydroponics_tray'
   | 'water_extractor'
   | 'earth_channel'
-  | 'power_cable';
+  | 'power_cable'
+  | 'outpost_base';
 
 export type BuildingCategory =
   | 'energy'
@@ -167,6 +167,13 @@ export interface MissionDebriefRequest {
   crew_final_health: number;
   crew_final_morale: number;
   anomalies_resolved: number;
+}
+
+export interface MissionFailedData {
+  reason: string;
+  lesson: string;
+  sol: number;
+  sols_completed: number;
 }
 
 export interface MissionDebriefResponse {

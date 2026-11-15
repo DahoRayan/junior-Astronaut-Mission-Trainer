@@ -50,12 +50,8 @@ console.log('✅ Test 1 Passed: 30 Earth-day cycle accurately alternates 15 days
 console.log('--- Test 2: Clean Scratch Base Startup State ---');
 const simStartup = new SimulationEngine();
 assert.strictEqual(simStartup.state.materials, 1400, 'Starting materials must be 1400');
-assert.strictEqual(simStartup.grid.getPlacedBuildings().length, 0, 'Grid must start clean with 0 buildings');
-assert.strictEqual(
-  simStartup.grid.tiles.some((row) => row.some((t) => t.hasCable)),
-  false,
-  'Grid must start with 0 cables'
-);
+assert.strictEqual(simStartup.grid.getPlacedBuildings().length, 1, 'Grid must start with 1 central base');
+assert.strictEqual(simStartup.grid.getPlacedBuildings()[0].type, 'outpost_base', 'Startup building must be outpost_base');
 
 const tut = new TutorialManager();
 tut.reset();

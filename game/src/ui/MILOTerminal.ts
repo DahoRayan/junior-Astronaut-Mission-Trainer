@@ -35,7 +35,6 @@ export class MILOTerminal {
   private selectedCategory: string = 'all';
   private searchQuery: string = '';
   private expandedIds: Set<string> = new Set<string>();
-  private latestAdvisorMessage: string = 'Welcome to Shackleton Crater Rim! Ask me anything about space survival or search 67 NASA scientific topics below.';
 
   private lastResourceState: ResourceState | null = null;
   private lastSnapshot: GameSnapshot | null = null;
@@ -85,7 +84,7 @@ export class MILOTerminal {
           // If 1 or more questions shown, expand first result
           const firstCard = this.questionsList?.querySelector<HTMLElement>('.expert-card');
           if (firstCard && firstCard.dataset.qid) {
-            this.toggleQuestion(firstCard.dataset.qid);
+            this.toggleCardDOM(firstCard, firstCard.dataset.qid);
           }
         }
       });
@@ -119,8 +118,8 @@ export class MILOTerminal {
   }
 
   public appendMILOMessage(text: string): HTMLElement {
-    this.latestAdvisorMessage = text;
-    this.renderQuestions();
+    // Log directly to bottom mission log
+    eventBus.emit('notification', { type: 'info', message: text });
 
     const dummy = document.createElement('div');
     dummy.className = 'chat-bubble milo';
@@ -129,7 +128,6 @@ export class MILOTerminal {
   }
 
   private handleAlertTriggered(alertKey: string): void {
-    // Match alert key to category
     const key = alertKey.toLowerCase();
     let targetCat: string | null = null;
     if (key.includes('rad') || key.includes('flare') || key.includes('cme') || key.includes('storm')) {
@@ -267,29 +265,13 @@ export class MILOTerminal {
     if (!list) return;
     list.innerHTML = '';
 
-    // 1. Live M.I.L.O. speech card
-    if (this.latestAdvisorMessage) {
-      const advisorCard = document.createElement('div');
-      advisorCard.className = 'milo-advisor-card';
-      advisorCard.innerHTML = `
-        <div class="milo-advisor-header">
-          <span class="milo-avatar">🤖</span>
-          <strong>M.I.L.O. Live Advisor</strong>
-        </div>
-        <div class="milo-advisor-text">${this.latestAdvisorMessage}</div>
-      `;
-      list.appendChild(advisorCard);
-    }
-
     const activeTriggers = this.getActiveTriggers();
 
-    // 2. Filter questions
+    // Filter questions
     let filtered = this.questions.filter((q) => {
-      // Category filter
       if (this.selectedCategory !== 'all' && q.category !== this.selectedCategory) {
         return false;
       }
-      // Search query filter
       if (this.searchQuery) {
         const query = this.searchQuery;
         const inQuestion = q.question.toLowerCase().includes(query);
@@ -301,7 +283,7 @@ export class MILOTerminal {
       return true;
     });
 
-    // 3. Sort: Recommended first, then keep list stable
+    // Sort: Recommended questions first
     filtered.sort((a, b) => {
       const aRec = this.isQuestionRecommended(a, activeTriggers) ? 1 : 0;
       const bRec = this.isQuestionRecommended(b, activeTriggers) ? 1 : 0;
@@ -312,12 +294,12 @@ export class MILOTerminal {
       const empty = document.createElement('div');
       empty.className = 'expert-empty';
       empty.style.textAlign = 'center';
-      empty.style.padding = '30px 15px';
+      empty.style.padding = '35px 15px';
       empty.style.color = '#94a3b8';
       empty.innerHTML = `
         <div style="font-size: 2rem; margin-bottom: 8px;">🛰️</div>
-        <div style="font-weight: 700; color: #e2e8f0;">No matching NASA topics found</div>
-        <div style="font-size: 0.72rem; margin-top: 4px;">Try searching for "solar", "oxygen", "radiation", or select "All".</div>
+        <div style="font-weight: 700; color: #e2e8f0; font-size: 0.85rem;">No matching NASA topics found</div>
+        <div style="font-size: 0.72rem; margin-top: 4px; color: #64748b;">Try searching for "solar", "oxygen", "radiation", or click "All".</div>
       `;
       list.appendChild(empty);
       return;
@@ -330,13 +312,18 @@ export class MILOTerminal {
     });
   }
 
-  private toggleQuestion(qid: string): void {
-    if (this.expandedIds.has(qid)) {
-      this.expandedIds.delete(qid);
-    } else {
+  private toggleCardDOM(card: HTMLElement, qid: string): void {
+    const body = card.querySelector<HTMLElement>('.expert-card-body');
+    const isNowOpen = !card.classList.contains('open');
+
+    card.classList.toggle('open', isNowOpen);
+    if (isNowOpen) {
       this.expandedIds.add(qid);
+      if (body) body.style.display = 'block';
+    } else {
+      this.expandedIds.delete(qid);
+      if (body) body.style.display = 'none';
     }
-    this.renderQuestions();
   }
 
   private createQuestionCard(q: ExpertQuestion, isRecommended: boolean): HTMLElement {
@@ -347,55 +334,61 @@ export class MILOTerminal {
 
     // Category label lookup
     const catDef = this.categories.find((c) => c.id === q.category);
-    const catLabel = catDef ? catDef.label.split(' ')[0] : '🚀';
+    const catIcon = catDef ? catDef.label.split(' ')[0] : '🚀';
+    const catName = catDef ? catDef.label.replace(/^[^\s]+\s*/, '') : q.category;
 
     // Difficulty badge
     const diffClass = `badge-diff-${q.difficulty}`;
     const diffLabel = q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1);
 
-    // Header
+    // Clean, readable header with full-width question typography
     const header = document.createElement('div');
     header.className = 'expert-card-header';
     header.innerHTML = `
-      <div class="expert-badge-row">
-        ${isRecommended ? '<span class="expert-badge badge-recommended">⭐ Recommended</span>' : ''}
-        <span class="expert-badge badge-category">${catLabel}</span>
-        <span class="expert-badge ${diffClass}">${diffLabel}</span>
-        ${q.related_resource ? `<span class="expert-badge" style="background: rgba(148, 163, 184, 0.15); color: #cbd5e1;">${q.related_resource.toUpperCase()}</span>` : ''}
+      <div class="expert-card-meta-top">
+        <div class="expert-card-cat-badge">
+          <span class="expert-card-icon">${catIcon}</span>
+          <span class="expert-card-cat-name">${catName}</span>
+        </div>
+        <div class="expert-card-actions">
+          ${isRecommended ? '<span class="expert-star-badge" title="Recommended for current base telemetry">⭐ RECOMMENDED</span>' : ''}
+          <span class="expert-expand-arrow">▼</span>
+        </div>
       </div>
-      <div class="expert-question-title-row">
-        <span class="expert-question-text">${q.question}</span>
-        <span class="expert-expand-arrow">▼</span>
-      </div>
+      <div class="expert-question-text">${q.question}</div>
     `;
 
+    // Fast in-place DOM expansion (NO full list re-render, ZERO scroll jumping!)
     header.addEventListener('click', () => {
-      this.toggleQuestion(q.id);
+      this.toggleCardDOM(card, q.id);
     });
     card.appendChild(header);
 
-    // Body (if open)
-    if (isOpen) {
-      const body = document.createElement('div');
-      body.className = 'expert-card-body';
+    // Body
+    const body = document.createElement('div');
+    body.className = 'expert-card-body';
+    body.style.display = isOpen ? 'block' : 'none';
 
-      // Split answer into paragraphs
-      const paragraphs = q.answer
-        .split('\n\n')
-        .filter((p) => p.trim().length > 0)
-        .map((p) => `<p>${p.trim()}</p>`)
-        .join('');
+    const paragraphs = q.answer
+      .split('\n\n')
+      .filter((p) => p.trim().length > 0)
+      .map((p) => `<p>${p.trim()}</p>`)
+      .join('');
 
-      body.innerHTML = `
-        <div class="expert-answer">${paragraphs}</div>
-        <div class="expert-science-corner">
-          <span class="science-corner-label">🔬 SCIENCE CORNER — NASA DATA SOURCE</span>
-          <span class="science-corner-source">Source: <strong>${q.source}</strong></span>
-          ${q.source_url ? `<a href="${q.source_url}" target="_blank" rel="noopener noreferrer" class="science-corner-link">🔗 Read official NASA research ↗</a>` : ''}
-        </div>
-      `;
-      card.appendChild(body);
-    }
+    body.innerHTML = `
+      <div class="expert-answer">${paragraphs}</div>
+      <div class="expert-meta-row">
+        <span class="expert-badge ${diffClass}">${diffLabel}</span>
+        <span class="expert-badge badge-category">${catDef ? catDef.label : q.category}</span>
+        ${q.related_resource ? `<span class="expert-badge badge-resource">${q.related_resource.toUpperCase()}</span>` : ''}
+      </div>
+      <div class="expert-science-corner">
+        <div class="science-corner-header">🔬 NASA SCIENCE CORNER</div>
+        <div class="science-corner-source">Source: <strong>${q.source}</strong></div>
+        ${q.source_url ? `<a href="${q.source_url}" target="_blank" rel="noopener noreferrer" class="science-corner-link">🔗 Read official NASA research ↗</a>` : ''}
+      </div>
+    `;
+    card.appendChild(body);
 
     return card;
   }
