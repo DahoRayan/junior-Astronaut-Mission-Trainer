@@ -1,0 +1,7 @@
+{
+  "roles": [
+    { "id": "engineer", "startingPower": 60, "startingAir": 60, "loadout": ["solar", "solar", "battery"], "special": "quickFix" },
+    { "id": "scientist", "startingPower": 50, "startingAir": 70, "loadout": ["solar", "greenhouse", "radiationWall"], "special": "iceScan" },
+    { "id": "medic", "startingPower": 50, "startingAir": 80, "loadout": ["solar", "airMaker"], "special": "healthCheck" }
+  ]
+}

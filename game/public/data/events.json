@@ -1,3 +1,11 @@
 {
-  "events": []
+  "events": [
+    { "id": "landing", "day": 1, "choices": [] },
+    { "id": "oxygenLeak", "day": 2, "choices": ["callEarth", "patchLeak"] },
+    { "id": "nightForecast", "day": 4, "choices": [] },
+    { "id": "stormForecast", "day": 8, "choices": [] },
+    { "id": "solarStorm", "day": 9, "choices": ["shelter", "stay"] },
+    { "id": "firstHarvest", "day": 10, "choices": [] },
+    { "id": "moonquake", "day": 12, "choices": ["quickRepair", "keepGoing"] }
+  ]
 }

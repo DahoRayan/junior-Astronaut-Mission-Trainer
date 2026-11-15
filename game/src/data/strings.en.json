@@ -1,0 +1,18 @@
+{
+  "language": "en",
+  "strings": {},
+  "rules": {
+    "R-SOLAR-SUN": { "kidText": "Sunlight makes power.", "because": "Solar panels see sunlight.", "so": "Your battery gains power.", "try": "Save power before night." },
+    "R-SOLAR-NIGHT": { "kidText": "Night makes solar panels stop.", "because": "The Moon is in darkness.", "so": "Panels make no power.", "try": "Use batteries for night." },
+    "R-BATTERY-FULL-WASTE": { "kidText": "A full battery wastes extra power.", "because": "Stored power reached capacity.", "so": "Some sunlight was wasted.", "try": "Build consumers or another battery." },
+    "R-POWER-SHORT-OFFLINE": { "kidText": "Not enough power; a module stayed off.", "because": "The power pool was too small.", "so": "That module could not run.", "try": "Build power or switch modules off." },
+    "R-BLACKOUT-COLD": { "kidText": "The habitat ran out of power.", "because": "Habitat power came first.", "so": "The crew got cold.", "try": "Store more power before night." },
+    "R-AIR-BALANCE": { "kidText": "Air changes when machines and crew work.", "because": "Machines make air while crew uses it.", "so": "Your air meter moved.", "try": "Keep an air maker powered." },
+    "R-AIR-THIN": { "kidText": "Thin air makes the crew weak.", "because": "The air meter fell below 25.", "so": "Crew health dropped.", "try": "Make more air soon." },
+    "R-STORM-SHIELD": { "kidText": "A storm hit the unshielded base.", "because": "Storm strength exceeded your shield.", "so": "Crew health dropped.", "try": "Build walls or shelter." },
+    "R-SHELTER-TRADE": { "kidText": "Shelter protects crew but costs power.", "because": "The vault uses stored power.", "so": "The rover stayed offline.", "try": "Choose shelter when the storm is strong." },
+    "R-QUAKE-DUST": { "kidText": "The quake covered panels with dust.", "because": "The moonquake was not repaired.", "so": "Air and sunlight were reduced.", "try": "Save bricks for a quick repair." },
+    "R-LEAK-CHOICE": { "kidText": "Your leak choice changed the next days.", "because": "Earth help costs bricks or patching costs power.", "so": "Air and resources changed.", "try": "Pick the trade-off your base can afford." },
+    "R-HARVEST": { "kidText": "The greenhouse helped the crew harvest.", "because": "A working greenhouse grew food.", "so": "Crew health improved.", "try": "Keep the greenhouse powered." }
+  }
+}

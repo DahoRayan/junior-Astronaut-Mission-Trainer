@@ -12,9 +12,11 @@ Update after every meaningful change.
 - AI-service Units 01-07 remain preserved under `ai-service/`.
 
 ## In progress
-- Unit V01: React + TypeScript + React Three Fiber scaffold, data stubs, and
-  performance baseline. Automated checks pass; manual 4x CPU-throttle FPS
-  measurement remains.
+- Unit V01: React + TypeScript + React Three Fiber scaffold and performance
+  baseline. Automated checks pass; manual 4x CPU-throttle FPS measurement
+  remains.
+- Unit V02: pure deterministic simulation core. Implemented and verified with
+  14 tests and 93.86% line coverage in `src/sim/`.
 
 ## Decisions
 - The current Vite/TypeScript game is preserved at `legacy/web-prototype/`.
@@ -25,8 +27,8 @@ Update after every meaningful change.
 ## Unit ownership
 | Unit | Owner | Branch | Status |
 |---|---|---|---|
-| V01 scaffold + perf harness | Ibrahim | feat/web-01-scaffold | in progress |
-| V02 simulation core | TBD | | not started |
+| V01 scaffold + perf harness | Ibrahim | feat/web-01-scaffold | implemented; manual FPS pending |
+| V02 simulation core | Ibrahim | feat/web-02-sim-core | implemented |
 
 ## Pack gaps
 - `_incoming/v3/CLAUDE.md` was not supplied.

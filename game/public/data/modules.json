@@ -1,3 +1,10 @@
 {
-  "modules": []
+  "modules": [
+    { "type": "solar", "cost": 20, "summary": "Makes power in sunlight." },
+    { "type": "battery", "cost": 20, "summary": "Stores more power." },
+    { "type": "airMaker", "cost": 40, "summary": "Makes air. Needs power." },
+    { "type": "radiationWall", "cost": 25, "summary": "Adds storm shield." },
+    { "type": "greenhouse", "cost": 50, "summary": "Makes air and helps crew." },
+    { "type": "rover", "cost": 30, "summary": "Finds more bricks." }
+  ]
 }

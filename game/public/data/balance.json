@@ -1,5 +1,25 @@
 {
-  "mission_days": 12,
-  "resources": ["power", "air", "shield"],
-  "buildings": []
+  "missionDays": 12,
+  "nightDays": [5, 6],
+  "gridSize": 6,
+  "maxBuildings": 12,
+  "baseCapacity": 40,
+  "batteryCapacity": 40,
+  "habitatUpkeep": 10,
+  "crewAirUse": 10,
+  "baseBrickIncome": 10,
+  "baseShield": 15,
+  "maxAir": 100,
+  "maxCrewHealth": 100,
+  "startingBricks": 40,
+  "stormSeverity": 2,
+  "stormRequiredShield": { "1": 40, "2": 60, "3": 80 },
+  "buildings": {
+    "solar": { "cost": 20, "power": 14, "air": 0, "heal": 0, "shield": 0, "capacity": 0, "bricks": 0, "max": 6 },
+    "battery": { "cost": 20, "power": 0, "air": 0, "heal": 0, "shield": 0, "capacity": 40, "bricks": 0, "max": 3 },
+    "airMaker": { "cost": 40, "power": 10, "air": 15, "heal": 0, "shield": 0, "capacity": 0, "bricks": 0, "max": 2 },
+    "radiationWall": { "cost": 25, "power": 0, "air": 0, "heal": 0, "shield": 25, "capacity": 0, "bricks": 0, "max": 3 },
+    "greenhouse": { "cost": 50, "power": 6, "air": 5, "heal": 3, "shield": 0, "capacity": 0, "bricks": 0, "max": 2 },
+    "rover": { "cost": 30, "power": 4, "air": 0, "heal": 0, "shield": 0, "capacity": 0, "bricks": 20, "max": 2 }
+  }
 }
