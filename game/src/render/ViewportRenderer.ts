@@ -1,7 +1,8 @@
-import { GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
+import { BUILDING_DEFINITIONS, GRID_HEIGHT, GRID_WIDTH, TILE_SIZE } from '../core/Constants';
 import { eventBus } from '../core/EventBus';
 import { BuildingType, PlacedBuilding } from '../core/types';
 import { Grid } from '../simulation/Grid';
+import { TutorialManager } from '../simulation/TutorialManager';
 import { BuildingRenderer } from './BuildingRenderer';
 import { Camera } from './Camera';
 import { Ground3DRenderer } from './Ground3DRenderer';
@@ -31,6 +32,7 @@ export class ViewportRenderer {
   public isDemolishMode: boolean = false;
   public sunAzimuth: number = 0;
   public isDaylight: boolean = true;
+  public tutorialManager: TutorialManager | null = null;
 
   private confettiParticles: ConfettiParticle[] = [];
 
@@ -108,6 +110,12 @@ export class ViewportRenderer {
     });
   }
 
+  public focusTile(tileX: number, tileY: number): void {
+    const worldX = tileX * TILE_SIZE + TILE_SIZE / 2;
+    const worldY = tileY * TILE_SIZE + TILE_SIZE / 2;
+    this.camera.panToWorld(worldX, worldY);
+  }
+
   private render(): void {
     const { width, height } = this.canvas;
     // Clear 2D overlay canvas to transparent so the 3D lunar terrain underneath is visible
@@ -129,6 +137,9 @@ export class ViewportRenderer {
 
     // 4. Draw Atmospheric Lunar Day/Night Overlay & Habitat Lights
     this.drawDayNightAtmosphere();
+
+    // 4b. Draw Guided Tutorial Target Beacons & Indicators
+    this.drawTutorialBeacons();
 
     // 5. Draw Placement Hover & Ghost Preview
     this.drawHover();
@@ -316,7 +327,51 @@ export class ViewportRenderer {
       this.ctx.lineTo(px + 6, py + TILE_SIZE - 6);
       this.ctx.stroke();
       this.ctx.restore();
+
+      // Show what will be demolished
+      const demoTile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
+      if (demoTile?.hasCable) {
+        this.drawHoverLabel(px, py, BUILDING_DEFINITIONS.power_cable.name, '🗑️ Click to Demolish', '#ef4444', '#fca5a5');
+      } else if (demoTile?.building) {
+        this.drawHoverLabel(px, py, BUILDING_DEFINITIONS[demoTile.building.type].name, '🗑️ Click to Demolish', '#ef4444', '#fca5a5');
+      }
     } else if (this.selectedBuildingType) {
+      // Check tutorial restriction: player is not allowed to use any Moon space except highlighted
+      if (this.tutorialManager && this.tutorialManager.isActive) {
+        const isAllowed = this.tutorialManager.isTileAllowed(this.hoveredTile.x, this.hoveredTile.y, this.selectedBuildingType);
+        if (!isAllowed) {
+          this.ctx.save();
+          this.ctx.fillStyle = 'rgba(239, 68, 68, 0.28)';
+          this.ctx.strokeStyle = '#ef4444';
+          this.ctx.lineWidth = 2;
+          this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          this.ctx.beginPath();
+          this.ctx.moveTo(px + 10, py + 10); this.ctx.lineTo(px + TILE_SIZE - 10, py + TILE_SIZE - 10);
+          this.ctx.moveTo(px + TILE_SIZE - 10, py + 10); this.ctx.lineTo(px + 10, py + TILE_SIZE - 10);
+          this.ctx.stroke();
+
+          const label = '⛔ RESTRICTED (Follow Beacon)';
+          this.ctx.font = 'bold 10px "Space Grotesk", sans-serif';
+          const tw = this.ctx.measureText(label).width;
+          this.ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+          this.ctx.strokeStyle = '#ef4444';
+          this.ctx.lineWidth = 1;
+          this.roundRect(px + TILE_SIZE / 2 - tw / 2 - 8, py - 20, tw + 16, 18, 6);
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          this.ctx.fillStyle = '#fca5a5';
+          this.ctx.textAlign = 'center';
+          this.ctx.textBaseline = 'middle';
+          this.ctx.fillText(label, px + TILE_SIZE / 2, py - 11);
+          this.ctx.restore();
+          return;
+        }
+      }
+
       const tile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
       const isValid = tile && !tile.building;
 
@@ -373,12 +428,93 @@ export class ViewportRenderer {
         this.ctx.restore();
       }
     } else {
-      // Gentle subtle inspection cursor
-      this.ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
-      this.ctx.lineWidth = 1.5;
-      this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 4);
-      this.ctx.stroke();
+      // Inspection cursor: component name + device switch toggle prompt
+      const tile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
+      const b = tile?.building;
+      if (b && b.type !== 'power_cable' && b.type !== 'regolith_shield') {
+        const isOff = b.isEnabled === false;
+        this.ctx.save();
+        this.ctx.strokeStyle = isOff ? 'rgba(239, 68, 68, 0.8)' : 'rgba(16, 185, 129, 0.8)';
+        this.ctx.lineWidth = 2;
+        this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 5);
+        this.ctx.stroke();
+        this.ctx.restore();
+
+        this.drawHoverLabel(
+          px,
+          py,
+          BUILDING_DEFINITIONS[b.type].name,
+          isOff ? '⚡ Click to Turn ON' : '⚪ Click to Turn OFF',
+          isOff ? '#10b981' : '#38bdf8',
+          isOff ? '#34d399' : '#fca5a5'
+        );
+      } else if (b) {
+        // Passive structure (e.g. Regolith Shield): name only, no switch
+        this.ctx.save();
+        this.ctx.strokeStyle = 'rgba(148, 163, 184, 0.8)';
+        this.ctx.lineWidth = 2;
+        this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 5);
+        this.ctx.stroke();
+        this.ctx.restore();
+        this.drawHoverLabel(px, py, BUILDING_DEFINITIONS[b.type].name, 'Passive structure', '#94a3b8', '#94a3b8');
+      } else if (tile?.hasCable) {
+        this.drawHoverLabel(
+          px,
+          py,
+          BUILDING_DEFINITIONS.power_cable.name,
+          tile.cablePowered ? 'Carrying power' : 'Not connected to power',
+          '#38bdf8',
+          tile.cablePowered ? '#7dd3fc' : '#94a3b8'
+        );
+      } else {
+        this.ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+        this.ctx.lineWidth = 1.5;
+        this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 4);
+        this.ctx.stroke();
+      }
     }
+  }
+
+  /** Floating tooltip above a tile: bold component name + optional smaller sub-line. */
+  private drawHoverLabel(
+    px: number,
+    py: number,
+    name: string,
+    subText: string | null,
+    borderColor: string,
+    subColor: string
+  ): void {
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.font = 'bold 11px system-ui, sans-serif';
+    const nameW = ctx.measureText(name).width;
+    ctx.font = 'bold 9px system-ui, sans-serif';
+    const subW = subText ? ctx.measureText(subText).width : 0;
+
+    const boxW = Math.max(nameW, subW) + 14;
+    const boxH = subText ? 30 : 18;
+    const boxX = px + TILE_SIZE / 2 - boxW / 2;
+    const boxY = py - boxH - 4;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 1;
+    this.roundRect(boxX, boxY, boxW, boxH, 5);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 'bold 11px system-ui, sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(name, px + TILE_SIZE / 2, boxY + 9);
+
+    if (subText) {
+      ctx.font = 'bold 9px system-ui, sans-serif';
+      ctx.fillStyle = subColor;
+      ctx.fillText(subText, px + TILE_SIZE / 2, boxY + 22);
+    }
+    ctx.restore();
   }
 
   public triggerConfetti(centerX?: number, centerY?: number): void {
@@ -426,6 +562,83 @@ export class ViewportRenderer {
       this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.5);
       this.ctx.restore();
     }
+  }
+
+  private drawTutorialBeacons(): void {
+    if (!this.tutorialManager || !this.tutorialManager.isActive) return;
+
+    const target = this.tutorialManager.getActiveMoonTarget();
+    if (!target) return;
+
+    const cx = target.x * TILE_SIZE + TILE_SIZE / 2;
+    const cy = target.y * TILE_SIZE + TILE_SIZE / 2;
+    const px = target.x * TILE_SIZE;
+    const py = target.y * TILE_SIZE;
+
+    this.ctx.save();
+
+    // 1. Concentric Pulsing Holographic Beacon
+    const pulse = (Math.sin(this.tickTime * 5) + 1) * 0.5;
+    const ringRadius = TILE_SIZE * 0.55 + pulse * (TILE_SIZE * 0.35);
+
+    // Glowing ground circle
+    const grad = this.ctx.createRadialGradient(cx, cy, 5, cx, cy, ringRadius);
+    grad.addColorStop(0, 'rgba(251, 191, 36, 0.55)');
+    grad.addColorStop(0.6, 'rgba(245, 158, 11, 0.25)');
+    grad.addColorStop(1, 'rgba(245, 158, 11, 0)');
+
+    this.ctx.fillStyle = grad;
+    this.ctx.beginPath();
+    this.ctx.arc(cx, cy, ringRadius, 0, Math.PI * 2);
+    this.ctx.fill();
+
+    // Animated rotating targeting ring
+    this.ctx.strokeStyle = '#fbbf24';
+    this.ctx.lineWidth = 2.5;
+    this.ctx.setLineDash([8, 6]);
+    this.ctx.lineDashOffset = -this.tickTime * 15;
+    this.ctx.beginPath();
+    this.ctx.arc(cx, cy, TILE_SIZE * 0.65, 0, Math.PI * 2);
+    this.ctx.stroke();
+
+    // Target crosshairs
+    this.ctx.setLineDash([]);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = '#fef08a';
+    const s = 10;
+    this.ctx.beginPath();
+    this.ctx.moveTo(cx - s, cy); this.ctx.lineTo(cx + s, cy);
+    this.ctx.moveTo(cx, cy - s); this.ctx.lineTo(cx, cy + s);
+    this.ctx.stroke();
+
+    // Tile bounding box
+    this.ctx.strokeStyle = '#fbbf24';
+    this.ctx.lineWidth = 2;
+    this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 8);
+    this.ctx.stroke();
+
+    // 2. Floating Info Pill Badge Above Tile
+    const badgeText = target.label;
+    this.ctx.font = 'bold 11px "Space Grotesk", sans-serif';
+    const textWidth = this.ctx.measureText(badgeText).width;
+    const badgeW = textWidth + 18;
+    const badgeH = 22;
+    const badgeX = cx - badgeW / 2;
+    const badgeY = py - 26 - Math.sin(this.tickTime * 4) * 4;
+
+    this.ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    this.ctx.strokeStyle = '#fbbf24';
+    this.ctx.lineWidth = 1.5;
+    this.roundRect(badgeX, badgeY, badgeW, badgeH, 11);
+    this.ctx.fill();
+    this.ctx.stroke();
+
+    this.ctx.fillStyle = '#fef08a';
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+    this.ctx.fillText(badgeText, cx, badgeY + badgeH / 2);
+
+    this.ctx.restore();
   }
 
   private roundRect(x: number, y: number, w: number, h: number, r: number): void {

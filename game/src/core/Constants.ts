@@ -10,14 +10,14 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
     name: 'Solar Array',
     category: 'energy',
     buildCost: 50,
-    powerGenerationKw: 20,
+    powerGenerationKw: 60,
     powerConsumptionKw: 0,
     batteryCapacityKwh: 0,
     oxygenProductionKgH: 0,
     waterConsumptionL: 0,
     waterProductionL: 0,
     shieldingBonusPct: 0,
-    description: 'Generates +20 kW clean solar electricity in sunlight. 0 kW in shadow.',
+    description: 'Generates +60 kW clean solar electricity in sunlight. 0 kW in shadow.',
     educationalFact: 'At the Moon\'s South Pole, solar panels on high crater rims receive near-constant sunlight even when crater floors remain in permanent shadow (NASA LRO).'
   },
   battery_bank: {

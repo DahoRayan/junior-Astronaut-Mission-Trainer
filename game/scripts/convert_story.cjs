@@ -12,6 +12,7 @@ for (const ev of bible.timeline) {
 
 const sceneMeta = {
   'S-PRO-1': { chapter: 0, title: 'PROLOGUE: TOUCHDOWN', location: 'Shackleton Crater Rim — Landing Site' },
+  'S-BASE-TOUR': { chapter: 1, title: 'BASE SYSTEMS TOUR', location: 'Shackleton Crater Rim — Outpost Complex' },
   'S-C1-1': { chapter: 1, title: 'CHAPTER 1: HABITAT DEPLOYMENT', location: 'Sector Alpha — Outpost Perimeter' },
   'S-C1-2': { chapter: 1, title: 'CHAPTER 1: LIFE SUPPORT ACTIVATION', location: 'Hab Module — CDRA Atmosphere Bay' },
   'S-C1-3': { chapter: 1, title: 'CHAPTER 1: PRIMARY VALVE FRACTURE', location: 'Cryo-Tank Station — Main Oxygen Line' },
@@ -95,8 +96,13 @@ for (const [sceneId, lines] of Object.entries(dialogue.scenes)) {
   // Add interactive choices on last lines of key decision scenes
   if (sceneId === 'S-PRO-1') {
     formattedLines[formattedLines.length - 1].choices = [
-      { text: 'Acknowledge mission plan & deploy inflatable habitat', consequence: 'Unpacking habitat module on grid tile (20, 15)...' },
-      { text: 'Ask M.I.L.O. to run landing sensor calibration first', consequence: 'All telemetry arrays calibrated at 100% nominal!' },
+      { text: "Take the Systems Tour of our Pre-Built Base", consequence: 'Touring all 12 outpost life-support and energy machines...' },
+      { text: "Start building my own base from scratch", consequence: 'Grid cleared with 1400 materials. Build freely!' },
+    ];
+  } else if (sceneId === 'S-BASE-TOUR') {
+    formattedLines[formattedLines.length - 1].choices = [
+      { text: 'Acknowledge all systems and take command of the Outpost!', consequence: 'All systems green! Outpost under your command.' },
+      { text: 'Switch to custom mode: wipe grid and build my own base', consequence: '1400 Materials granted. Build freely!' },
     ];
   } else if (sceneId === 'S-C1-2') {
     formattedLines[formattedLines.length - 1].choices = [

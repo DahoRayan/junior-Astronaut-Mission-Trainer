@@ -53,6 +53,7 @@ export interface PlacedBuilding {
   x: number;
   y: number;
   isPowered: boolean;
+  isEnabled?: boolean; // Manual player power switch (default true = ON, false = OFF)
   isFaulty?: boolean;
 }
 
@@ -70,33 +71,49 @@ export interface Tile {
 export interface ResourceState {
   sol: number;
   timeOfDayHours: number; // 0 to 24 (12h day, 12h night)
-  materials: number;
+  is_daylight: boolean; // Clock flag
+  materials: number; // Construction budget (NO points)
+
+  // 18 Core Simulation Variables from Specification (§2.3, §10.2)
+  power: number; // Stored electricity (kWh, 0 to capacity)
+  stored_o2: number; // Reserve tank of breathable O2 (0-100 u, 1u = 10 kg)
+  oxygen: number; // Cabin atmosphere quality % (0-100, nominal 100)
+  co2: number; // Cabin CO2 (0-100 u, 1u = 2.5 kg, nominal 10)
+  temperature: number; // Cabin temperature gauge (0-100, nominal 50 = 21°C)
+  pressure: number; // Hull integrity pressure gauge (0-100, nominal 100)
+  water: number; // Water stock (0-100 u, 1u = 10 kg)
+  food: number; // Food stock (rations/units)
+  food_growth: number; // Crop progress (0-100)
+  radiation: number; // Crew exposure (0-100)
+  radiation_protection: number; // Effective shielding (0-100)
+  shield: number; // Condition of regolith layer (0-100)
+  dust: number; // Dust on solar panels (0-100)
+  light_cycle: number; // Circadian lighting (0-100)
+  saturation: number; // Hunger gauge (0-100)
+  quenching: number; // Thirst gauge (0-100)
+  enthusiasm: number; // Crew morale (0-100)
+  health: number; // Crew health (0-100)
+
+  // Derived Rates & Electrical State
   powerKwGenerated: number;
   powerKwConsumed: number;
   powerBalanceKw: number;
-  batteryChargeKwh: number;
   batteryCapacityKwh: number;
-  oxygenKgRemaining: number;
-  stored_o2?: number; // Stored breathable O2 units
-  oxygenBalanceKgH: number;
-  co2: number; // Cabin CO2 (0-100)
-  waterLiters: number;
-  waterRecycledLiters: number;
-  temperature: number; // Cabin temperature gauge (0-100, nominal 50)
-  food: number; // Food stock units
-  foodGrowth: number; // Crop growth progress (0-100)
-  dust: number; // Dust on solar panels (0-100)
-  shield: number; // Regolith shield condition (0-100)
-  radiationProtection: number; // Total protection (0-100)
-  radiation: number; // Radiation exposure (0-100)
-  lightCycle: number; // Circadian lighting (0-100)
-  saturation: number; // Hunger gauge (0-100)
-  quenching: number; // Thirst gauge (0-100)
-  radiationDoseMitigatedPct: number;
-  crewHealthAvg: number; // 0-100
-  crewMoraleAvg: number; // 0-100 (enthusiasm)
   isSheltering: boolean; // Crew sheltering in storm vault
   activeAlert: string | null;
+
+  // Backward-compatibility Aliases
+  batteryChargeKwh: number; // alias of power
+  oxygenKgRemaining: number; // alias of stored_o2
+  oxygenBalanceKgH: number;
+  waterLiters: number; // alias of water
+  waterRecycledLiters: number;
+  foodGrowth: number; // alias of food_growth
+  radiationProtection: number; // alias of radiation_protection
+  lightCycle: number; // alias of light_cycle
+  radiationDoseMitigatedPct: number;
+  crewHealthAvg: number; // alias of health
+  crewMoraleAvg: number; // alias of enthusiasm
 }
 
 export interface GameSnapshot {

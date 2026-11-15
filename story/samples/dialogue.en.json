@@ -1,23 +1,9 @@
 {
  "language": "en",
  "source": "Beyond_Earth_First_Light_AR.md",
- "note": "Text kept verbatim from the story file; typesetting artifacts of formulas (O2, CO2, degrees) were cleaned. Every scene_id matches story-bible.json.",
+ "note": "Text kept verbatim from the story file; typesetting artifacts of formulas were cleaned. Every scene_id matches story-bible.json.",
  "scenes": {
   "S-PRO-1": [
-   {
-    "type": "direction",
-    "text": "Black screen. Deep space ambient frequencies. Earth appears as a blue marble, then the camera descends rapidly toward the Moon's South Pole."
-   },
-   {
-    "type": "line",
-    "speaker": "Narrator",
-    "text": "Three hundred and eighty-four thousand kilometers from Earth, there is a place where no trees grow, no wind blows, and no human can take a single breath without life-support."
-   },
-   {
-    "type": "line",
-    "speaker": "Narrator",
-    "text": "This is Shackleton Crater. And the lives of four astronauts are in your hands."
-   },
    {
     "type": "direction",
     "text": "The Artemis Lunar Lander touches down on grey lunar regolith. Dust settles."
@@ -25,80 +11,110 @@
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "Touchdown confirmed! Surface telemetry online."
+    "text": "Touchdown confirmed on Shackleton Crater Rim! First Light Outpost systems online."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Houston, Shackleton Rim Base here. The First Light has touched down safely."
+    "text": "Welcome to the Moon, Commander! Shackleton Rim is one of the harshest places in the solar system. Our survival depends entirely on the machines working around us."
    },
+   {
+    "type": "line",
+    "speaker": "MILO",
+    "text": "All telemetry channels are streaming. Let us tour each base sector so you understand how every machine keeps our crew alive."
+   }
+  ],
+  "S-BASE-TOUR": [
    {
     "type": "direction",
-    "text": "Leo turns toward the camera, speaking over the direct comm link."
+    "text": "Holographic telemetry highlights the glowing First Light Outpost complex."
+   },
+   {
+    "type": "line",
+    "speaker": "MILO",
+    "text": "Welcome to First Light Outpost, Commander! You are looking at a complete, self-sustaining lunar survival base on Shackleton Crater Rim."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Commander, good to have you on the console. I'm Captain Leo Ruiz. These three people beside me are my family now—Amir, Nia, and Daniel."
-   },
-   {
-    "type": "line",
-    "speaker": "Leo",
-    "text": "Down here, there is no room for mistakes. If our power dies, our heaters die. If our air tanks run dry, we die. We're counting on your spatial planning and quick thinking to keep us alive."
+    "text": "Our lives depend on every machine here working together in balance. Without them, the vacuum and radiation are fatal. Let's inspect each sector so you understand how they keep us alive."
    },
    {
     "type": "line",
     "speaker": "Amir",
-    "text": "Don't scare the Commander already, Captain! We've got the best tech in the solar system."
+    "text": "First up: ENERGY! Look at our 8 Solar Panels along the sunlit ridge. They convert sunlight into 160 kW of clean electrical power. But lunar dust settles on them constantly—so we must clean them regularly to keep power flowing!"
+   },
+   {
+    "type": "line",
+    "speaker": "Amir",
+    "text": "Right beside them are 8 Battery Banks storing 800 kWh of energy. When the 12-hour lunar night falls, solar power drops to zero. Our batteries release stored power to keep the base alive until sunrise."
+   },
+   {
+    "type": "line",
+    "speaker": "Amir",
+    "text": "And linking everything are our Power Cables—the heavy-duty electrical grid routing wattage between every generator, battery, and life-support machine."
+   },
+   {
+    "type": "line",
+    "speaker": "Daniel",
+    "text": "Next: ATMOSPHERE & BREATHING. The four of us exhale toxic carbon dioxide with every breath. Without our 2 CO₂ Scrubbers, CO₂ would poison our blood within hours. They filter out 4 kg of toxic gas every single hour."
+   },
+   {
+    "type": "line",
+    "speaker": "Nia",
+    "text": "And for fresh air, meet our Oxygen Electrolyzer! It splits liquid water (H₂O) into hydrogen and breathable oxygen, generating +2.5 kg of pure oxygen per hour."
+   },
+   {
+    "type": "line",
+    "speaker": "Nia",
+    "text": "To supply water for breathing and drinking, our Water Recycling System purifies wastewater and humidity, reclaiming +3 liters of clean water every hour."
+   },
+   {
+    "type": "line",
+    "speaker": "Daniel",
+    "text": "And if our primary loop ever drops below safe levels, the Emergency Oxygen Generator acts as our backup lifeline to immediately pressurize the cabin."
+   },
+   {
+    "type": "line",
+    "speaker": "Amir",
+    "text": "Don't forget the extreme cold! Outside in shadow it drops to -180°C. Our automated Heating System pumps warmth through the core, maintaining cabin temperature safely at 21°C."
+   },
+   {
+    "type": "line",
+    "speaker": "Nia",
+    "text": "Over in the Green Dome is our Growth Farm. Plants recycle carbon dioxide, produce supplemental oxygen, and grow fresh food to keep crew morale high and hunger away."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Technology only works if our Commander connects it right, Amir. Let's get to work."
+    "text": "Up top is our Lunar Soil Radiation Shield—a thick blanket of regolith blocking deadly cosmic rays. And if an X-class solar flare strikes, we evacuate to the Subterranean Storm Vault!"
+   },
+   {
+    "type": "line",
+    "speaker": "Leo",
+    "text": "Finally, our Earth Connection Channel keeps high-gain communication streaming to Houston, allowing emergency cargo resupplies when resources run thin."
+   },
+   {
+    "type": "line",
+    "speaker": "MILO",
+    "text": "Systems briefing complete. The outpost is yours to command! You can continue managing this pre-built base, or select 'Start building my own base' to design your own from scratch."
    }
   ],
   "S-C1-1": [
    {
     "type": "line",
-    "speaker": "MILO",
-    "text": "Unpacking inflatable Crew Habitat. Structural seals engaged."
+    "speaker": "Amir",
+    "text": "Power lines connected! 40 kilowatts of solar energy are pouring into the main breaker!"
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Commander, anchor that habitat securely. Then we need power to run the air pumps."
-   },
-   {
-    "type": "direction",
-    "text": "Player places Solar Array and connects the power cable."
-   },
-   {
-    "type": "line",
-    "speaker": "Amir",
-    "text": "Power lines connected! Solar wattage is pouring into the main breaker."
-   },
-   {
-    "type": "objective",
-    "text": "Opening the Compressed Oxygen Reserve"
-   },
-   {
-    "type": "line",
-    "speaker": "Daniel",
-    "text": "Opening the habitat's compressed oxygen valve. Remember: our air isn't infinite. It comes from high-pressure liquid oxygen tanks delivered with the lander."
-   },
-   {
-    "type": "line",
-    "speaker": "Nia",
-    "text": "We exhale toxic carbon dioxide with every breath. If the CDRA scrubbers aren't powered, CO₂ will poison our blood within hours."
-   },
-   {
-    "type": "direction",
-    "text": "Player powers the CDRA Scrubber and Habitat ventilation."
+    "text": "Outstanding work, Commander! With the power grid online, the habitat lights are on and our systems are fully operational."
    },
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "Cabin atmosphere balanced at 21% O₂, 101.3 kPa."
+    "text": "Base telemetry unlocked. All life-support, oxygen, and resource monitoring channels are now active."
    }
   ],
   "S-C1-2": [
@@ -205,47 +221,43 @@
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Commander! Reroute the emergency heating loops to the battery core! Do it before our fingers go numb!"
+    "text": "Amir, reroute emergency heating loops to the battery core! Commander, switch auxiliary power to the thermal grid!"
    },
    {
     "type": "direction",
-    "text": "Player reroutes the circuit on the thermal panel. Heaters ignite. Temperature stabilizes at 21 °C."
+    "text": "Player reroutes the circuit on the thermal panel. Warm coolant pulses through the battery casing."
+   },
+   {
+    "type": "line",
+    "speaker": "Amir",
+    "text": "Coolant thawed! Power is surging through the main bus! Heaters are back online!"
    },
    {
     "type": "line",
     "speaker": "Daniel",
-    "text": "Core body temperatures recovering. The heaters saved us."
-   },
-   {
-    "type": "line",
-    "speaker": "Leo",
-    "text": "Good work, Commander. You kept our fire burning in the coldest place in the world."
+    "text": "Cabin temperature stabilizing at 21 °C. Good thinking, Commander."
    }
   ],
   "S-C3-1": [
    {
-    "type": "direction",
-    "text": "Nia's science terminal sounds a frantic pulsating siren."
-   },
-   {
     "type": "line",
     "speaker": "Nia",
-    "text": "Captain! Look at the NASA DONKI space weather alert! Sunspot 4109 just suffered an X-class solar flare!"
+    "text": "Commander! NASA DONKI has detected a Category X solar flare on the Sun's surface at sunspot 4109."
    },
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "A Coronal Mass Ejection is heading directly along the Earth-Moon line. Lethal proton radiation shockwave arrives in 90 minutes."
+    "text": "A Coronal Mass Ejection is traveling directly along the Earth-Moon line. High-energy proton shockwave will hit our coordinates in approximately 90 minutes."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Standard habitat walls are just thin aluminum and Kevlar. If we stay out here, that radiation will destroy our immune systems and kill us in days."
+    "text": "Our inflatable habitat walls are thin aluminum and Kevlar. They won't stop cosmic protons. We need heavy shielding."
    },
    {
     "type": "line",
     "speaker": "Nia",
-    "text": "We need two layers of protection: pile lunar regolith over the roof using the automated rover, and prepare the underground storm bunker surrounded by our water tanks!"
+    "text": "We need two layers: pile lunar regolith over the roof using the automated scooper, and retreat into the underground storm vault surrounded by our water tanks."
    },
    {
     "type": "direction",
@@ -255,34 +267,39 @@
   "S-C3-2": [
    {
     "type": "direction",
-    "text": "Screen shakes violently with static. Radiation monitor outside spikes to 140 mSv/h."
+    "text": "The radiation storm strikes. Exterior sensors read off the charts."
    },
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "Exterior radiation at lethal levels. Anyone outside would suffer fatal organ failure in 15 minutes."
+    "text": "Exterior radiation levels spiking: 140 mSv/h. Outside exposure would cause fatal acute radiation poisoning within 15 minutes."
    },
    {
     "type": "line",
     "speaker": "Daniel",
-    "text": "Inside the bunker, the water tanks and regolith are absorbing the cosmic rays. Dosimeter reads safe."
+    "text": "The water tanks and lunar soil are absorbing the particles. Interior dosimeter reads safe."
+   },
+   {
+    "type": "line",
+    "speaker": "Amir",
+    "text": "Hear that static on the radio? The Sun is throwing everything it's got at us. But we're safe underground."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Deep breaths, everyone. We wait out the storm together."
+    "text": "The Moon gave us the weapon to defend ourselves: its own soil. Outstanding preparation, Commander."
    }
   ],
   "S-C4-1": [
    {
     "type": "line",
     "speaker": "Daniel",
-    "text": "Captain, our packaged rations from Earth are down to their last week. If we don't produce food and water here, starvation will finish us."
+    "text": "Inventory count is complete. Our packaged rations from Earth are down to their last week. If we don't start producing food here, we'll have to abandon the mission."
    },
    {
     "type": "line",
     "speaker": "Nia",
-    "text": "Deep inside Shackleton's shadow, there is ancient water ice. If we place an autonomous thermal drill, we can extract pure water."
+    "text": "We're not going anywhere. Inside Shackleton's shadow, there's ancient water ice. If we drill into the permafrost, we can melt it and run our hydroponics."
    },
    {
     "type": "direction",
@@ -291,114 +308,106 @@
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "Water extraction active: +10 L/h of purified liquid water flowing into habitat tanks."
+    "text": "Water extraction online: +10 L/h of purified water flowing into reservoir tanks."
    }
   ],
   "S-C4-2": [
    {
-    "type": "objective",
-    "text": "The Hydroponics Bay"
+    "type": "direction",
+    "text": "Hydroponic growth lights turn magenta. Seed trays are slotted into nutrient pipes."
    },
    {
     "type": "line",
     "speaker": "Nia",
-    "text": "Now we plant the hydroponic lettuce and radishes. They drink our recycled wastewater, absorb the CO₂ we breathe out, and give us fresh calories and pure oxygen."
+    "text": "Greenhouse trays deployed: lettuce, radishes, and dwarf wheat. The plants absorb our exhaled carbon dioxide and release fresh oxygen while feeding us."
    },
    {
     "type": "direction",
-    "text": "Player builds Greenhouse Trays. Green sprouts grow."
+    "text": "Player builds Greenhouse Trays."
    },
    {
     "type": "line",
     "speaker": "Amir",
-    "text": "Look at that! Real green leaves growing in lunar dust! We can actually live here!"
+    "text": "Look at those tiny green sprouts! First time fresh living plants have grown in lunar regolith."
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "Every meal grown here proves that humanity can survive on another world."
+    "text": "From this day on, we aren't visitors surviving on canned food from Earth. We are inhabitants of the Moon."
    }
   ],
   "S-C5-1": [
    {
     "type": "direction",
-    "text": "The ground quakes violently. Multiple alarm systems scream simultaneously."
+    "text": "The ground shudders violently. Dust erupts from the crater walls. A loud CRACK echoes through the structure."
    },
    {
     "type": "line",
     "speaker": "MILO",
-    "text": "CRITICAL CATASTROPHIC FAILURE!"
-   },
-   {
-    "type": "line",
-    "speaker": "MILO",
-    "text": "1. Moonquake has severed the main power conduit to Life Support!"
-   },
-   {
-    "type": "line",
-    "speaker": "MILO",
-    "text": "2. Massive electrostatic dust cloud blankets all solar arrays!"
-   },
-   {
-    "type": "line",
-    "speaker": "MILO",
-    "text": "3. Cabin oxygen leaking! Pressure dropping below 70 kPa!"
+    "text": "CRITICAL EMERGENCY: Moonquake detected, Magnitude 5.2! Power distribution bus severed! Habitat pressure dropping rapidly: 70 kPa... 60 kPa!"
    },
    {
     "type": "line",
     "speaker": "Daniel",
-    "text": "The oxygen pumps stopped! Leo... Leo went out to manually seal the exterior emergency valve, but his suit radio is breaking up!"
+    "text": "Captain Leo was outside performing exterior maintenance! His suit telemetry says he's trapped at the primary airlock exterior valve!"
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "(Over crackling static) Commander... the valve is jammed... dust got into the gears... I can't breathe... oxygen running out... you have to... reconnect the power... from your console..."
+    "text": "Comms... cracking... valve jammed by seismic dust... suit oxygen... at 8%... cannot reach the manual override..."
    },
    {
     "type": "line",
     "speaker": "Amir",
-    "text": "The Captain is dying out there on the surface! We have 60 seconds before he suffocates, and then our own habitat air runs out!"
+    "text": "His suit oxygen is almost gone! He has about 60 seconds before he suffocates!"
    }
   ],
   "S-C5-2": [
    {
     "type": "direction",
-    "text": "Player executes under intense tension: (1) Toggles emergency batteries directly to the airlock power bus. (2) Cleans the solar panels using automated electrostatic pulse. (3) Reroutes the backup power cable to the primary life-support loop. (4) Presses the emergency repressurization override."
-   },
-   {
-    "type": "line",
-    "speaker": "MILO",
-    "text": "Power circuit restored! Oxygen pressure climbing! Airlock repressurized!"
+    "text": "Toggles emergency batteries directly to the airlock power bus."
    },
    {
     "type": "direction",
-    "text": "Airlock hisses open. Amir and Daniel drag Captain Leo Ruiz inside, pulling off his helmet. He gasps for air."
+    "text": "Cleans the solar panels using automated electrostatic pulse."
+   },
+   {
+    "type": "direction",
+    "text": "Reroutes the backup power cable to the primary life-support loop."
+   },
+   {
+    "type": "direction",
+    "text": "Presses the emergency repressurization override."
+   },
+   {
+    "type": "direction",
+    "text": "The airlock hisses loudly. Pressure equalizes. Inner doors swing open. Daniel and Amir drag Leo inside."
    },
    {
     "type": "line",
     "speaker": "Daniel",
-    "text": "He's breathing! Pulse is returning! Leo, look at me!"
+    "text": "Pulse is strong! He's breathing! Get his helmet off!"
    },
    {
     "type": "line",
     "speaker": "Leo",
-    "text": "(Coughing, then smiling faintly) Good job... Commander. You saved my life... you saved all of us."
+    "text": "Coughing... That... was closer than I like, team."
    },
    {
     "type": "line",
-    "speaker": "Amir",
-    "text": "We did it! The base held! Everything is green!"
+    "speaker": "Leo",
+    "text": "Commander... when every alarm in the base was screaming at once, you didn't freeze. You made the hard calls, you prioritized the right systems, and you brought me home."
+   },
+   {
+    "type": "line",
+    "speaker": "Leo",
+    "text": "I couldn't have asked for a better officer at the console."
    }
   ],
   "S-EPI-1": [
    {
     "type": "direction",
-    "text": "The camera pans through a magnificent, glowing lunar base with greenhouses, batteries, and observation domes. Earth shines brightly overhead."
-   },
-   {
-    "type": "line",
-    "speaker": "MILO",
-    "text": "Simulation debrief complete. Survival Rate: 100%. Life-Support Uptime: 98.4%."
+    "text": "The habitat glows softly in the permanent light of the crater rim. Earth hangs in the velvet black sky like a bright jewel."
    },
    {
     "type": "line",
@@ -417,7 +426,7 @@
    },
    {
     "type": "direction",
-    "text": "A golden NASA achievement certificate appears on screen (see certificate in story-bible.json)."
+    "text": "A golden NASA achievement certificate appears on screen."
    }
   ],
   "S-EPI-2": [
@@ -464,57 +473,5 @@
     "text": "Screen fades to stars."
    }
   ]
- },
- "ambient": [
-  {
-   "trigger": "first_sunrise",
-   "speaker": "Nia",
-   "text": "Look at that horizon! The sun crests over Shackleton, turning the peaks to pure gold."
-  },
-  {
-   "trigger": "first_sunrise",
-   "speaker": "Amir",
-   "text": "And more importantly: free solar kilowatts! Time to charge those batteries!"
-  },
-  {
-   "trigger": "oxygen_tank_at_15_percent",
-   "speaker": "Daniel",
-   "text": "Captain, our compressed oxygen tank is critically low! We need an Earth resupply before we start seeing stars!"
-  },
-  {
-   "trigger": "oxygen_tank_at_15_percent",
-   "speaker": "Leo",
-   "text": "Commander, radio Earth for that cargo rocket! Don't let our air run out!"
-  },
-  {
-   "trigger": "resupply_rocket_lands",
-   "speaker": "Amir",
-   "text": "Direct hit on the landing pad! Fresh oxygen tanks straight from Florida!"
-  },
-  {
-   "trigger": "batteries_full",
-   "speaker": "Amir",
-   "text": "Batteries capped at 100%! Ready to face the longest night."
-  },
-  {
-   "trigger": "first_harvest",
-   "speaker": "Nia",
-   "text": "Fresh, crisp lettuce grown right here in lunar gravity. Take that, packaged rations!"
-  },
-  {
-   "trigger": "first_harvest",
-   "speaker": "Leo",
-   "text": "Great job, team. A well-fed crew is an invincible crew."
-  },
-  {
-   "trigger": "shelter_evacuation",
-   "speaker": "Daniel",
-   "text": "Everyone inside the water vault! Seal the bulkheads!"
-  },
-  {
-   "trigger": "shelter_evacuation",
-   "speaker": "Leo",
-   "text": "Calm and steady. Our Commander has given us the best shields possible."
-  }
- ]
+ }
 }

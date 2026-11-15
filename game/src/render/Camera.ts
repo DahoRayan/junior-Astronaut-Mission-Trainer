@@ -19,6 +19,11 @@ export class Camera {
     this.y = (worldHeight * this.zoom - this.canvas.height) / 2;
   }
 
+  public panToWorld(worldX: number, worldY: number): void {
+    this.x = worldX * this.zoom - this.canvas.width / 2;
+    this.y = worldY * this.zoom - this.canvas.height / 2;
+  }
+
   public worldToScreen(worldX: number, worldY: number): { x: number; y: number } {
     return {
       x: worldX * this.zoom - this.x,

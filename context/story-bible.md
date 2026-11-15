@@ -179,33 +179,26 @@ flowchart TD
 
 ---
 
-## CHAPTER 1 — FIRST LIGHT
+## CHAPTER 1 — FIRST LIGHT: BASE SYSTEMS TOUR & DUAL PLAY MODES
 
-**Theme:** Landing and basic life-support foundation.  
-**Gameplay Focus:** Habitat placement, solar electricity, oxygen electrolyzer, cable grid, and first electrical malfunction.
+**Theme:** Base systems understanding and choice of play mode.  
+**Gameplay Modes:**
+1. **"Start building my own base"**: The player starts from scratch on raw lunar regolith with a budget of 1400 Materials (Equipment Specification §11.1), designing and powering their outpost without guidance restrictions.
+2. **"Start by pre-built base"**: The game initializes with a complete reference outpost (8 Solar Panels, 8 Battery Banks, 2 CO₂ Scrubbers, Oxygen Electrolyzer, Water Recycler, Heating System, Growth Farm, Regolith Shield, Storm Vault, Earth Channel, and Habitat linked by cables). An interactive dialogue tour (`S-BASE-TOUR`) guides the player through each machine's survival role.
 
-### Scene 1: Touchdown
-*(The Artemis Human Landing System touches down on grey lunar regolith. Dust settles).*
+### Scene 1: Outpost Systems Tour (`S-BASE-TOUR`)
+*(Holographic telemetry highlights the glowing First Light Outpost complex).*
 
-**MILO:** "Touchdown confirmed! Welcome to Shackleton Rim, Commander."  
-**Amir:** "Well, that was a smooth landing. No rattling bolts."  
-**Nia:** "The landing plateau is ideal. Flat topography and ample sun exposure along this ridge."  
-**Daniel:** "Crew vitals are green across the board. Let's get our pressurized shelter deployed."  
-**Elena:** "Commander, let's begin with the fundamentals: shelter and power."
-
-### Objective 1: Place the Crew Habitat
-**MILO:** "Our inflatable Crew Habitat Module is ready for placement."  
-**Elena:** "Pick an anchor tile. Leave clearance around it for future expansions."  
-*(Player places Habitat on grid).*  
-**MILO:** "Habitat successfully anchored and sealed!"  
-**Amir:** "We have walls and a roof. Now we just need juice to keep the lights on."  
-**Daniel:** "And air. An unpowered habitat has no ventilation or pressurization."
-
-### Objective 2: Deploy Solar Arrays
-**Amir:** "Solar power is first on the checklist. Without electricity, nothing breathes."  
-**MILO:** "Solar Arrays convert incident sunlight into clean electrical kilowatts."  
-*(Player places Solar Array).*  
-**MILO:** "Power generation detected! $+20\text{ kW}$ entering the local grid."
+**MILO:** "Welcome to First Light Outpost, Commander! You are looking at a complete, self-sustaining lunar survival base on Shackleton Crater Rim."  
+**Leo:** "Our lives depend on every machine here working together in balance. Let's inspect each sector so you understand how they keep us alive."  
+**Amir:** "First up: ENERGY! Our 8 Solar Panels harvest 160 kW from the polar sun. Beside them are 8 Battery Banks storing 800 kWh for the 12-hour lunar night. And our Power Cables link every machine into a unified grid."  
+**Daniel:** "Next: ATMOSPHERE! The four of us exhale CO₂ with every breath. Two CO₂ Scrubbers filter out 4 kg of toxic gas every hour. Without them, carbon dioxide poisons our blood within hours."  
+**Nia:** "For fresh air, our Oxygen Electrolyzer splits water into hydrogen and breathable oxygen (+2.5 kg/h). And our Water Recycling System purifies wastewater and humidity (+3 L/h)!"  
+**Daniel:** "If our primary loop drops, the Emergency Oxygen Generator serves as our backup lifeline."  
+**Amir:** "Outside in shadow it drops to -180°C. Our automated Heating System maintains cabin temperature safely at 21°C."  
+**Nia:** "Our Growth Farm recycles CO₂, yields supplemental oxygen, and grows fresh crops for crew morale."  
+**Leo:** "Our Lunar Soil Radiation Shield blocks cosmic rays, and our Subterranean Storm Vault protects us during solar flares. Our Earth Channel provides vital logistics communications with Houston."  
+**MILO:** "Systems briefing complete. The outpost is yours to command! You can continue managing this pre-built base, or select 'Start building my own base' to design your own from scratch."
 
 ### Objective 3: Establish Oxygen Production & Scrubbing
 **Nia:** "Now for breathable air. The crew needs a steady oxygen supply and carbon dioxide removal."  

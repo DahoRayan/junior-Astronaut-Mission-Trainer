@@ -3,6 +3,7 @@
  * Implements Decoupled 3-Manager System + Event Bus Architecture
  */
 
+import { BUILDING_DEFINITIONS } from './core/Constants';
 import { eventBus } from './core/EventBus';
 import { soundManager } from './core/SoundManager';
 import { BuildingType, DecisionEvaluationRequest } from './core/types';
@@ -11,6 +12,7 @@ import { NarrativeManager } from './narrative/NarrativeManager';
 import { aiClient } from './network/AIClient';
 import { ViewportRenderer } from './render/ViewportRenderer';
 import { SimulationEngine } from './simulation/SimulationEngine';
+import { TutorialManager, TutorialStep } from './simulation/TutorialManager';
 import { CatalogPanel } from './ui/CatalogPanel';
 import { DebriefModal } from './ui/DebriefModal';
 import { HUDController } from './ui/HUDController';
@@ -50,6 +52,80 @@ window.addEventListener('DOMContentLoaded', () => {
   const narrative = new NarrativeManager(visualNovel);
   new MissionManager(debriefModal, simulation, narrative);
 
+  // 4b. Guided Tutorial Manager (used when guided step is active)
+  const tutorial = new TutorialManager();
+  tutorial.isActive = false;
+  renderer.tutorialManager = tutorial;
+
+  // 4c. Mode Selector: "Start building my own base" vs "Start by pre-built base"
+  const btnScratch = document.getElementById('btn-mode-scratch');
+  const btnPrebuilt = document.getElementById('btn-mode-prebuilt');
+
+  const setMode = (mode: 'scratch' | 'prebuilt') => {
+    if (mode === 'scratch') {
+      btnScratch?.classList.add('active');
+      btnPrebuilt?.classList.remove('active');
+      tutorial.isActive = false;
+      catalog.highlightTool(null);
+      hud.setPowerFocusMode(false);
+      simulation.clearBaseForScratch();
+      soundManager.playPoof();
+      eventBus.emit('notification', {
+        type: 'success',
+        message: '🏗️ Build from Scratch: 1400 Materials granted. Build freely without guidance!',
+      });
+      milo.appendMILOMessage('🏗️ Custom Outpost Mode: You have 1400 Materials. Build your own energy and life support systems without restrictions!');
+      updateSwitchboardUI();
+    } else {
+      btnPrebuilt?.classList.add('active');
+      btnScratch?.classList.remove('active');
+      tutorial.isActive = false;
+      catalog.highlightTool(null);
+      hud.setPowerFocusMode(false);
+      simulation.loadPrebuiltBase();
+      soundManager.playFanfare();
+      renderer.recenter();
+      // narrative.playScene('S-BASE-TOUR'); // Dialogue off temporarily as requested
+      eventBus.emit('notification', {
+        type: 'success',
+        message: '🚀 Pre-Built Outpost Loaded! All 18 telemetry variables streaming live.',
+      });
+      updateSwitchboardUI();
+    }
+  };
+
+  btnScratch?.addEventListener('click', () => {
+    soundManager.playPop();
+    setMode('scratch');
+  });
+
+  btnPrebuilt?.addEventListener('click', () => {
+    soundManager.playPop();
+    setMode('prebuilt');
+  });
+
+  eventBus.on('tutorial_step_changed', () => {
+    catalog.highlightTool(tutorial.getHighlightedTool());
+    const moonTarget = tutorial.getActiveMoonTarget();
+    if (moonTarget) {
+      renderer.focusTile(moonTarget.x, moonTarget.y);
+    }
+    if (tutorial.currentStep === TutorialStep.COMPLETE) {
+      hud.setPowerFocusMode(false);
+      catalog.highlightTool(null);
+    } else {
+      milo.appendMILOMessage(`📍 ${tutorial.getInstructionText()}`);
+    }
+  });
+
+  eventBus.on('prologue_complete', () => {
+    catalog.highlightTool(tutorial.getHighlightedTool());
+    const moonTarget = tutorial.getActiveMoonTarget();
+    if (moonTarget) {
+      renderer.focusTile(moonTarget.x, moonTarget.y);
+    }
+  });
+
   // 5. Connect Catalog / Tool Selection to Renderer & Sounds
   eventBus.on<BuildingType | null>('building_selected', (type) => {
     renderer.selectedBuildingType = type;
@@ -76,8 +152,44 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Direct machine toggle on lunar map when not in building placement or demolition mode
+    if (!renderer.selectedBuildingType) {
+      const gridTile = simulation.grid.getTile(tile.x, tile.y);
+      if (gridTile?.building && gridTile.building.type !== 'power_cable' && gridTile.building.type !== 'regolith_shield') {
+        const res = simulation.toggleDevicePower(tile.x, tile.y);
+        if (res) {
+          soundManager.playPop();
+          const def = BUILDING_DEFINITIONS[res.building.type];
+          const statusText = res.isEnabled ? 'ON 🟢' : 'OFF ⚪';
+          const pwrDelta = def.powerGenerationKw > 0
+            ? `${res.isEnabled ? '+' : '-'}${def.powerGenerationKw} kW Solar`
+            : `${res.isEnabled ? '-' : '+'}${def.powerConsumptionKw} kW Load`;
+          eventBus.emit('notification', {
+            type: res.isEnabled ? 'info' : 'warning',
+            message: `${def.name} switched ${statusText} (${pwrDelta}).`,
+          });
+          updateSwitchboardUI();
+        }
+        return;
+      }
+    }
+
     if (renderer.selectedBuildingType) {
       const type = renderer.selectedBuildingType;
+
+      // In this guided phase, player is strictly restricted to highlighted moon spots
+      if (tutorial.isActive) {
+        const allowed = tutorial.isTileAllowed(tile.x, tile.y, type);
+        if (!allowed) {
+          soundManager.playPop();
+          eventBus.emit('notification', {
+            type: 'warning',
+            message: `⚠️ Guided Phase: Please place on the highlighted beacon!`,
+          });
+          return;
+        }
+      }
+
       const success = simulation.placeStructure(type, tile.x, tile.y);
 
       if (success) {
@@ -135,7 +247,7 @@ window.addEventListener('DOMContentLoaded', () => {
     soundManager.playPop();
     const ch = simulation.currentChapter || 1;
     const sceneId = ch === 1 ? 'prologue' : `ch${ch}_intro`;
-    narrative.playScene(sceneId);
+    narrative.playScene(sceneId, undefined, true); // force=true on explicit button click
   });
 
   // Accurate Day Cycle Mode Toggle
@@ -259,14 +371,113 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // 11b. Device Power Switchboard Controller (§1.1 A6)
+  const switchboardEl = document.getElementById('device-switchboard');
+  const activeDevicesBadge = document.getElementById('active-devices-badge');
+
+  const iconMap: Record<string, string> = {
+    solar_array: '☀️',
+    battery_bank: '🔋',
+    kilopower_reactor: '⚛️',
+    crew_habitat: '🏠',
+    emergency_o2_generator: '⚠️',
+    co2_scrubber: '🫧',
+    oxygen_electrolyzer: '💨',
+    water_recycler: '💧',
+    water_extractor: '⛏️',
+    heating_system: '🔥',
+    hydroponics_tray: '🌱',
+    subterranean_vault: '🏰',
+    earth_channel: '📡',
+  };
+
+  const updateSwitchboardUI = () => {
+    if (!switchboardEl) return;
+    const buildings = simulation.grid.getPlacedBuildings().filter(
+      (b) => b.type !== 'power_cable' && b.type !== 'regolith_shield'
+    );
+    if (buildings.length === 0) {
+      switchboardEl.innerHTML = '<div style="padding: 10px; font-size: 0.72rem; color: #64748b; text-align: center;">No switchable machines placed yet.</div>';
+      if (activeDevicesBadge) activeDevicesBadge.textContent = '0 / 0';
+      return;
+    }
+
+    const onCount = buildings.filter((b) => b.isEnabled !== false).length;
+    if (activeDevicesBadge) {
+      activeDevicesBadge.textContent = `${onCount} / ${buildings.length} ON`;
+      activeDevicesBadge.className = `data-badge ${onCount === buildings.length ? 'live' : 'warn'}`;
+    }
+
+    switchboardEl.innerHTML = '';
+    buildings.forEach((b) => {
+      const def = BUILDING_DEFINITIONS[b.type];
+      const isEnabled = b.isEnabled !== false;
+      const row = document.createElement('div');
+      row.className = `device-switch-row ${isEnabled ? '' : 'is-off'}`;
+
+      const left = document.createElement('div');
+      left.className = 'device-switch-left';
+      left.title = `Focus camera on ${def.name} at (${b.x}, ${b.y})`;
+      left.addEventListener('click', () => {
+        renderer.focusTile(b.x, b.y);
+      });
+
+      const icon = document.createElement('span');
+      icon.className = 'device-switch-icon';
+      icon.textContent = iconMap[b.type] || '⚙️';
+
+      const meta = document.createElement('div');
+      meta.className = 'device-switch-meta';
+
+      const name = document.createElement('span');
+      name.className = 'device-switch-name';
+      name.textContent = `${def.name} (${b.x},${b.y})`;
+
+      const pwr = document.createElement('span');
+      pwr.className = 'device-switch-pwr';
+      if (def.powerGenerationKw > 0) {
+        pwr.textContent = `+${def.powerGenerationKw} kW Gen`;
+      } else if (def.powerConsumptionKw > 0) {
+        pwr.textContent = `-${def.powerConsumptionKw} kW Load`;
+      } else {
+        pwr.textContent = 'Storage / Passive';
+      }
+
+      meta.appendChild(name);
+      meta.appendChild(pwr);
+      left.appendChild(icon);
+      left.appendChild(meta);
+
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = `device-toggle-btn ${isEnabled ? 'on' : 'off'}`;
+      toggleBtn.textContent = isEnabled ? 'ON' : 'OFF';
+      toggleBtn.title = `Turn ${def.name} ${isEnabled ? 'OFF' : 'ON'}`;
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        soundManager.playPop();
+        simulation.toggleDevicePower(b.x, b.y);
+        updateSwitchboardUI();
+      });
+
+      row.appendChild(left);
+      row.appendChild(toggleBtn);
+      switchboardEl.appendChild(row);
+    });
+  };
+
+  eventBus.on('structure_placed', () => updateSwitchboardUI());
+  eventBus.on('structure_demolished', () => updateSwitchboardUI());
+  eventBus.on('device_toggled', () => updateSwitchboardUI());
+
   // 12. Initial State Sync & Start Simulation Loop
   hud.update(simulation.state);
+  updateSwitchboardUI();
   simulation.start();
 
-  // 13. Launch Authoritative Narrative Prologue
-  setTimeout(() => {
-    eventBus.emit('prologue_start', null);
-  }, 500);
+  // 13. Systems Tour (Dialogue off temporarily as requested)
+  // setTimeout(() => {
+  //   narrative.playScene('S-BASE-TOUR');
+  // }, 600);
 
   console.log('Beyond Earth: First Light — Web Game Engine Ready!');
 });

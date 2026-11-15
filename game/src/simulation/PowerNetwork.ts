@@ -98,17 +98,17 @@ export class PowerNetwork {
           }
         }
 
-        // Check if island has enough power
-        const hasSurplus = islandGenKw >= islandConKw;
+        // Check if island has active power supply (either solar generation or battery storage)
+        const hasPowerSource = islandGenKw > 0 || islandBatCap > 0;
         islandBuildings.forEach((b) => {
-          b.isPowered = hasSurplus;
-          if (!hasSurplus && BUILDING_DEFINITIONS[b.type].powerConsumptionKw > 0) {
+          b.isPowered = hasPowerSource;
+          if (!hasPowerSource && BUILDING_DEFINITIONS[b.type].powerConsumptionKw > 0) {
             unpoweredBuildings.push(b);
           }
         });
 
         // Mark powered cables in this island
-        if (islandGenKw > 0) {
+        if (hasPowerSource) {
           islandTiles.forEach((pos) => {
             const t = grid.getTile(pos.x, pos.y);
             if (t) t.cablePowered = true;

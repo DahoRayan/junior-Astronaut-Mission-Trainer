@@ -87,10 +87,11 @@ export class BuildingRenderer {
         break;
     }
 
-    // 3. Status LED Beacon (Blinking Green if OK, Pulsing Amber/Red if unpowered)
-    const ledColor = b.isPowered ? '#10b981' : '#f59e0b';
-    const ledGlow = b.isPowered ? 'rgba(16, 185, 129, 0.5)' : 'rgba(245, 158, 11, 0.5)';
-    const pulse = Math.sin(time * 0.008 + b.x) * 1.5 + 4;
+    // 3. Status LED Beacon (Blinking Green if OK, Pulsing Amber if unpowered, Dim Gray if switched OFF)
+    const isSwitchedOff = b.isEnabled === false;
+    const ledColor = isSwitchedOff ? '#64748b' : b.isPowered ? '#10b981' : '#f59e0b';
+    const ledGlow = isSwitchedOff ? 'rgba(100, 116, 139, 0.2)' : b.isPowered ? 'rgba(16, 185, 129, 0.5)' : 'rgba(245, 158, 11, 0.5)';
+    const pulse = isSwitchedOff ? 2 : Math.sin(time * 0.008 + b.x) * 1.5 + 4;
 
     ctx.fillStyle = ledGlow;
     ctx.beginPath();
@@ -101,6 +102,23 @@ export class BuildingRenderer {
     ctx.beginPath();
     ctx.arc(px + TILE_SIZE - 7, py + 7, 3, 0, Math.PI * 2);
     ctx.fill();
+
+    // 4. If switched OFF by player, draw a clear [OFF] badge on the module
+    if (isSwitchedOff) {
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(px + 4, py + 4, 22, 11, 3);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#f87171';
+      ctx.font = 'bold 8px system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('OFF', px + 15, py + 9.5);
+    }
 
     ctx.restore();
   }

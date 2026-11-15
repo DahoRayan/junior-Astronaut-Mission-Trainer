@@ -40,27 +40,6 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Black screen. Deep space ambient frequencies. Earth appears as a blue marble, then the camera descends rapidly toward the Moon's South Pole.]"
-      },
-      {
-        "speakerId": "narrator",
-        "speakerName": "Narrator",
-        "role": "Mission Log",
-        "mood": "calm",
-        "text": "Three hundred and eighty-four thousand kilometers from Earth, there is a place where no trees grow, no wind blows, and no human can take a single breath without life-support."
-      },
-      {
-        "speakerId": "narrator",
-        "speakerName": "Narrator",
-        "role": "Mission Log",
-        "mood": "curious",
-        "text": "This is Shackleton Crater. And the lives of four astronauts are in your hands."
-      },
-      {
-        "speakerId": "narrator",
-        "speakerName": "Mission Log",
-        "role": "Telemetry & Atmosphere",
-        "mood": "calm",
         "text": "◈ [The Artemis Lunar Lander touches down on grey lunar regolith. Dust settles.]"
       },
       {
@@ -68,7 +47,7 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "confident",
-        "text": "Touchdown confirmed! Surface telemetry online.",
+        "text": "Touchdown confirmed on Shackleton Crater Rim! First Light Outpost systems online.",
         "sfx": "fanfare"
       },
       {
@@ -76,51 +55,147 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "Houston, Shackleton Rim Base here. The First Light has touched down safely.",
-        "sfx": "fanfare"
+        "text": "Welcome to the Moon, Commander! Shackleton Rim is one of the harshest places in the solar system. Our survival depends entirely on the machines working around us."
       },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "All telemetry channels are streaming. Let us tour each base sector so you understand how every machine keeps our crew alive.",
+        "choices": [
+          {
+            "text": "Take the Systems Tour of our Pre-Built Base",
+            "consequence": "Touring all 12 outpost life-support and energy machines..."
+          },
+          {
+            "text": "Start building my own base from scratch",
+            "consequence": "Grid cleared with 1400 materials. Build freely!"
+          }
+        ]
+      }
+    ]
+  },
+  "S-BASE-TOUR": {
+    "id": "S-BASE-TOUR",
+    "chapter": 1,
+    "title": "BASE SYSTEMS TOUR",
+    "location": "Shackleton Crater Rim — Outpost Complex",
+    "lines": [
       {
         "speakerId": "narrator",
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Leo turns toward the camera, speaking over the direct comm link.]"
+        "text": "◈ [Holographic telemetry highlights the glowing First Light Outpost complex.]"
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "curious",
+        "text": "Welcome to First Light Outpost, Commander! You are looking at a complete, self-sustaining lunar survival base on Shackleton Crater Rim."
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "Commander, good to have you on the console. I'm Captain Leo Ruiz. These three people beside me are my family now—Amir, Nia, and Daniel."
-      },
-      {
-        "speakerId": "leo",
-        "speakerName": "Capt. Leo Ruiz",
-        "role": "Mission Commander",
-        "mood": "worried",
-        "text": "Down here, there is no room for mistakes. If our power dies, our heaters die. If our air tanks run dry, we die. We're counting on your spatial planning and quick thinking to keep us alive."
+        "text": "Our lives depend on every machine here working together in balance. Without them, the vacuum and radiation are fatal. Let's inspect each sector so you understand how they keep us alive."
       },
       {
         "speakerId": "amir",
         "speakerName": "Amir Haddad",
         "role": "Systems Engineer",
         "mood": "tinkering",
-        "text": "Don't scare the Commander already, Captain! We've got the best tech in the solar system."
+        "text": "First up: ENERGY! Look at our 8 Solar Panels along the sunlit ridge. They convert sunlight into 160 kW of clean electrical power. But lunar dust settles on them constantly—so we must clean them regularly to keep power flowing!"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "worried",
+        "text": "Right beside them are 8 Battery Banks storing 800 kWh of energy. When the 12-hour lunar night falls, solar power drops to zero. Our batteries release stored power to keep the base alive until sunrise."
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "And linking everything are our Power Cables—the heavy-duty electrical grid routing wattage between every generator, battery, and life-support machine."
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "worried",
+        "text": "Next: ATMOSPHERE & BREATHING. The four of us exhale toxic carbon dioxide with every breath. Without our 2 CO₂ Scrubbers, CO₂ would poison our blood within hours. They filter out 4 kg of toxic gas every single hour."
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "And for fresh air, meet our Oxygen Electrolyzer! It splits liquid water (H₂O) into hydrogen and breathable oxygen, generating +2.5 kg of pure oxygen per hour."
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "To supply water for breathing and drinking, our Water Recycling System purifies wastewater and humidity, reclaiming +3 liters of clean water every hour."
+      },
+      {
+        "speakerId": "daniel",
+        "speakerName": "Dr. Daniel Park",
+        "role": "Medical Officer",
+        "mood": "confident",
+        "text": "And if our primary loop ever drops below safe levels, the Emergency Oxygen Generator acts as our backup lifeline to immediately pressurize the cabin.",
+        "sfx": "fanfare"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "confident",
+        "text": "Don't forget the extreme cold! Outside in shadow it drops to -180°C. Our automated Heating System pumps warmth through the core, maintaining cabin temperature safely at 21°C.",
+        "sfx": "fanfare"
+      },
+      {
+        "speakerId": "nia",
+        "speakerName": "Dr. Nia Okafor",
+        "role": "Science Officer",
+        "mood": "curious",
+        "text": "Over in the Green Dome is our Growth Farm. Plants recycle carbon dioxide, produce supplemental oxygen, and grow fresh food to keep crew morale high and hunger away."
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "confident",
+        "text": "Up top is our Lunar Soil Radiation Shield—a thick blanket of regolith blocking deadly cosmic rays. And if an X-class solar flare strikes, we evacuate to the Subterranean Storm Vault!"
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "tinkering",
-        "text": "Technology only works if our Commander connects it right, Amir. Let's get to work.",
+        "text": "Finally, our Earth Connection Channel keeps high-gain communication streaming to Houston, allowing emergency cargo resupplies when resources run thin."
+      },
+      {
+        "speakerId": "milo",
+        "speakerName": "M.I.L.O.",
+        "role": "AI Logistics Operator",
+        "mood": "calm",
+        "text": "Systems briefing complete. The outpost is yours to command! You can continue managing this pre-built base, or select 'Start building my own base' to design your own from scratch.",
         "choices": [
           {
-            "text": "Acknowledge mission plan & deploy inflatable habitat",
-            "consequence": "Unpacking habitat module on grid tile (20, 15)..."
+            "text": "Acknowledge all systems and take command of the Outpost!",
+            "consequence": "All systems green! Outpost under your command."
           },
           {
-            "text": "Ask M.I.L.O. to run landing sensor calibration first",
-            "consequence": "All telemetry arrays calibrated at 100% nominal!"
+            "text": "Switch to custom mode: wipe grid and build my own base",
+            "consequence": "1400 Materials granted. Build freely!"
           }
         ]
       }
@@ -133,67 +208,25 @@ export const STORY_SCENES: Record<string, StoryScene> = {
     "location": "Sector Alpha — Outpost Perimeter",
     "lines": [
       {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "Unpacking inflatable Crew Habitat. Structural seals engaged."
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Power lines connected! 40 kilowatts of solar energy are pouring into the main breaker!"
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "tinkering",
-        "text": "Commander, anchor that habitat securely. Then we need power to run the air pumps."
-      },
-      {
-        "speakerId": "narrator",
-        "speakerName": "Mission Log",
-        "role": "Telemetry & Atmosphere",
-        "mood": "calm",
-        "text": "◈ [Player places Solar Array and connects the power cable.]"
-      },
-      {
-        "speakerId": "amir",
-        "speakerName": "Amir Haddad",
-        "role": "Systems Engineer",
-        "mood": "tinkering",
-        "text": "Power lines connected! Solar wattage is pouring into the main breaker."
+        "text": "Outstanding work, Commander! With the power grid online, the habitat lights are on and our systems are fully operational."
       },
       {
         "speakerId": "milo",
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "calm",
-        "text": "Opening the Compressed Oxygen Reserve"
-      },
-      {
-        "speakerId": "daniel",
-        "speakerName": "Dr. Daniel Park",
-        "role": "Medical Officer",
-        "mood": "worried",
-        "text": "Opening the habitat's compressed oxygen valve. Remember: our air isn't infinite. It comes from high-pressure liquid oxygen tanks delivered with the lander."
-      },
-      {
-        "speakerId": "nia",
-        "speakerName": "Dr. Nia Okafor",
-        "role": "Science Officer",
-        "mood": "tinkering",
-        "text": "We exhale toxic carbon dioxide with every breath. If the CDRA scrubbers aren't powered, CO₂ will poison our blood within hours."
-      },
-      {
-        "speakerId": "narrator",
-        "speakerName": "Mission Log",
-        "role": "Telemetry & Atmosphere",
-        "mood": "calm",
-        "text": "◈ [Player powers the CDRA Scrubber and Habitat ventilation.]"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "Cabin atmosphere balanced at 21% O₂, 101.3 kPa."
+        "text": "Base telemetry unlocked. All life-support, oxygen, and resource monitoring channels are now active."
       }
     ]
   },
@@ -401,29 +434,29 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
-        "mood": "confident",
-        "text": "Commander! Reroute the emergency heating loops to the battery core! Do it before our fingers go numb!"
+        "mood": "tinkering",
+        "text": "Amir, reroute emergency heating loops to the battery core! Commander, switch auxiliary power to the thermal grid!"
       },
       {
         "speakerId": "narrator",
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Player reroutes the circuit on the thermal panel. Heaters ignite. Temperature stabilizes at 21 °C.]"
+        "text": "◈ [Player reroutes the circuit on the thermal panel. Warm coolant pulses through the battery casing.]"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "tinkering",
+        "text": "Coolant thawed! Power is surging through the main bus! Heaters are back online!"
       },
       {
         "speakerId": "daniel",
         "speakerName": "Dr. Daniel Park",
         "role": "Medical Officer",
         "mood": "worried",
-        "text": "Core body temperatures recovering. The heaters saved us."
-      },
-      {
-        "speakerId": "leo",
-        "speakerName": "Capt. Leo Ruiz",
-        "role": "Mission Commander",
-        "mood": "worried",
-        "text": "Good work, Commander. You kept our fire burning in the coldest place in the world."
+        "text": "Cabin temperature stabilizing at 21 °C. Good thinking, Commander."
       }
     ]
   },
@@ -434,41 +467,32 @@ export const STORY_SCENES: Record<string, StoryScene> = {
     "location": "Outpost Communications Mast",
     "lines": [
       {
-        "speakerId": "narrator",
-        "speakerName": "Mission Log",
-        "role": "Telemetry & Atmosphere",
-        "mood": "calm",
-        "text": "◈ [Nia's science terminal sounds a frantic pulsating siren.]"
-      },
-      {
         "speakerId": "nia",
         "speakerName": "Dr. Nia Okafor",
         "role": "Science Officer",
-        "mood": "alert",
-        "text": "Captain! Look at the NASA DONKI space weather alert! Sunspot 4109 just suffered an X-class solar flare!",
-        "sfx": "alarm",
-        "shake": true
+        "mood": "curious",
+        "text": "Commander! NASA DONKI has detected a Category X solar flare on the Sun's surface at sunspot 4109."
       },
       {
         "speakerId": "milo",
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "calm",
-        "text": "A Coronal Mass Ejection is heading directly along the Earth-Moon line. Lethal proton radiation shockwave arrives in 90 minutes."
+        "text": "A Coronal Mass Ejection is traveling directly along the Earth-Moon line. High-energy proton shockwave will hit our coordinates in approximately 90 minutes."
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "Standard habitat walls are just thin aluminum and Kevlar. If we stay out here, that radiation will destroy our immune systems and kill us in days."
+        "text": "Our inflatable habitat walls are thin aluminum and Kevlar. They won't stop cosmic protons. We need heavy shielding."
       },
       {
         "speakerId": "nia",
         "speakerName": "Dr. Nia Okafor",
         "role": "Science Officer",
         "mood": "curious",
-        "text": "We need two layers of protection: pile lunar regolith over the roof using the automated rover, and prepare the underground storm bunker surrounded by our water tanks!"
+        "text": "We need two layers: pile lunar regolith over the roof using the automated scooper, and retreat into the underground storm vault surrounded by our water tanks."
       },
       {
         "speakerId": "narrator",
@@ -496,21 +520,29 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Screen shakes violently with static. Radiation monitor outside spikes to 140 mSv/h.]"
+        "text": "◈ [The radiation storm strikes. Exterior sensors read off the charts.]"
       },
       {
         "speakerId": "milo",
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "calm",
-        "text": "Exterior radiation at lethal levels. Anyone outside would suffer fatal organ failure in 15 minutes."
+        "text": "Exterior radiation levels spiking: 140 mSv/h. Outside exposure would cause fatal acute radiation poisoning within 15 minutes."
       },
       {
         "speakerId": "daniel",
         "speakerName": "Dr. Daniel Park",
         "role": "Medical Officer",
         "mood": "confident",
-        "text": "Inside the bunker, the water tanks and regolith are absorbing the cosmic rays. Dosimeter reads safe.",
+        "text": "The water tanks and lunar soil are absorbing the particles. Interior dosimeter reads safe.",
+        "sfx": "fanfare"
+      },
+      {
+        "speakerId": "amir",
+        "speakerName": "Amir Haddad",
+        "role": "Systems Engineer",
+        "mood": "confident",
+        "text": "Hear that static on the radio? The Sun is throwing everything it's got at us. But we're safe underground.",
         "sfx": "fanfare"
       },
       {
@@ -518,7 +550,7 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "Deep breaths, everyone. We wait out the storm together."
+        "text": "The Moon gave us the weapon to defend ourselves: its own soil. Outstanding preparation, Commander."
       }
     ]
   },
@@ -533,14 +565,14 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Dr. Daniel Park",
         "role": "Medical Officer",
         "mood": "worried",
-        "text": "Captain, our packaged rations from Earth are down to their last week. If we don't produce food and water here, starvation will finish us."
+        "text": "Inventory count is complete. Our packaged rations from Earth are down to their last week. If we don't start producing food here, we'll have to abandon the mission."
       },
       {
         "speakerId": "nia",
         "speakerName": "Dr. Nia Okafor",
         "role": "Science Officer",
         "mood": "curious",
-        "text": "Deep inside Shackleton's shadow, there is ancient water ice. If we place an autonomous thermal drill, we can extract pure water."
+        "text": "We're not going anywhere. Inside Shackleton's shadow, there's ancient water ice. If we drill into the permafrost, we can melt it and run our hydroponics."
       },
       {
         "speakerId": "narrator",
@@ -554,7 +586,7 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "calm",
-        "text": "Water extraction active: +10 L/h of purified liquid water flowing into habitat tanks.",
+        "text": "Water extraction online: +10 L/h of purified water flowing into reservoir tanks.",
         "choices": [
           {
             "text": "Plant Outredgeous lettuce and radishes in growth trays",
@@ -571,39 +603,39 @@ export const STORY_SCENES: Record<string, StoryScene> = {
     "location": "Greenhouse Dome — Tray Alpha",
     "lines": [
       {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "The Hydroponics Bay"
+        "text": "◈ [Hydroponic growth lights turn magenta. Seed trays are slotted into nutrient pipes.]"
       },
       {
         "speakerId": "nia",
         "speakerName": "Dr. Nia Okafor",
         "role": "Science Officer",
         "mood": "curious",
-        "text": "Now we plant the hydroponic lettuce and radishes. They drink our recycled wastewater, absorb the CO₂ we breathe out, and give us fresh calories and pure oxygen."
+        "text": "Greenhouse trays deployed: lettuce, radishes, and dwarf wheat. The plants absorb our exhaled carbon dioxide and release fresh oxygen while feeding us."
       },
       {
         "speakerId": "narrator",
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Player builds Greenhouse Trays. Green sprouts grow.]"
+        "text": "◈ [Player builds Greenhouse Trays.]"
       },
       {
         "speakerId": "amir",
         "speakerName": "Amir Haddad",
         "role": "Systems Engineer",
-        "mood": "tinkering",
-        "text": "Look at that! Real green leaves growing in lunar dust! We can actually live here!"
+        "mood": "curious",
+        "text": "Look at those tiny green sprouts! First time fresh living plants have grown in lunar regolith."
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "Every meal grown here proves that humanity can survive on another world."
+        "text": "From this day on, we aren't visitors surviving on canned food from Earth. We are inhabitants of the Moon."
       }
     ]
   },
@@ -618,56 +650,35 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [The ground quakes violently. Multiple alarm systems scream simultaneously.]"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "CRITICAL CATASTROPHIC FAILURE!"
+        "text": "◈ [The ground shudders violently. Dust erupts from the crater walls. A loud CRACK echoes through the structure.]"
       },
       {
         "speakerId": "milo",
         "speakerName": "M.I.L.O.",
         "role": "AI Logistics Operator",
         "mood": "tinkering",
-        "text": "1. Moonquake has severed the main power conduit to Life Support!"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "2. Massive electrostatic dust cloud blankets all solar arrays!"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "3. Cabin oxygen leaking! Pressure dropping below 70 kPa!"
+        "text": "CRITICAL EMERGENCY: Moonquake detected, Magnitude 5.2! Power distribution bus severed! Habitat pressure dropping rapidly: 70 kPa... 60 kPa!"
       },
       {
         "speakerId": "daniel",
         "speakerName": "Dr. Daniel Park",
         "role": "Medical Officer",
         "mood": "worried",
-        "text": "The oxygen pumps stopped! Leo... Leo went out to manually seal the exterior emergency valve, but his suit radio is breaking up!"
+        "text": "Captain Leo was outside performing exterior maintenance! His suit telemetry says he's trapped at the primary airlock exterior valve!"
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
-        "mood": "tinkering",
-        "text": "(Over crackling static) Commander... the valve is jammed... dust got into the gears... I can't breathe... oxygen running out... you have to... reconnect the power... from your console..."
+        "mood": "confident",
+        "text": "Comms... cracking... valve jammed by seismic dust... suit oxygen... at 8%... cannot reach the manual override..."
       },
       {
         "speakerId": "amir",
         "speakerName": "Amir Haddad",
         "role": "Systems Engineer",
         "mood": "tinkering",
-        "text": "The Captain is dying out there on the surface! We have 60 seconds before he suffocates, and then our own habitat air runs out!",
+        "text": "His suit oxygen is almost gone! He has about 60 seconds before he suffocates!",
         "choices": [
           {
             "text": "Reroute emergency power & open jammed airlock valve for Leo",
@@ -688,42 +699,65 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Player executes under intense tension: (1) Toggles emergency batteries directly to the airlock power bus. (2) Cleans the solar panels using automated electrostatic pulse. (3) Reroutes the backup power cable to the primary life-support loop. (4) Presses the emergency repressurization override.]"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "tinkering",
-        "text": "Power circuit restored! Oxygen pressure climbing! Airlock repressurized!"
+        "text": "◈ [Toggles emergency batteries directly to the airlock power bus.]"
       },
       {
         "speakerId": "narrator",
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [Airlock hisses open. Amir and Daniel drag Captain Leo Ruiz inside, pulling off his helmet. He gasps for air.]"
+        "text": "◈ [Cleans the solar panels using automated electrostatic pulse.]"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Reroutes the backup power cable to the primary life-support loop.]"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [Presses the emergency repressurization override.]"
+      },
+      {
+        "speakerId": "narrator",
+        "speakerName": "Mission Log",
+        "role": "Telemetry & Atmosphere",
+        "mood": "calm",
+        "text": "◈ [The airlock hisses loudly. Pressure equalizes. Inner doors swing open. Daniel and Amir drag Leo inside.]"
       },
       {
         "speakerId": "daniel",
         "speakerName": "Dr. Daniel Park",
         "role": "Medical Officer",
         "mood": "worried",
-        "text": "He's breathing! Pulse is returning! Leo, look at me!"
+        "text": "Pulse is strong! He's breathing! Get his helmet off!"
       },
       {
         "speakerId": "leo",
         "speakerName": "Capt. Leo Ruiz",
         "role": "Mission Commander",
         "mood": "confident",
-        "text": "(Coughing, then smiling faintly) Good job... Commander. You saved my life... you saved all of us."
+        "text": "Coughing... That... was closer than I like, team."
       },
       {
-        "speakerId": "amir",
-        "speakerName": "Amir Haddad",
-        "role": "Systems Engineer",
-        "mood": "tinkering",
-        "text": "We did it! The base held! Everything is green!"
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "alert",
+        "text": "Commander... when every alarm in the base was screaming at once, you didn't freeze. You made the hard calls, you prioritized the right systems, and you brought me home.",
+        "sfx": "alarm",
+        "shake": true
+      },
+      {
+        "speakerId": "leo",
+        "speakerName": "Capt. Leo Ruiz",
+        "role": "Mission Commander",
+        "mood": "curious",
+        "text": "I couldn't have asked for a better officer at the console."
       }
     ]
   },
@@ -738,14 +772,7 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [The camera pans through a magnificent, glowing lunar base with greenhouses, batteries, and observation domes. Earth shines brightly overhead.]"
-      },
-      {
-        "speakerId": "milo",
-        "speakerName": "M.I.L.O.",
-        "role": "AI Logistics Operator",
-        "mood": "calm",
-        "text": "Simulation debrief complete. Survival Rate: 100%. Life-Support Uptime: 98.4%."
+        "text": "◈ [The habitat glows softly in the permanent light of the crater rim. Earth hangs in the velvet black sky like a bright jewel.]"
       },
       {
         "speakerId": "leo",
@@ -773,7 +800,7 @@ export const STORY_SCENES: Record<string, StoryScene> = {
         "speakerName": "Mission Log",
         "role": "Telemetry & Atmosphere",
         "mood": "calm",
-        "text": "◈ [A golden NASA achievement certificate appears on screen (see certificate in story-bible.json).]"
+        "text": "◈ [A golden NASA achievement certificate appears on screen.]"
       }
     ]
   },

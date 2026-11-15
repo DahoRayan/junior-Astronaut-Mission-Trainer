@@ -19,8 +19,8 @@
       </div>
 
       <!-- Perimeter Telemetry Resource Bars -->
-      <div id="perimeter-hud">
-        <div class="telemetry-chip" title="Base Electric Power Grid">
+      <div id="perimeter-hud" class="tutorial-power-only">
+        <div class="telemetry-chip chip-power" title="Base Electric Power Grid">
           <span class="chip-icon">⚡</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div class="telemetry-chip" title="Atmospheric Oxygen Supply">
+        <div class="telemetry-chip chip-oxygen" title="Atmospheric Oxygen Supply">
           <span class="chip-icon">🫁</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <div class="telemetry-chip" title="Water Reserves & Recycling">
+        <div class="telemetry-chip chip-water" title="Water Reserves & Recycling">
           <span class="chip-icon">💧</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <div class="telemetry-chip" title="Cosmic Ray & Solar Proton Shielding">
+        <div class="telemetry-chip chip-shield" title="Cosmic Ray & Solar Proton Shielding">
           <span class="chip-icon">🛡️</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="telemetry-chip" title="Astronaut Health Vitals">
+        <div class="telemetry-chip chip-health" title="Astronaut Health Vitals">
           <span class="chip-icon">🧑‍🚀</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -85,7 +85,7 @@
           </div>
         </div>
 
-        <div class="telemetry-chip" title="Crew Morale & Cohesion">
+        <div class="telemetry-chip chip-morale" title="Crew Morale & Cohesion">
           <span class="chip-icon">😊</span>
           <div class="chip-content">
             <div class="chip-meta">
@@ -100,6 +100,7 @@
       </div>
 
       <div class="mission-clock">
+        <button id="btn-toggle-telemetry" class="hud-action-btn telemetry-btn active" title="Inspect All 18 Simulation Variables">📊 All Vars (18)</button>
         <button id="btn-sound-toggle" class="hud-action-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
         <button id="btn-story-log" class="hud-action-btn story-btn" title="Open Mission Story Log [Visual Novel]">📖 Story</button>
         <button id="hud-cycle-badge" class="hud-action-btn cycle-btn" title="Click to toggle Lunar Day/Night Mode (Shackleton Polar / Synodic Month / Compressed)">☀️ Polar Day</button>
@@ -137,6 +138,13 @@
           <button id="btn-crew-resupply-o2" class="crew-action-btn" title="Emergency Earth O2 Resupply (+60 Stored O2)">🚀 Earth O₂</button>
           <button id="btn-crew-resupply-water" class="crew-action-btn" title="Emergency Earth Water Resupply (+50 Water)">🛸 Earth H₂O</button>
         </div>
+        <div class="panel-header space-between" style="margin-top: 14px; margin-bottom: 6px;">
+          <h3>DEVICE SWITCHES</h3>
+          <span class="data-badge live" id="active-devices-badge">ALL ON</span>
+        </div>
+        <div id="device-switchboard" class="device-switchboard">
+          <!-- Dynamically populated with toggle switches for every placed machine -->
+        </div>
       </aside>
 
       <!-- CENTRAL VIEWPORT: 3D Lunar Terrain + Interactive Simulation Overlay -->
@@ -166,18 +174,229 @@
           </div>
         </div>
 
-        <!-- Mission Objectives -->
+        <!-- Mission Mode Selector -->
         <div class="sub-panel objectives-hud">
-          <div class="panel-header">
-            <h3>ACTIVE OBJECTIVES</h3>
+          <div class="panel-header space-between">
+            <h3>MISSION MODE</h3>
+            <span class="data-badge live">● ACTIVE</span>
           </div>
-          <ul id="mission-objectives-list" class="objectives-list">
-            <!-- Populated by MissionManager.ts -->
+          <div class="mission-mode-selector">
+            <button id="btn-mode-scratch" class="mode-action-btn" title="Start from scratch without any guidance">
+              <span class="mode-btn-icon">🏗️</span>
+              <div class="mode-btn-info">
+                <span class="mode-btn-title">Start building my own base</span>
+                <span class="mode-btn-desc">Build from scratch with 1400 Mat & no guidance</span>
+              </div>
+            </button>
+            <button id="btn-mode-prebuilt" class="mode-action-btn active" title="Start with complete base system and guided tour">
+              <span class="mode-btn-icon">🚀</span>
+              <div class="mode-btn-info">
+                <span class="mode-btn-title">Start by pre-built base</span>
+                <span class="mode-btn-desc">Full active base + dialogue systems guide</span>
+              </div>
+            </button>
+          </div>
+          <ul id="mission-objectives-list" class="objectives-list hidden">
+            <!-- Populated by MissionManager.ts if needed -->
           </ul>
         </div>
 
-        <!-- M.I.L.O. Interactive Terminal -->
-        <div class="sub-panel milo-hud">
+        <!-- Right Panel Tabs: All Vars Telemetry vs M.I.L.O. AI -->
+        <div class="right-panel-tabs">
+          <button id="tab-btn-telemetry" class="right-tab-btn active" title="View all 18 simulation variables">📊 ALL VARS (18)</button>
+          <button id="tab-btn-milo" class="right-tab-btn" title="Ask M.I.L.O. AI advisor">🤖 M.I.L.O. AI</button>
+        </div>
+
+        <!-- TAB PANE 1: Comprehensive All 18 Variables Telemetry Monitor -->
+        <div id="tab-pane-telemetry" class="sub-panel telemetry-full-hud">
+          <div class="panel-header space-between">
+            <h3>TELEMETRY MONITOR</h3>
+            <span class="data-badge live" id="telemetry-tick-badge">● 1 TICK = 4H</span>
+          </div>
+
+          <div class="telemetry-grid-scroll">
+            <!-- GROUP 1: ENERGY & POWER -->
+            <div class="telemetry-group">
+              <div class="group-title">⚡ ENERGY & LIGHTING</div>
+              
+              <div class="var-card" id="card-power" title="Stored electricity kWh (0 to capacity)">
+                <div class="var-header">
+                  <span class="var-name">power</span>
+                  <span class="var-val" id="var-val-power">850 / 850 kWh</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-power" class="var-bar-fill normal" style="width: 100%"></div></div>
+                <div class="var-sub" id="var-sub-power">+480 kW Gen | -64 kW Load</div>
+              </div>
+
+              <div class="var-card" id="card-dust" title="Dust on solar panels (+0.5%/h, -25 on clean event)">
+                <div class="var-header">
+                  <span class="var-name">dust</span>
+                  <span class="var-val" id="var-val-dust">0%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-dust" class="var-bar-fill normal" style="width: 0%"></div></div>
+                <div class="var-sub" id="var-sub-dust">Solar Eff: 100% (-0% loss)</div>
+              </div>
+
+              <div class="var-card" id="card-light-cycle" title="Habitat circadian lighting quality (0-100)">
+                <div class="var-header">
+                  <span class="var-name">light_cycle</span>
+                  <span class="var-val" id="var-val-light-cycle">80%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-light-cycle" class="var-bar-fill normal" style="width: 80%"></div></div>
+                <div class="var-sub" id="var-sub-light-cycle">+4/h if power >= 25</div>
+              </div>
+            </div>
+
+            <!-- GROUP 2: ATMOSPHERE & CLIMATE -->
+            <div class="telemetry-group">
+              <div class="group-title">🫁 CABIN ATMOSPHERE</div>
+
+              <div class="var-card" id="card-stored-o2" title="Reserve tank of breathable O2 (1u = 10 kg)">
+                <div class="var-header">
+                  <span class="var-name">stored_o2</span>
+                  <span class="var-val" id="var-val-stored-o2">80.0 u (800 kg)</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-stored-o2" class="var-bar-fill normal" style="width: 80%"></div></div>
+                <div class="var-sub" id="var-sub-stored-o2">Respiration: -3.0 u/h</div>
+              </div>
+
+              <div class="var-card" id="card-oxygen" title="Cabin atmosphere oxygen quality % (0-100)">
+                <div class="var-header">
+                  <span class="var-name">oxygen</span>
+                  <span class="var-val" id="var-val-oxygen">100%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-oxygen" class="var-bar-fill normal" style="width: 100%"></div></div>
+                <div class="var-sub" id="var-sub-oxygen">Re-equilibration: +5%/h</div>
+              </div>
+
+              <div class="var-card" id="card-co2" title="Cabin carbon dioxide (1u = 2.5 kg, alert > 50)">
+                <div class="var-header">
+                  <span class="var-name">co2</span>
+                  <span class="var-val" id="var-val-co2">10.0 u (25 kg)</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-co2" class="var-bar-fill normal" style="width: 10%"></div></div>
+                <div class="var-sub" id="var-sub-co2">Exhalation +4.0 | Scrubbers -4.0</div>
+              </div>
+
+              <div class="var-card" id="card-temperature" title="Cabin temperature gauge (Nominal 50 = 21°C)">
+                <div class="var-header">
+                  <span class="var-name">temperature</span>
+                  <span class="var-val" id="var-val-temperature">50 (21°C)</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-temperature" class="var-bar-fill normal" style="width: 50%"></div></div>
+                <div class="var-sub" id="var-sub-temperature">Maintained by Heating System</div>
+              </div>
+            </div>
+
+            <!-- GROUP 3: WATER & AGRICULTURE -->
+            <div class="telemetry-group">
+              <div class="group-title">💧 WATER & AGRICULTURE</div>
+
+              <div class="var-card" id="card-water" title="Water stock (1u = 10 kg, enables drinks, farm, electrolyzer)">
+                <div class="var-header">
+                  <span class="var-name">water</span>
+                  <span class="var-val" id="var-val-water">60.0 u (600 L)</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-water" class="var-bar-fill normal" style="width: 60%"></div></div>
+                <div class="var-sub" id="var-sub-water">Recycler +3 | Base +2 | O2 -2.81</div>
+              </div>
+
+              <div class="var-card" id="card-food" title="Food stock rations (eat costs 4)">
+                <div class="var-header">
+                  <span class="var-name">food</span>
+                  <span class="var-val" id="var-val-food">30 rations</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-food" class="var-bar-fill normal" style="width: 75%"></div></div>
+                <div class="var-sub" id="var-sub-food">Meal ration: 4 units</div>
+              </div>
+
+              <div class="var-card" id="card-food-growth" title="Crop growth progress (0-100)">
+                <div class="var-header">
+                  <span class="var-name">food_growth</span>
+                  <span class="var-val" id="var-val-food-growth">0%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-food-growth" class="var-bar-fill normal" style="width: 0%"></div></div>
+                <div class="var-sub" id="var-sub-food-growth">Harvest at >= 10% | Farm +5</div>
+              </div>
+            </div>
+
+            <!-- GROUP 4: RADIATION & SHIELDING -->
+            <div class="telemetry-group">
+              <div class="group-title">🛡️ RADIATION & SHIELDING</div>
+
+              <div class="var-card" id="card-radiation" title="Crew radiation exposure (drifts towards 100-prot by 2/h)">
+                <div class="var-header">
+                  <span class="var-name">radiation</span>
+                  <span class="var-val" id="var-val-radiation">30 / 100</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-radiation" class="var-bar-fill normal" style="width: 30%"></div></div>
+                <div class="var-sub" id="var-sub-radiation">Safe: &le; 50 | Vault: +95</div>
+              </div>
+
+              <div class="var-card" id="card-radiation-protection" title="Effective radiation shielding (0-100)">
+                <div class="var-header">
+                  <span class="var-name">radiation_protection</span>
+                  <span class="var-val" id="var-val-radiation-protection">60%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-radiation-protection" class="var-bar-fill normal" style="width: 60%"></div></div>
+                <div class="var-sub" id="var-sub-radiation-protection">+10 on reshield event</div>
+              </div>
+
+              <div class="var-card" id="card-shield" title="Condition of lunar soil regolith layer (0-100)">
+                <div class="var-header">
+                  <span class="var-name">shield</span>
+                  <span class="var-val" id="var-val-shield">70%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-shield" class="var-bar-fill normal" style="width: 70%"></div></div>
+                <div class="var-sub" id="var-sub-shield">+15 on reshield event</div>
+              </div>
+            </div>
+
+            <!-- GROUP 5: CREW VITALS & MORALE -->
+            <div class="telemetry-group">
+              <div class="group-title">🧑‍🚀 CREW VITALS</div>
+
+              <div class="var-card" id="card-health" title="Crew health (0-100, drops on lethal thresholds)">
+                <div class="var-header">
+                  <span class="var-name">health</span>
+                  <span class="var-val" id="var-val-health">100%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-health" class="var-bar-fill normal" style="width: 100%"></div></div>
+                <div class="var-sub" id="var-sub-health">Vital status: Nominal</div>
+              </div>
+
+              <div class="var-card" id="card-enthusiasm" title="Crew morale / enthusiasm (0-100)">
+                <div class="var-header">
+                  <span class="var-name">enthusiasm</span>
+                  <span class="var-val" id="var-val-enthusiasm">95%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-enthusiasm" class="var-bar-fill normal" style="width: 95%"></div></div>
+                <div class="var-sub" id="var-sub-enthusiasm">+1 on eat/drink | +10 resupply</div>
+              </div>
+
+              <div class="var-card" id="card-saturation" title="Crew hunger gauge (0-100, -2/h)">
+                <div class="var-header">
+                  <span class="var-name">saturation</span>
+                  <span class="var-val" id="var-val-saturation">80%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-saturation" class="var-bar-fill normal" style="width: 80%"></div></div>
+                <div class="var-sub" id="var-sub-saturation">-2/h | +10 on eat event</div>
+              </div>
+
+              <div class="var-card" id="card-quenching" title="Crew thirst gauge (0-100, -3/h)">
+                <div class="var-header">
+                  <span class="var-name">quenching</span>
+                  <span class="var-val" id="var-val-quenching">80%</span>
+                </div>
+                <div class="var-bar-track"><div id="var-bar-quenching" class="var-bar-fill normal" style="width: 80%"></div></div>
+                <div class="var-sub" id="var-sub-quenching">-3/h | +5 on drink event</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB PANE 2: M.I.L.O. Interactive Terminal -->
+        <div id="tab-pane-milo" class="sub-panel milo-hud hidden">
           <div class="panel-header space-between">
             <h3>M.I.L.O. AI ADVISOR</h3>
             <span class="milo-status-indicator pulse-green">● ONLINE</span>

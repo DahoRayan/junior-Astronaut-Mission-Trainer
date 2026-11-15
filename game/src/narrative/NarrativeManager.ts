@@ -5,6 +5,7 @@ import { STORY_SCENES, StoryScene } from './StoryData';
 export class NarrativeManager {
   private vn: VisualNovelController;
   private customScenes: Map<string, StoryScene> = new Map();
+  public isDialogueEnabled: boolean = false; // Dialogue temporarily suppressed as requested
 
   constructor(vn: VisualNovelController) {
     this.vn = vn;
@@ -28,7 +29,13 @@ export class NarrativeManager {
   /**
    * Play any registered story scene by ID in full Visual Novel presentation
    */
-  public playScene(sceneId: string, onComplete?: () => void): void {
+  public playScene(sceneId: string, onComplete?: () => void, force: boolean = false): void {
+    if (!this.isDialogueEnabled && !force) {
+      console.log(`[NarrativeManager] Dialogue temporarily off: scene "${sceneId}" suppressed.`);
+      if (onComplete) onComplete();
+      return;
+    }
+
     const scene = this.getScene(sceneId);
     if (!scene) {
       console.warn(`[NarrativeManager] Story scene "${sceneId}" not found.`);
@@ -56,6 +63,7 @@ export class NarrativeManager {
   public getScene(sceneId: string): StoryScene | null {
     const aliasMap: Record<string, string> = {
       prologue: 'S-PRO-1',
+      base_tour: 'S-BASE-TOUR',
       ch1_intro: 'S-C1-1',
       ch1_fault: 'S-C1-3',
       ch2_intro: 'S-C2-1',

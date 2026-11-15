@@ -104,6 +104,40 @@ export class CatalogPanel {
     eventBus.emit('building_selected', null);
   }
 
+  public highlightTool(type: BuildingType | null): void {
+    const buttons = document.querySelectorAll<HTMLElement>('.catalog-item-btn');
+    let highlightedBtn: HTMLElement | null = null;
+
+    buttons.forEach((btn) => {
+      btn.classList.remove('tutorial-highlight');
+      btn.classList.remove('tutorial-dimmed');
+      if (type) {
+        if (btn.dataset.type === type) {
+          btn.classList.add('tutorial-highlight');
+          highlightedBtn = btn;
+        } else {
+          btn.classList.add('tutorial-dimmed');
+        }
+      }
+    });
+
+    // Auto-scroll to the highlighted item so the kid sees it immediately
+    if (highlightedBtn) {
+      setTimeout(() => {
+        highlightedBtn?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 60);
+    }
+
+    const demolishBtn = document.getElementById('btn-demolish');
+    if (demolishBtn) {
+      if (type) {
+        demolishBtn.classList.add('tutorial-dimmed');
+      } else {
+        demolishBtn.classList.remove('tutorial-dimmed');
+      }
+    }
+  }
+
   private toggleDemolish(): void {
     this.clearSelection();
     this.isDemolishActive = !this.isDemolishActive;

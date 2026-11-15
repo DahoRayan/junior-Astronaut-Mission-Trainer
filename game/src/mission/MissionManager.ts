@@ -213,12 +213,22 @@ export class MissionManager {
     eventBus.on<number>('chapter_advanced', (ch) => {
       this.loadChapter(ch);
     });
+
+    // Handle guided power tutorial completion
+    eventBus.on('tutorial_power_complete', () => {
+      this.firedEvents.add('E-HAB-SETUP');
+      this.checkObjective('place_solar');
+      this.checkObjective('connect_cables');
+      this.narrative.playScene('S-C1-1');
+    });
   }
 
   private checkTimelineProgression(state: ResourceState): void {
     // Check timeline events that match current sol & hour
     for (const ev of this.timeline) {
       if (this.firedEvents.has(ev.id)) continue;
+      // E-HAB-SETUP is triggered interactively upon completing the power tutorial
+      if (ev.id === 'E-HAB-SETUP') continue;
 
       if (state.sol > ev.sol || (state.sol === ev.sol && state.timeOfDayHours >= ev.hour)) {
         this.fireTimelineEvent(ev);
