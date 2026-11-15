@@ -78,8 +78,8 @@ export class SimulationEngine {
     };
 
     this.updateDaylightStatus();
-    // At startup, player sees a complete, active, interacting lunar outpost base
-    this.loadPrebuiltBase();
+    // At startup, start cleanly in "build my own base" mode with 1400 materials & clean surface
+    this.clearBaseForScratch();
   }
 
   /**
@@ -571,7 +571,7 @@ export class SimulationEngine {
   // --- Accurate Lunar Day & Solar Azimuth Tracking ---
   public getSunAzimuth(): number {
     // 720 hours = 30 Earth days (15 days day, 15 days night) = 1 full circuit
-    const totalHours = (this.state.sol - 1) * 24 + this.state.timeOfDayHours;
+    const totalHours = ((this.state.sol - 1) * 24 + this.state.timeOfDayHours) % 720;
     return (totalHours / 720) * (2 * Math.PI);
   }
 
@@ -619,7 +619,7 @@ export class SimulationEngine {
       this.dayCycleMode = 'lunar_synodic';
       eventBus.emit('notification', {
         type: 'info',
-        message: 'Day Cycle: Standard Lunar Synodic (15 Days Day / 15 Days Night, 1 Tick = 4h).',
+        message: 'Day Cycle: Standard Moon Day (30 Earth Days: 15 Days Sunlight / 15 Days Night, 1 Tick = 4h).',
       });
     }
     this.updateDaylightStatus();

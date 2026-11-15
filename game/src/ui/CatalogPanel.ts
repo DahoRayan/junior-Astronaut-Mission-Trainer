@@ -5,6 +5,7 @@ import { BuildingType } from '../core/types';
 export class CatalogPanel {
   private activeSelection: BuildingType | null = null;
   private isDemolishActive: boolean = false;
+  private currentHighlightedType: BuildingType | null = null;
 
   constructor() {
     this.render();
@@ -104,28 +105,48 @@ export class CatalogPanel {
     eventBus.emit('building_selected', null);
   }
 
-  public highlightTool(type: BuildingType | null): void {
-    const buttons = document.querySelectorAll<HTMLElement>('.catalog-item-btn');
-    let highlightedBtn: HTMLElement | null = null;
+  public selectTool(type: BuildingType | null): void {
+    if (!type) {
+      this.clearSelection();
+      return;
+    }
+    // If already active, keep it selected rather than toggling off
+    if (this.activeSelection === type) {
+      return;
+    }
+    const btn = document.querySelector<HTMLElement>(`.catalog-item-btn[data-type="${type}"]`);
+    if (btn) {
+      this.selectBuilding(type, btn);
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 
+  public getActiveSelection(): BuildingType | null {
+    return this.activeSelection;
+  }
+
+  public highlightTool(type: BuildingType | null): void {
+    if (this.currentHighlightedType === type) {
+      return; // Prevent glitchy continuous re-triggering
+    }
+    this.currentHighlightedType = type;
+
+    const buttons = document.querySelectorAll<HTMLElement>('.catalog-item-btn');
     buttons.forEach((btn) => {
       btn.classList.remove('tutorial-highlight');
       btn.classList.remove('tutorial-dimmed');
       if (type) {
         if (btn.dataset.type === type) {
           btn.classList.add('tutorial-highlight');
-          highlightedBtn = btn;
         } else {
           btn.classList.add('tutorial-dimmed');
         }
       }
     });
 
-    // Auto-scroll to the highlighted item so the kid sees it immediately
-    if (highlightedBtn) {
-      setTimeout(() => {
-        highlightedBtn?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 60);
+    const targetBtn = type ? document.querySelector<HTMLElement>(`.catalog-item-btn[data-type="${type}"]`) : null;
+    if (targetBtn) {
+      targetBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     const demolishBtn = document.getElementById('btn-demolish');

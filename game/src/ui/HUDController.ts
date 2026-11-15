@@ -7,32 +7,38 @@ export class HUDController {
     this.bindTabs();
   }
 
+  public selectRightTab: (tab: 'objectives' | 'telemetry' | 'milo') => void = () => {};
+
   private bindTabs(): void {
+    const btnObjectives = document.getElementById('tab-btn-objectives');
     const btnTelemetry = document.getElementById('tab-btn-telemetry');
     const btnMilo = document.getElementById('tab-btn-milo');
+    const paneObjectives = document.getElementById('tab-pane-objectives');
     const paneTelemetry = document.getElementById('tab-pane-telemetry');
     const paneMilo = document.getElementById('tab-pane-milo');
     const topTelemetryBtn = document.getElementById('btn-toggle-telemetry');
+    const topExpertBtn = document.getElementById('btn-toggle-expert');
 
-    const selectTab = (tab: 'telemetry' | 'milo') => {
-      if (tab === 'telemetry') {
-        btnTelemetry?.classList.add('active');
-        btnMilo?.classList.remove('active');
-        paneTelemetry?.classList.remove('hidden');
-        paneMilo?.classList.add('hidden');
-        topTelemetryBtn?.classList.add('active');
-      } else {
-        btnMilo?.classList.add('active');
-        btnTelemetry?.classList.remove('active');
-        paneMilo?.classList.remove('hidden');
-        paneTelemetry?.classList.add('hidden');
-        topTelemetryBtn?.classList.remove('active');
-      }
+    const selectTab = (tab: 'objectives' | 'telemetry' | 'milo') => {
+      btnObjectives?.classList.toggle('active', tab === 'objectives');
+      btnTelemetry?.classList.toggle('active', tab === 'telemetry');
+      btnMilo?.classList.toggle('active', tab === 'milo');
+
+      paneObjectives?.classList.toggle('hidden', tab !== 'objectives');
+      paneTelemetry?.classList.toggle('hidden', tab !== 'telemetry');
+      paneMilo?.classList.toggle('hidden', tab !== 'milo');
+
+      topTelemetryBtn?.classList.toggle('active', tab === 'telemetry');
+      topExpertBtn?.classList.toggle('active', tab === 'milo');
     };
 
+    this.selectRightTab = selectTab;
+
+    btnObjectives?.addEventListener('click', () => selectTab('objectives'));
     btnTelemetry?.addEventListener('click', () => selectTab('telemetry'));
     btnMilo?.addEventListener('click', () => selectTab('milo'));
     topTelemetryBtn?.addEventListener('click', () => selectTab('telemetry'));
+    topExpertBtn?.addEventListener('click', () => selectTab('milo'));
   }
 
   private bindEvents(): void {
@@ -46,32 +52,34 @@ export class HUDController {
         const azDeg = Math.round((data.azimuth * 180) / Math.PI) % 360;
         if (data.mode === 'compressed_24h') {
           if (data.isDaylight) {
-            cycleEl.textContent = `☀️ Day (${Math.floor(data.hour)}h)`;
+            cycleEl.textContent = `☀️ Day ${Math.floor(data.hour)}h`;
             cycleEl.classList.remove('night-mode');
             cycleEl.title = `Mode: Compressed 24h Educational Cycle. 12h Day / 12h Night. Click to switch.`;
           } else {
-            cycleEl.textContent = `🌑 Lunar Night (${Math.floor(data.hour)}h)`;
+            cycleEl.textContent = `🌑 Night ${Math.floor(data.hour)}h`;
             cycleEl.classList.add('night-mode');
             cycleEl.title = `Mode: Compressed 24h Educational Cycle. Night: Solar arrays produce 0 kW. Click to switch.`;
           }
         } else if (data.mode === 'lunar_synodic') {
+          const solInCycle = ((data.sol - 1) % 30) + 1;
           if (data.isDaylight) {
-            cycleEl.textContent = `☀️ Synodic Day (${Math.floor(data.hour)}:00)`;
+            cycleEl.textContent = `☀️ Day ${solInCycle}/15`;
             cycleEl.classList.remove('night-mode');
-            cycleEl.title = `Mode: Standard Lunar Synodic (15 Days Day / 15 Days Night, 1 Tick = 4h). Click to switch.`;
+            cycleEl.title = `Moon Day Cycle: 30 Earth days (15d Sun / 15d Night). Daylight Sol ${solInCycle} of 30 (${15 - solInCycle + 1} days sun left). Click to switch cycle mode.`;
           } else {
-            cycleEl.textContent = `🌑 Synodic Night (${Math.floor(data.hour)}:00)`;
+            const nightSol = solInCycle - 15;
+            cycleEl.textContent = `🌑 Night ${nightSol}/15`;
             cycleEl.classList.add('night-mode');
-            cycleEl.title = `Mode: Standard Lunar Synodic (15 Days Day / 15 Days Night, 1 Tick = 4h). Click to switch.`;
+            cycleEl.title = `Moon Day Cycle: 30 Earth days (15d Sun / 15d Night). Night Sol ${solInCycle} of 30 (${30 - solInCycle + 1} days dark left). Solar arrays at 0 kW. Click to switch cycle mode.`;
           }
         } else {
           // Canonical Shackleton Polar Rim
           if (data.isDaylight) {
-            cycleEl.textContent = `☀️ Polar Sun (${azDeg}°)`;
+            cycleEl.textContent = `☀️ Sun ${azDeg}°`;
             cycleEl.classList.remove('night-mode');
             cycleEl.title = `Mode: Shackleton Polar Rim (Continuous ~86% grazing sunlight at 89.9°S, Azimuth ${azDeg}°). Click to cycle mode.`;
           } else {
-            cycleEl.textContent = `🌑 48h Shadow Eclipse`;
+            cycleEl.textContent = `🌑 Eclipse`;
             cycleEl.classList.add('night-mode');
             cycleEl.title = `Mode: Shackleton Polar Rim. 48-Hour mountain ridge shadow eclipse active (-180°C, Solar 0 kW). Click to cycle mode.`;
           }
@@ -93,47 +101,46 @@ export class HUDController {
     const timeEl = document.getElementById('hud-time-val');
     const matEl = document.getElementById('hud-materials-val');
 
-    if (solEl) solEl.textContent = `Sol ${state.sol}`;
+    const solInCycle = ((state.sol - 1) % 30) + 1;
+    if (solEl) {
+      solEl.textContent = `Sol ${state.sol} (${solInCycle}/30)`;
+      solEl.title = `Mission Sol ${state.sol}. Day ${solInCycle} of the 30 Earth-day Lunar Synodic Cycle.`;
+    }
     if (timeEl) timeEl.textContent = `${Math.floor(state.timeOfDayHours).toString().padStart(2, '0')}:00`;
     if (matEl) matEl.textContent = `${state.materials}`;
 
-    // --- TOP BAR CAPSULES ---
+    // --- TOP BAR CAPSULES (Compact, High-Signal, No Layout Overflow) ---
     const powerNet = state.powerBalanceKw;
     const batPct = state.batteryCapacityKwh > 0
       ? (state.power / state.batteryCapacityKwh) * 100
       : 100;
-    let powerLabel = '';
-    if (state.power >= state.batteryCapacityKwh && powerNet >= 0) {
-      powerLabel = `${Math.round(state.power)} kWh (Full ⚡ +${powerNet.toFixed(1)} kW surplus)`;
-    } else if (powerNet >= 0) {
-      powerLabel = `${Math.round(state.power)} / ${state.batteryCapacityKwh} kWh (+${powerNet.toFixed(1)} kW ⚡)`;
-    } else {
-      powerLabel = `${Math.round(state.power)} kWh (${powerNet.toFixed(1)} kW drain ⏳)`;
-    }
+    const powerSign = powerNet >= 0 ? '+' : '';
+    const powerLabel = `${Math.round(state.power)} kWh (${powerSign}${Math.round(powerNet)} kW)`;
     const powerMeterPct = Math.min(100, Math.max(5, batPct));
     this.updateMeter('power', powerMeterPct, powerLabel);
 
-    const o2Rate = state.oxygenBalanceKgH;
-    const o2Label = o2Rate >= 0
-      ? `${state.stored_o2.toFixed(1)} u (+${(o2Rate / 10).toFixed(2)}/h)`
-      : `${state.stored_o2.toFixed(1)} u (${(o2Rate / 10).toFixed(2)}/h)`;
-    this.updateMeter('oxygen', (state.stored_o2 / 100) * 100, o2Label);
+    const o2Kg = Math.round(state.stored_o2 * 10);
+    const o2RateNum = state.oxygenBalanceKgH;
+    const o2Rate = o2RateNum.toFixed(1);
+    const o2Sign = o2RateNum >= 0 ? '+' : '';
+    this.updateMeter('oxygen', (state.stored_o2 / 100) * 100, `${o2Kg} kg (${o2Sign}${o2Rate}/h)`);
 
-    this.updateMeter('water', (state.water / 100) * 100, `${state.water.toFixed(1)} u (${Math.round(state.water * 10)} L)`);
-    this.updateMeter('shield', state.radiation_protection, `${state.radiation_protection}% Shielded`);
+    const waterL = Math.round(state.water * 10);
+    this.updateMeter('water', (state.water / 100) * 100, `${waterL} L`);
 
-    const healthStatus = state.health >= 90 ? 'Nominal' : state.health >= 70 ? 'Fair' : 'Alert';
-    this.updateMeter('health', state.health, `${Math.round(state.health)}% (${healthStatus})`);
+    this.updateMeter('shield', state.radiation_protection, `${Math.round(state.radiation_protection)}%`);
 
-    const moraleStatus = state.enthusiasm >= 85 ? 'Spirited' : 'Fatigued';
-    this.updateMeter('morale', state.enthusiasm, `${Math.round(state.enthusiasm)}% (${moraleStatus})`);
+    this.updateMeter('health', state.health, `${Math.round(state.health)}%`);
+
+    this.updateMeter('morale', state.enthusiasm, `${Math.round(state.enthusiasm)}%`);
 
     // --- ALL VARIABLES TELEMETRY MONITOR ---
     // 1. power
     const pLvl = state.power < 20 ? 'critical' : state.power < 25 ? 'warning' : 'normal';
+    const nightSol = solInCycle > 15 ? solInCycle - 15 : solInCycle;
     const genText = state.is_daylight
-      ? `☀️ Solar: ${state.powerKwGenerated.toFixed(1)} kW`
-      : `🌑 Night: 0.0 kW`;
+      ? `☀️ Moon Day (${solInCycle}/15): ${state.powerKwGenerated.toFixed(1)} kW`
+      : `🌑 Moon Night (${nightSol}/15): 0.0 kW (Battery Reserves Active)`;
     this.updateVarCard(
       'power',
       `${Math.round(state.power)} / ${state.batteryCapacityKwh} kWh (${powerNet >= 0 ? '+' : ''}${powerNet.toFixed(1)} kW)`,
@@ -168,7 +175,7 @@ export class HUDController {
       'stored-o2',
       `${state.stored_o2.toFixed(1)} u (${Math.round(state.stored_o2 * 10)} kg)`,
       state.stored_o2,
-      `Crew drain: -3.0 u/h | Net: ${o2Rate >= 0 ? '+' : ''}${(o2Rate / 10).toFixed(2)} u/h`,
+      `Crew drain: -3.0 u/h | Net: ${o2RateNum >= 0 ? '+' : ''}${(o2RateNum / 10).toFixed(2)} u/h`,
       o2TankLvl
     );
 

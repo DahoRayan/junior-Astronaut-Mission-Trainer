@@ -1,0 +1,10 @@
+{
+  "name": "nasa-outpost-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix game run dev",
+    "build": "npm --prefix game run build",
+    "test": "npm --prefix game test"
+  }
+}

@@ -54,10 +54,117 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // 4b. Guided Tutorial Manager (used when guided step is active)
   const tutorial = new TutorialManager();
-  tutorial.isActive = false;
+  tutorial.isActive = true;
   renderer.tutorialManager = tutorial;
 
-  // 4c. Mode Selector: "Start building my own base" vs "Start by pre-built base"
+  // 4c. Interactive Guided Mission Step UI & Objectives List
+  const guideBanner = document.getElementById('guide-banner');
+  const guideTag = document.getElementById('guide-step-tag');
+  const guideText = document.getElementById('guide-banner-text');
+  const btnGuideToggle = document.getElementById('btn-guide-toggle');
+  const objectivesContainer = document.getElementById('mission-objectives-list');
+
+  const renderGuideObjectivesList = () => {
+    if (!objectivesContainer) return;
+    const milestones = tutorial.getAllMilestones(simulation.grid);
+    objectivesContainer.innerHTML = '';
+    milestones.forEach((m) => {
+      const li = document.createElement('li');
+      li.className = `objective-item ${m.completed ? 'completed' : m.current ? 'active' : 'pending'}`;
+      li.title = m.instruction;
+      li.innerHTML = `
+        <span class="obj-check">${m.completed ? '✓' : m.current ? '▶' : '○'}</span>
+        <span class="obj-text">${m.title}</span>
+      `;
+      li.addEventListener('click', () => {
+        if (m.target && !m.completed) {
+          renderer.focusTile(m.target.x, m.target.y);
+          if (m.tool) {
+            tutorial.currentStep = m.step;
+            eventBus.emit('tutorial_step_changed', m.step);
+            catalog.selectTool(m.tool);
+          }
+        }
+      });
+      objectivesContainer.appendChild(li);
+    });
+  };
+
+  let lastPannedStep: TutorialStep | null = null;
+
+  const updateGuideUI = () => {
+    if (!tutorial.isActive) {
+      if (guideBanner) {
+        guideBanner.classList.remove('completed');
+        guideBanner.style.display = 'flex';
+      }
+      if (guideTag) guideTag.textContent = 'GUIDED HIGHLIGHTS PAUSED';
+      if (guideText) guideText.textContent = 'Guidance is paused. Click [💡 Guide: OFF] to resume step-by-step highlights.';
+      if (btnGuideToggle) {
+        btnGuideToggle.textContent = '💡 Guide: OFF';
+        btnGuideToggle.classList.add('off');
+        btnGuideToggle.classList.remove('active');
+      }
+      catalog.highlightTool(null);
+      renderGuideObjectivesList();
+      return;
+    }
+
+    if (btnGuideToggle) {
+      btnGuideToggle.textContent = '💡 Guide: ON';
+      btnGuideToggle.classList.remove('off');
+      btnGuideToggle.classList.add('active');
+    }
+
+    if (guideBanner) {
+      guideBanner.style.display = 'flex';
+      if (tutorial.currentStep === TutorialStep.COMPLETE) {
+        guideBanner.classList.add('completed');
+      } else {
+        guideBanner.classList.remove('completed');
+      }
+    }
+
+    if (guideTag) guideTag.textContent = tutorial.getStepTag();
+    if (guideText) guideText.textContent = tutorial.getInstructionText();
+
+    catalog.highlightTool(tutorial.getHighlightedTool());
+
+    const moonTarget = tutorial.getActiveMoonTarget(simulation.grid);
+    if (moonTarget && tutorial.currentStep !== TutorialStep.COMPLETE && lastPannedStep !== tutorial.currentStep) {
+      lastPannedStep = tutorial.currentStep;
+      renderer.focusTile(moonTarget.x, moonTarget.y);
+    }
+
+    renderGuideObjectivesList();
+  };
+
+  btnGuideToggle?.addEventListener('click', () => {
+    soundManager.playPop();
+    tutorial.isActive = !tutorial.isActive;
+    updateGuideUI();
+    eventBus.emit('notification', {
+      type: 'info',
+      message: tutorial.isActive ? '💡 Guided Highlights Resumed.' : '💡 Guided Highlights Paused.',
+    });
+  });
+
+  guideBanner?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('#btn-guide-toggle')) return;
+    if (!tutorial.isActive) {
+      tutorial.isActive = true;
+      updateGuideUI();
+      return;
+    }
+    const moonTarget = tutorial.getActiveMoonTarget(simulation.grid);
+    if (moonTarget && tutorial.currentStep !== TutorialStep.COMPLETE) {
+      soundManager.playPop();
+      renderer.focusTile(moonTarget.x, moonTarget.y);
+      catalog.selectTool(moonTarget.type);
+    }
+  });
+
+  // 4d. Mode Selector: "Build my own base" vs "Pre-built reference base"
   const btnScratch = document.getElementById('btn-mode-scratch');
   const btnPrebuilt = document.getElementById('btn-mode-prebuilt');
 
@@ -65,16 +172,23 @@ window.addEventListener('DOMContentLoaded', () => {
     if (mode === 'scratch') {
       btnScratch?.classList.add('active');
       btnPrebuilt?.classList.remove('active');
-      tutorial.isActive = false;
-      catalog.highlightTool(null);
+      tutorial.isActive = true;
       hud.setPowerFocusMode(false);
       simulation.clearBaseForScratch();
+      tutorial.reset();
+      lastPannedStep = null;
+      tutorial.evaluateGrid(simulation.grid);
+      updateGuideUI();
+      catalog.selectTool(tutorial.getHighlightedTool());
       soundManager.playPoof();
+      renderer.recenter();
       eventBus.emit('notification', {
         type: 'success',
-        message: '🏗️ Build from Scratch: 1400 Materials granted. Build freely without guidance!',
+        message: '🏗️ Build My Own Base: 1400 Materials granted. Follow the guided highlights!',
       });
-      milo.appendMILOMessage('🏗️ Custom Outpost Mode: You have 1400 Materials. Build your own energy and life support systems without restrictions!');
+      milo.appendMILOMessage('🏗️ Build My Own Base: 1400 Materials granted. The Moon Day lasts 30 Earth days (15d Sun / 15d Night). Follow the glowing highlights to construct a resilient outpost!');
+      const initialTip = tutorial.getMiloTip();
+      if (initialTip) milo.appendMILOMessage(initialTip);
       updateSwitchboardUI();
     } else {
       btnPrebuilt?.classList.add('active');
@@ -83,13 +197,15 @@ window.addEventListener('DOMContentLoaded', () => {
       catalog.highlightTool(null);
       hud.setPowerFocusMode(false);
       simulation.loadPrebuiltBase();
+      if (guideBanner) guideBanner.style.display = 'none';
       soundManager.playFanfare();
       renderer.recenter();
-      // narrative.playScene('S-BASE-TOUR'); // Dialogue off temporarily as requested
       eventBus.emit('notification', {
         type: 'success',
-        message: '🚀 Pre-Built Outpost Loaded! All 18 telemetry variables streaming live.',
+        message: '🚀 Pre-Built Reference Outpost Loaded! All 18 telemetry variables streaming live.',
       });
+      milo.appendMILOMessage('🚀 Pre-Built Reference Outpost Loaded: All 12 machines & full power distribution grid active.');
+      renderGuideObjectivesList();
       updateSwitchboardUI();
     }
   };
@@ -105,25 +221,15 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   eventBus.on('tutorial_step_changed', () => {
-    catalog.highlightTool(tutorial.getHighlightedTool());
-    const moonTarget = tutorial.getActiveMoonTarget();
-    if (moonTarget) {
-      renderer.focusTile(moonTarget.x, moonTarget.y);
-    }
-    if (tutorial.currentStep === TutorialStep.COMPLETE) {
-      hud.setPowerFocusMode(false);
-      catalog.highlightTool(null);
-    } else {
-      milo.appendMILOMessage(`📍 ${tutorial.getInstructionText()}`);
+    updateGuideUI();
+    const tip = tutorial.getMiloTip();
+    if (tip && tutorial.isActive) {
+      milo.appendMILOMessage(tip);
     }
   });
 
   eventBus.on('prologue_complete', () => {
-    catalog.highlightTool(tutorial.getHighlightedTool());
-    const moonTarget = tutorial.getActiveMoonTarget();
-    if (moonTarget) {
-      renderer.focusTile(moonTarget.x, moonTarget.y);
-    }
+    updateGuideUI();
   });
 
   // 5. Connect Catalog / Tool Selection to Renderer & Sounds
@@ -154,6 +260,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Direct machine toggle on lunar map when not in building placement or demolition mode
     if (!renderer.selectedBuildingType) {
+      if (tutorial.isActive) {
+        const moonTarget = tutorial.getActiveMoonTarget(simulation.grid);
+        if (moonTarget && tile.x === moonTarget.x && tile.y === moonTarget.y) {
+          // Direct click on the holographic beacon: auto-select the required module!
+          catalog.selectTool(moonTarget.type);
+          soundManager.playPop();
+          eventBus.emit('notification', {
+            type: 'info',
+            message: `🎯 Target beacon activated! Selected ${BUILDING_DEFINITIONS[moonTarget.type].name}. Click again to construct!`,
+          });
+          return;
+        }
+      }
+
       const gridTile = simulation.grid.getTile(tile.x, tile.y);
       if (gridTile?.building && gridTile.building.type !== 'power_cable' && gridTile.building.type !== 'regolith_shield') {
         const res = simulation.toggleDevicePower(tile.x, tile.y);
@@ -254,44 +374,6 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hud-cycle-badge')?.addEventListener('click', () => {
     soundManager.playPop();
     simulation.toggleDayCycleMode();
-  });
-
-  // 9. Crew Operations (Lunar Outpost Equipment Specification §5.2)
-  document.getElementById('btn-crew-eat')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.eat();
-  });
-  document.getElementById('btn-crew-drink')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.drink();
-  });
-  document.getElementById('btn-crew-clean')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.cleanSolarPanels();
-  });
-  document.getElementById('btn-crew-reshield')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.reshield();
-  });
-  document.getElementById('btn-crew-farm')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.farm();
-  });
-  document.getElementById('btn-crew-harvest')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.harvast();
-  });
-  document.getElementById('btn-crew-shelter')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.toggleShelter();
-  });
-  document.getElementById('btn-crew-resupply-o2')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.demandEarthOxygenResupply();
-  });
-  document.getElementById('btn-crew-resupply-water')?.addEventListener('click', () => {
-    soundManager.playPop();
-    simulation.demandEarthWaterResupply();
   });
 
   // 10. Time / Speed Controls
@@ -465,11 +547,49 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  eventBus.on('structure_placed', () => updateSwitchboardUI());
-  eventBus.on('structure_demolished', () => updateSwitchboardUI());
+  eventBus.on('structure_placed', () => {
+    if (tutorial.isActive) {
+      tutorial.evaluateGrid(simulation.grid);
+      if (tutorial.currentStep !== TutorialStep.COMPLETE) {
+        catalog.selectTool(tutorial.getHighlightedTool());
+      } else {
+        catalog.clearSelection();
+      }
+      updateGuideUI();
+    }
+    updateSwitchboardUI();
+  });
+  eventBus.on('cable_placed', () => {
+    if (tutorial.isActive) {
+      tutorial.evaluateGrid(simulation.grid);
+      if (tutorial.currentStep !== TutorialStep.COMPLETE) {
+        catalog.selectTool(tutorial.getHighlightedTool());
+      } else {
+        catalog.clearSelection();
+      }
+      updateGuideUI();
+    }
+    updateSwitchboardUI();
+  });
+  eventBus.on('structure_demolished', () => {
+    if (tutorial.isActive) {
+      tutorial.evaluateGrid(simulation.grid);
+      updateGuideUI();
+    }
+    updateSwitchboardUI();
+  });
+  eventBus.on('cable_removed', () => {
+    if (tutorial.isActive) {
+      tutorial.evaluateGrid(simulation.grid);
+      updateGuideUI();
+    }
+    updateSwitchboardUI();
+  });
   eventBus.on('device_toggled', () => updateSwitchboardUI());
 
-  // 12. Initial State Sync & Start Simulation Loop
+  // 12. Initial State Sync & Start in "Build My Own Base" Mode
+  setMode('scratch');
+  simulation.updateDaylightStatus();
   hud.update(simulation.state);
   updateSwitchboardUI();
   simulation.start();

@@ -18,6 +18,13 @@ export class BuildingRenderer {
   ): void {
     ctx.save();
 
+    // Fast-path: Power Cable junction node (renders compact ground conduit terminal, no giant building shadow)
+    if (b.type === 'power_cable') {
+      this.drawPowerJunction(ctx, px, py, b.isPowered, time);
+      ctx.restore();
+      return;
+    }
+
     // 1. Structure Ground Shadow
     ctx.fillStyle = 'rgba(10, 15, 30, 0.45)';
     ctx.beginPath();
@@ -790,6 +797,52 @@ export class BuildingRenderer {
       ctx.arc(cx + 6, cy - 10, ping * 12, -Math.PI * 0.5, 0);
       ctx.stroke();
     }
+  }
+
+  // --- Sleek, Compact Power Junction Conduit Node ---
+  public static drawPowerJunction(
+    ctx: CanvasRenderingContext2D,
+    px: number,
+    py: number,
+    isPowered: boolean,
+    time: number
+  ): void {
+    const cx = px + TILE_SIZE / 2;
+    const cy = py + TILE_SIZE / 2;
+
+    ctx.save();
+
+    // Subtle ambient glow when powered
+    if (isPowered) {
+      const pulse = Math.sin(time * 0.005) * 1.2;
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.28)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 6 + pulse, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Outer compact casing (sleek dark metallic terminal pad)
+    ctx.fillStyle = '#0f172a';
+    ctx.strokeStyle = isPowered ? '#0284c7' : '#78350f';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Central glowing core diode
+    ctx.fillStyle = isPowered ? '#38bdf8' : '#f59e0b';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Specular glint
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(cx - 0.8, cy - 0.8, 1, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
   }
 
   // --- Fallback Module ---

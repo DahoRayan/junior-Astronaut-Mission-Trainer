@@ -100,13 +100,12 @@
       </div>
 
       <div class="mission-clock">
-        <button id="btn-toggle-telemetry" class="hud-action-btn telemetry-btn active" title="Inspect All 18 Simulation Variables">📊 All Vars (18)</button>
-        <button id="btn-sound-toggle" class="hud-action-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
+        <button id="btn-sound-toggle" class="hud-action-btn icon-btn" title="Toggle Sound Effects [Key: M]">🔊 Sound</button>
         <button id="btn-story-log" class="hud-action-btn story-btn" title="Open Mission Story Log [Visual Novel]">📖 Story</button>
-        <button id="hud-cycle-badge" class="hud-action-btn cycle-btn" title="Click to toggle Lunar Day/Night Mode (Shackleton Polar / Synodic Month / Compressed)">☀️ Polar Day</button>
-        <span class="sol-badge" id="hud-sol-val">Sol 1</span>
+        <button id="hud-cycle-badge" class="hud-action-btn cycle-btn" title="Moon Day: 30 Earth Days (15d Sun / 15d Night). Click to cycle mode.">☀️ Day 1/15</button>
+        <span class="sol-badge" id="hud-sol-val" title="Mission Sol 1. Day 1 of the 30 Earth-day Lunar Synodic Cycle.">Sol 1 (1/30)</span>
         <span class="time-badge" id="hud-time-val">06:00</span>
-        <span class="mat-badge">🧱 <span id="hud-materials-val">250</span> Mat</span>
+        <span class="mat-badge">🧱 <span id="hud-materials-val">1400</span></span>
       </div>
     </header>
 
@@ -124,20 +123,6 @@
           <button id="btn-demolish" class="tool-btn demolish" title="Toggle Demolish Mode [Key: Esc to cancel]">⚠️ Demolish Module</button>
         </div>
 
-        <div class="panel-header" style="margin-top: 12px; margin-bottom: 6px;">
-          <h3>CREW OPERATIONS</h3>
-        </div>
-        <div class="crew-actions-grid">
-          <button id="btn-crew-eat" class="crew-action-btn" title="Eat Meal (-4 Food, +10 Saturation, +1 Morale)">🍽️ Eat</button>
-          <button id="btn-crew-drink" class="crew-action-btn" title="Drink Water (-3 Water, +5 Quenching, +1 Morale)">💧 Drink</button>
-          <button id="btn-crew-clean" class="crew-action-btn" title="Clean Solar Dust (-1 kW, -25 Dust)">🧹 Clean</button>
-          <button id="btn-crew-reshield" class="crew-action-btn" title="Reshield Habitat (-2 kW, +15 Shield, +10 Prot)">🛡️ Reshield</button>
-          <button id="btn-crew-farm" class="crew-action-btn" title="Tend Crops (-2 Water, -1 kW, +5 Growth)">🌱 Farm</button>
-          <button id="btn-crew-harvest" class="crew-action-btn" title="Harvest Crops (-10 Growth, +Food)">🥗 Harvest</button>
-          <button id="btn-crew-shelter" class="crew-action-btn highlight" title="Toggle Shelter in Storm Vault (+95% Shielding)">🏰 Shelter</button>
-          <button id="btn-crew-resupply-o2" class="crew-action-btn" title="Emergency Earth O2 Resupply (+60 Stored O2)">🚀 Earth O₂</button>
-          <button id="btn-crew-resupply-water" class="crew-action-btn" title="Emergency Earth Water Resupply (+50 Water)">🛸 Earth H₂O</button>
-        </div>
         <div class="panel-header space-between" style="margin-top: 14px; margin-bottom: 6px;">
           <h3>DEVICE SWITCHES</h3>
           <span class="data-badge live" id="active-devices-badge">ALL ON</span>
@@ -152,6 +137,18 @@
         <canvas id="ground-3d-canvas"></canvas>
         <canvas id="game-canvas"></canvas>
 
+        <!-- Guided Mission Step Banner -->
+        <div id="guide-banner" class="guide-banner" title="Click to focus on target tile & select module">
+          <div class="guide-banner-icon">🎯</div>
+          <div class="guide-banner-body">
+            <div class="guide-step-tag" id="guide-step-tag">STEP 1 OF 6 • HARVEST SOLAR POWER</div>
+            <div class="guide-text" id="guide-banner-text">Place a Solar Array on the sunlit ridge to harvest energy during the 15-day Moon Day.</div>
+          </div>
+          <div class="guide-banner-actions">
+            <button id="btn-guide-toggle" class="guide-toggle-btn active" title="Toggle guided building highlights on/off">💡 Guide: ON</button>
+          </div>
+        </div>
+
         <div id="viewport-overlay-controls">
           <button id="btn-recenter" class="overlay-btn" title="Recenter Camera (Key: R)">🎯 Recenter</button>
           <div class="overlay-hints">WASD / Drag to Pan | Scroll to Zoom</div>
@@ -160,55 +157,59 @@
         <div id="notification-toast" class="notification-toast hidden"></div>
       </section>
 
-      <!-- RIGHT PANEL: M.I.L.O. Terminal & Radar HUD -->
+      <!-- RIGHT PANEL: Full Navigable Tabs (Goals, Telemetry, M.I.L.O.) -->
       <aside id="right-panel">
-        <!-- Space Weather Radar HUD -->
-        <div class="sub-panel radar-hud">
-          <div class="panel-header space-between">
-            <h3>DONKI WEATHER RADAR</h3>
-            <span id="radar-data-badge" class="data-badge live">● LIVE NASA DONKI</span>
-          </div>
-          <div class="radar-body">
-            <div id="radar-risk-level" class="radar-risk low">RISK: LOW</div>
-            <p id="radar-headline" class="radar-text">The Sun is calm today with low solar flare activity.</p>
-          </div>
-        </div>
-
-        <!-- Mission Mode Selector -->
-        <div class="sub-panel objectives-hud">
-          <div class="panel-header space-between">
-            <h3>MISSION MODE</h3>
-            <span class="data-badge live">● ACTIVE</span>
-          </div>
-          <div class="mission-mode-selector">
-            <button id="btn-mode-scratch" class="mode-action-btn" title="Start from scratch without any guidance">
-              <span class="mode-btn-icon">🏗️</span>
-              <div class="mode-btn-info">
-                <span class="mode-btn-title">Start building my own base</span>
-                <span class="mode-btn-desc">Build from scratch with 1400 Mat & no guidance</span>
-              </div>
-            </button>
-            <button id="btn-mode-prebuilt" class="mode-action-btn active" title="Start with complete base system and guided tour">
-              <span class="mode-btn-icon">🚀</span>
-              <div class="mode-btn-info">
-                <span class="mode-btn-title">Start by pre-built base</span>
-                <span class="mode-btn-desc">Full active base + dialogue systems guide</span>
-              </div>
-            </button>
-          </div>
-          <ul id="mission-objectives-list" class="objectives-list hidden">
-            <!-- Populated by MissionManager.ts if needed -->
-          </ul>
-        </div>
-
-        <!-- Right Panel Tabs: All Vars Telemetry vs M.I.L.O. AI -->
+        <!-- 3 Primary Navigation Tabs -->
         <div class="right-panel-tabs">
-          <button id="tab-btn-telemetry" class="right-tab-btn active" title="View all 18 simulation variables">📊 ALL VARS (18)</button>
-          <button id="tab-btn-milo" class="right-tab-btn" title="Ask M.I.L.O. AI advisor">🤖 M.I.L.O. AI</button>
+          <button id="tab-btn-objectives" class="right-tab-btn active" title="View base objectives, mode selector, and weather radar">🎯 GOALS</button>
+          <button id="tab-btn-telemetry" class="right-tab-btn" title="Inspect all 18 simulation variables">📊 ALL VARS (18)</button>
+          <button id="tab-btn-milo" class="right-tab-btn" title="Browse 67 verified NASA questions & M.I.L.O. advisor">🤖 M.I.L.O. (67)</button>
         </div>
 
-        <!-- TAB PANE 1: Comprehensive All 18 Variables Telemetry Monitor -->
-        <div id="tab-pane-telemetry" class="sub-panel telemetry-full-hud">
+        <!-- TAB PANE 1: Mission Objectives & Weather Radar -->
+        <div id="tab-pane-objectives" class="sub-panel objectives-pane">
+          <!-- Space Weather Radar HUD -->
+          <div class="sub-panel radar-hud">
+            <div class="panel-header space-between">
+              <h3>DONKI WEATHER RADAR</h3>
+              <span id="radar-data-badge" class="data-badge live">● LIVE NASA DONKI</span>
+            </div>
+            <div class="radar-body">
+              <div id="radar-risk-level" class="radar-risk low">RISK: LOW</div>
+              <p id="radar-headline" class="radar-text">The Sun is calm today with low solar flare activity.</p>
+            </div>
+          </div>
+
+          <!-- Mission Mode Selector & Objectives -->
+          <div class="objectives-hud">
+            <div class="panel-header space-between">
+              <h3>MISSION OBJECTIVES</h3>
+              <span class="data-badge live">● GUIDED</span>
+            </div>
+            <div class="mission-mode-selector">
+              <button id="btn-mode-scratch" class="mode-action-btn active" title="Build your own custom base from scratch with guided highlights and 1400 materials">
+                <span class="mode-btn-icon">🏗️</span>
+                <div class="mode-btn-info">
+                  <span class="mode-btn-title">Build my own base</span>
+                  <span class="mode-btn-desc">1400 Mat & step-by-step highlights</span>
+                </div>
+              </button>
+              <button id="btn-mode-prebuilt" class="mode-action-btn" title="Inspect pre-built reference base with all 12 machines">
+                <span class="mode-btn-icon">🚀</span>
+                <div class="mode-btn-info">
+                  <span class="mode-btn-title">Pre-built reference base</span>
+                  <span class="mode-btn-desc">Explore full active outpost system</span>
+                </div>
+              </button>
+            </div>
+            <ul id="mission-objectives-list" class="objectives-list">
+              <!-- Populated dynamically with step-by-step base objectives -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB PANE 2: Comprehensive All 18 Variables Telemetry Monitor -->
+        <div id="tab-pane-telemetry" class="sub-panel telemetry-full-hud hidden">
           <div class="panel-header space-between">
             <h3>TELEMETRY MONITOR</h3>
             <span class="data-badge live" id="telemetry-tick-badge">● 1 TICK = 4H</span>
@@ -395,25 +396,42 @@
           </div>
         </div>
 
-        <!-- TAB PANE 2: M.I.L.O. Interactive Terminal -->
+        <!-- TAB PANE 2: M.I.L.O. NASA Expert System & Knowledge Base -->
         <div id="tab-pane-milo" class="sub-panel milo-hud hidden">
           <div class="panel-header space-between">
-            <h3>M.I.L.O. AI ADVISOR</h3>
-            <span class="milo-status-indicator pulse-green">● ONLINE</span>
-          </div>
-          <div id="milo-chat-history" class="milo-chat-history">
-            <div class="chat-bubble milo">
-              M.I.L.O. online! Commander, welcome to Shackleton Crater Rim. Check our power cable connection to generate oxygen!
+            <div class="milo-title-group">
+              <h3>M.I.L.O. MISSION EXPERT</h3>
+              <span class="milo-subtitle">Verified NASA Space Science Database</span>
             </div>
+            <span class="milo-status-indicator pulse-green" id="milo-db-badge">● 67 TOPICS READY</span>
           </div>
-          <div class="milo-quick-prompts">
-            <button class="milo-quick-btn">Why is oxygen low?</button>
-            <button class="milo-quick-btn">How to prepare for night?</button>
-            <button class="milo-quick-btn">Explain DONKI CME</button>
+
+          <!-- Search Bar with Instant Local Filtering -->
+          <div class="milo-search-wrapper">
+            <span class="milo-search-icon">🔍</span>
+            <input id="milo-search-input" type="text" placeholder="Search 67 topics or ask M.I.L.O..." maxlength="120" />
+            <button id="milo-search-clear" class="milo-clear-btn hidden" title="Clear search">✕</button>
           </div>
-          <div class="milo-input-group">
-            <input id="milo-chat-input" type="text" placeholder="Ask M.I.L.O. anything..." maxlength="300" />
-            <button id="milo-chat-submit">Send</button>
+
+          <!-- Dynamic Context Recommendation Alert Bar -->
+          <div id="milo-recommend-bar" class="milo-recommend-bar hidden">
+            <span class="recommend-star">🌟</span>
+            <span id="milo-recommend-text">Recommended topics for current telemetry</span>
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div class="milo-categories-bar" id="milo-categories-bar">
+            <!-- Dynamically populated categories -->
+          </div>
+
+          <!-- Questions & Kid-Friendly NASA Answers Accordion List -->
+          <div id="milo-questions-list" class="milo-questions-list">
+            <!-- Dynamically populated question cards -->
+          </div>
+
+          <!-- NASA Verified Science Footer -->
+          <div class="milo-footer-note">
+            <span>🔬 Science Corner verified with NASA OSDR RadLab, DONKI & ECLSS</span>
           </div>
         </div>
       </aside>

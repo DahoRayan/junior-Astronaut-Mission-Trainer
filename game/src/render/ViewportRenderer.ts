@@ -189,46 +189,59 @@ export class ViewportRenderer {
         const cx = x * TILE_SIZE + TILE_SIZE / 2;
         const cy = y * TILE_SIZE + TILE_SIZE / 2;
 
-        // Base cable conduit (chunky neon tube)
-        this.ctx.strokeStyle = tile.cablePowered ? '#0284c7' : '#475569';
-        this.ctx.lineWidth = 6;
-        this.ctx.lineCap = 'round';
-
         const neighbors = [
-          { nx: x + 1, ny: y, dx: TILE_SIZE / 2, dy: 0 },
-          { nx: x - 1, ny: y, dx: -TILE_SIZE / 2, dy: 0 },
-          { nx: x, ny: y + 1, dx: 0, dy: TILE_SIZE / 2 },
-          { nx: x, ny: y - 1, dx: 0, dy: -TILE_SIZE / 2 },
+          { nx: x + 1, ny: y, dx: 1, dy: 0 },
+          { nx: x - 1, ny: y, dx: -1, dy: 0 },
+          { nx: x, ny: y + 1, dx: 0, dy: 1 },
+          { nx: x, ny: y - 1, dx: 0, dy: -1 },
         ];
 
+        // 1. Draw connecting conduit lines
         neighbors.forEach(({ nx, ny, dx, dy }) => {
           const neighbor = this.grid.getTile(nx, ny);
           if (neighbor && (neighbor.hasCable || neighbor.building)) {
-            // Draw main tube
+            // If neighbor has a building, extend cable into the building base so it never stops at the tile boundary
+            const reach = neighbor.building ? TILE_SIZE * 0.85 : TILE_SIZE / 2;
+            const targetX = cx + dx * reach;
+            const targetY = cy + dy * reach;
+
+            // 1a. Outer slim conduit jacket (dark protective sleeve)
+            this.ctx.strokeStyle = '#090d16';
+            this.ctx.lineWidth = 3.5;
+            this.ctx.lineCap = 'round';
             this.ctx.beginPath();
             this.ctx.moveTo(cx, cy);
-            this.ctx.lineTo(cx + dx, cy + dy);
+            this.ctx.lineTo(targetX, targetY);
             this.ctx.stroke();
 
-            // Glowing energetic neon spark traveling along cable
+            // 1b. Inner conductive wire core
+            this.ctx.strokeStyle = tile.cablePowered ? '#0284c7' : '#b45309';
+            this.ctx.lineWidth = 1.8;
+            this.ctx.beginPath();
+            this.ctx.moveTo(cx, cy);
+            this.ctx.lineTo(targetX, targetY);
+            this.ctx.stroke();
+
+            // 1c. Active neon plasma particle pulse when powered
             if (tile.cablePowered) {
-              this.ctx.strokeStyle = '#38bdf8';
-              this.ctx.lineWidth = 3;
-              this.ctx.setLineDash([6, 10]);
-              this.ctx.lineDashOffset = -this.pulseOffset;
+              this.ctx.strokeStyle = '#7dd3fc';
+              this.ctx.lineWidth = 1.2;
+              this.ctx.setLineDash([4, 6]);
+              this.ctx.lineDashOffset = -this.pulseOffset * 0.8;
+              this.ctx.beginPath();
+              this.ctx.moveTo(cx, cy);
+              this.ctx.lineTo(targetX, targetY);
               this.ctx.stroke();
               this.ctx.setLineDash([]);
-              this.ctx.strokeStyle = '#0284c7';
-              this.ctx.lineWidth = 6;
             }
           }
         });
 
-        // Center hub node
-        this.ctx.fillStyle = tile.cablePowered ? '#38bdf8' : '#64748b';
-        this.ctx.beginPath();
-        this.ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-        this.ctx.fill();
+        // 2. Draw prominent Junction Node Hub on each cable tile
+        const isPowered = !!tile.cablePowered;
+        const px = x * TILE_SIZE;
+        const py = y * TILE_SIZE;
+        BuildingRenderer.drawPowerJunction(this.ctx, px, py, isPowered, this.tickTime);
       }
     }
     this.ctx.restore();
@@ -373,6 +386,76 @@ export class ViewportRenderer {
       }
 
       const tile = this.grid.getTile(this.hoveredTile.x, this.hoveredTile.y);
+
+      // Dedicated Ghost Preview for Power Cables
+      if (this.selectedBuildingType === 'power_cable') {
+        const isValidCable = tile && !tile.hasCable;
+        if (isValidCable) {
+          const cx = px + TILE_SIZE / 2;
+          const cy = py + TILE_SIZE / 2;
+
+          this.ctx.save();
+          // Draw ghost dashed conduit arms snapping to any adjacent cables or buildings
+          const neighbors = [
+            { nx: this.hoveredTile.x + 1, ny: this.hoveredTile.y, dx: 1, dy: 0 },
+            { nx: this.hoveredTile.x - 1, ny: this.hoveredTile.y, dx: -1, dy: 0 },
+            { nx: this.hoveredTile.x, ny: this.hoveredTile.y + 1, dx: 0, dy: 1 },
+            { nx: this.hoveredTile.x, ny: this.hoveredTile.y - 1, dx: 0, dy: -1 },
+          ];
+
+          this.ctx.lineWidth = 2;
+          this.ctx.strokeStyle = '#38bdf8';
+          this.ctx.setLineDash([3, 4]);
+          this.ctx.lineDashOffset = -this.pulseOffset;
+          neighbors.forEach(({ nx, ny, dx, dy }) => {
+            const nTile = this.grid.getTile(nx, ny);
+            if (nTile && (nTile.hasCable || nTile.building)) {
+              this.ctx.beginPath();
+              this.ctx.moveTo(cx, cy);
+              this.ctx.lineTo(cx + dx * TILE_SIZE * 0.85, cy + dy * TILE_SIZE * 0.85);
+              this.ctx.stroke();
+            }
+          });
+          this.ctx.setLineDash([]);
+
+          // Ghost junction terminal preview
+          this.ctx.globalAlpha = 0.88;
+          BuildingRenderer.drawPowerJunction(this.ctx, px, py, true, this.tickTime);
+          this.ctx.restore();
+
+          // High-visibility cyan/green reticle
+          this.ctx.save();
+          this.ctx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+          this.ctx.strokeStyle = '#38bdf8';
+          this.ctx.lineWidth = 2.5;
+          this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
+          this.ctx.fill();
+          this.ctx.stroke();
+          this.ctx.restore();
+
+          this.drawHoverLabel(px, py, '⚡ Power Conduit', 'Click to connect power grid', '#0284c7', '#38bdf8');
+        } else {
+          // Already has cable
+          this.ctx.save();
+          this.ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+          this.ctx.strokeStyle = '#ef4444';
+          this.ctx.lineWidth = 2.5;
+          this.roundRect(px, py, TILE_SIZE, TILE_SIZE, 6);
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          this.ctx.lineWidth = 2;
+          this.ctx.beginPath();
+          this.ctx.moveTo(px + 8, py + 8);
+          this.ctx.lineTo(px + TILE_SIZE - 8, py + TILE_SIZE - 8);
+          this.ctx.stroke();
+          this.ctx.restore();
+
+          this.drawHoverLabel(px, py, 'Cable Already Present', 'Choose adjacent tile', '#ef4444', '#fca5a5');
+        }
+        return;
+      }
+
       const isValid = tile && !tile.building;
 
       if (isValid) {
@@ -567,7 +650,7 @@ export class ViewportRenderer {
   private drawTutorialBeacons(): void {
     if (!this.tutorialManager || !this.tutorialManager.isActive) return;
 
-    const target = this.tutorialManager.getActiveMoonTarget();
+    const target = this.tutorialManager.getActiveMoonTarget(this.grid);
     if (!target) return;
 
     const cx = target.x * TILE_SIZE + TILE_SIZE / 2;
@@ -577,8 +660,8 @@ export class ViewportRenderer {
 
     this.ctx.save();
 
-    // 1. Concentric Pulsing Holographic Beacon
-    const pulse = (Math.sin(this.tickTime * 5) + 1) * 0.5;
+    // 1. Concentric Pulsing Holographic Beacon (Smooth 0.5 Hz pulse)
+    const pulse = (Math.sin(this.tickTime * 0.003) + 1) * 0.5;
     const ringRadius = TILE_SIZE * 0.55 + pulse * (TILE_SIZE * 0.35);
 
     // Glowing ground circle
@@ -596,7 +679,7 @@ export class ViewportRenderer {
     this.ctx.strokeStyle = '#fbbf24';
     this.ctx.lineWidth = 2.5;
     this.ctx.setLineDash([8, 6]);
-    this.ctx.lineDashOffset = -this.tickTime * 15;
+    this.ctx.lineDashOffset = -this.tickTime * 0.015;
     this.ctx.beginPath();
     this.ctx.arc(cx, cy, TILE_SIZE * 0.65, 0, Math.PI * 2);
     this.ctx.stroke();
@@ -624,7 +707,7 @@ export class ViewportRenderer {
     const badgeW = textWidth + 18;
     const badgeH = 22;
     const badgeX = cx - badgeW / 2;
-    const badgeY = py - 26 - Math.sin(this.tickTime * 4) * 4;
+    const badgeY = py - 26 - Math.sin(this.tickTime * 0.003) * 3;
 
     this.ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
     this.ctx.strokeStyle = '#fbbf24';

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-11-15T11:00:00.000Z",
+  "total": 23,
+  "passed": 23,
+  "failed": 0,
+  "results": [
+    { "name": "Chapter-Based Story Progression (All 7 Levels)", "category": "Mission-Progression", "passed": true, "details": "OK" },
+    { "name": "Reconcile Objectives with Placed Structures", "category": "Mission-Reconciliation", "passed": true, "details": "OK" },
+    { "name": "Real-Time Player Actions Mutate Variables", "category": "Simulation-Interactions", "passed": true, "details": "OK" },
+    { "name": "Placement & Demolition Update Network & Materials", "category": "Simulation-Placement", "passed": true, "details": "OK" },
+    { "name": "Endless Sandbox Locked Initially & Unlocked upon Epilogue", "category": "Mission-SandboxUnlock", "passed": true, "details": "OK" },
+    { "name": "Dialogues Enabled and Scene Titles/Choices Aligned", "category": "Narrative-Pacing", "passed": true, "details": "OK" },
+    { "name": "Modal Dialogues Pause and Resume Simulation", "category": "Narrative-Pause", "passed": true, "details": "OK" },
+    { "name": "S-C1-2 Verbatim Alert & 48h Decrement", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Ordering Earth O2 Resolves Crisis & Restores ECLSS", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Expiring 48h Reserve Triggers Life Support Casualty", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Chapter 0 (Prologue) Startup & Progression", "category": "Mission-Progression", "passed": true, "details": "OK" },
+    { "name": "Player Actions Invariant on Crisis Countdown", "category": "Simulation-Countdown", "passed": true, "details": "OK" },
+    { "name": "Paused Simulation Freezes Crisis Countdown", "category": "Simulation-Countdown", "passed": true, "details": "OK" },
+    { "name": "Chapter 1 Does Not Auto-Complete on Startup", "category": "Mission-Progression", "passed": true, "details": "OK" },
+    { "name": "Empty Lunar Surface Startup (0 Buildings, 1400 Materials)", "category": "Simulation-Startup", "passed": true, "details": "OK" },
+    { "name": "Earth O2 Resupply Requires Active Earth Connection Channel", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Activating Endless Sandbox Grants 99,999 Materials", "category": "Mission-SandboxMode", "passed": true, "details": "OK" },
+    { "name": "Level-Based Progression across Chapters 2 through 5", "category": "Mission-Progression", "passed": true, "details": "OK" },
+    { "name": "Edge Case 1: Prologue S-PRO-1 dialog completion keeps inspect_site pending until player surveys site", "category": "Mission-Progression", "passed": true, "details": "OK" },
+    { "name": "Edge Case 2: Chapter 1 initializes peacefully with S-C1-1; crisis triggers upon power deployment or Sol 2", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Edge Case 3: Chapter 4 harvest_food does NOT auto-complete on chapter load with food=30; requires harvast()", "category": "Simulation-Agriculture", "passed": true, "details": "OK" },
+    { "name": "Edge Case 4: Demolishing Earth Channel after resupply touchdown preserves ECLSS and resupply completion", "category": "Mission-CrisisO2", "passed": true, "details": "OK" },
+    { "name": "Edge Case 5: Story Log resolution maps Chapter 1 to ch1_intro and Chapter 0 to prologue", "category": "Narrative-Pacing", "passed": true, "details": "OK" }
+  ]
+}

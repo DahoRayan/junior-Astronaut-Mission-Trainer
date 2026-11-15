@@ -1,0 +1,1893 @@
+[
+  {
+    "id": "18098",
+    "title": "Pressurised connecting tunnel, straight bay",
+    "filename": "pressurised-connecting-tunnel-straight-bay.glb",
+    "aliases": [
+      "model_18098.glb"
+    ],
+    "category": "Tunnels, Airlocks & Hab-Ports",
+    "slug": "lunar-surface-colony-and-rovers-connecting-tunnel-stra-cf36f8da",
+    "fileSize": 176788,
+    "sha256": "aa04426e13a043db2affdf2de5ae91a69fe8eb68c6c322616b0800826751ecaf",
+    "sizeMeters": [
+      3.68,
+      3.67,
+      6.04
+    ],
+    "boundingBox": {
+      "min": [
+        -1.8400830103457748,
+        -0.00013158442674532367,
+        -3.0199999809265137
+      ],
+      "max": [
+        1.8400830103457748,
+        3.669820839438952,
+        3.0199999809265137
+      ]
+    },
+    "triangles": 3600,
+    "vertices": 10800,
+    "summary": "A 6 m straight surface tunnel bay on two ground trestles: a bellows-ribbed pressure sleeve on the 2.4 m port axis with hab-ports at both ends and handrails down both flanks.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18099",
+    "title": "Inflatable dome habitat",
+    "filename": "inflatable-dome-habitat.glb",
+    "aliases": [
+      "model_18099.glb"
+    ],
+    "category": "Habitat & Living Quarters",
+    "slug": "lunar-surface-colony-and-rovers-inflatable-dome-habita-f86f5d7b",
+    "fileSize": 225440,
+    "sha256": "873e8e9be443b78fe1e8bc2daf4b277ca8e86e3480ba4d1934395cd8d0ecd41c",
+    "sizeMeters": [
+      10.642,
+      6.3,
+      10.642
+    ],
+    "boundingBox": {
+      "min": [
+        -5.3207831382751465,
+        -0.00010103919913762027,
+        -5.3207831382751465
+      ],
+      "max": [
+        5.3207831382751465,
+        6.299941793029573,
+        5.3207831382751465
+      ]
+    },
+    "triangles": 4600,
+    "vertices": 13800,
+    "summary": "A 7.2 m soft-goods dome habitat inflated over a rigid base ring, held by a meridian strap net and eight ground anchors, with a dust skirt, crown hatch and two side hab-ports.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18100",
+    "title": "Inflatable dome habitat with regolith shielding",
+    "filename": "inflatable-dome-habitat-with-regolith-shielding.glb",
+    "aliases": [
+      "model_18100.glb"
+    ],
+    "category": "Habitat & Living Quarters",
+    "slug": "lunar-surface-colony-and-rovers-inflatable-dome-habita-514822a4",
+    "fileSize": 346156,
+    "sha256": "2231b0b8de26bc208c727447dd4f430048f86119a905885dc74e62ae49585091",
+    "sizeMeters": [
+      12,
+      6.3,
+      11.912
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        -0.00010103919913762027,
+        -5.9560533463545635
+      ],
+      "max": [
+        6,
+        6.299941793029573,
+        5.9560533463545635
+      ]
+    },
+    "triangles": 7112,
+    "vertices": 21336,
+    "summary": "The dome habitat buried to the shoulder under a graded regolith berm and two courses of filled bags, the shielding fit used once a base moves from a short sortie to a permanent crew rotation.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18101",
+    "title": "Rigid cylinder crew habitat on legs",
+    "filename": "rigid-cylinder-crew-habitat-on-legs.glb",
+    "aliases": [
+      "model_18101.glb"
+    ],
+    "category": "Habitat & Living Quarters",
+    "slug": "lunar-surface-colony-and-rovers-rigid-cylinder-habitat-9b2fdbb4",
+    "fileSize": 209532,
+    "sha256": "672477246e2008c454d52efcf82edcb81aad903abe6fbf649f62d8628f914fb4",
+    "sizeMeters": [
+      5.5,
+      4.819,
+      9.04
+    ],
+    "boundingBox": {
+      "min": [
+        -2.750236518448439,
+        -0.00013934020851724682,
+        -4.519999980926514
+      ],
+      "max": [
+        2.750236518448439,
+        4.819160565184103,
+        4.519999980926514
+      ]
+    },
+    "triangles": 4268,
+    "vertices": 12804,
+    "summary": "An 8 m metal-shell crew habitat carried clear of the regolith on four splayed legs with wide footpads, with three viewports, a roof radiator strip, an access ladder and axial hab-ports at both ends.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18102",
+    "title": "Pressurised connecting tunnel, quarter turn",
+    "filename": "pressurised-connecting-tunnel-quarter-turn.glb",
+    "aliases": [
+      "model_18102.glb"
+    ],
+    "category": "Tunnels, Airlocks & Hab-Ports",
+    "slug": "lunar-surface-colony-and-rovers-connecting-tunnel-elbo-48d05c8f",
+    "fileSize": 175616,
+    "sha256": "3ef5d8dd595e08a854f27c578b1798e551f96cf9db738df4825370a8f0a49b3f",
+    "sizeMeters": [
+      4.86,
+      3.67,
+      4.86
+    ],
+    "boundingBox": {
+      "min": [
+        -1.840000033378601,
+        -0.00010107765738509578,
+        -1.840000033378601
+      ],
+      "max": [
+        3.0199999809265137,
+        3.6700792551806014,
+        3.0199999809265137
+      ]
+    },
+    "triangles": 3572,
+    "vertices": 10716,
+    "summary": "A quarter-turn tunnel bay that swings the run through ninety degrees between two hab-ports 3 m from the corner, carried on two ground trestles.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18103",
+    "title": "Rigid cylinder logistics module on legs",
+    "filename": "rigid-cylinder-logistics-module-on-legs.glb",
+    "aliases": [
+      "model_18103.glb"
+    ],
+    "category": "General Infrastructure & Logistics",
+    "slug": "lunar-surface-colony-and-rovers-rigid-cylinder-habitat-2dec4448",
+    "fileSize": 201504,
+    "sha256": "3ea9ca13ced4c5f809d5afae7464ed5cd9df8bc781e9a7bdab9541a002dc6e2f",
+    "sizeMeters": [
+      5.5,
+      4.519,
+      9.04
+    ],
+    "boundingBox": {
+      "min": [
+        -2.750236518448439,
+        0.00009046798695822034,
+        -4.519999980926514
+      ],
+      "max": [
+        2.750236518448439,
+        4.518935883822293,
+        4.519999980926514
+      ]
+    },
+    "triangles": 4114,
+    "vertices": 12342,
+    "summary": "The same legged pressure shell fitted out for stores: no viewports, external cargo racks and tie-down rails down both flanks and a dorsal equipment hatch.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18104",
+    "title": "Pressurised connecting tunnel, tee junction",
+    "filename": "pressurised-connecting-tunnel-tee-junction.glb",
+    "aliases": [
+      "model_18104.glb"
+    ],
+    "category": "Tunnels, Airlocks & Hab-Ports",
+    "slug": "lunar-surface-colony-and-rovers-connecting-tunnel-tee-eb9bac61",
+    "fileSize": 175056,
+    "sha256": "4168a079629ac98e17b01dcdb6d987cdf73eaec1b8fc6057bc87c92ceee1e1e6",
+    "sizeMeters": [
+      4.86,
+      4.5,
+      6.04
+    ],
+    "boundingBox": {
+      "min": [
+        -1.8399041885695455,
+        2.7175075834051654e-7,
+        -3.0199999809265137
+      ],
+      "max": [
+        3.0198617397767493,
+        4.499885555589465,
+        3.0199999809265137
+      ]
+    },
+    "triangles": 3564,
+    "vertices": 10692,
+    "summary": "A three-way tunnel junction on a central ground column: a lens-shaped pressure vessel with a crown surface hatch, an access ladder and three hab-ports 3 m out on the fore, aft and starboard axes.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18105",
+    "title": "Regolith shielded habitat",
+    "filename": "regolith-shielded-habitat.glb",
+    "aliases": [
+      "model_18105.glb"
+    ],
+    "category": "Habitat & Living Quarters",
+    "slug": "lunar-surface-colony-and-rovers-regolith-shielded-habi-a1b4e3d7",
+    "fileSize": 192516,
+    "sha256": "d621cb65402ed20f02d17a779de52332e895aca141855a637a204ebaeba9bd0d",
+    "sizeMeters": [
+      9.44,
+      4.95,
+      9.07
+    ],
+    "boundingBox": {
+      "min": [
+        -4.71999979019165,
+        -0.0002447162872303288,
+        -4.519999980926514
+      ],
+      "max": [
+        4.71999979019165,
+        4.950021615349843,
+        4.549866967159468
+      ]
+    },
+    "triangles": 3912,
+    "vertices": 11736,
+    "summary": "An 8 m pressure shell buried under a 4.7 m graded regolith arch held by three retaining ribs and two horseshoe end walls, with only the end domes and their hab-ports left in the open.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18106",
+    "title": "Cupola observation turret",
+    "filename": "cupola-observation-turret.glb",
+    "aliases": [
+      "model_18106.glb"
+    ],
+    "category": "Specialized Base Modules",
+    "slug": "lunar-surface-colony-and-rovers-cupola-observation-tur-3bfecc15",
+    "fileSize": 111500,
+    "sha256": "a788f57fee7a5f49a3fac33d1971374b08782bf987df2691860f0944cb963c7d",
+    "sizeMeters": [
+      4.34,
+      7.6,
+      6.283
+    ],
+    "boundingBox": {
+      "min": [
+        -1.8398049761862847,
+        -0.000027467974107159288,
+        -3.020040617109338
+      ],
+      "max": [
+        2.4998049428076836,
+        7.599999904632568,
+        3.2630624468792897
+      ]
+    },
+    "triangles": 2208,
+    "vertices": 6624,
+    "summary": "A 7.6 m glazed watch turret on a column and plinth: a twelve-panel window drum under a conical dust roof, an external ground stair to a platform, a mast light and a tunnel spur back to the site grid.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18107",
+    "title": "Pressurised greenhouse module",
+    "filename": "pressurised-greenhouse-module.glb",
+    "aliases": [
+      "model_18107.glb"
+    ],
+    "category": "Specialized Base Modules",
+    "slug": "lunar-surface-colony-and-rovers-greenhouse-module-b35be615",
+    "fileSize": 186808,
+    "sha256": "d8eeaf1c5b5211021f234c64dee9b6033f1357d8c38003724b994b0218ac0394",
+    "sizeMeters": [
+      5.799,
+      3.942,
+      9.6
+    ],
+    "boundingBox": {
+      "min": [
+        -2.600177110676712,
+        -0.00015961677795560403,
+        -4.800000190734863
+      ],
+      "max": [
+        3.1989604712267488,
+        3.942221634109729,
+        4.800000190734863
+      ]
+    },
+    "triangles": 3782,
+    "vertices": 11346,
+    "summary": "A 9.2 m barrel-vault growing module on a plinth: a ribbed transparent shell over three tiers of hydroponic trays and LED light bars either side of a central service spine, with hab-ports on both end walls.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18108",
+    "title": "Airlock with dust-lock vestibule",
+    "filename": "airlock-with-dust-lock-vestibule.glb",
+    "aliases": [
+      "model_18108.glb"
+    ],
+    "category": "Tunnels, Airlocks & Hab-Ports",
+    "slug": "lunar-surface-colony-and-rovers-airlock-with-dust-lock-fe27e26c",
+    "fileSize": 138352,
+    "sha256": "2f2363afe7b3a06e907a7a84ba122339e6e1c715784a481beb8ea9fb0177a903",
+    "sizeMeters": [
+      4.5,
+      5.191,
+      9.243
+    ],
+    "boundingBox": {
+      "min": [
+        -2.1500000953674316,
+        -3.9047618205501067e-7,
+        -3.020040617109338
+      ],
+      "max": [
+        2.3498416362302974,
+        5.191308412021592,
+        6.222683429718018
+      ]
+    },
+    "triangles": 2740,
+    "vertices": 8220,
+    "summary": "A two-chamber surface airlock on a raised plinth: a dust-lock vestibule with a hinged outer hatch and boarding ramp on named nodes, a five-nozzle dust removal rail, two rear-entry suit ports on the flank and a tunnel spur to the site grid.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18109",
+    "title": "Regolith bucket drum excavator",
+    "filename": "regolith-bucket-drum-excavator.glb",
+    "aliases": [
+      "model_18109.glb"
+    ],
+    "category": "Mining & ISRU Processing",
+    "slug": "lunar-surface-colony-and-rovers-regolith-excavator-64b4560f",
+    "fileSize": 165208,
+    "sha256": "2dc60fb11529b61c896869a4a0c5656a3eced8eee3fa7f4be546082ccb975724",
+    "sizeMeters": [
+      2.98,
+      2.943,
+      5.684
+    ],
+    "boundingBox": {
+      "min": [
+        -1.4900094620454671,
+        -4.768371586472142e-9,
+        -2.2200000047683717
+      ],
+      "max": [
+        1.4900094620454671,
+        2.943393525087128,
+        3.463549959257567
+      ]
+    },
+    "triangles": 5632,
+    "vertices": 16896,
+    "summary": "A 5.5 m four-wheel regolith excavator: a counter-rotating bucket drum with three rows of scoops on a hydraulic lift boom, a tipping spoil body, a drive cabinet and a suited operator station, all on wire-mesh wheels with steering uprights.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18110",
+    "title": "Pressurised workshop and vehicle bay",
+    "filename": "pressurised-workshop-and-vehicle-bay.glb",
+    "aliases": [
+      "model_18110.glb"
+    ],
+    "category": "Specialized Base Modules",
+    "slug": "lunar-surface-colony-and-rovers-workshop-module-7729780d",
+    "fileSize": 104196,
+    "sha256": "1f20c0d8b324c31987b98abfdf42f1eb0bf3ab76517191dd3104357dfc27af8b",
+    "sizeMeters": [
+      10.2,
+      4.794,
+      8.75
+    ],
+    "boundingBox": {
+      "min": [
+        -5.099999904632568,
+        -0.0002349891585051722,
+        -4.20037529912165
+      ],
+      "max": [
+        5.099999904632568,
+        4.7939019246929515,
+        4.550005645919596
+      ]
+    },
+    "triangles": 2070,
+    "vertices": 6210,
+    "summary": "A 9.4 m wide arched vehicle bay on a graded slab: a ribbed hard shell with a 5.2 m roll-up door on a named node, exterior workbench, gas bottle rack and two floodlights, and a hab-port spur on the port flank.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18111",
+    "title": "Regolith hopper and screening deck",
+    "filename": "regolith-hopper-and-screening-deck.glb",
+    "aliases": [
+      "model_18111.glb"
+    ],
+    "category": "Mining & ISRU Processing",
+    "slug": "lunar-surface-colony-and-rovers-regolith-hopper-screen-148a2c37",
+    "fileSize": 77352,
+    "sha256": "35918139d890838797e645c94ca6d09ede343a47fed03408cf8489d37eb6d7b6",
+    "sizeMeters": [
+      3.8,
+      4.647,
+      5.24
+    ],
+    "boundingBox": {
+      "min": [
+        -1.8999320358400846,
+        0.00006412049472315218,
+        -1.889971137046814
+      ],
+      "max": [
+        1.8999320358400846,
+        4.647552967071533,
+        3.3499648865772444
+      ]
+    },
+    "triangles": 1512,
+    "vertices": 4536,
+    "summary": "A 4.4 m feed hopper on four splayed legs over an inclined vibrating screen deck: nine screen bars, two shaker motors on spring mounts, a fines discharge chute into a spoil pile, an oversize chute, an access ladder and a walkway.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18112",
+    "title": "Oxygen extraction plant skid",
+    "filename": "oxygen-extraction-plant-skid.glb",
+    "aliases": [
+      "model_18112.glb"
+    ],
+    "category": "Mining & ISRU Processing",
+    "slug": "lunar-surface-colony-and-rovers-oxygen-extraction-plan-002fb0ae",
+    "fileSize": 117244,
+    "sha256": "8c1497feaf6a6c328fb0433dcb9112e1d63f60295f3960db02f169fb810a3227",
+    "sizeMeters": [
+      4.7,
+      3.687,
+      3.146
+    ],
+    "boundingBox": {
+      "min": [
+        -2.2799999713897705,
+        -0.00008462218051974446,
+        -1.5730735350489
+      ],
+      "max": [
+        2.4200000762939453,
+        3.686676485812722,
+        1.5730735350489
+      ]
+    },
+    "triangles": 2358,
+    "vertices": 7074,
+    "summary": "A 4.4 m process skid on bearing pads: two hydrogen reduction reactor vessels with support skirts, a cyclone separator, a helical condenser coil, gas pipework, a control cabinet and a rack of product gas bottles.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18113",
+    "title": "Medical and crew care module",
+    "filename": "medical-and-crew-care-module.glb",
+    "aliases": [
+      "model_18113.glb"
+    ],
+    "category": "Specialized Base Modules",
+    "slug": "lunar-surface-colony-and-rovers-medical-module-6d266b02",
+    "fileSize": 219016,
+    "sha256": "7e099e924899518baf364d5d0220cffd05d53a4804b55d2e4b23f4b399d2416c",
+    "sizeMeters": [
+      5.848,
+      6.877,
+      6.402
+    ],
+    "boundingBox": {
+      "min": [
+        -2.8282679426050508,
+        0,
+        -3.200867271752223
+      ],
+      "max": [
+        3.0199999809265137,
+        6.876885414123535,
+        3.200867271752223
+      ]
+    },
+    "triangles": 4464,
+    "vertices": 13392,
+    "summary": "A 4.6 m diameter vertical pressure vessel on a six-leg ring with a dust skirt, two viewports, a rack of external gas bottles, an eight-panel wall radiator and a casualty hoist davit, with hab-ports on the aft and starboard faces.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18114",
+    "title": "Water processing skid",
+    "filename": "water-processing-skid.glb",
+    "aliases": [
+      "model_18114.glb"
+    ],
+    "category": "Mining & ISRU Processing",
+    "slug": "lunar-surface-colony-and-rovers-water-processing-skid-27dcfe03",
+    "fileSize": 108456,
+    "sha256": "141f387a37142c3d9c73a7c1203f73b13e3bc6569cea8616a95b756a860d3f8a",
+    "sizeMeters": [
+      4.247,
+      2.433,
+      3.3
+    ],
+    "boundingBox": {
+      "min": [
+        -2.166895627975464,
+        0.000016907062042159637,
+        -1.850002665233324
+      ],
+      "max": [
+        2.0799999237060547,
+        2.4333529326954815,
+        1.4500000476837158
+      ]
+    },
+    "triangles": 2176,
+    "vertices": 6528,
+    "summary": "A 4 m water recovery skid on bearing pads: two horizontal holding vessels, a pump set with a drive motor, three filter columns on a header, a control cabinet, run pipework and a railed maintenance walkway with a ladder.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18115",
+    "title": "Fixed solar array row",
+    "filename": "fixed-solar-array-row.glb",
+    "aliases": [
+      "model_18115.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-solar-array-row-e52454d9",
+    "fileSize": 67424,
+    "sha256": "d5f17bb9269b64416efcb9283054be925ed14bfc3650f9d33732a2c7e30e2c85",
+    "sizeMeters": [
+      3,
+      2.118,
+      10.15
+    ],
+    "boundingBox": {
+      "min": [
+        -1.500126095247701,
+        0.00023682491885268497,
+        -5.199999809265137
+      ],
+      "max": [
+        1.500126095247701,
+        2.1184446136373793,
+        4.949999809265137
+      ]
+    },
+    "triangles": 1316,
+    "vertices": 3948,
+    "summary": "A 9.9 m row of six fixed photovoltaic panels on braced ground posts with bearing pads, a spine beam, a cable trunk and a combiner box, set at a steep tilt for a low sun.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18116",
+    "title": "Regolith sintering print gantry",
+    "filename": "regolith-sintering-print-gantry.glb",
+    "aliases": [
+      "model_18116.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-sintering-print-gantry-64cc192a",
+    "fileSize": 66628,
+    "sha256": "179b249567a8524cc5225bc7582a5afb09e617ba324e05ed207f735fe677453f",
+    "sizeMeters": [
+      5.5,
+      3.7,
+      8.6
+    ],
+    "boundingBox": {
+      "min": [
+        -2.75,
+        0.00006755825336657306,
+        -4.599999904632568
+      ],
+      "max": [
+        2.75,
+        3.700103900027558,
+        4
+      ]
+    },
+    "triangles": 1268,
+    "vertices": 3804,
+    "summary": "A 5 m portal gantry on 8 m ground rails that sinters regolith into structure: a rolling portal with a cross bridge, a sintering head on a named slide, a part printed regolith wall of ten courses on its bed, a feed hopper and a power cabinet.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18117",
+    "title": "Vertical solar tower",
+    "filename": "vertical-solar-tower.glb",
+    "aliases": [
+      "model_18117.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-vertical-solar-tower-c58cca7d",
+    "fileSize": 72432,
+    "sha256": "5743b0756e66db3e8aef57271a8684354bf137a5be7f10e5c2d0aa9e140e0035",
+    "sizeMeters": [
+      4.45,
+      9.02,
+      4.4
+    ],
+    "boundingBox": {
+      "min": [
+        -2.200000047683716,
+        -0.00007934948100843386,
+        -2.200000047683716
+      ],
+      "max": [
+        2.2498156763878123,
+        9.020000457763672,
+        2.200000047683716
+      ]
+    },
+    "triangles": 1412,
+    "vertices": 4236,
+    "summary": "An 8.4 m guyed solar mast carrying four vertical photovoltaic blades on a ballasted berm foundation, the layout used near a pole where the sun stays close to the horizon, with a beacon and a ground junction box.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18118",
+    "title": "Thermal radiator bank",
+    "filename": "thermal-radiator-bank.glb",
+    "aliases": [
+      "model_18118.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-radiator-bank-0c1ce93e",
+    "fileSize": 70596,
+    "sha256": "5b7349da58bbcbb2279527559d2cc422bc87a5a499359859249c4a1199706c74",
+    "sizeMeters": [
+      5.45,
+      2.97,
+      1.646
+    ],
+    "boundingBox": {
+      "min": [
+        -2.4000000953674316,
+        0.000045781326586086246,
+        -0.8228694541477526
+      ],
+      "max": [
+        3.049999952316284,
+        2.9699303850531122,
+        0.8228694541477526
+      ]
+    },
+    "triangles": 1420,
+    "vertices": 4260,
+    "summary": "A 4.6 m ground-mounted heat rejection bank: six vertical radiator fins with header pipes strung between an upper and lower manifold on a braced frame, with a pump module and connecting runs.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18119",
+    "title": "Tracking solar array row",
+    "filename": "tracking-solar-array-row.glb",
+    "aliases": [
+      "model_18119.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-solar-array-row-tracke-e35a3b96",
+    "fileSize": 58072,
+    "sha256": "3c411f906686b9d1723ddb89ba80970c8b84eb936b7ba3742fb56113e9e5681d",
+    "sizeMeters": [
+      2.554,
+      2.088,
+      10.15
+    ],
+    "boundingBox": {
+      "min": [
+        -1.2763624636859232,
+        -0.00013599603632408197,
+        -5.199999809265137
+      ],
+      "max": [
+        1.2771853654116923,
+        2.0876596948430866,
+        4.949999809265137
+      ]
+    },
+    "triangles": 1160,
+    "vertices": 3480,
+    "summary": "The same six-panel row rebuilt on taller posts with a horizontal torque tube, so each panel is a named node that rotates to follow the sun across the sky.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18120",
+    "title": "Battery storage container",
+    "filename": "battery-storage-container.glb",
+    "aliases": [
+      "model_18120.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-battery-container-9755ed67",
+    "fileSize": 51144,
+    "sha256": "e746bf1f5b1be78b9b33d50fa1445e2c5dc88b341489c7fcab8f092e33118d0c",
+    "sizeMeters": [
+      4.308,
+      2.449,
+      2.146
+    ],
+    "boundingBox": {
+      "min": [
+        -1.7799999713897705,
+        -0.00010833735832294078,
+        -1.0730954751681119
+      ],
+      "max": [
+        2.5275394916534424,
+        2.448551841602482,
+        1.0730954751681119
+      ]
+    },
+    "triangles": 984,
+    "vertices": 2952,
+    "summary": "A 3.4 m energy storage container on a bolted skid with bearing pads: five bays of cells behind a ribbed shell, a bank of cooling fins, a switchgear door with a state of charge panel, two heavy cable couplings and a roof handrail.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18121",
+    "title": "Nuclear power unit with shielding berm",
+    "filename": "nuclear-power-unit-with-shielding-berm.glb",
+    "aliases": [
+      "model_18121.glb"
+    ],
+    "category": "Power & Life Support Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-nuclear-power-unit-8239903e",
+    "fileSize": 102168,
+    "sha256": "2d67bea4dead19b327ef1368158da118365e2b5aad2fb0d2bb20ed375ad6bd78",
+    "sizeMeters": [
+      9.8,
+      6.84,
+      10.128
+    ],
+    "boundingBox": {
+      "min": [
+        -4.900000095367432,
+        -0.000231580294480338,
+        -4.864110327525146
+      ],
+      "max": [
+        4.900000095367432,
+        6.840000152587891,
+        5.264054297132095
+      ]
+    },
+    "triangles": 2032,
+    "vertices": 6096,
+    "summary": "A 6.5 m surface fission power unit standing inside a graded regolith shielding berm: a ribbed reactor drum, a conical shadow shield, six heat pipe stalks up to a conical radiator umbrella with twelve spines, an instrument mast, a power cabinet and four keep-out markers.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18122",
+    "title": "Crew lander with ascent cabin",
+    "filename": "crew-lander-with-ascent-cabin.glb",
+    "aliases": [
+      "model_18122.glb"
+    ],
+    "category": "General Infrastructure & Logistics",
+    "slug": "lunar-surface-colony-and-rovers-crew-lander-add08b1e",
+    "fileSize": 200824,
+    "sha256": "cf5437a40b4fa242b1a8b1bf377a193c854dbe2e897afd4f6fa8b9186f3db7cf",
+    "sizeMeters": [
+      7.76,
+      6.35,
+      7.731
+    ],
+    "boundingBox": {
+      "min": [
+        -3.880000114440918,
+        -0.00009284497660733138,
+        -3.865317048728748
+      ],
+      "max": [
+        3.880000114440918,
+        6.35033307553691,
+        3.865317048728748
+      ]
+    },
+    "triangles": 4088,
+    "vertices": 12264,
+    "summary": "A 6.6 m four-leg crew lander: an octagonal descent stage on crushable footpads with four tanks and an engine, a pressurised ascent cabin with three viewports, an EVA hatch onto a railed porch, a boarding ladder, a docking cone, antennas and four attitude control pods.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18123",
+    "title": "Cargo lander with unloading ramp",
+    "filename": "cargo-lander-with-unloading-ramp.glb",
+    "aliases": [
+      "model_18123.glb"
+    ],
+    "category": "General Infrastructure & Logistics",
+    "slug": "lunar-surface-colony-and-rovers-cargo-lander-94227716",
+    "fileSize": 192492,
+    "sha256": "2fc5d9601daeece646bfa1457c20ce35a38f1882c165a5dbfcd58589e1839782",
+    "sizeMeters": [
+      8.24,
+      4.7,
+      8.465
+    ],
+    "boundingBox": {
+      "min": [
+        -4.119999885559082,
+        -0.00015376271714595546,
+        -4.1044085898710625
+      ],
+      "max": [
+        4.119999885559082,
+        4.69986746968736,
+        4.360866886160107
+      ]
+    },
+    "triangles": 3918,
+    "vertices": 11754,
+    "summary": "A 7 m four-leg cargo lander on crushable footpads: an octagonal deck over four descent tanks and an engine, a cargo pallet with a stores container and tie-down rails, a hinged unloading ramp on a named node, four attitude control pods and a ladder.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18124",
+    "title": "Sintered landing pad",
+    "filename": "sintered-landing-pad.glb",
+    "aliases": [
+      "model_18124.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-landing-pad-6b137fe7",
+    "fileSize": 107328,
+    "sha256": "dbbd0782c00c2ad45f1884b4fd228635b3ef4ad225b13b9ec5ed058a0269283f",
+    "sizeMeters": [
+      14,
+      1.34,
+      14
+    ],
+    "boundingBox": {
+      "min": [
+        -7,
+        0.00020508080740000434,
+        -7
+      ],
+      "max": [
+        7,
+        1.3399130216142745,
+        7
+      ]
+    },
+    "triangles": 2172,
+    "vertices": 6516,
+    "summary": "A 14 m circular landing pad graded and sintered into the regolith: a raised apron with a sixteen-segment plate pattern, three concentric target rings and a centre bullseye, ringed by eight lit edge markers.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18125",
+    "title": "Blast berm segment",
+    "filename": "blast-berm-segment.glb",
+    "aliases": [
+      "model_18125.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-blast-berm-segment-6e0ba7b3",
+    "fileSize": 31020,
+    "sha256": "14bf638975fca56ad0d8d47fdd5968ad04110a29312bd75671131371b1a3a904",
+    "sizeMeters": [
+      6,
+      2.08,
+      4.356
+    ],
+    "boundingBox": {
+      "min": [
+        -3,
+        -0.00007858131061877494,
+        -0.4100033515970435
+      ],
+      "max": [
+        3,
+        2.0795136914027816,
+        3.9459472486497638
+      ]
+    },
+    "triangles": 612,
+    "vertices": 1836,
+    "summary": "A 6 m modular regolith blast berm for a pad perimeter: a graded 2 m bank with a compacted toe, five marker posts and a retaining rail on the pad side.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18126",
+    "title": "Landing pad blast deflector wall",
+    "filename": "landing-pad-blast-deflector-wall.glb",
+    "aliases": [
+      "model_18126.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-blast-deflector-wall-51ed7365",
+    "fileSize": 50488,
+    "sha256": "e8103bebcd4d94adfee25cefc2f88c6dedc0bff63746ce546a8804ea602f87d6",
+    "sizeMeters": [
+      8.931,
+      3.45,
+      3.639
+    ],
+    "boundingBox": {
+      "min": [
+        -4.4653496742248535,
+        -0.00008675396018578696,
+        -1.8071709577598218
+      ],
+      "max": [
+        4.4653496742248535,
+        3.4499476761872794,
+        1.8316742216285236
+      ]
+    },
+    "triangles": 984,
+    "vertices": 2952,
+    "summary": "A 6 m wide curved blast deflector for a landing pad rim: a battered concave wall on six raked buttresses that spread to 8.9 m, with ballast blocks and bearing pads, topped by five hazard markers.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18127",
+    "title": "Cryogenic propellant tank farm",
+    "filename": "cryogenic-propellant-tank-farm.glb",
+    "aliases": [
+      "model_18127.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-propellant-tank-farm-3dcbfa21",
+    "fileSize": 125924,
+    "sha256": "66f3b6bed1a8314b171cc90d83ac45b0fbcc4abc3426d94ed740e99f742f74b6",
+    "sizeMeters": [
+      7.6,
+      4.18,
+      4.4
+    ],
+    "boundingBox": {
+      "min": [
+        -3.799999952316284,
+        -0.00019836756415402002,
+        -2.199957246480908
+      ],
+      "max": [
+        3.799999952316284,
+        4.179869287720551,
+        2.199957246480908
+      ]
+    },
+    "triangles": 2540,
+    "vertices": 7620,
+    "summary": "A 7.6 m propellant storage set on a graded apron: two 3 m spherical cryogenic tanks on skirt stands with radial braces and relief valve heads, a vaporiser, a valve gallery, run pipework and a railed access platform with a ladder.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18128",
+    "title": "Approach light beacon",
+    "filename": "approach-light-beacon.glb",
+    "aliases": [
+      "model_18128.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-approach-light-beacon-20fb9bc6",
+    "fileSize": 41692,
+    "sha256": "b81f7f5d5c94c9b05ff4628b52806c8866482540e9229369f1f2685eb1aa774f",
+    "sizeMeters": [
+      3.23,
+      4.95,
+      2.884
+    ],
+    "boundingBox": {
+      "min": [
+        -1.5985347032546997,
+        -0.00007112899624467373,
+        -1.8031719027303503
+      ],
+      "max": [
+        1.6316546201705933,
+        4.949990117848128,
+        1.0812779886425625
+      ]
+    },
+    "triangles": 754,
+    "vertices": 2262,
+    "summary": "A 4.9 m guyed approach beacon for a landing site: a tripod-braced mast with ballast blocks and bearing pads, a strobe head under a glass dome, three hazard bands and a tilted photovoltaic panel feeding a battery box.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18129",
+    "title": "Cryogenic transfer arm tower",
+    "filename": "cryogenic-transfer-arm-tower.glb",
+    "aliases": [
+      "model_18129.glb"
+    ],
+    "category": "Landing & Spaceport Infrastructure",
+    "slug": "lunar-surface-colony-and-rovers-cryo-transfer-arm-5d350240",
+    "fileSize": 59548,
+    "sha256": "9b1305f33ffc0202c4081ffa93ae117e00d0daea37552f4f0538532840cdec3a",
+    "sizeMeters": [
+      3.27,
+      7.294,
+      6.992
+    ],
+    "boundingBox": {
+      "min": [
+        -1.270150800741861,
+        0,
+        -1.600000023841858
+      ],
+      "max": [
+        2.0001302614462917,
+        7.294303994838613,
+        5.392492607303122
+      ]
+    },
+    "triangles": 1136,
+    "vertices": 3408,
+    "summary": "A 6.9 m braced transfer tower with a counterweighted articulated arm: an inner boom on a slew bearing, a folding outer boom, a coupling head and a draped vacuum jacketed hose, each joint a named node, with a ground control cabinet.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18130",
+    "title": "Open unpressurised crew rover",
+    "filename": "open-unpressurised-crew-rover.glb",
+    "aliases": [
+      "model_18130.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-open-rover-unpressuris-0da93181",
+    "fileSize": 256304,
+    "sha256": "91cc0ab3d199f0422428a57382dbb620ea8ae6458fb9f9082877e322ba40cb7e",
+    "sizeMeters": [
+      2.31,
+      2.52,
+      3.46
+    ],
+    "boundingBox": {
+      "min": [
+        -1.155033630778618,
+        2.384185793236071e-9,
+        -1.7299107313156128
+      ],
+      "max": [
+        1.155033630778618,
+        2.519935568907105,
+        1.7299107313156128
+      ]
+    },
+    "triangles": 7756,
+    "vertices": 23268,
+    "summary": "A 2.9 m four-wheel open crew rover for suited drivers: a tubular chassis on four open wire-mesh wheels with steering uprights, double wishbones and fenders, two mesh seats, a T-handle controller, a steerable dish, a whip antenna, a stereo camera mast and a rear equipment pallet.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18131",
+    "title": "Open crew rover, science fit",
+    "filename": "open-crew-rover-science-fit.glb",
+    "aliases": [
+      "model_18131.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-open-rover-unpressuris-3741288d",
+    "fileSize": 244544,
+    "sha256": "2d77afcc9fd20243f32f57e8711f060155d37e4c563ca681060ea15fd4267e39",
+    "sizeMeters": [
+      2.31,
+      2.52,
+      4.17
+    ],
+    "boundingBox": {
+      "min": [
+        -1.155033630778618,
+        2.384185793236071e-9,
+        -2.440000081062317
+      ],
+      "max": [
+        1.155033630778618,
+        2.520012948578935,
+        1.7299107313156128
+      ]
+    },
+    "triangles": 7512,
+    "vertices": 22536,
+    "summary": "The open crew rover rigged for traverse science: a tail-mounted core drill, an instrument pallet on the rear deck, a stowed magnetometer boom on a named node and a sample container in place of the stores box.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18132",
+    "title": "Small robotic survey rover",
+    "filename": "small-robotic-survey-rover.glb",
+    "aliases": [
+      "model_18132.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-small-survey-rover-f1fa6584",
+    "fileSize": 130692,
+    "sha256": "dc3569a2497a929dcfd1d9fde6ee74f3e4d29df5def76e0bb1d0873259dde22a",
+    "sizeMeters": [
+      1.2,
+      1.685,
+      2.19
+    ],
+    "boundingBox": {
+      "min": [
+        -0.600008561489727,
+        -1.19209286886246e-9,
+        -1.0599999713897705
+      ],
+      "max": [
+        0.600008561489727,
+        1.6850022061254326,
+        1.1299999952316284
+      ]
+    },
+    "triangles": 6088,
+    "vertices": 18264,
+    "summary": "A 1.6 m six-wheel robotic survey rover on a rocker bogie suspension with named rocker and bogie arms, a deck-mounted photovoltaic panel, a stereo camera mast, a small sampling arm and a low gain antenna.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18133",
+    "title": "Pressurised long range rover",
+    "filename": "pressurised-long-range-rover.glb",
+    "aliases": [
+      "model_18133.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-pressurised-long-range-35466e96",
+    "fileSize": 242592,
+    "sha256": "f521810817765e8ea48ea9ec5ec7d2305040c41ca6009739c39d09ee6eae9c10",
+    "sizeMeters": [
+      2.992,
+      4.304,
+      6.81
+    ],
+    "boundingBox": {
+      "min": [
+        -1.4958607639876271,
+        7.152557435219364e-9,
+        -3.6600000858306885
+      ],
+      "max": [
+        1.4958607639876271,
+        4.303915495203707,
+        3.1500000953674316
+      ]
+    },
+    "triangles": 9148,
+    "vertices": 27444,
+    "summary": "A 6.3 m six-wheel pressurised traverse rover: a lofted cabin over a bogie chassis on six wire-mesh wheels, a steered front pair, wraparound glazing, roof photovoltaics and radiators, a steerable dish, a camera mast and two rear entry suit ports with a boarding ladder.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18134",
+    "title": "Six-wheel cargo hauler with flatbed",
+    "filename": "six-wheel-cargo-hauler-with-flatbed.glb",
+    "aliases": [
+      "model_18134.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-cargo-hauler-flatbed-76ce4ade",
+    "fileSize": 242188,
+    "sha256": "e048f4ed2eb6cbd0bd603f2cfc80914e366b0ed600dcc5294dc6e8e8b0a9a98c",
+    "sizeMeters": [
+      2.68,
+      3.063,
+      7.557
+    ],
+    "boundingBox": {
+      "min": [
+        -1.3398579363383893,
+        1.907348634588857e-8,
+        -4.65656128828514
+      ],
+      "max": [
+        1.3398579363383893,
+        3.062707171863198,
+        2.9000000953674316
+      ]
+    },
+    "triangles": 8160,
+    "vertices": 24480,
+    "summary": "A 7 m six-wheel surface hauler: an open forward control station with a roll frame over a bogie chassis on wire-mesh wheels, a ribbed flatbed with stake pockets and tie-down rails, a stores container and a hinged tail ramp on a named node.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18135",
+    "title": "Six-wheel cargo hauler with cryogenic tank",
+    "filename": "six-wheel-cargo-hauler-with-cryogenic-tank.glb",
+    "aliases": [
+      "model_18135.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-cargo-hauler-tanker-516b868f",
+    "fileSize": 263728,
+    "sha256": "71777e956a5c13e7751966db4f02d1fd78f782cfa66b81be0cc3e64b6c273c34",
+    "sizeMeters": [
+      2.68,
+      3.32,
+      6.2
+    ],
+    "boundingBox": {
+      "min": [
+        -1.3401135391619592,
+        1.907348634588857e-8,
+        -3.299999952316284
+      ],
+      "max": [
+        1.3401135391619592,
+        3.320018514026258,
+        2.9000000953674316
+      ]
+    },
+    "triangles": 8620,
+    "vertices": 25860,
+    "summary": "The same six-wheel hauler chassis carrying a 4.8 m cryogenic vessel in three saddle cradles, with a pump skid, a transfer boom and a coupling head instead of the flatbed.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18136",
+    "title": "Surface EVA suit",
+    "filename": "surface-eva-suit.glb",
+    "aliases": [
+      "model_18136.glb"
+    ],
+    "category": "Astronauts & EVA Gear",
+    "slug": "lunar-surface-colony-and-rovers-eva-suit-23f03707",
+    "fileSize": 95584,
+    "sha256": "63c4512661c2317154acf51d4c29d4b3882d2c460ffd7d3222cf7ec42648ee5a",
+    "sizeMeters": [
+      1.04,
+      2.002,
+      0.909
+    ],
+    "boundingBox": {
+      "min": [
+        -0.5200139895352445,
+        0.000007475970598483372,
+        -0.5400000214576721
+      ],
+      "max": [
+        0.5199955242897863,
+        2.0016515254974365,
+        0.3691168765082083
+      ]
+    },
+    "triangles": 1830,
+    "vertices": 5490,
+    "summary": "A 1.95 m surface extravehicular suit standing on the regolith: a hard upper torso on a hip bearing, jointed arms and legs on named nodes, a bubble helmet with a gold sun visor, a life support backpack with a valve panel and comms whip, and dust-stained overboots.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18137",
+    "title": "Four-wheel crane rover",
+    "filename": "four-wheel-crane-rover.glb",
+    "aliases": [
+      "model_18137.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-crane-rover-d5a76830",
+    "fileSize": 193160,
+    "sha256": "fb48516cd800fd2d99498ce78e786f32f2e757ab2fddfc0a7f0cfcbc97ac56e8",
+    "sizeMeters": [
+      3.96,
+      4.594,
+      5.851
+    ],
+    "boundingBox": {
+      "min": [
+        -1.9799999952316285,
+        -5.551115123125783e-17,
+        -2.2310216426849365
+      ],
+      "max": [
+        1.9799999952316285,
+        4.594446095772062,
+        3.619991974922016
+      ]
+    },
+    "triangles": 6250,
+    "vertices": 18750,
+    "summary": "A 4.6 m four-wheel lifting rover: a slewing turntable and counterweight on a wheeled chassis with all-wheel steering, four extending outriggers with screw jacks and bearing pads, an operator cab and a two-stage telescopic boom with a hook block, every joint a named node.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18138",
+    "title": "EVA tool cart",
+    "filename": "eva-tool-cart.glb",
+    "aliases": [
+      "model_18138.glb"
+    ],
+    "category": "Astronauts & EVA Gear",
+    "slug": "lunar-surface-colony-and-rovers-eva-tool-cart-3f077d9d",
+    "fileSize": 122448,
+    "sha256": "c4b2fc2adc7485b09deacad426ca59ee96efd4cc5e490bd84c1c1a929282a6a8",
+    "sizeMeters": [
+      0.98,
+      1.115,
+      1.66
+    ],
+    "boundingBox": {
+      "min": [
+        -0.49000213473099363,
+        7.152557379708213e-9,
+        -0.8999999761581421
+      ],
+      "max": [
+        0.49000213473099363,
+        1.1149685644721818,
+        0.7599999928474426
+      ]
+    },
+    "triangles": 2436,
+    "vertices": 7308,
+    "summary": "A 2 m two-wheel hand barrow for suited crew: a tubular frame on wire-mesh wheels with a folding ground stand, an inclined load deck, a lidded stores box, an open sample tray and a rack of four stowed hand tools behind a padded push bar.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18139",
+    "title": "Hand pulled equipment sled",
+    "filename": "hand-pulled-equipment-sled.glb",
+    "aliases": [
+      "model_18139.glb"
+    ],
+    "category": "Astronauts & EVA Gear",
+    "slug": "lunar-surface-colony-and-rovers-equipment-sled-408c66bc",
+    "fileSize": 29504,
+    "sha256": "8b82153f7dc0597fc2c7315dac77eea796cd431c43bc3f731c8dfe77e256f05e",
+    "sizeMeters": [
+      1.05,
+      0.895,
+      3.09
+    ],
+    "boundingBox": {
+      "min": [
+        -0.5249621956357223,
+        0.000020287083972642117,
+        -1.149999976158142
+      ],
+      "max": [
+        0.5249621956357223,
+        0.8950051790074383,
+        1.9400108172715214
+      ]
+    },
+    "triangles": 520,
+    "vertices": 1560,
+    "summary": "A 2.9 m hand-pulled sled for short traverses: two curved skid runners bridged by a load deck, two strapped stores boxes, a soft sample bag and a rigid tow bar on a named node.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18140",
+    "title": "Regolith ground tile",
+    "filename": "regolith-ground-tile.glb",
+    "aliases": [
+      "model_18140.glb"
+    ],
+    "category": "Terrain & Lunar Environment",
+    "slug": "lunar-surface-colony-and-rovers-regolith-ground-tile-d9c409b0",
+    "fileSize": 65624,
+    "sha256": "ff4c038cf5be1342db0316c5c095459c585369802d6211ff969c3e3ff4638c90",
+    "sizeMeters": [
+      12,
+      1.954,
+      12
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        0.00034002868730520497,
+        -6
+      ],
+      "max": [
+        6,
+        1.9545012274543574,
+        6
+      ]
+    },
+    "triangles": 1346,
+    "vertices": 4038,
+    "summary": "A 12 m square regolith ground tile: rolling mare relief with four impact craters between 1.2 and 4.4 m across, feathered to a common rim height on all four edges so tiles butt together in any orientation.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18141",
+    "title": "Crater rim segment tile",
+    "filename": "crater-rim-segment-tile.glb",
+    "aliases": [
+      "model_18141.glb"
+    ],
+    "category": "Terrain & Lunar Environment",
+    "slug": "lunar-surface-colony-and-rovers-crater-rim-segment-fafd0277",
+    "fileSize": 88952,
+    "sha256": "72c8c75496855a84199b0854f32b42f03308deed4029da2ce9ac6739985b91e1",
+    "sizeMeters": [
+      12,
+      2.943,
+      12
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        0.00010255587149377021,
+        -6
+      ],
+      "max": [
+        6,
+        2.943063461660855,
+        6
+      ]
+    },
+    "triangles": 1832,
+    "vertices": 5496,
+    "summary": "A 12 m square tile dominated by the rim and inner wall of a 10.8 m crater: a raised crest, a bowl falling away inside it and blocky ejecta scattered along the crest.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18142",
+    "title": "Boulder field tile",
+    "filename": "boulder-field-tile.glb",
+    "aliases": [
+      "model_18142.glb"
+    ],
+    "category": "Terrain & Lunar Environment",
+    "slug": "lunar-surface-colony-and-rovers-boulder-field-tile-a94a18f4",
+    "fileSize": 113140,
+    "sha256": "44720ac56ef07ece911c69f90f1abbd0faf8baad9838f5b75a289773b8d9ae4d",
+    "sizeMeters": [
+      12,
+      2.089,
+      12
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        -0.00010876454828823157,
+        -6
+      ],
+      "max": [
+        6,
+        2.0888221720647677,
+        6
+      ]
+    },
+    "triangles": 2336,
+    "vertices": 7008,
+    "summary": "A 12 m square tile strewn with eleven weathered boulders between 0.6 and 2.1 m across, sitting part buried in rolling regolith around a shallow crater.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18143",
+    "title": "Rille edge tile",
+    "filename": "rille-edge-tile.glb",
+    "aliases": [
+      "model_18143.glb"
+    ],
+    "category": "Terrain & Lunar Environment",
+    "slug": "lunar-surface-colony-and-rovers-rille-edge-tile-308b8877",
+    "fileSize": 75972,
+    "sha256": "187d28f72993819bacb46980787775e7dcf14e5c6aeb80e607bc766dd7127eaa",
+    "sizeMeters": [
+      12,
+      3.419,
+      12
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        0.0002859013996012738,
+        -6
+      ],
+      "max": [
+        6,
+        3.419701777128231,
+        6
+      ]
+    },
+    "triangles": 1562,
+    "vertices": 4686,
+    "summary": "A 12 m square tile carrying the edge of a collapsed lava channel: a 6.8 m wide rille cut 2.3 m below the plain with slumped banks either side, feathered across its width only so the channel runs straight through into the next tile.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18144",
+    "title": "Rover track ruts tile",
+    "filename": "rover-track-ruts-tile.glb",
+    "aliases": [
+      "model_18144.glb"
+    ],
+    "category": "Surface Vehicles & Rovers",
+    "slug": "lunar-surface-colony-and-rovers-rover-track-ruts-tile-5dc46c40",
+    "fileSize": 129568,
+    "sha256": "3da061f01db36fe4904636217584cdb3621561432ee026d163ac31aec0860057",
+    "sizeMeters": [
+      12,
+      1.311,
+      12
+    ],
+    "boundingBox": {
+      "min": [
+        -6,
+        -0.00025371523158401743,
+        -6
+      ],
+      "max": [
+        6,
+        1.3108214518572554,
+        6
+      ]
+    },
+    "triangles": 2678,
+    "vertices": 8034,
+    "summary": "A 12 m square tile of trafficked regolith: a pair of 1.5 m gauge rover ruts with chevron grouser prints pressed along them, spoil ridges either side and a line of boot prints alongside.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18145",
+    "title": "Graded dust berm",
+    "filename": "graded-dust-berm.glb",
+    "aliases": [
+      "model_18145.glb"
+    ],
+    "category": "Terrain & Lunar Environment",
+    "slug": "lunar-surface-colony-and-rovers-dust-berm-2dec8cfd",
+    "fileSize": 88172,
+    "sha256": "e2b44cf663dab6fbd9864f2d170e24834a806dd475cbf2403555bc1b08dba585",
+    "sizeMeters": [
+      10.4,
+      1.934,
+      5.342
+    ],
+    "boundingBox": {
+      "min": [
+        -5.199999809265137,
+        -0.00009788245951336538,
+        -2.641771068312365
+      ],
+      "max": [
+        5.199999809265137,
+        1.9334571477869669,
+        2.699944486357409
+      ]
+    },
+    "triangles": 1800,
+    "vertices": 5400,
+    "summary": "A 10 m graded regolith berm pushed up to shield a work area from rover dust: a tapered bank with a compacted apron, a spoil line along its toe and a marker post at each end.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18146",
+    "title": "Survey marker array",
+    "filename": "survey-marker-array.glb",
+    "aliases": [
+      "model_18146.glb"
+    ],
+    "category": "Comms & Exploration Sensors",
+    "slug": "lunar-surface-colony-and-rovers-survey-marker-array-99d264a2",
+    "fileSize": 42408,
+    "sha256": "3f17673fb21410543ddd1ee9c056fcd869a0e48017935ba272d27ae8062649a6",
+    "sizeMeters": [
+      2.625,
+      1.8,
+      1.882
+    ],
+    "boundingBox": {
+      "min": [
+        -1.2000000476837158,
+        -0.00008312157305878642,
+        -0.8999542579967538
+      ],
+      "max": [
+        1.4252668619155884,
+        1.8000125750412947,
+        0.9823560743771828
+      ]
+    },
+    "triangles": 768,
+    "vertices": 2304,
+    "summary": "A 2.4 m survey station: three graduated range poles with black and white targets on ballasted bases, a corner cube retroreflector on a levelling tripod and a photometric gnomon with a calibration strip on a base plate.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18147",
+    "title": "Communications relay mast",
+    "filename": "communications-relay-mast.glb",
+    "aliases": [
+      "model_18147.glb"
+    ],
+    "category": "Comms & Exploration Sensors",
+    "slug": "lunar-surface-colony-and-rovers-comms-relay-mast-4cdfe54f",
+    "fileSize": 113288,
+    "sha256": "60b76d800c1f80840f30fc3d71fc13b376d4159c96e84858809df6b608cc791b",
+    "sizeMeters": [
+      8.402,
+      9.985,
+      7.375
+    ],
+    "boundingBox": {
+      "min": [
+        -4.153138637542725,
+        0,
+        -4.656867410937478
+      ],
+      "max": [
+        4.248558044433594,
+        9.985027040289607,
+        2.7181746027862332
+      ]
+    },
+    "triangles": 2250,
+    "vertices": 6750,
+    "summary": "A 9.5 m guyed lattice relay mast on four ballasted footings: eight braced bays, three guy wires to anchor blocks, a 2.1 m steerable dish on a yoke as a named node, three whip antennas, a photovoltaic panel and a ground equipment box.",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18148",
+    "title": "Lunar Colony Overview",
+    "filename": "colony-overview.glb",
+    "aliases": [
+      "model_18148.glb",
+      "lunar-colony-overview.glb"
+    ],
+    "category": "Composite Scene / Layout",
+    "slug": "lunar-surface-colony-and-rovers-colony-o-5943a18b-starter-scene",
+    "fileSize": 2615980,
+    "sha256": "2941896124dde49d95905c1697946540e42699305ea7b6522892e63556184f6f",
+    "sizeMeters": [
+      45.5,
+      9.985,
+      54.127
+    ],
+    "boundingBox": {
+      "min": [
+        -20.90000009536743,
+        -0.0002447162872303288,
+        -26.864110327525147
+      ],
+      "max": [
+        24.59999990463257,
+        9.985027040289607,
+        27.26306244687929
+      ]
+    },
+    "triangles": 71260,
+    "vertices": 154328,
+    "summary": "A working surface base: two tunnel junctions link a crew habitat, an inflatable dome, an observation turret, a greenhouse, a medical module, a regolith shielded habitat, an airlock and a vehicle workshop, every mate made through the hab-port interface 2.4 m above the...",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18149",
+    "title": "Landing Pad Operations",
+    "filename": "landing-pad-operations.glb",
+    "aliases": [
+      "model_18149.glb"
+    ],
+    "category": "Composite Scene / Layout",
+    "slug": "lunar-surface-colony-and-rovers-landing-pad-operations-4285ca76",
+    "fileSize": 1656168,
+    "sha256": "74cb2cf71440c87a19e840e3a714b316d17dd1e2f251944c278a81aeae2c96ee",
+    "sizeMeters": [
+      43.628,
+      9.985,
+      35.581
+    ],
+    "boundingBox": {
+      "min": [
+        -21.153138637542725,
+        -0.00019836756415402002,
+        -17.499412866663327
+      ],
+      "max": [
+        22.47530376275,
+        9.985027040289607,
+        18.08127798864256
+      ]
+    },
+    "triangles": 46738,
+    "vertices": 102595,
+    "summary": "A cargo lander standing on the sintered pad on its four crushable footpads, ringed by two blast deflector walls and two regolith berm segments mated to the pad rim markers. A crew lander waits on the apron, a cryogenic tank farm, a transfer arm and a battery container sit...",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18150",
+    "title": "Resource and Power Yard",
+    "filename": "resource-and-power-yard.glb",
+    "aliases": [
+      "model_18150.glb"
+    ],
+    "category": "Composite Scene / Layout",
+    "slug": "lunar-surface-colony-and-rovers-resource-yard-e9352363",
+    "fileSize": 1813700,
+    "sha256": "d96f2b27cdc026642ae06a07e2d1639cca26a1edca2d1ed611f53703b412339e",
+    "sizeMeters": [
+      47.1,
+      9.02,
+      56.659
+    ],
+    "boundingBox": {
+      "min": [
+        -24.199999809265137,
+        -0.000231580294480338,
+        -20.65866733702079
+      ],
+      "max": [
+        22.90000009536743,
+        9.020000457763672,
+        36
+      ]
+    },
+    "triangles": 54462,
+    "vertices": 118519,
+    "summary": "The extraction and utilities end of the base: an excavator feeding a hopper and screening deck, an oxygen extraction plant, a water processing skid and a sintering print gantry laying a regolith wall, backed by a fixed and a tracking photovoltaic row, a solar tower, a...",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  },
+  {
+    "id": "18151",
+    "title": "Connector Cases",
+    "filename": "connector-cases.glb",
+    "aliases": [
+      "model_18151.glb"
+    ],
+    "category": "Composite Scene / Layout",
+    "slug": "lunar-surface-colony-and-rovers-connector-cases-9058f711",
+    "fileSize": 2377472,
+    "sha256": "78bfb29040edbbbd3122dc74139028c5b4426d2532330acd1af9793f74d6c299",
+    "sizeMeters": [
+      61.661,
+      7.6,
+      71.454
+    ],
+    "boundingBox": {
+      "min": [
+        -22.8400000333786,
+        -0.0002447162872303288,
+        -36.22268342971802
+      ],
+      "max": [
+        38.82078313827515,
+        7.599999904632568,
+        35.23167422162852
+      ]
+    },
+    "triangles": 56196,
+    "vertices": 124190,
+    "summary": "Independent test assemblies covering both connector families. Every habitat, tunnel, junction, elbow, greenhouse, workshop, turret and airlock in the pack is mated through a hab-port, and both landers, both blast deflectors and both berm types are mated to landing pad...",
+    "extensionsUsed": [
+      "KHR_mesh_quantization"
+    ]
+  }
+]

@@ -1,0 +1,1328 @@
+{
+  "version": "1.0.0",
+  "description": "Expert System knowledge base for the Junior Astronaut Mission Trainer. Each entry is a pre-defined question with a kid-friendly answer, a real NASA source, and gameplay context tags so Unity can surface the right questions at the right moment.",
+  "categories": [
+    {
+      "id": "radiation",
+      "label": "☢️ Radiation & Shielding",
+      "icon": "radiation",
+      "description": "Learn about space radiation and how to protect your crew."
+    },
+    {
+      "id": "oxygen",
+      "label": "💨 Oxygen & Air",
+      "icon": "oxygen",
+      "description": "How astronauts breathe in space and keep the air clean."
+    },
+    {
+      "id": "power",
+      "label": "⚡ Power & Energy",
+      "icon": "power",
+      "description": "Solar panels, batteries, and managing your outpost's electricity."
+    },
+    {
+      "id": "space_weather",
+      "label": "🌞 Space Weather",
+      "icon": "space_weather",
+      "description": "Solar flares, CMEs, and how the Sun can threaten a mission."
+    },
+    {
+      "id": "life_support",
+      "label": "🛠️ Life Support",
+      "icon": "life_support",
+      "description": "Water recycling, CO₂ scrubbing, and keeping the habitat running."
+    },
+    {
+      "id": "moon",
+      "label": "🌙 Moon Mission",
+      "icon": "moon",
+      "description": "Special challenges of living and working on the lunar surface."
+    },
+    {
+      "id": "mars",
+      "label": "🔴 Mars Mission",
+      "icon": "mars",
+      "description": "What makes Mars different — thin air, dust storms, and long delays."
+    },
+    {
+      "id": "strategy",
+      "label": "🧠 Mission Strategy",
+      "icon": "strategy",
+      "description": "Tips and trade-off thinking to help you survive your mission."
+    },
+    {
+      "id": "crew_health",
+      "label": "🧑‍🚀 Crew Health & Fitness",
+      "icon": "crew_health",
+      "description": "How microgravity, exercise, and sleep affect your astronauts."
+    },
+    {
+      "id": "thermal",
+      "label": "🌡️ Thermal & Temperature",
+      "icon": "thermal",
+      "description": "Managing extreme heat and freezing cold on the Moon and Mars."
+    }
+  ],
+  "questions": [
+    {
+      "id": "rad_001",
+      "category": "radiation",
+      "question": "What is space radiation?",
+      "answer": "Space radiation is invisible, high-energy particles that zoom through space. They come from two main sources: the Sun (solar particle events) and exploding stars far away (galactic cosmic rays). On Earth, our atmosphere and magnetic field block most of them — but on the Moon or Mars, astronauts are much more exposed!",
+      "source": "NASA Space Radiation Challenge Guide",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "beginner",
+      "tags": [
+        "radiation",
+        "basics"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "rad_002",
+      "category": "radiation",
+      "question": "How much radiation do astronauts get on the Moon?",
+      "answer": "NASA's CRaTER instrument on the Lunar Reconnaissance Orbiter measured about 321 micrograys of radiation per day in lunar orbit. That's roughly double what astronauts get on the International Space Station! That's why shielding is so important for Moon missions.",
+      "source": "NASA OSDR RadLab — LRO CRaTER data",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "difficulty": "intermediate",
+      "tags": [
+        "radiation",
+        "moon",
+        "data"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_moon",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "rad_003",
+      "category": "radiation",
+      "question": "How much radiation do astronauts get on Mars?",
+      "answer": "Curiosity rover's RAD detector measured about 161 micrograys per day on the Martian surface. Mars has a thin atmosphere that blocks some solar particles, but galactic cosmic rays still punch right through. The good news: it's less than the Moon because Mars's thin air provides some shielding!",
+      "source": "NASA OSDR RadLab — MSL-RAD Surface data",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "difficulty": "intermediate",
+      "tags": [
+        "radiation",
+        "mars",
+        "data"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_mars",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "rad_004",
+      "category": "radiation",
+      "question": "How can I protect my crew from radiation?",
+      "answer": "Three main ways! 1) Shielding — build thicker walls or pile lunar regolith (moon soil) on top of your habitat. Water and polyethylene also block radiation well. 2) Time — spend less time outside during high-radiation periods. 3) Distance — stay inside your shielded habitat during solar storms. In the game, boosting your Shielding resource costs Power, so plan ahead!",
+      "source": "NASA HRP Space Radiation Element",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "radiation",
+        "shielding",
+        "strategy"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "shielding_low",
+        "event_solar_flare"
+      ]
+    },
+    {
+      "id": "rad_005",
+      "category": "radiation",
+      "question": "What happens if my Shielding drops too low?",
+      "answer": "When your Shielding is low, your crew absorbs more radiation with every passing sol (day). If a solar storm hits while shields are down, the radiation spike can be dangerous — your crew's health drops fast. Always try to keep Shielding above 30% and boost it before a storm warning!",
+      "source": "NASA Space Radiation Challenge Guide",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "beginner",
+      "tags": [
+        "shielding",
+        "strategy",
+        "warning"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "shielding_critical"
+      ]
+    },
+    {
+      "id": "rad_006",
+      "category": "radiation",
+      "question": "Why does Earth protect us from radiation but the Moon doesn't?",
+      "answer": "Earth has two superpowers: a thick atmosphere (100 km of air!) and a strong magnetic field called the magnetosphere. Together, they act like a giant invisible shield that deflects and absorbs most space radiation. The Moon has almost no atmosphere and no magnetic field at all, so radiation reaches the surface directly.",
+      "source": "NASA OSDR RadLab — ISS vs. BLEO comparison",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "difficulty": "beginner",
+      "tags": [
+        "radiation",
+        "earth",
+        "moon",
+        "basics"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "oxy_001",
+      "category": "oxygen",
+      "question": "Where does oxygen come from in space?",
+      "answer": "On the ISS, astronauts use the Oxygen Generation System (OGS) which splits water molecules (H₂O) into oxygen (O₂) and hydrogen (H₂) using electricity. The oxygen goes into the cabin air and the hydrogen is either vented or used to recycle CO₂. In the game, making oxygen requires Power — so if your power runs low, oxygen production slows down!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "oxygen",
+        "power",
+        "life_support"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "oxygen_low",
+        "power_low"
+      ]
+    },
+    {
+      "id": "oxy_002",
+      "category": "oxygen",
+      "question": "What happens when astronauts breathe out CO₂?",
+      "answer": "When you breathe, you turn oxygen into carbon dioxide (CO₂). Too much CO₂ in the air makes you feel dizzy and sick. The Air Revitalization System cleans the air by passing it through special filters: activated charcoal catches bad chemicals, and molecular sieves trap CO₂. The CO₂ can then be combined with hydrogen to recover some water. It all runs on Power!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "oxygen",
+        "life_support",
+        "co2"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "oxygen_medium"
+      ]
+    },
+    {
+      "id": "oxy_003",
+      "category": "oxygen",
+      "question": "How long can my crew survive if oxygen runs out?",
+      "answer": "In real life, a sealed habitat has emergency oxygen reserves that last hours, not days. In the game, when your Oxygen resource hits zero, your crew is in immediate danger. Always prioritize keeping oxygen above 20% — it's the most urgent resource because the crew can't wait!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "oxygen",
+        "emergency",
+        "strategy"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "oxygen_critical"
+      ]
+    },
+    {
+      "id": "oxy_004",
+      "category": "oxygen",
+      "question": "Why does having more crew use more oxygen?",
+      "answer": "Each person breathes in about 840 liters of oxygen per day! More crew members means more oxygen consumed, more CO₂ exhaled, and more water needed. That's why bigger crews need more power to run bigger life support systems. It's a real trade-off in space mission planning.",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "oxygen",
+        "crew",
+        "life_support"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "pwr_001",
+      "category": "power",
+      "question": "How do space outposts get electricity?",
+      "answer": "Most space habitats use solar panels to turn sunlight into electricity, plus rechargeable batteries for when it's dark. On the ISS, eight huge solar arrays generate up to 240 kilowatts of power! On the Moon, you'd face 14-day-long nights where solar panels don't work at all — making battery management critical.",
+      "source": "NASA ISS Solar Array Facts",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "power",
+        "solar",
+        "basics"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "pwr_002",
+      "category": "power",
+      "question": "Why does everything need power?",
+      "answer": "In space, almost every system that keeps you alive runs on electricity: the oxygen generator splits water using electricity, the CO₂ scrubber needs fans and heaters, water recycling uses pumps and filters, the radiation shields may use electromagnetic systems, and even heating the habitat against the freezing cold of space needs power. If power drops, everything else starts failing!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "power",
+        "life_support",
+        "strategy"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_low"
+      ]
+    },
+    {
+      "id": "pwr_003",
+      "category": "power",
+      "question": "What happens during lunar night?",
+      "answer": "A lunar night lasts about 14 Earth days! During this time, solar panels produce zero power and temperatures drop to -173°C (-280°F). The outpost must survive entirely on stored battery power and fuel cells. Smart commanders reduce power use before nightfall — dim the lights, pause non-essential experiments, and lower heating to minimum safe levels.",
+      "source": "NASA Artemis Surface Operations Reference",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "intermediate",
+      "tags": [
+        "power",
+        "moon",
+        "strategy",
+        "night"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_moon",
+        "power_low"
+      ]
+    },
+    {
+      "id": "pwr_004",
+      "category": "power",
+      "question": "Should I use power on shielding or oxygen?",
+      "answer": "It depends on what's happening right now! If a solar storm is incoming, shielding is urgent — radiation can hurt your crew in hours. If no storm is active, oxygen is usually more important because your crew is always breathing. A good rule: check the space weather first, then decide. When both are low, boost the one that's closest to zero!",
+      "source": "Game Strategy — based on NASA ECLSS and HRP data",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "power",
+        "shielding",
+        "oxygen",
+        "strategy"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_low",
+        "shielding_low",
+        "oxygen_low"
+      ]
+    },
+    {
+      "id": "sw_001",
+      "category": "space_weather",
+      "question": "What is a solar flare?",
+      "answer": "A solar flare is a sudden, intense burst of light and energy from the Sun's surface. It happens when tangled magnetic fields on the Sun suddenly snap and release huge amounts of energy. The burst of radiation travels at the speed of light and reaches Earth (or the Moon!) in just 8 minutes. In the game, a solar flare warning means you need to boost shields fast!",
+      "source": "NASA DONKI — Space Weather Database",
+      "source_url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+      "difficulty": "beginner",
+      "tags": [
+        "space_weather",
+        "solar_flare",
+        "radiation"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_solar_flare"
+      ]
+    },
+    {
+      "id": "sw_002",
+      "category": "space_weather",
+      "question": "What is a CME (Coronal Mass Ejection)?",
+      "answer": "A CME is a giant cloud of magnetized plasma (super-hot charged gas) that the Sun sometimes hurls into space. Unlike light from a solar flare which arrives in 8 minutes, a CME cloud takes 1–3 days to reach the Moon or Earth. That gives you time to prepare! CMEs can cause radiation levels to spike 100x above normal — that's why early warnings from NASA's DONKI system are so important.",
+      "source": "NASA DONKI & Space Radiation Challenge Guide",
+      "source_url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+      "difficulty": "intermediate",
+      "tags": [
+        "space_weather",
+        "cme",
+        "radiation"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_cme"
+      ]
+    },
+    {
+      "id": "sw_003",
+      "category": "space_weather",
+      "question": "How does NASA predict space weather?",
+      "answer": "NASA uses satellites like the Solar Dynamics Observatory (SDO) and SOHO to watch the Sun 24/7. When they spot a flare or CME, the data goes to NASA's DONKI database (Database Of Notifications, Knowledge, Information). Scientists then calculate where the storm is headed and how strong it'll be. In real missions, astronauts can get warnings hours or days before a storm hits.",
+      "source": "NASA DONKI",
+      "source_url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+      "difficulty": "intermediate",
+      "tags": [
+        "space_weather",
+        "nasa",
+        "donki"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "sw_004",
+      "category": "space_weather",
+      "question": "What should I do when a storm warning appears?",
+      "answer": "Step 1: Check your Shielding level — if it's below 50%, divert power to boost it immediately. Step 2: Consider pausing outdoor EVA (spacewalk) activities. Step 3: If power is also low, shut down non-essential systems like science experiments to free up energy for shields. The storm hits harder the lower your shielding is, so every point counts!",
+      "source": "Game Strategy — based on NASA HRP recommendations",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "space_weather",
+        "strategy",
+        "shielding"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_solar_flare",
+        "event_cme",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "ls_001",
+      "category": "life_support",
+      "question": "What is ECLSS?",
+      "answer": "ECLSS stands for Environmental Control and Life Support System. It's the collection of machines that keep astronauts alive: controlling air pressure, generating oxygen, removing CO₂, recycling water, managing waste, and detecting fires. On the ISS, ECLSS was designed and tested by NASA's Marshall Space Flight Center. Every part needs electricity to run!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "life_support",
+        "eclss",
+        "basics"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "ls_002",
+      "category": "life_support",
+      "question": "Can astronauts recycle their water?",
+      "answer": "Yes! The ISS Water Recovery System recycles about 90% of all water on the station — including water from humidity in the air and even processed urine! The water goes through multi-filtration beds and a catalytic oxidizer to become super clean. Electrical conductivity sensors check purity before anyone drinks it. On the Moon or Mars, water recycling would be even more critical since resupply takes days or months.",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "life_support",
+        "water",
+        "eclss"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "ls_003",
+      "category": "life_support",
+      "question": "What is the Sabatier reactor?",
+      "answer": "The Sabatier reactor is a clever machine that takes CO₂ (the gas you breathe out) and hydrogen (leftover from making oxygen), mixes them together, and produces water and methane. The water gets recycled back into the system, and the methane is vented into space. It's like a recycling loop that turns waste gas back into something useful!",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "advanced",
+      "tags": [
+        "life_support",
+        "co2",
+        "water",
+        "eclss"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "moon_001",
+      "category": "moon",
+      "question": "Why is the Moon so dangerous for astronauts?",
+      "answer": "The Moon has three big challenges: 1) No atmosphere — there's no air to breathe and no protection from radiation or tiny meteorites. 2) Extreme temperatures — from +127°C in sunlight to -173°C in shadow. 3) Lunar dust — superfine, sharp, and staticky; it sticks to everything, damages equipment, and can hurt lungs if inhaled. Your outpost must handle all three!",
+      "source": "NASA Artemis Program & HRP",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "moon",
+        "hazards",
+        "basics"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_moon"
+      ]
+    },
+    {
+      "id": "moon_002",
+      "category": "moon",
+      "question": "Can I use moon soil to block radiation?",
+      "answer": "Yes! Lunar regolith (moon soil) is a surprisingly good radiation shield. NASA studies show that piling 2–3 meters of regolith on top of a habitat can reduce radiation exposure by over 50%. Some designs even propose 3D-printing building blocks from regolith. In the game, building regolith shields costs time and power but saves your shielding resource long-term.",
+      "source": "NASA Space Radiation Challenge Guide",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "intermediate",
+      "tags": [
+        "moon",
+        "shielding",
+        "regolith"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_moon",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "moon_003",
+      "category": "moon",
+      "question": "How long is a day on the Moon?",
+      "answer": "One full day-night cycle on the Moon lasts about 29.5 Earth days! That means roughly 14 days of constant sunlight (great for solar panels) followed by 14 days of total darkness and freezing cold (terrible for solar panels). Managing this day-night cycle is one of the biggest challenges for a lunar outpost.",
+      "source": "NASA Artemis Program",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "moon",
+        "power",
+        "solar",
+        "night"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_moon"
+      ]
+    },
+    {
+      "id": "mars_001",
+      "category": "mars",
+      "question": "How is Mars different from the Moon for radiation?",
+      "answer": "Mars has a thin atmosphere (about 1% as thick as Earth's) that provides some radiation shielding — something the Moon completely lacks. NASA's Curiosity rover measured about 161 micrograys/day on the Martian surface versus about 321 micrograys/day in lunar orbit. So Mars surface radiation is roughly half of the Moon's, but still dangerous without extra shielding.",
+      "source": "NASA OSDR RadLab — MSL-RAD vs CRaTER comparison",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "difficulty": "intermediate",
+      "tags": [
+        "mars",
+        "moon",
+        "radiation",
+        "data"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_mars"
+      ]
+    },
+    {
+      "id": "mars_002",
+      "category": "mars",
+      "question": "What are Martian dust storms?",
+      "answer": "Mars has huge dust storms that can cover the entire planet for months! The dust blocks sunlight, which means solar panels produce way less power. In 2018, a massive dust storm ended NASA's Opportunity rover mission because it couldn't charge its batteries. In the game, a dust storm event will slash your power generation — stock up on reserves when you see one coming!",
+      "source": "NASA Mars Exploration Program",
+      "source_url": "https://mars.nasa.gov/",
+      "difficulty": "beginner",
+      "tags": [
+        "mars",
+        "dust_storm",
+        "power"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_mars",
+        "event_dust_storm"
+      ]
+    },
+    {
+      "id": "mars_003",
+      "category": "mars",
+      "question": "Why is communication with Earth delayed on Mars?",
+      "answer": "Radio signals travel at the speed of light, but Mars is so far away that messages take 4 to 24 minutes to reach Earth (depending on where the planets are in their orbits). That means if you send a distress call, you won't hear back for at least 8 to 48 minutes! Astronauts on Mars must be trained to handle emergencies on their own without waiting for Mission Control.",
+      "source": "NASA Mars Exploration Program",
+      "source_url": "https://mars.nasa.gov/",
+      "difficulty": "intermediate",
+      "tags": [
+        "mars",
+        "communication",
+        "delay"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "site_mars",
+        "event_comms_delay"
+      ]
+    },
+    {
+      "id": "str_001",
+      "category": "strategy",
+      "question": "Which resource should I fix first?",
+      "answer": "Follow the rule of survival priority: 1) OXYGEN — if it hits zero, the crew can't breathe (minutes to act). 2) SHIELDING — only urgent if a solar storm is active or incoming (hours to act). 3) POWER — keeps everything running but you can survive short dips by shutting down non-essentials. When in doubt: fix whatever is closest to zero first!",
+      "source": "Game Strategy — based on NASA mission planning principles",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "priority",
+        "survival"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any",
+        "multiple_low"
+      ]
+    },
+    {
+      "id": "str_002",
+      "category": "strategy",
+      "question": "What are delayed effects?",
+      "answer": "Some decisions don't show their full cost right away. For example, if you push the crew to work overtime today, they might be exhausted tomorrow — causing oxygen consumption to spike on the next sol. Or if you skip maintenance on a solar panel, it might break down 2 sols later. Always read the decision card carefully and watch for warnings about future costs!",
+      "source": "Game Mechanic — inspired by real mission planning trade-offs",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "delayed_effects",
+        "tradeoffs"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "str_003",
+      "category": "strategy",
+      "question": "Is it ever a good idea to let one resource drop low?",
+      "answer": "Sometimes yes — but only if you have a plan to recover it! For example, you might let Power dip to 20% to boost Shielding before a storm, knowing that sunrise is coming and your solar panels will recharge. The key is: never let ANY resource hit zero, and always have a recovery plan. Risky moves with a plan are smart; risky moves without a plan are dangerous!",
+      "source": "Game Strategy — based on NASA resource margin planning",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "strategy",
+        "risk",
+        "tradeoffs"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "str_004",
+      "category": "strategy",
+      "question": "What does the survivability score mean?",
+      "answer": "At the end of your mission, you get a survivability score from 0 to 100. It measures how well you balanced all three resources throughout the mission. A score above 80 means you kept everything stable — great commander! Between 50-80 means you survived but had some close calls. Below 50 means the crew barely made it (or didn't). Try to keep all resources balanced rather than maxing out just one!",
+      "source": "Game Mechanic",
+      "source_url": null,
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "scoring",
+        "debrief"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "mission_end"
+      ]
+    },
+    {
+      "id": "str_005",
+      "category": "strategy",
+      "question": "How do I prepare for events I can't predict?",
+      "answer": "Keep reserves! The best commanders try to keep all three resources above 40% whenever possible. That way, when a surprise event hits (equipment fault, dust storm, solar flare), you have enough buffer to handle it without anything crashing to zero. Think of it like keeping gas in your car's tank — you never want to run on empty when a detour appears!",
+      "source": "Game Strategy — based on NASA contingency planning",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "reserves",
+        "events"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "rad_007",
+      "category": "radiation",
+      "question": "What are galactic cosmic rays (GCRs)?",
+      "answer": "GCRs are super-fast particles that come from exploding stars (supernovae) in other parts of our galaxy. They're the trickiest type of radiation because they're always there — day and night, storm or calm — and they're really hard to block because they carry so much energy. Even thick metal walls only slow them down. Water and hydrogen-rich materials work better!",
+      "source": "NASA Space Radiation Challenge Guide",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "advanced",
+      "tags": [
+        "radiation",
+        "gcr",
+        "shielding"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "rad_008",
+      "category": "radiation",
+      "question": "What is a storm shelter?",
+      "answer": "A storm shelter is a small, heavily shielded room inside the habitat where astronauts go during solar particle events. It has extra-thick walls (sometimes lined with water tanks or polyethylene blocks) to absorb incoming radiation. Astronauts might need to stay inside for hours or even days until the storm passes. Think of it like a tornado shelter, but for space radiation!",
+      "source": "NASA HRP Space Radiation Element",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "intermediate",
+      "tags": [
+        "radiation",
+        "shielding",
+        "storm_shelter"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_solar_flare",
+        "event_cme"
+      ]
+    },
+    {
+      "id": "pwr_005",
+      "category": "power",
+      "question": "What happens if a solar panel gets damaged?",
+      "answer": "If a solar panel breaks or gets covered in dust, your power generation drops. On Mars, dust slowly coats panels and reduces their output — this is what eventually ended the Opportunity rover's mission. On the Moon, micrometeorites or lunar dust can scratch and damage panels. In the game, equipment fault events can reduce your power. You may need to spend resources to repair them!",
+      "source": "NASA Mars Exploration Program — Opportunity Mission",
+      "source_url": "https://mars.nasa.gov/",
+      "difficulty": "intermediate",
+      "tags": [
+        "power",
+        "equipment",
+        "maintenance"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "event_equipment_fault",
+        "power_low"
+      ]
+    },
+    {
+      "id": "ls_004",
+      "category": "life_support",
+      "question": "What happens if the CO₂ scrubber fails?",
+      "answer": "If the system that removes CO₂ from the air stops working, carbon dioxide builds up in the habitat. At first, astronauts would get headaches and feel tired. At higher levels, they'd have trouble thinking clearly. At very high levels, it's life-threatening. On Apollo 13, astronauts famously had to jerry-rig a CO₂ scrubber from spare parts to survive! In the game, this would drain your Oxygen resource.",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "life_support",
+        "co2",
+        "emergency",
+        "oxygen"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "event_equipment_fault",
+        "oxygen_low"
+      ]
+    },
+    {
+      "id": "sw_005",
+      "category": "space_weather",
+      "question": "Can space weather damage equipment?",
+      "answer": "Absolutely! Intense radiation from solar storms can fry electronics, corrupt computer memory, and damage solar panel cells. The ISS has radiation-hardened computers for this reason. On the Moon or Mars, a big solar particle event could knock out unshielded equipment. That's another reason to keep your Shielding up — it protects both crew AND gear!",
+      "source": "NASA Space Radiation Challenge Guide",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "advanced",
+      "tags": [
+        "space_weather",
+        "equipment",
+        "radiation"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_solar_flare",
+        "event_cme"
+      ]
+    },
+    {
+      "id": "oxy_005",
+      "category": "oxygen",
+      "question": "Can we make oxygen directly from the air on Mars?",
+      "answer": "Yes! NASA's Perseverance rover brought an experiment called MOXIE (Mars Oxygen ISRU Experiment). MOXIE takes Martian air—which is 96% carbon dioxide (CO₂)—and zaps it with high heat and electricity to pull out pure, breathable oxygen! On future human missions, scaled-up MOXIE machines will make oxygen for both astronauts to breathe and rocket fuel to fly home.",
+      "source": "NASA Mars 2020 Mission (MOXIE)",
+      "source_url": "https://mars.nasa.gov/mars2020/technology/moxie/",
+      "difficulty": "intermediate",
+      "tags": [
+        "oxygen",
+        "mars",
+        "moxie",
+        "technology"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "site_mars",
+        "oxygen_low"
+      ]
+    },
+    {
+      "id": "oxy_006",
+      "category": "oxygen",
+      "question": "How do astronauts detect air leaks in the habitat?",
+      "answer": "Air pressure sensors constantly monitor the habitat's atmosphere. If the pressure starts dropping faster than normal breathing uses it, warning sirens sound! Astronauts use ultrasonic detectors that listen for the high-pitched hiss of escaping air, or special pressure patches to seal tiny holes made by micrometeorites. In the game, an air leak event will drain oxygen continuously until repaired!",
+      "source": "NASA ISS Flight Operations & Safety",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "oxygen",
+        "emergency",
+        "leaks"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "event_equipment_fault",
+        "oxygen_low"
+      ]
+    },
+    {
+      "id": "oxy_007",
+      "category": "oxygen",
+      "question": "What happens if cabin air pressure drops too low?",
+      "answer": "If air pressure drops, there aren't enough oxygen molecules pushing into your lungs with each breath. Astronauts get lightheaded, sleepy, and eventually pass out from hypoxia (lack of oxygen). If pressure drops very fast, they must immediately put on pressurized spacesuits or retreat into an emergency sealed bulkhead module while life support dumps reserve gas to repressurize the cabin.",
+      "source": "NASA HRP Medical Operations",
+      "source_url": "https://www.nasa.gov/humans-in-space/space-medicine/",
+      "difficulty": "intermediate",
+      "tags": [
+        "oxygen",
+        "pressure",
+        "safety"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "oxygen_critical"
+      ]
+    },
+    {
+      "id": "pwr_006",
+      "category": "power",
+      "question": "How can outposts get power when the Sun is not shining?",
+      "answer": "NASA and the Department of Energy developed Kilopower (Fission Surface Power)—small, safe nuclear reactors designed for the Moon and Mars! A single reactor the size of a trash can can generate 10 to 40 kilowatts of constant electricity for 10 years straight, completely ignoring dust storms, solar flares, and the freezing 14-day lunar night.",
+      "source": "NASA Kilopower Project (Space Technology Mission Directorate)",
+      "source_url": "https://www.nasa.gov/directorates/stmd/",
+      "difficulty": "intermediate",
+      "tags": [
+        "power",
+        "nuclear",
+        "kilopower",
+        "technology"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_low",
+        "site_moon"
+      ]
+    },
+    {
+      "id": "pwr_007",
+      "category": "power",
+      "question": "Why do batteries struggle in deep space?",
+      "answer": "Extreme cold is a battery's worst enemy! Chemical reactions inside batteries slow down drastically when temperatures plunge below freezing, cutting their usable capacity by half or more. Outposts must spend precious electric power on internal heaters just to keep battery banks warm enough to function during cold nights and dust storms.",
+      "source": "NASA Glenn Research Center Battery & Energy Storage",
+      "source_url": "https://www.nasa.gov/centers/glenn/home/index.html",
+      "difficulty": "intermediate",
+      "tags": [
+        "power",
+        "battery",
+        "cold",
+        "thermal"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_low",
+        "site_moon",
+        "site_mars"
+      ]
+    },
+    {
+      "id": "pwr_008",
+      "category": "power",
+      "question": "How do I safely ration power during a crisis?",
+      "answer": "Think in three emergency levels: 1) Non-essential (turn off first): science labs, rover battery charging, full interior lighting, communications broadcasts. 2) Secondary (throttle down): lower habitat heaters slightly, slow down water recycling. 3) Life-critical (NEVER turn off): oxygen generation, CO₂ scrubbers, and active radiation shields during storms. Rationing smart buys you sols to fix the problem!",
+      "source": "Game Strategy — based on NASA Mission Control procedures",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "power",
+        "strategy",
+        "rationing"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_critical",
+        "power_low"
+      ]
+    },
+    {
+      "id": "rad_009",
+      "category": "radiation",
+      "question": "What are the Van Allen radiation belts?",
+      "answer": "The Van Allen belts are two giant donut-shaped zones of trapped, high-energy particles held in place by Earth's magnetic field. Astronauts going to the Moon (like Apollo and Artemis crews) must fly right through them! Spacecraft travel through quickly and take curved trajectories to minimize exposure, so astronauts receive only a tiny, safe dose during transit.",
+      "source": "NASA Space Radiation Challenge Guide & Van Allen Probes",
+      "source_url": "https://www.nasa.gov/wp-content/uploads/2017/04/radiationchallenge.pdf",
+      "difficulty": "intermediate",
+      "tags": [
+        "radiation",
+        "van_allen",
+        "earth",
+        "travel"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "rad_010",
+      "category": "radiation",
+      "question": "Can water tanks inside the walls protect against radiation?",
+      "answer": "Yes, water is one of the best space shields known! Because water (H₂O) is packed with lightweight hydrogen atoms, it absorbs and scatters heavy cosmic ray nuclei and solar protons without creating harmful secondary scatter radiation. Many spacecraft designs, including the Orion capsule and future Mars habitats, place water storage tanks and astronaut sleeping quarters directly inside the storm shelter walls.",
+      "source": "NASA HRP Space Radiation Element & Orion Spacecraft",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "intermediate",
+      "tags": [
+        "radiation",
+        "shielding",
+        "water",
+        "habitat"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "shielding_low",
+        "event_solar_flare"
+      ]
+    },
+    {
+      "id": "rad_011",
+      "category": "radiation",
+      "question": "How do astronauts know how much radiation they have received?",
+      "answer": "Every astronaut wears small personal dosimeters clipped to their suits and sleeping areas. These devices track every particle that hits them. Modern electronic dosimeters (like the BIRD and Crew Active Dosimeters on ISS) measure radiation in real time and beep loudly if dose rates suddenly spike, warning astronauts to head into storm shelters immediately.",
+      "source": "NASA Space Radiation Analysis Group (SRAG)",
+      "source_url": "https://www.nasa.gov/hrp/elements/radiation/",
+      "difficulty": "beginner",
+      "tags": [
+        "radiation",
+        "dosimeter",
+        "safety"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "rad_012",
+      "category": "radiation",
+      "question": "What is the difference between absorbed dose and equivalent dose?",
+      "answer": "Absorbed dose (measured in micrograys, or µGy) is simply the raw amount of radiation energy absorbed by your body. Equivalent dose (measured in sieverts, or Sv) multiplies that raw energy by how damaging that specific particle is to human organs. A heavy cosmic ray nucleus causes 10 to 20 times more biological damage than the same energy from an X-ray!",
+      "source": "NASA OSDR RadLab & HRP Radiation Element",
+      "source_url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "difficulty": "advanced",
+      "tags": [
+        "radiation",
+        "units",
+        "science",
+        "data"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "sw_006",
+      "category": "space_weather",
+      "question": "How long do solar radiation storms usually last?",
+      "answer": "A solar radiation storm typically lasts between 24 and 72 hours (1 to 3 sols), though extreme coronal mass ejection events can keep particle fluxes elevated for up to a week. The peak intensity usually happens within the first 6 to 12 hours after arrival. In the game, when a solar storm hits, you must be prepared to hold shields up for several consecutive sols!",
+      "source": "NASA DONKI & NOAA Space Weather Prediction Center",
+      "source_url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+      "difficulty": "intermediate",
+      "tags": [
+        "space_weather",
+        "duration",
+        "strategy"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "event_solar_flare",
+        "event_cme"
+      ]
+    },
+    {
+      "id": "sw_007",
+      "category": "space_weather",
+      "question": "Can solar storms knock out radio communications?",
+      "answer": "Yes! When a solar flare erupts, intense X-ray and ultraviolet radiation hits the upper atmosphere and ionosphere, causing radio blackouts. High-frequency communications between the outpost and Earth or distant surface rovers can be jammed for hours. Astronauts must rely on pre-programmed emergency procedures during communications blackouts.",
+      "source": "NASA Space Weather Operations",
+      "source_url": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+      "difficulty": "beginner",
+      "tags": [
+        "space_weather",
+        "comms",
+        "blackout"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "event_comms_delay",
+        "event_solar_flare"
+      ]
+    },
+    {
+      "id": "sw_008",
+      "category": "space_weather",
+      "question": "What is the 11-year solar cycle?",
+      "answer": "The Sun goes through an 11-year magnetic heartbeat called the solar cycle. During \"solar maximum,\" the Sun is covered in sunspots and erupts with frequent flares and CMEs. During \"solar minimum,\" the Sun is quiet and solar storms are rare, but galactic cosmic rays actually increase because the Sun's magnetic bubble is weaker! Space agencies schedule missions carefully around this cycle.",
+      "source": "NASA Solar Dynamics Observatory (SDO)",
+      "source_url": "https://www.nasa.gov/mission_pages/sdo/main/index.html",
+      "difficulty": "intermediate",
+      "tags": [
+        "space_weather",
+        "solar_cycle",
+        "sun"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "ls_005",
+      "category": "life_support",
+      "question": "Can astronauts grow fresh vegetables inside the outpost?",
+      "answer": "Yes! NASA has grown red romaine lettuce, radishes, and chili peppers on the ISS using the \"Veggie\" plant chamber and Advanced Plant Habitat. Plants provide fresh vitamins, boost crew morale, and naturally absorb carbon dioxide while giving off oxygen. However, space plants require lots of water, special LED lighting power, and root watering systems.",
+      "source": "NASA Space Biology & ISS Veggie Project",
+      "source_url": "https://osdr.nasa.gov/bio/repo/",
+      "difficulty": "beginner",
+      "tags": [
+        "life_support",
+        "plants",
+        "food",
+        "oxygen"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "ls_006",
+      "category": "life_support",
+      "question": "Why is humidity control so important in a space habitat?",
+      "answer": "Astronauts sweat and breathe out liters of moisture every day into sealed air. Without active dehumidifiers in the ECLSS, humidity would soar to 100%, causing water droplets to condense on electrical cables (sparking fires or short circuits!) and growing dangerous mold on walls. ECLSS condenser loops suck the moisture out of the air and feed it straight into the water recycling processor.",
+      "source": "NASA ECLSS Reference",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "life_support",
+        "humidity",
+        "water",
+        "eclss"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "event_equipment_fault"
+      ]
+    },
+    {
+      "id": "moon_004",
+      "category": "moon",
+      "question": "Why is NASA landing Artemis at the Moon's South Pole?",
+      "answer": "The Moon's South Pole has deep craters with rims that never see darkness (near-permanent sunlight for solar power) and crater floors that have been in permanent shadow for billions of years at -246°C! Inside those freezing dark craters lies vast deposits of water ice. Astronauts can mine that ice to make drinking water, breathable oxygen, and liquid hydrogen rocket fuel!",
+      "source": "NASA Artemis Plan & Lunar Reconnaissance Orbiter (LRO)",
+      "source_url": "https://www.nasa.gov/specials/artemis/",
+      "difficulty": "beginner",
+      "tags": [
+        "moon",
+        "artemis",
+        "south_pole",
+        "ice"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_moon"
+      ]
+    },
+    {
+      "id": "moon_005",
+      "category": "moon",
+      "question": "What are lunar lava tubes and why are they great for bases?",
+      "answer": "Billions of years ago, underground rivers of molten rock carved giant underground tunnels called lava tubes. Some are wide enough to fit entire cities! Because they are buried beneath tens of meters of solid rock, they offer natural 100% protection from cosmic rays, solar storms, extreme surface temperatures, and meteorites. Building inside a lava tube saves massive amounts of shielding power!",
+      "source": "NASA LRO Lunar Science",
+      "source_url": "https://www.nasa.gov/specials/artemis/",
+      "difficulty": "intermediate",
+      "tags": [
+        "moon",
+        "lava_tubes",
+        "shielding",
+        "habitat"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "site_moon",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "mars_004",
+      "category": "mars",
+      "question": "Where can astronauts find water on Mars?",
+      "answer": "Liquid water cannot exist on the surface of Mars because atmospheric pressure is so low it instantly boils or freezes. But Mars has huge amounts of water ice locked beneath the red dirt and in its polar ice caps! Ground-penetrating radar on orbiters like Mars Reconnaissance Orbiter (MRO) has found subsurface ice glaciers just a few meters below ground across wide plains.",
+      "source": "NASA Mars Exploration Program & MRO SHARAD",
+      "source_url": "https://mars.nasa.gov/",
+      "difficulty": "beginner",
+      "tags": [
+        "mars",
+        "water",
+        "ice"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "site_mars"
+      ]
+    },
+    {
+      "id": "mars_005",
+      "category": "mars",
+      "question": "How cold does it get on Mars?",
+      "answer": "Mars is much farther from the Sun than Earth, with an average surface temperature of -60°C (-80°F)! Near the winter poles, it plunges to -125°C (-195°F)—so cold that carbon dioxide freezes out of the sky as dry ice snow. At noon on the equator in summer, it can briefly hit a comfortable +20°C (+70°F), but nights are always bone-chillingly freezing.",
+      "source": "NASA Curiosity & Perseverance Surface Weather Telemetry",
+      "source_url": "https://mars.nasa.gov/",
+      "difficulty": "beginner",
+      "tags": [
+        "mars",
+        "temperature",
+        "weather"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_mars"
+      ]
+    },
+    {
+      "id": "crew_001",
+      "category": "crew_health",
+      "question": "Why do astronauts have to exercise for 2 hours every day?",
+      "answer": "In microgravity or low gravity, your body doesn't have to work against Earth's heavy gravity. Without resistance, your bones lose density (up to 1% per month!) and your muscles atrophy (shrink). Astronauts use the Advanced Resistive Exercise Device (ARED)—a special machine that uses vacuum cylinders to simulate lifting up to 600 pounds—plus stationary bikes and treadmills.",
+      "source": "NASA Human Research Program (HRP) Exercise Physiology",
+      "source_url": "https://www.nasa.gov/hrp/",
+      "difficulty": "beginner",
+      "tags": [
+        "crew_health",
+        "exercise",
+        "muscles",
+        "ared"
+      ],
+      "related_resource": "oxygen",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "crew_002",
+      "category": "crew_health",
+      "question": "How does spaceflight affect astronaut sleep?",
+      "answer": "Astronauts experience 16 sunrises and sunsets every 24 hours on the ISS, which can scramble their internal body clocks (circadian rhythm)! Without day and night cues, sleep disruptions are common. Habitats use special adjustable LED lighting that mimics morning blue light to wake astronauts up and warm evening light to help them sleep, along with sound-dampened sleep quarters.",
+      "source": "NASA HRP Behavioral Health & Performance",
+      "source_url": "https://www.nasa.gov/hrp/",
+      "difficulty": "intermediate",
+      "tags": [
+        "crew_health",
+        "sleep",
+        "circadian"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "crew_003",
+      "category": "crew_health",
+      "question": "What is space sickness (Space Adaptation Syndrome)?",
+      "answer": "When you enter space, your inner ear organs that balance your body get confused because there is no \"up\" or \"down.\" About 50% to 70% of astronauts experience nausea, dizziness, and stomach distress for the first 2 to 3 days of a mission. By sol 4, the brain adapts to the new sensory inputs and the sickness goes away. Don't schedule heavy EVA spacewalks on sol 1!",
+      "source": "NASA Space Medicine & Medical Operations",
+      "source_url": "https://www.nasa.gov/humans-in-space/space-medicine/",
+      "difficulty": "beginner",
+      "tags": [
+        "crew_health",
+        "space_sickness",
+        "adaptation"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "crew_004",
+      "category": "crew_health",
+      "question": "Does an astronaut's immune system get weaker in space?",
+      "answer": "Yes, spaceflight creates a combination of microgravity, high radiation exposure, circadian disruption, and isolation stress that suppresses white blood cell activity. NASA studies show that latent viruses (like dormant cold sore viruses) can reactivate during long missions. Keeping radiation low, nutrition balanced, and stress manageable keeps astronaut immune systems strong!",
+      "source": "NASA NTRS 20110008227 & HRP Immunology",
+      "source_url": "https://www.nasa.gov/hrp/",
+      "difficulty": "intermediate",
+      "tags": [
+        "crew_health",
+        "immune",
+        "stress"
+      ],
+      "related_resource": "shielding",
+      "triggers": [
+        "shielding_low",
+        "any"
+      ]
+    },
+    {
+      "id": "therm_001",
+      "category": "thermal",
+      "question": "How do space habitats stay cool when the Sun is blazing?",
+      "answer": "Because space has no air to carry away heat by breeze, hot electronics and human bodies can overheat a sealed habitat fast! Space stations and lunar bases pump cooling fluid (like liquid ammonia or water) through internal pipes to absorb excess heat, then pump that hot fluid out to large external radiator panels that radiate heat away as infrared light into deep space.",
+      "source": "NASA Active Thermal Control System (ATCS)",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "intermediate",
+      "tags": [
+        "thermal",
+        "radiators",
+        "cooling"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "power_low",
+        "any"
+      ]
+    },
+    {
+      "id": "therm_002",
+      "category": "thermal",
+      "question": "What is the shiny gold and silver foil on spacecraft?",
+      "answer": "That shiny foil is called Multi-Layer Insulation (MLI). It's made of multiple ultra-thin sheets of reflective plastic (like Mylar or Kapton) separated by delicate netting. MLI reflects intense solar radiation away during the day and traps vital warmth inside at night, acting like a super-thermal thermos bottle for the entire habitat!",
+      "source": "NASA Spacecraft Thermal Control Engineering",
+      "source_url": "https://www.nasa.gov/reference/environmental-control-and-life-support-systems-eclss/",
+      "difficulty": "beginner",
+      "tags": [
+        "thermal",
+        "insulation",
+        "mli"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "str_006",
+      "category": "strategy",
+      "question": "What should I do if two resources are flashing red at the same time?",
+      "answer": "Stay calm and triage like a flight director: 1) If Oxygen is red (< 20%), fix Oxygen FIRST—even if it drops Power or Shielding lower, because asphyxiation happens in minutes. 2) If Power is red, immediately disable non-life-support loads to stabilize the grid. 3) Only boost Shielding second if an active solar storm alert is flashing; if no storm is active, low shielding won't hurt you instantly.",
+      "source": "Game Strategy — Emergency Flight Triage",
+      "source_url": null,
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "triage",
+        "emergency"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "multiple_low",
+        "oxygen_critical",
+        "power_critical"
+      ]
+    },
+    {
+      "id": "str_007",
+      "category": "strategy",
+      "question": "What does \"delayed effect debt\" mean?",
+      "answer": "In this mission trainer, some actions have hidden future bills called delayed effects. For example: venting emergency oxygen stops a leak today, but you'll suffer -15 Oxygen 2 sols later. Or running solar inverters at 150% overload saves your power today, but causes an equipment breakdown on sol 5. Always look at the \"Delayed Effects\" preview on decision cards before picking!",
+      "source": "Game Mechanic — Decision Debt Simulation",
+      "source_url": null,
+      "difficulty": "intermediate",
+      "tags": [
+        "strategy",
+        "delayed_effects",
+        "debt"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    },
+    {
+      "id": "str_008",
+      "category": "strategy",
+      "question": "How do I recover after a solar storm drains my outpost?",
+      "answer": "Once the storm alert clears: 1) Immediately power down the active electromagnetic shields to stop the power drain. 2) Redirect newly freed power into the Oxygen Generation System and water recovery loops to rebuild life support reserves. 3) Inspect solar panels and replace blown fuses. Rebuilding takes 1 to 2 calm sols—don't start risky projects until reserves are back above 50%!",
+      "source": "Game Strategy — Post-Storm Recovery Routine",
+      "source_url": null,
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "recovery",
+        "solar_flare"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "event_solar_flare",
+        "event_cme",
+        "power_low",
+        "shielding_low"
+      ]
+    },
+    {
+      "id": "str_009",
+      "category": "strategy",
+      "question": "Is it better to upgrade solar panels or build bigger batteries?",
+      "answer": "It depends on your mission site! On Mars, where dust storms reduce solar intensity during the day, bigger solar arrays collect more faint light. On the Moon, you face a 14-day total blackout night—giant solar panels are completely useless in the dark, so massive battery banks and fuel cells are essential to keep heat and life support running.",
+      "source": "Game Strategy — Architecture Comparison",
+      "source_url": null,
+      "difficulty": "intermediate",
+      "tags": [
+        "strategy",
+        "moon",
+        "mars",
+        "power"
+      ],
+      "related_resource": "power",
+      "triggers": [
+        "site_moon",
+        "site_mars",
+        "power_low"
+      ]
+    },
+    {
+      "id": "str_010",
+      "category": "strategy",
+      "question": "What is a \"trade-off\" and why can't I keep all resources at 100%?",
+      "answer": "A trade-off means you cannot get more of one thing without giving up something else. In space, power is strictly limited. Making oxygen takes power. Running water filtration takes power. Charging radiation shields takes power. If you push all systems to maximum, you will drain your batteries and trigger a blackout! Great commanders balance resources around 60–80%, keeping steady buffers for surprises.",
+      "source": "Game Concept — NASA Space Apps Challenge Core Philosophy",
+      "source_url": null,
+      "difficulty": "beginner",
+      "tags": [
+        "strategy",
+        "tradeoffs",
+        "core_concept"
+      ],
+      "related_resource": null,
+      "triggers": [
+        "any"
+      ]
+    }
+  ]
+}
