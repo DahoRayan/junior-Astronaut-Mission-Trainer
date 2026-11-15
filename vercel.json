@@ -11,19 +11,9 @@
     "frontend-3d": {
       "root": "frontend-3d",
       "framework": "vite"
-    },
-    "ai-service": {
-      "root": "ai-service",
-      "framework": "fastapi"
     }
   },
   "rewrites": [
-    {
-      "source": "/v1/(.*)",
-      "destination": {
-        "service": "ai-service"
-      }
-    },
     {
       "source": "/frontend-3d/(.*)",
       "destination": {
