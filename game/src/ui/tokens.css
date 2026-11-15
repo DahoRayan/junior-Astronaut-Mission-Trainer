@@ -1,0 +1,81 @@
+:root {
+  font-family: "Fredoka", "Nunito", system-ui, sans-serif;
+  color: #2A2358;
+  background: #1B1646;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.app-shell canvas {
+  display: block;
+}
+
+.title-card {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  max-width: 320px;
+  padding: 18px 22px;
+  border: 3px solid #2A2358;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 92%);
+  box-shadow: 0 8px 0 rgb(42 35 88 / 25%);
+}
+
+.title-card h1,
+.title-card p {
+  margin: 0;
+}
+
+.title-card button {
+  margin-top: 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  background: #ffb86b;
+  color: #1b1646;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.title-card h1 {
+  font-size: 1.45rem;
+}
+
+.title-card p:last-child {
+  margin-top: 6px;
+}
+
+.eyebrow {
+  color: #6b5bca;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}

@@ -1,0 +1,5 @@
+{
+  "mission_days": 12,
+  "resources": ["power", "air", "shield"],
+  "buildings": []
+}
