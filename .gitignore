@@ -18,6 +18,10 @@ game/MoonOrbiter-master/node_modules/
 game/MoonOrbiter-master/dist/
 game/MoonOrbiter-master/dist-electron/
 *.local
+node_modules/
+dist/
+context-bundle.md
+_incoming/
 
 # OS / Editor
 .DS_Store

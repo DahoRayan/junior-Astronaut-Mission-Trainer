@@ -1,0 +1,14 @@
+{
+  "survivability_score": 0,
+  "strengths": [],
+  "lessons": ["Start by checking power, oxygen, and shielding."],
+  "summary": "You completed the mission lesson. Your careful choices helped the crew.",
+  "stats": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-MISSION-EMPTY", "text": "There are no decisions in the mission log yet."}
+    ],
+    "inputs": {"history_count": 0, "outcome": "survived"},
+    "sources": [{"name": "Game rules", "kind": "simulated"}]
+  }
+}

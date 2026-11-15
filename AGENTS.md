@@ -1,43 +1,30 @@
-## Application Building Context
+## Application Building Context (v3: browser game)
 
-Entry point for ALL coding agents (opencode, Codex, GitHub Copilot, Claude Code).
-`CLAUDE.md` just points here.
+Entry point for ALL coding agents (Copilot, Codex, opencode, Claude Code). `CLAUDE.md` points here.
 
-Read in order before implementing or making any architectural decision:
-
-1. `context/project-overview.md` — product, goals, scope
-2. `context/architecture.md` — stack, boundaries, invariants
-3. `context/api-contract.md` — the Game Client <-> AI service contract (shared, sacred)
-4. `context/game-design.md` — resources, Kaleidoscope story structure, expert system, kid tone (replaces ui-context)
-5. `context/code-standards.md` — rules per boundary (AI service / Web Game Client)
-6. `context/ai-workflow-rules.md` — scoping and delivery rules
-7. `context/progress-tracker.md` — current state and next steps
-
+Read in order before implementing or making any decision:
+1. `context/project-overview.md`   2. `context/architecture.md`   3. `context/game-design.md`
+4. `context/sim-rules.md`   5. `context/visual-style.md`   6. `context/science-education.md`
+7. `context/code-standards.md`   8. `context/ai-workflow-rules.md`   9. `context/progress-tracker.md`
 Then read the spec you were given in `context/specs/`.
 
-Know which boundary you own. If your task is in `ai-service/`, do not edit `game/`
-(and vice versa). Contract changes need a PR touching `api-contract.md` first.
-
-Update `context/progress-tracker.md` after each meaningful change.
-If implementation changes architecture, scope, or contract, update the relevant
-context file BEFORE continuing.
+## Hard kid-UX guardrails (never violate; they beat any convenience)
+- Audience is ages 7-12. A child must know what to do within 5 seconds of any screen.
+- ZERO typing. No free-text inputs anywhere. Questions are tappable chips.
+- Max 12 words per speech bubble, max 2 bubbles per event, auto-dismiss in 3 s, tap anywhere to skip. No blocking cutscenes.
+- At most ONE blocking modal per game day, and only for a decision (2 big buttons, icons + <= 6 words each).
+- Max 3 meters + day + storm chip in the HUD. Max 6 build buttons. No scrolling side panels. No jargon units on the map (no kg/h, L, kPa).
+- Every number the player sees has an icon; color is never the only signal.
+- Science is shown as short cards (<= 12 words) with a "Why?" button; details live one tap deeper.
 
 ## Environment first
-Before running or suggesting any command, detect the environment: OS and shell,
-and for Python check `uv --version` (this project uses **uv**, never bare pip/venv),
-`python --version`, and whether `pytest`/`ruff` run through `uv run`. If a tool is
-missing, say exactly what to install and why; do not skip verification silently.
-Commands: `uv sync`, `uv run pytest`, `uv run ruff check .`, `uv run uvicorn app.main:app --reload`.
+Before running any command detect OS, shell, Node version and the package manager (from the lockfile: package-lock.json = npm, pnpm-lock.yaml = pnpm, yarn.lock = yarn). Use only that one. Python (data pipeline) uses uv.
+If a tool is missing, say exactly what to install and why. Never skip verification silently.
 
 ## Teaching mode (the human is learning)
-For every unit, after implementing, end with a report using this structure:
-1. **What this unit does** (plain language, 3-5 lines)
-2. **File by file**: each file created/changed and why it exists
-3. **How the pieces connect** (request flow, one short example)
-4. **Manual steps for you**: anything the human must do themselves (API keys,
-   `.env` values, installs, accounts, running commands), with exact steps and where
-   to get each value. Never ask the human to paste secrets into chat.
-5. **How to verify**: exact commands and expected output for each item in the
-   spec's "Verify when done", marking each pass/fail honestly (say "not run" if not run).
-6. **Concepts worth knowing**: 2-3 ideas used in this unit, explained simply.
-Keep it concise. Do not claim a check passed unless you ran it.
+After each unit, end with: 1) What this unit does 2) File by file 3) How the pieces connect 4) Manual steps for the human
+(keys, installs, commands, where to click; never ask for secrets in chat) 5) How to verify: exact commands + expected output, marking
+each item pass / fail / not run honestly 6) 2-3 concepts worth knowing. Never claim a check passed unless you ran it.
+
+Update `context/progress-tracker.md` after each meaningful change. If implementation changes architecture, rules or scope, update
+the context file BEFORE continuing.

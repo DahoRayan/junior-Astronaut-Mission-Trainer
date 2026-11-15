@@ -1,65 +1,51 @@
-# Architecture Context (v2) — Beyond Earth: First Light
+# Architecture (v3)
 
 ## Stack
-| Layer | Technology | Role |
+| Layer | Choice | Why |
 |---|---|---|
-| Game Client | Web Application (TypeScript 5+, Vite, Three.js / HTML5 Canvas + DOM/CSS HUD) | Authoritative simulation, 3D lunar terrain, UI frames, sound |
-| AI Service | Python 3.11+, FastAPI, Pydantic v2, uv | Evaluator, expert system, data, statistics |
-| Knowledge Base | versioned JSON in `ai-service/data/knowledge/` | Questions, rules, facts (all sourced) |
-| NASA & CSA Data | httpx -> DONKI (+ curated OSDR/RadLab) | Real space weather, biology and science facts |
-| Statistics | stdlib `statistics` | Event weights, debrief analysis |
-| Story | `story/samples/story-bible.json` | Canonical timeline + perspectives (shared) |
-| Tests | pytest, ruff, vitest/tsc | Code standards and contract validation |
+| App | Vite + React 18 + TypeScript (strict) | already in use; fast dev |
+| 2.5D rendering | three + @react-three/fiber + @react-three/drei | low-poly flat-shaded 3D with an orthographic isometric camera = 2.5D; declarative; instancing |
+| State | zustand | tiny, no boilerplate |
+| UI | HTML/CSS overlay (Tailwind + CSS variables as design tokens) | crisp text, accessible, cheap |
+| Animation | CSS + react-spring for UI; manual tweens in scene | no heavy libs |
+| Audio | howler (small SFX + 1 music loop) | |
+| Tests | vitest (+ @testing-library/react for UI smoke) | sim must be heavily tested |
+| Data pipeline | existing Python in `ai-service/` (`osdr_pipeline/`, DONKI/RadLab scripts) via uv | offline; outputs JSON into `game/public/data/` |
+| Optional proxy | FastAPI `/v1/space-weather` ONLY if live DONKI needs a hidden key | the game must work without it |
 
-No runtime generative LLM required: expert system + deterministic evaluator with full explainability.
+Fallback if low-end devices fail the perf budget: keep `sim/`, `data/`, `ui/` unchanged and replace only `scene/` with PixiJS isometric sprites.
 
-## Client Software Architecture: Decoupled 3-Manager System
-The game client architecture is organized into three independent engines communicating through a centralized **Event Bus**:
-
+## Repo layout
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│               Player Interface (HUD, Grid Viewport, Panels)             │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ Events / Commands
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Event Bus & Game State Dispatcher               │
-└───────────────┬───────────────────┬───────────────────┬────────────────┘
-                │                   │                   │
-                ▼                   ▼                   ▼
-┌───────────────────────┐ ┌───────────────────┐ ┌────────────────────────┐
-│   Narrative Manager   │ │ Simulation Engine │ │    Mission Manager     │
-│ • Dialogue Trees      │ │ • Tilemap Grid    │ │ • Chapter Objectives   │
-│ • Expression Portraits│ │ • Power Cable Net │ │ • Failure Diagnostics │
-│ • Chapter Scripts     │ │ • Physical Rates  │ │ • Debrief Scoring      │
-│ • Ambient Crew Banter │ │ • Load Shedding   │ │ • Offline Fallbacks    │
-└───────────────────────┘ └───────────────────┘ └────────────────────────┘
+repo/
+  game/                      # the web game (Vite)
+    src/
+      sim/                   # PURE TypeScript. No React, no three. Rules, events, roles, step(), explain(), RNG
+      data/                  # balance.json, modules.json, events.json, roles.json, strings.en.json, knowledge/*.json
+      store/                 # zustand: phase machine + sim state wrapper
+      scene/                 # R3F: Terrain, Grid, models/, CrewAndMilo, Effects, CameraRig, DayNight
+      ui/                    # HUD, BuildBar, EventCard, DayReport, WhyPanel, MiloChips, ScienceCard, Debrief, ScienceCorner, Settings
+      services/              # spaceWeather.ts (live/saved), audio.ts, readAloud.ts, storage.ts
+      i18n/                  # strings loader (en first; keys only in code)
+    public/data/             # generated JSON: donki-snapshot.json, osdr_topic_index.json, facts.json (sourced)
+  ai-service/                # keep this folder name for now (optional rename to data-pipeline/ later): Python tooling that produces public/data/*.json
+  context/  tools/
 ```
-
-## System Boundaries
-- `game/` Web Game client project (TypeScript + Vite). Owns simulation, viewport rendering, audio, and all UI.
-- `ai-service/` FastAPI app:
-  `app/routers/` HTTP only · `app/schemas/` Pydantic = contract · `app/evaluator/` pure scoring
-  `app/expert/` question catalog + rule engine · `app/nasa/` DONKI client + cache + fallback
-  `app/stats/` event profile + debrief stats · `data/knowledge/` questions/rules/facts
-  `data/curated/` saved NASA samples (source + retrieval date) · `scripts/validate_story.py`
-- `story/` story bible and dialogue scripts (shared between client and AI).
-- `context/` shared specs · `contracts/` JSON examples of every request/response.
-
-## Storage Model
-- No database. Game state lives in the game client and is sent as a snapshot per request.
-- Service is stateless; only an in-memory TTL cache for NASA calls.
-- Knowledge base and curated data are versioned files; `knowledge_base_version` is returned by `/health`.
-- Secrets in `.env` (never committed): only the NASA API key.
 
 ## Invariants
-1. The Game Client is the single source of truth for simulation state; the service never mutates it.
-2. Everything the service computes is deterministic: same input -> same output.
-3. Every evaluation and assistant answer includes an `explanation` (rules fired, inputs, sources).
-4. 100% Offline-First: Anything depending on NASA APIs has a curated fallback; the game never blocks on the service.
-5. `data_source` is truthful: `live` only if fetched live, `curated` for saved NASA data, `simulated` for game-rule output.
-6. Every fact shown to the player has a source and retrieval date in the knowledge base; never invent NASA facts.
-7. Player-facing text is plain language for ages 7-12; terms explained inline.
-8. The story bible is the only source of story truth; every perspective is validated against it before release.
-9. Zero secrets in client builds.
-10. Contract changes go through `api-contract.md` first.
+1. `sim/` is pure and deterministic (seeded RNG, no Date.now, no Math.random, no I/O). Everything else only calls it.
+2. All tunable numbers live in `data/balance.json`; all player-facing text in `data/strings.*.json` / knowledge files. No magic numbers or literals in components.
+3. The scene and UI never mutate sim state; they dispatch plans to the store, which calls `sim.step`.
+4. Every report, answer or score includes an `explanation` (rules fired with ids, inputs, sources).
+5. Facts shown to players come only from `public/data/facts.json` entries having source, retrieved date, and `verified_by_human: true`. Never write NASA facts from memory.
+6. `data_source` badges are truthful: `live` only if fetched live this session; `saved` for bundled snapshots (show the date); `simulated` for game-rule output.
+7. The game is fully playable offline with zero network calls. Network (DONKI) is optional and has a 3 s timeout + saved fallback.
+8. No secrets in the client bundle.
+9. No typed input. No blocking cutscenes (see AGENTS.md guardrails).
+
+## Performance budgets (enforced in review)
+- Scene: <= 150k triangles total, <= 100 draw calls, <= 1500 triangles per building, <= 3000 per character; flat shading + vertex colors, no textures except one small shared atlas/gradient; instancing for rocks/craters.
+- No shadow maps. Fake soft shadows with cached blob decals. No post-processing. DPR capped at 1.5.
+- `<Canvas frameloop="demand">`; call `invalidate()` only while something animates. Use drei `<PerformanceMonitor>` to lower DPR automatically.
+- Initial load < 3 MB; lazy-load Science Corner, Debrief charts and rarely used models. Fonts bundled locally (no CDN).
+- Targets: 60 fps desktop, >= 30 fps on a low-end laptop (test with Chrome DevTools CPU throttle 4x-6x and a real low-end device if available).

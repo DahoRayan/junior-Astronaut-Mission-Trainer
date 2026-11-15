@@ -1,0 +1,21 @@
+{
+  "rating": "ok",
+  "survival_delta": 0,
+  "tradeoff": {"gained": "more oxygen", "cost": "less power"},
+  "feedback": "You gained more oxygen, but paid less power. Keep balancing all three resources.",
+  "fact": null,
+  "explanation": {
+    "rules_fired": [
+      {"rule_id": "R-RESOURCE-CHECK", "text": "The evaluator checked all three resources."}
+    ],
+    "inputs": {
+      "before_resources": {"power": 80, "oxygen": 90, "shielding": 70},
+      "after_resources": {"power": 70, "oxygen": 92, "shielding": 70},
+      "event": null,
+      "survival_delta": 0,
+      "thresholds": {"safe_level": 40, "critical_level": 20}
+    },
+    "sources": [{"name": "Game rules", "kind": "simulated"}]
+  },
+  "data_source": "simulated"
+}

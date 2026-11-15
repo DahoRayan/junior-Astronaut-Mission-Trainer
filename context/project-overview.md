@@ -1,42 +1,34 @@
-# Beyond Earth: First Light — Junior Astronaut Mission Trainer (v2)
+# Beyond Earth: First Light (v3)
 
-## Overview
-A colony builder and mission trainer for kids aged 7–12 (NASA Space Apps Challenge 2026: "Build a Junior Astronaut Mission Trainer"). The player takes on the role of Junior Mission Commander directing an expedition of astronauts and their AI companion, **M.I.L.O.** (*Mission Intelligence & Logistics Operator*), at the Lunar South Pole (Shackleton Crater Rim).
+## One-liner
+A bright, tap-and-build lunar outpost game for kids 7-12, in the browser. Keep 4 astronauts alive for 12 Moon days by balancing
+Power, Air and Shield. Every choice costs something. Real NASA data shows up as storm alerts and "Science Cards".
 
-The game combines physical network simulation (power grids, life support conduits, thermal balance, water recycling) with a rich story campaign. Every choice and spatial placement carries real scientific trade-offs grounded in authentic NASA (DONKI, RadLab, OSDR) and CSA data.
+## Why v3
+The v2 prototype had 9+ HUD numbers, long dialogue, a typed chat box, jargon-heavy module cards and a flat top-down map.
+v3 keeps the educational goal (real engineering trade-offs, real NASA data, explainability) and removes everything a 7-year-old cannot parse.
 
-A decoupled Python FastAPI service (`ai-service/`) provides an intelligent Mission Control advisor (M.I.L.O.), live space weather telemetry, deterministic construction/decision evaluators, and educational mission debriefs with full explainability.
+## Pillars
+1. Few, chunky decisions with visible trade-offs (3 meters, 6 buildings, 1 big choice per event).
+2. Looks like a toy: 2.5D low-poly diorama, saturated colors, juicy feedback (Clash of Clans / Boomerang Fu feel).
+3. Show, don't tell: story and science arrive through gameplay moments and 1-line bubbles, not cutscenes.
+4. Always explainable: after every day, one tap on "Why?" shows the cause chain.
+5. Real data, honestly labeled: LIVE or SAVED NASA data badges; sources one tap away.
+6. Learn from failure: rewind and retry, never punitive.
 
-## Goals
-1. Player experiences authentic space survival trade-offs (Power, Oxygen, Thermal, Radiation Shielding, Water, Food).
-2. At least one gameplay event is driven by real NASA space weather data (DONKI CME/solar flare) and labeled LIVE or CURATED.
-3. M.I.L.O. answers in-game questions in <= 3 short, encouraging sentences at a 7–12 reading level.
-4. Non-punitive, positive educational failure: system breakdowns trigger diagnostic debriefs explaining the underlying NASA science and offering recovery paths.
-5. The game is **100% playable offline** without requiring external AI or internet connectivity.
-
-## Core User Flow
-1. **Prologue / Story Intro**: Touchdown at Shackleton Rim, meet the crew and M.I.L.O.
-2. **First Light**: Place solar arrays, connect power cables to the oxygen electrolyzer, resolve electrical and life support challenges.
-3. **The Long Night**: Manage lunar night storage, battery depth-of-discharge, and power load-shedding priorities.
-4. **The Invisible Threat**: Respond to NASA DONKI solar storm warning, bury habitats with lunar regolith, shelter crew in the subterranean vault.
-5. **Growing Beyond Earth & Sustainable Expansion**: Extract water ice, run hydroponic plant growth, harvest food for crew morale.
-6. **Graduation Debrief**: Final mission debrief, survivability score, and creative sandbox mode.
-
-## Boundaries & Ownership
-- **Web Game Client (`game/`)**: Web Game application (TypeScript + Vite + Three.js / Canvas 2D + DOM HUD). Owns simulation, viewport rendering, audio, and all UI.
-- **AI Service (`ai-service/` — Ibrahim)**: Evaluator, expert system, NASA data layer, statistics, and story validator.
-- **Story (`story/`)**: Story bible and dialogue scripts shared across the project.
-- **Context (`context/`)**: Architecture, contracts, design rules, and progress tracking.
+## Core flow (one game day, 30-60 s)
+PLAN (tap to build or switch modules ON/OFF, choose event option) -> GO (animated day, 6-10 s, skippable) -> REPORT (3 meter arrows + 2 reasons).
+A mission = 12 days (about 8-10 minutes). Three starting roles (Engineer, Scientist, Medic) play the SAME timeline from different loadouts (Kaleidoscope idea).
 
 ## Scope
-### In Scope
-- Lunar South Pole setting.
-- Core resources: Power, Stored O₂, Water, Food, Shielding/Radiation, Thermal.
-- Visual Novel story theater with branching dialogue choices and character portraits.
-- Real NASA DONKI, RadLab, and OSDR data integration with curated offline fallbacks.
-- 100% offline standalone playability with bundled deterministic fallbacks.
+In: 3 meters + crew health, 6 buildings, 12-day timeline, 3 roles, ~5 events, MILO tappable help, Science Cards, DONKI badge (+ optional live mode),
+OSDR "what scientists study" cards in the debrief, debrief charts, rewind, read-aloud, sound, offline play.
+Out: accounts, backend dependency for play, free-text chat, multiplayer, Mars (stretch), voice acting, 3D asset pipeline beyond CC0 packs.
 
-### Out of Scope
-- Runtime generative LLMs (expert system + deterministic rules for 100% reliability and speed).
-- Multiplayer, cloud user accounts.
-- Punitive permadeath or violent failure states.
+## Success criteria
+1. A judge plays a full mission in <= 10 minutes with no instructions and no typing.
+2. At least 3 distinct trade-offs are felt (night power, storm shelter vs income, air vs bricks).
+3. Every day report can be explained with "Why?" using rules fired + inputs.
+4. Real-data items carry LIVE/SAVED badges and sources; no invented NASA facts.
+5. >= 30 fps on a low-end laptop; first load < 3 MB; works offline after first load.
+6. Same inputs + same seed => same outcome (deterministic).
